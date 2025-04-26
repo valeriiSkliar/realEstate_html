@@ -126,6 +126,12 @@
             <div class="featured-section py-4">
               <div class="container">
                 <h2 class="section-title">Featured Properties</h2>
+                
+                <!-- Test Modal Trigger Button -->
+                <button type="button" class="btn btn-secondary mb-3 js-test-modal-trigger">
+                  Test Modal
+                </button>
+                
                 <div class="row g-3">
                   <!-- Property Card 1 -->
                   <div class="col-12">
@@ -203,8 +209,28 @@
       </div>
     </footer>
 
+    <!-- Test Modal -->
+    <div class="modal fade" id="testModal" tabindex="-1" aria-labelledby="testModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="testModalLabel">Test Modal</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            This is a test modal window.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
         <!-- Toast Container -->
         <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
 
 </body>
 </html>
