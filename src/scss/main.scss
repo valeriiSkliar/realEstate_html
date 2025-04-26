@@ -1,5 +1,12 @@
-@use "bootstrap" as *;
-@use "variables" as *;
+@import "bootstrap";
+@import "variables";
+
+// Components
+@import "components/header";
+// @import "components/footer";
+
+// Pages
+@import "pages/home";
 
 // Global styles
 body {
@@ -13,3 +20,30 @@ body {
     margin: 0 auto;
     padding: 0 $grid-gutter * 0.5;
 } 
+
+// Global styles
+body {
+    font-family: $font-family-base;
+    line-height: $line-height-base;
+    padding-top: 60px; // Account for fixed header
+    margin: 0;
+  }
+  
+  .page-content {
+    min-height: calc(100vh - 130px); // Account for header and footer
+    padding: 15px;
+  }
+  
+  // Layout components
+  .container {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $grid-gutter * 0.5;
+  }
+  
+  // Utility classes
+  .text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }

@@ -1,0 +1,78 @@
+
+.welcome-section {
+    background-color: $primary;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    
+    &__title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    &__subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 0;
+    }
+  }
+  
+  .search-block {
+    padding: 20px 0;
+    background-color: #f8f9fa;
+    
+    .search-form {
+      max-width: 100%;
+    }
+  }
+  
+  .section-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+    
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background-color: $primary;
+    }
+  }
+  
+  .property-card {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .property-price {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: $primary;
+    }
+    
+    .property-stats {
+      color: #666;
+      font-size: 0.9rem;
+    }
+  }
+  

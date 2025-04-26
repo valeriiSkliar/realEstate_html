@@ -1,9 +1,15 @@
 import 'bootstrap';
 import $ from 'jquery';
 import { format } from 'date-fns';
-// import '../scss/main.scss';
+import { initMobileMenu, setCurrentYear } from './menu';
 
-// Initialize Bootstrap components
+// Initialize components when DOM is ready
 $(document).ready(function() {
-    // Your initialization code here
-}); 
+    // Initialize mobile menu
+    initMobileMenu();
+    
+    // Set current year in footer
+    setCurrentYear();
+    
+    // Additional initialization code here
+});
