@@ -1,15 +1,15 @@
 // webpack.config.js - Updated to suppress Sass deprecation warnings
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyPlugin = require('copy-webpack-plugin'); // Import the plugin
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require("copy-webpack-plugin"); // Import the plugin
 
 module.exports = {
-  entry: './src/js/index.js',
+  entry: "./src/js/index.js",
   output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: 'js/[name].[contenthash].js',
-    clean: true
+    path: path.resolve(__dirname, "public"),
+    filename: "js/[name].[contenthash].js",
+    clean: true,
   },
   module: {
     rules: [
@@ -17,67 +17,74 @@ module.exports = {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader',
+          "css-loader",
           {
-            loader: 'sass-loader',
+            loader: "sass-loader",
             options: {
               sassOptions: {
-                outputStyle: 'expanded',
+                outputStyle: "expanded",
                 sourceMap: true,
-                includePaths: ['node_modules'],
+                includePaths: ["node_modules"],
                 quietDeps: true, // Suppress warnings from dependencies
                 logger: {
-                  warn: function(message) {
+                  warn: function (message) {
                     // Suppress specific deprecation warnings
-                    if (message.includes('Deprecation') || message.includes('deprecated')) {
+                    if (
+                      message.includes("Deprecation") ||
+                      message.includes("deprecated")
+                    ) {
                       return;
                     }
                     console.warn(message);
-                  }
-                }
-              }
-            }
-          }
-        ]
+                  },
+                },
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: 'images/[name].[hash][ext]'
-        }
-      }
-    ]
+          filename: "images/[name].[hash][ext]",
+        },
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/pages/previews/home.html',
-      filename: 'index.html'
+      template: "./src/pages/previews/home-page-preview.html",
+      filename: "index.html",
     }),
     new HtmlWebpackPlugin({
-      template: './src/pages/previews/profile.html',
-      filename: 'profile.html'
+      template: "./src/pages/previews/profile-page-preview.html",
+      filename: "profile.html",
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/support-page-preview.html",
+      filename: "support.html",
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash].css'
+      filename: "css/[name].[contenthash].css",
     }),
     // Configure CopyPlugin
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'src/images'), // Source directory
-          to: path.resolve(__dirname, 'public/images'), // Destination directory
-          noErrorOnMissing: true // Don't throw error if src/images doesn't exist
-        }
-      ]
-    })
+          from: path.resolve(__dirname, "src/images"), // Source directory
+          to: path.resolve(__dirname, "public/images"), // Destination directory
+          noErrorOnMissing: true, // Don't throw error if src/images doesn't exist
+        },
+      ],
+    }),
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, 'public'),
+      directory: path.join(__dirname, "public"),
     },
     compress: true,
     port: 9000,
-    hot: true
-  }
+    hot: true,
+  },
 };

@@ -1,0 +1,37 @@
+<div class="support-page">
+  <div class="container">
+    <h1 class="support-title">Contact Support</h1>
+    <p class="support-description">If you have any questions or issues, please fill out the form below and our support team will contact you as soon as possible.</p>
+    
+    <form id="supportForm" class="support-form">
+      <div class="mb-3">
+        <label for="supportName" class="form-label">Your Name</label>
+        <input type="text" class="form-control" id="supportName" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="supportEmail" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="supportEmail" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="supportSubject" class="form-label">Subject</label>
+        <select class="form-select" id="supportSubject" required>
+          <option value="" selected disabled>Select a subject</option>
+          <option value="general">General Question</option>
+          <option value="technical">Technical Issue</option>
+          <option value="billing">Billing/Subscription</option>
+          <option value="feedback">Feedback</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      
+      <div class="mb-3">
+        <label for="supportMessage" class="form-label">Your Message</label>
+        <textarea class="form-control" id="supportMessage" rows="5" required></textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-primary w-100 support-submit">Send Message</button>
+    </form>
+  </div>
+</div>

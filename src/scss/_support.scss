@@ -1,0 +1,82 @@
+.support-page {
+  padding: 20px 0;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 60px - 100px); // Adjust for header and footer
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  .support-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: $primary;
+  }
+  
+  .support-description {
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+  
+  .support-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    
+    .form-label {
+      font-weight: 500;
+      color: #555;
+    }
+    
+    .form-control, .form-select {
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      padding: 10px 12px;
+      
+      &:focus {
+        border-color: lighten($primary, 20%);
+        box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+      }
+    }
+    
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    
+    .support-submit {
+      padding: 12px;
+      font-weight: 500;
+      font-size: 1rem;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  }
+}
+
+// Success Modal Styles
+#supportSuccessModal {
+  .modal-content {
+    border-radius: 10px;
+    border: none;
+  }
+  
+  .modal-header {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .modal-footer {
+    border-top: none;
+    justify-content: center;
+    padding-top: 0;
+    
+    .btn {
+      padding: 8px 30px;
+    }
+  }
+}

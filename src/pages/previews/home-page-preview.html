@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Estate</title>
+    <title>Недвижимость</title>
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Google Fonts - Roboto -->
@@ -16,20 +16,20 @@
     <header class="header">
       <div class="header__logo">
         <a href="/">
-          <img src="/images/place-holder.jpg" alt="Real Estate" />
+          <img src="/images/place-holder.jpg" alt="Недвижимость" />
         </a>
       </div>
       <div class="header__actions">
-        <button class="header__action-btn" aria-label="Messages">
+        <button class="header__action-btn" aria-label="Сообщения">
           <i class="bi bi-chat"></i>
         </button>
-        <button class="header__action-btn" aria-label="Favorites">
+        <button class="header__action-btn" aria-label="Избранное">
           <i class="bi bi-heart"></i>
         </button>
-        <button class="header__action-btn" aria-label="Search">
+        <button class="header__action-btn" aria-label="Поиск">
           <i class="bi bi-search"></i>
         </button>
-        <button class="header__action-btn js-menu-trigger" aria-label="Menu">
+        <button class="header__action-btn js-menu-trigger" aria-label="Меню">
           <i class="bi bi-list"></i>
         </button>
       </div>
@@ -38,44 +38,44 @@
     <!-- Mobile Menu -->
     <nav class="mobile-menu">
       <div class="mobile-menu__header">
-        <button class="mobile-menu__close js-menu-close" aria-label="Close menu">
+        <button class="mobile-menu__close js-menu-close" aria-label="Закрыть меню">
           <i class="bi bi-x-lg"></i>
         </button>
       </div>
       <ul class="mobile-menu__list">
         <li class="mobile-menu__item">
           <a href="/" class="mobile-menu__link">
-            <i class="bi bi-house"></i> Home
+            <i class="bi bi-house"></i> Главная
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/search" class="mobile-menu__link">
-            <i class="bi bi-search"></i> Search Properties
+            <i class="bi bi-search"></i> Поиск недвижимости
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/my-listings" class="mobile-menu__link">
-            <i class="bi bi-building"></i> My Listings
+            <i class="bi bi-building"></i> Мои объявления
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/collections" class="mobile-menu__link">
-            <i class="bi bi-collection"></i> My Collections
+            <i class="bi bi-collection"></i> Мои подборки
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/favorites" class="mobile-menu__link">
-            <i class="bi bi-heart"></i> Favorites
+            <i class="bi bi-heart"></i> Избранное
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/profile.html" class="mobile-menu__link">
-            <i class="bi bi-person"></i> Profile
+            <i class="bi bi-person"></i> Профиль
           </a>
         </li>
         <li class="mobile-menu__item">
-          <a href="/support" class="mobile-menu__link">
-            <i class="bi bi-question-circle"></i> Support
+          <a href="/support.html" class="mobile-menu__link">
+            <i class="bi bi-question-circle"></i> Поддержка
           </a>
         </li>
       </ul>
@@ -92,8 +92,8 @@
           <div class="home-page">
             <div class="welcome-section py-4">
               <div class="container">
-                <h1 class="welcome-section__title">Find Your Dream Home</h1>
-                <p class="welcome-section__subtitle">Browse properties, create collections, and more</p>
+                <h1 class="welcome-section__title">Найдите дом своей мечты</h1>
+                <p class="welcome-section__subtitle">Просматривайте объекты, создавайте подборки и многое другое</p>
               </div>
             </div>
             
@@ -101,49 +101,49 @@
               <div class="container">
                 <form class="search-form">
                   <div class="mb-3">
-                    <select class="form-select" aria-label="Property type">
-                      <option selected>Select property type</option>
-                      <option value="apartment">Apartment</option>
-                      <option value="house">House</option>
-                      <option value="commercial">Commercial</option>
+                    <select class="form-select" aria-label="Тип недвижимости">
+                      <option selected>Выберите тип недвижимости</option>
+                      <option value="apartment">Квартира</option>
+                      <option value="house">Дом</option>
+                      <option value="commercial">Коммерческая</option>
                     </select>
                   </div>
                   <div class="mb-3">
-                    <select class="form-select" aria-label="Deal type">
-                      <option selected>Select deal type</option>
-                      <option value="sale">For Sale</option>
-                      <option value="rent">For Rent</option>
+                    <select class="form-select" aria-label="Тип сделки">
+                      <option selected>Выберите тип сделки</option>
+                      <option value="sale">Продажа</option>
+                      <option value="rent">Аренда</option>
                     </select>
                   </div>
                   <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Location">
+                    <input type="text" class="form-control" placeholder="Местоположение">
                   </div>
-                  <button type="submit" class="btn btn-primary w-100">Search</button>
+                  <button type="submit" class="btn btn-primary w-100">Поиск</button>
                 </form>
               </div>
             </div>
             
             <div class="featured-section py-4">
               <div class="container">
-                <h2 class="section-title">Featured Properties</h2>
+                <h2 class="section-title">Рекомендуемые объекты</h2>
                 
                 <!-- Test Modal Trigger Button -->
                 <button type="button" class="btn btn-secondary mb-3 js-test-modal-trigger">
-                  Test Modal
+                  Тестовое модальное окно
                 </button>
                 
                 <div class="row g-3">
                   <!-- Property Card 1 -->
                   <div class="col-12">
                     <div class="card property-card">
-                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
+                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Недвижимость">
                       <div class="card-body">
-                        <h5 class="card-title">Modern Apartment</h5>
-                        <p class="card-text text-muted">Krasnodar City Center</p>
+                        <h5 class="card-title">Современная квартира</h5>
+                        <p class="card-text text-muted">Центр Краснодара</p>
                         <div class="d-flex justify-content-between align-items-center">
                           <span class="property-price">$120,000</span>
                           <div class="property-stats">
-                            <span class="me-2"><i class="bi bi-rulers"></i> 85m²</span>
+                            <span class="me-2"><i class="bi bi-rulers"></i> 85м²</span>
                             <span><i class="bi bi-door-open"></i> 2</span>
                           </div>
                         </div>
@@ -154,14 +154,14 @@
                   <!-- Property Card 2 -->
                   <div class="col-12">
                     <div class="card property-card">
-                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
+                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Недвижимость">
                       <div class="card-body">
-                        <h5 class="card-title">Family House with Garden</h5>
-                        <p class="card-text text-muted">Suburban Area</p>
+                        <h5 class="card-title">Семейный дом с садом</h5>
+                        <p class="card-text text-muted">Пригородный район</p>
                         <div class="d-flex justify-content-between align-items-center">
                           <span class="property-price">$250,000</span>
                           <div class="property-stats">
-                            <span class="me-2"><i class="bi bi-rulers"></i> 180m²</span>
+                            <span class="me-2"><i class="bi bi-rulers"></i> 180м²</span>
                             <span><i class="bi bi-door-open"></i> 4</span>
                           </div>
                         </div>
@@ -172,14 +172,14 @@
                   <!-- Property Card 3 -->
                   <div class="col-12">
                     <div class="card property-card">
-                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
+                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Недвижимость">
                       <div class="card-body">
-                        <h5 class="card-title">Studio Apartment</h5>
-                        <p class="card-text text-muted">North District</p>
+                        <h5 class="card-title">Квартира-студия</h5>
+                        <p class="card-text text-muted">Северный район</p>
                         <div class="d-flex justify-content-between align-items-center">
                           <span class="property-price">$90,000</span>
                           <div class="property-stats">
-                            <span class="me-2"><i class="bi bi-rulers"></i> 45m²</span>
+                            <span class="me-2"><i class="bi bi-rulers"></i> 45м²</span>
                             <span><i class="bi bi-door-open"></i> 1</span>
                           </div>
                         </div>
@@ -198,13 +198,13 @@
     <footer class="footer">
       <div class="footer__container">
         <nav class="footer__nav">
-          <a href="/about" class="footer__link">About Us</a>
-          <a href="/terms" class="footer__link">Terms of Use</a>
-          <a href="/privacy" class="footer__link">Privacy Policy</a>
-          <a href="/contact" class="footer__link">Contact</a>
+          <a href="/about" class="footer__link">О нас</a>
+          <a href="/terms" class="footer__link">Условия использования</a>
+          <a href="/privacy" class="footer__link">Политика конфиденциальности</a>
+          <a href="/contact" class="footer__link">Контакты</a>
         </nav>
         <div class="footer__copyright">
-          &copy; <span class="js-current-year">2025</span> Real Estate. All rights reserved.
+          &copy; <span class="js-current-year">2025</span> Недвижимость. Все права защищены.
         </div>
       </div>
     </footer>
@@ -214,15 +214,15 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="testModalLabel">Test Modal</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="testModalLabel">Тестовое модальное окно</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
           </div>
           <div class="modal-body">
-            This is a test modal window.
+            Это тестовое модальное окно.
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-primary">Сохранить изменения</button>
           </div>
         </div>
       </div>
