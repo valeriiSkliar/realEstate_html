@@ -11,6 +11,6 @@ export const initHomePage = () => {
     // showModal('loginModal');
 
     // Test toast
-    createAndShowToast('Профиль успешно обновлен!', 'success');
+    createAndShowToast('Test toast for home page!', 'success');
   };
 
