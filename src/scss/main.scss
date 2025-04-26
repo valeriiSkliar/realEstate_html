@@ -1,6 +1,11 @@
 @import "bootstrap/scss/bootstrap";
 @import 'variables';
 
+// Swiper styles
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+
 // Components
 @import 'components/header';
 @import 'components/footer';
@@ -10,6 +15,7 @@
 @import 'pages/home';
 @import 'pages/profile';
 @import 'pages/support';
+@import 'pages/subscriptions';
 
 
 // // Global styles

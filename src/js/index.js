@@ -10,6 +10,7 @@ import { initMobileMenu, setCurrentYear } from "./menu";
 import { initProfilePage } from "./profile";
 import { initHomePage } from "./home";
 import { initSupportPage } from "./support";
+import { initSubscriptionsPage } from "./subscriptions";
 
 // Initialize components when DOM is ready
 $(document).ready(function () {
@@ -28,6 +29,11 @@ $(document).ready(function () {
 
   if (document.querySelector(".support-page")) {
     initSupportPage();
+  }
+
+  // Initialize subscriptions page if we're on that page
+  if (document.querySelector(".subscriptions-page")) {
+    initSubscriptionsPage();
   }
 
   // Additional initialization code here

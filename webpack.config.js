@@ -44,6 +44,10 @@ module.exports = {
         ],
       },
       {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
         generator: {
@@ -64,6 +68,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/support-page-preview.html",
       filename: "support.html",
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/subscriptions-page-preview.html",
+      filename: "subscriptions.html",
     }),
     new MiniCssExtractPlugin({
       filename: "css/[name].[contenthash].css",
