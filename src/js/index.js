@@ -8,14 +8,17 @@ import '../scss/main.scss';
 
 import { initMobileMenu, setCurrentYear } from './menu';
 import { initProfilePage } from './profile';
-
+import { initHomePage } from './home';
 // Initialize components when DOM is ready
 $(document).ready(function() {
+    // Initialize home page
+    initHomePage();
     // Initialize mobile menu
     initMobileMenu();
     
     // Set current year in footer
     setCurrentYear();
+
     
     // Initialize profile page if we're on that page
     if (document.querySelector('.profile-page')) {

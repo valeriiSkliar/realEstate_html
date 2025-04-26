@@ -1,36 +1,39 @@
-
 .toast {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background-color: rgba(0, 0, 0, 0.8);
+    // position: fixed; // Use container positioning
+    // bottom: 20px;
+    // left: 50%;
+    // transform: translateX(-50%) translateY(100px); // Use Bootstrap's show/hide
+    background-color: rgba(0, 0, 0, 0.8); // Keep custom base style? Decide if needed
     color: white;
     padding: 12px 20px;
     border-radius: 4px;
     font-size: 14px;
-    z-index: 9999;
-    opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    max-width: 90%;
+    // z-index: 9999; // Use Bootstrap's default z-index
+    // opacity: 0; // Bootstrap handles opacity
+    // transition: transform 0.3s ease, opacity 0.3s ease; // Bootstrap handles transition
+    // max-width: 90%; // Use Bootstrap's max-width or adjust if needed
     text-align: center;
-    pointer-events: none;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    
-    &--visible {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-    
+    // pointer-events: none; // Bootstrap handles pointer-events
+
+    // Removed custom --visible class as Bootstrap handles visibility via .show
+    // &--visible {
+    //   transform: translateX(-50%) translateY(0);
+    //   opacity: 1;
+    // }
+
+    // Keep type modifiers if they are used by createAndShowToast's 'type' parameter
+    // Note: Bootstrap uses text-bg-* classes now, these might not be needed
+    //       or should align with Bootstrap's approach.
+    //       The JS currently uses text-bg-{type}, so these might conflict or be redundant.
     &--success {
-      background-color: rgba(40, 167, 69, 0.9);
+      background-color: rgba(40, 167, 69, 0.9); // Example: Potential override/conflict with text-bg-success
     }
-    
+
     &--error {
-      background-color: rgba(220, 53, 69, 0.9);
+      background-color: rgba(220, 53, 69, 0.9); // Example: Potential override/conflict with text-bg-danger
     }
-    
+
     &--warning {
-      background-color: rgba(255, 193, 7, 0.9);
+      background-color: rgba(255, 193, 7, 0.9); // Example: Potential override/conflict with text-bg-warning
     }
   }

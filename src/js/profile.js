@@ -1,4 +1,5 @@
 import { copyToClipboard } from './utils/clipboard';
+import { createAndShowToast } from './utils/uiHelpers';
 
 /**
  * Initialize profile page functionality
@@ -59,11 +60,12 @@ const initReferralCopy = () => {
       if (success) {
         copyButton.innerHTML = '<i class="bi bi-check"></i>';
         
-        // Show a small toast notification
-        showToast('Link copied to clipboard!');
+        // Show a small toast notification using the helper
+        createAndShowToast('Link copied to clipboard!', 'success');
       } else {
         copyButton.innerHTML = '<i class="bi bi-x"></i>';
-        showToast('Failed to copy link', 'error');
+        // Show error toast using the helper
+        createAndShowToast('Failed to copy link', 'error');
       }
       
       // Reset after a short delay
@@ -72,34 +74,4 @@ const initReferralCopy = () => {
       }, 2000);
     });
   }
-};
-
-/**
- * Show a toast notification
- * @param {string} message - The message to display
- * @param {string} type - The type of toast (success, error)
- */
-const showToast = (message, type = 'success') => {
-  // Create toast element
-  const toast = document.createElement('div');
-  toast.className = `toast toast--${type}`;
-  toast.textContent = message;
-  
-  // Add to body
-  document.body.appendChild(toast);
-  
-  // Show toast
-  setTimeout(() => {
-    toast.classList.add('toast--visible');
-  }, 10);
-  
-  // Remove after delay
-  setTimeout(() => {
-    toast.classList.remove('toast--visible');
-    
-    // Remove element after animation
-    setTimeout(() => {
-      document.body.removeChild(toast);
-    }, 300);
-  }, 3000);
 };
