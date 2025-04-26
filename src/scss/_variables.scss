@@ -1,18 +1,12 @@
+// src/scss/_variables.scss - Updated with modern syntax
+@use 'bootstrap' as bootstrap;
 
 // Custom variables
-$primary-color: #007bff;
-$secondary-color: #6c757d;
+$primary-color: bootstrap.$primary;
+$secondary-color: bootstrap.$secondary;
 
 // Layout variables
 $container-max-width: 1200px;
 $grid-gutter: 30px;
 
 $font-family-base: "Roboto", sans-serif;
-
-$primary: #007bff;
-$secondary: #6c757d;
-$success: #28a745;
-$danger: #dc3545;
-$warning: #ffc107;
-$info: #007bff;
-$light: #f8f9fa;

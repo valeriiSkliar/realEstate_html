@@ -1,13 +1,11 @@
+// webpack.config.js - Updated to suppress Sass deprecation warnings
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin'); // Import the plugin
 
 module.exports = {
-  entry: {
-    main: './src/js/index.js',
-    home: './src/js/home.js',
-    style: './src/scss/main.scss'
-  },
+  entry: './src/js/index.js',
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'js/[name].[contenthash].js',
@@ -26,7 +24,17 @@ module.exports = {
               sassOptions: {
                 outputStyle: 'expanded',
                 sourceMap: true,
-                includePaths: ['node_modules']
+                includePaths: ['node_modules'],
+                quietDeps: true, // Suppress warnings from dependencies
+                logger: {
+                  warn: function(message) {
+                    // Suppress specific deprecation warnings
+                    if (message.includes('Deprecation') || message.includes('deprecated')) {
+                      return;
+                    }
+                    console.warn(message);
+                  }
+                }
               }
             }
           }
@@ -43,11 +51,25 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/layouts/main.html',
+      template: './src/pages/previews/home.html',
       filename: 'index.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/pages/previews/profile.html',
+      filename: 'profile.html'
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css'
+    }),
+    // Configure CopyPlugin
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/images'), // Source directory
+          to: path.resolve(__dirname, 'public/images'), // Destination directory
+          noErrorOnMissing: true // Don't throw error if src/images doesn't exist
+        }
+      ]
     })
   ],
   devServer: {
@@ -58,4 +80,4 @@ module.exports = {
     port: 9000,
     hot: true
   }
-}; 
+};

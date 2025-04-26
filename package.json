@@ -4,9 +4,11 @@
   "description": "Real Estate HTML Layout",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf public",
     "dev": "webpack serve --mode development",
-    "build": "webpack --mode production",
-    "watch": "webpack --watch --mode development"
+    "build": "npm run clean && webpack --mode production",
+    "watch": "webpack --watch --mode development",
+    "rebuild": "npm run clean && webpack --mode development"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +19,7 @@
     "jquery": "^3.7.1"
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^13.0.0",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate</title>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts - Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Component -->
+    <header class="header">
+      <div class="header__logo">
+        <a href="/">
+          <img src="/images/place-holder.jpg" alt="Real Estate" />
+        </a>
+      </div>
+      <div class="header__actions">
+        <button class="header__action-btn" aria-label="Messages">
+          <i class="bi bi-chat"></i>
+        </button>
+        <button class="header__action-btn" aria-label="Favorites">
+          <i class="bi bi-heart"></i>
+        </button>
+        <button class="header__action-btn" aria-label="Search">
+          <i class="bi bi-search"></i>
+        </button>
+        <button class="header__action-btn js-menu-trigger" aria-label="Menu">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu">
+      <div class="mobile-menu__header">
+        <button class="mobile-menu__close js-menu-close" aria-label="Close menu">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <ul class="mobile-menu__list">
+        <li class="mobile-menu__item">
+          <a href="/" class="mobile-menu__link">
+            <i class="bi bi-house"></i> Home
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/search" class="mobile-menu__link">
+            <i class="bi bi-search"></i> Search Properties
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/my-listings" class="mobile-menu__link">
+            <i class="bi bi-building"></i> My Listings
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/collections" class="mobile-menu__link">
+            <i class="bi bi-collection"></i> My Collections
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/favorites" class="mobile-menu__link">
+            <i class="bi bi-heart"></i> Favorites
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/profile.html" class="mobile-menu__link">
+            <i class="bi bi-person"></i> Profile
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/support" class="mobile-menu__link">
+            <i class="bi bi-question-circle"></i> Support
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Overlay for mobile menu -->
+    <div class="overlay js-overlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="page-content">
+        <div id="app">
+
+
+          <div class="home-page">
+            <div class="welcome-section py-4">
+              <div class="container">
+                <h1 class="welcome-section__title">Find Your Dream Home</h1>
+                <p class="welcome-section__subtitle">Browse properties, create collections, and more</p>
+              </div>
+            </div>
+            
+            <div class="search-block py-3">
+              <div class="container">
+                <form class="search-form">
+                  <div class="mb-3">
+                    <select class="form-select" aria-label="Property type">
+                      <option selected>Select property type</option>
+                      <option value="apartment">Apartment</option>
+                      <option value="house">House</option>
+                      <option value="commercial">Commercial</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <select class="form-select" aria-label="Deal type">
+                      <option selected>Select deal type</option>
+                      <option value="sale">For Sale</option>
+                      <option value="rent">For Rent</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Location">
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100">Search</button>
+                </form>
+              </div>
+            </div>
+            
+            <div class="featured-section py-4">
+              <div class="container">
+                <h2 class="section-title">Featured Properties</h2>
+                <div class="row g-3">
+                  <!-- Property Card 1 -->
+                  <div class="col-12">
+                    <div class="card property-card">
+                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
+                      <div class="card-body">
+                        <h5 class="card-title">Modern Apartment</h5>
+                        <p class="card-text text-muted">Krasnodar City Center</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <span class="property-price">$120,000</span>
+                          <div class="property-stats">
+                            <span class="me-2"><i class="bi bi-rulers"></i> 85m²</span>
+                            <span><i class="bi bi-door-open"></i> 2</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Property Card 2 -->
+                  <div class="col-12">
+                    <div class="card property-card">
+                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
+                      <div class="card-body">
+                        <h5 class="card-title">Family House with Garden</h5>
+                        <p class="card-text text-muted">Suburban Area</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <span class="property-price">$250,000</span>
+                          <div class="property-stats">
+                            <span class="me-2"><i class="bi bi-rulers"></i> 180m²</span>
+                            <span><i class="bi bi-door-open"></i> 4</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Property Card 3 -->
+                  <div class="col-12">
+                    <div class="card property-card">
+                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
+                      <div class="card-body">
+                        <h5 class="card-title">Studio Apartment</h5>
+                        <p class="card-text text-muted">North District</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <span class="property-price">$90,000</span>
+                          <div class="property-stats">
+                            <span class="me-2"><i class="bi bi-rulers"></i> 45m²</span>
+                            <span><i class="bi bi-door-open"></i> 1</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+    </main>
+
+    <!-- Footer Component -->
+    <footer class="footer">
+      <div class="footer__container">
+        <nav class="footer__nav">
+          <a href="/about" class="footer__link">About Us</a>
+          <a href="/terms" class="footer__link">Terms of Use</a>
+          <a href="/privacy" class="footer__link">Privacy Policy</a>
+          <a href="/contact" class="footer__link">Contact</a>
+        </nav>
+        <div class="footer__copyright">
+          &copy; <span class="js-current-year">2025</span> Real Estate. All rights reserved.
+        </div>
+      </div>
+    </footer>
+</body>
+</html>
