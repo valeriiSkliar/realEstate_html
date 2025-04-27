@@ -11,6 +11,8 @@ import { initProfilePage } from "./profile";
 import { initHomePage } from "./home";
 import { initSupportPage } from "./support";
 import { initSubscriptionsPage } from "./subscriptions";
+import { initFavoritesPage } from "./favorites";
+import { initFavoriteButtons } from "./components/favorite-button";
 
 // Initialize components when DOM is ready
 $(document).ready(function () {
@@ -35,6 +37,13 @@ $(document).ready(function () {
   if (document.querySelector(".subscriptions-page")) {
     initSubscriptionsPage();
   }
+
+  if (document.querySelector(".favorites-page")) {
+    initFavoritesPage();
+  }
+
+  // Initialize favorite buttons globally
+  initFavoriteButtons();
 
   // Additional initialization code here
   console.log("Styles should be loaded!");

@@ -73,6 +73,10 @@ module.exports = {
       template: "./src/pages/previews/subscriptions-page-preview.html",
       filename: "subscriptions.html",
     }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/favorites-page-preview.html",
+      filename: "favorites.html",
+    }),
     new MiniCssExtractPlugin({
       filename: "css/[name].[contenthash].css",
     }),
