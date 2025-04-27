@@ -13,7 +13,7 @@ import { initSupportPage } from "./support";
 import { initSubscriptionsPage } from "./subscriptions";
 import { initFavoritesPage } from "./favorites";
 import { initFavoriteButtons } from "./components/favorite-button";
-
+import { initPropertyCardExample } from "./components/property-card-example";
 // Initialize components when DOM is ready
 $(document).ready(function () {
   // Initialize home page
@@ -45,6 +45,9 @@ $(document).ready(function () {
 
   // Initialize favorite buttons globally
   initFavoriteButtons();
+
+  // Initialize property card example
+  initPropertyCardExample();
 
   // Additional initialization code here
   console.log("Styles should be loaded!");
