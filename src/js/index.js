@@ -17,14 +17,15 @@ import { initFavoriteButtons } from "./components/favorite-button";
 // Initialize components when DOM is ready
 $(document).ready(function () {
   // Initialize home page
-  initHomePage();
+  if (document.querySelector(".home-page")) {
+    initHomePage();
+  }
   // Initialize mobile menu
   initMobileMenu();
 
   // Set current year in footer
   setCurrentYear();
 
-  // Initialize profile page if we're on that page
   if (document.querySelector(".profile-page")) {
     initProfilePage();
   }

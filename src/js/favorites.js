@@ -1,4 +1,4 @@
-import { showModal, createAndShowToast } from "./utils/uiHelpers";
+import { showModal, createAndShowToast, hideModal } from "./utils/uiHelpers";
 import { addToFavorites } from "./components/favorite-button";
 import {
   removeFromFavorites,
@@ -12,7 +12,7 @@ export const initFavoritesPage = () => {
   console.log("Favorites page initialized");
 
   // Check if we have favorites and show/hide empty state
-  updateFavoritesView();
+  // updateFavoritesView();
 
   // Initialize remove from favorites functionality
   initRemoveFavorites();
@@ -83,11 +83,7 @@ const initRemoveFavorites = () => {
         }
 
         // Hide modal
-        const modal = document.getElementById("removeFavoriteModal");
-        const bootstrapModal = bootstrap.Modal.getInstance(modal);
-        if (bootstrapModal) {
-          bootstrapModal.hide();
-        }
+        hideModal("removeFavoriteModal");
 
         // Reset current property ID
         currentPropertyId = null;
