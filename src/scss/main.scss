@@ -1,23 +1,24 @@
-@import "bootstrap/scss/bootstrap";
-@import 'variables';
+@use "brand_color" as *;
+@use "customization_bootstrap" as *;
+
+// 8. Add additional custom code and imports here
 
 // Swiper styles
-@import 'swiper/css';
-@import 'swiper/css/navigation';
-@import 'swiper/css/pagination';
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
 
 // Components
-@import 'components/header';
-@import 'components/footer';
-@import 'components/toast';
+@import "components/header";
+@import "components/footer";
+@import "components/toast";
 
 // Pages
-@import 'pages/home';
-@import 'pages/profile';
-@import 'pages/support';
-@import 'pages/subscriptions';
-@import 'pages/favorites';
-
+@import "pages/home";
+@import "pages/profile";
+@import "pages/support";
+@import "pages/subscriptions";
+@import "pages/favorites";
 
 // // Global styles
 // body {
@@ -45,7 +46,6 @@
 //   white-space: nowrap;
 // }
 
-
 // Simple main.scss for testing
 
 // Define some basic styles to see if they're applied
@@ -65,25 +65,25 @@ body {
   right: 0;
   height: 60px;
   background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   display: flex;
   align-items: center;
   padding: 0 15px;
-  
+
   &__logo {
     flex: 1;
-    
+
     img {
       height: 40px;
     }
   }
-  
+
   &__actions {
     display: flex;
     gap: 15px;
   }
-  
+
   &__action-btn {
     background: none;
     border: none;
@@ -94,9 +94,15 @@ body {
   }
 }
 
+// :root {
+//   --bs-body-bg: #00d6f7;
+//   --bs-blue: #cef700;
+// }
+
 // Basic styling for main content
 .page-content {
   padding: 15px;
+  background-color: $body-bg;
 }
 
 // Basic styling for footer
@@ -104,19 +110,19 @@ body {
   background-color: #ffffff;
   padding: 20px 15px;
   text-align: center;
-  
+
   &__nav {
     display: flex;
     justify-content: center;
     gap: 15px;
     margin-bottom: 15px;
   }
-  
+
   &__link {
     color: #666;
     text-decoration: none;
   }
-  
+
   &__copyright {
     color: #999;
     font-size: 14px;

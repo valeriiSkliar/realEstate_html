@@ -20,13 +20,15 @@
     "swiper": "^11.2.6"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.21",
     "copy-webpack-plugin": "^13.0.0",
-    "css-loader": "^6.8.1",
+    "css-loader": "^6.11.0",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
+    "postcss-loader": "^8.1.1",
     "sass": "^1.87.0",
     "sass-loader": "^13.3.3",
-    "style-loader": "^3.3.3",
+    "style-loader": "^3.3.4",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"

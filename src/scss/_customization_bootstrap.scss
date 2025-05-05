@@ -1,0 +1,45 @@
+@use "brand_color" as *;
+// $custom-colors: map-merge(
+//   $theme-colors,
+//   (
+//     "custom": #fd5d0d
+//   )
+// );
+
+$primary: #fd5d0d;
+
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+// scss-docs-start theme-colors-map
+$custom-theme-colors: (
+  "custom-color": #7f9af0,
+  "custom-color-2": #cb830e,
+
+  "brand-light-gray": $light-gray,
+  "brand-lime-green": $lime-green,
+  "brand-bright-pink": $bright-pink,
+  "brand-turquoise": $turquoise,
+  "brand-dark-navy": $dark-navy,
+
+  "brand-turquoise-80": $turquoise-80,
+  "brand-turquoise-50": $turquoise-50,
+  "brand-turquoise-30": $turquoise-30,
+
+  "brand-lime-green-80": $lime-green-80,
+  "brand-lime-green-50": $lime-green-50,
+  "brand-lime-green-30": $lime-green-30,
+
+  "brand-bright-pink-80": $bright-pink-80,
+  "brand-bright-pink-50": $bright-pink-50,
+  "brand-bright-pink-30": $bright-pink-30,
+
+  "brand-dark-navy-80": $dark-navy-80,
+  "brand-dark-navy-50": $dark-navy-50,
+  "brand-dark-navy-30": $dark-navy-30,
+);
+
+$theme-colors: map-merge($custom-theme-colors, $theme-colors);
+
+@import "bootstrap/scss/bootstrap";
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)

@@ -1,5 +1,7 @@
 // src/js/index.js
-import "bootstrap";
+// import "bootstrap";
+// import * as bootstrap from "bootstrap";
+
 import $ from "jquery";
 import { format } from "date-fns";
 

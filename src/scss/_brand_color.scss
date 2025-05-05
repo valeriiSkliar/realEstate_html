@@ -1,0 +1,83 @@
+// Brand Color Palette
+// Based on the color solution document (ЦВЕТОВОЕ РЕШЕНИЕ)
+
+// Primary Brand Colors
+$light-gray: #f5f6f4;
+$lime-green: #d1f000;
+$bright-pink: #ff3fc0;
+$turquoise: #00c9dd;
+$dark-navy: #252736;
+
+// Color with opacity variations
+// Each color has 80%, 50%, and 30% opacity variants
+
+// Light Gray Variations
+$light-gray-80: rgba(245, 246, 244, 0.8);
+$light-gray-50: rgba(245, 246, 244, 0.5);
+$light-gray-30: rgba(245, 246, 244, 0.3);
+
+// Lime Green Variations
+$lime-green-80: rgba(209, 240, 0, 0.8);
+$lime-green-50: rgba(209, 240, 0, 0.5);
+$lime-green-30: rgba(209, 240, 0, 0.3);
+
+// Bright Pink Variations
+$bright-pink-80: rgba(255, 63, 192, 0.8);
+$bright-pink-50: rgba(255, 63, 192, 0.5);
+$bright-pink-30: rgba(255, 63, 192, 0.3);
+
+// Turquoise Variations
+$turquoise-80: rgba(0, 201, 221, 0.8);
+$turquoise-50: rgba(0, 201, 221, 0.5);
+$turquoise-30: rgba(0, 201, 221, 0.3);
+
+// Dark Navy Variations
+$dark-navy-80: rgba(37, 39, 54, 0.8);
+$dark-navy-50: rgba(37, 39, 54, 0.5);
+$dark-navy-30: rgba(37, 39, 54, 0.3);
+
+// Usage Rules
+// Color usage example mixins
+@mixin brand-primary-button {
+  background-color: $lime-green;
+  color: $dark-navy;
+
+  &:hover {
+    background-color: $lime-green-80;
+  }
+
+  &:disabled {
+    background-color: $lime-green-30;
+  }
+}
+
+@mixin brand-secondary-button {
+  background-color: $turquoise;
+  color: white;
+
+  &:hover {
+    background-color: $turquoise-80;
+  }
+
+  &:disabled {
+    background-color: $turquoise-30;
+  }
+}
+
+@mixin brand-accent {
+  color: $bright-pink;
+
+  &:hover {
+    color: $bright-pink-80;
+  }
+}
+
+@mixin brand-background {
+  background-color: $light-gray;
+  color: $dark-navy;
+}
+
+@mixin brand-dark-section {
+  background-color: $dark-navy;
+  color: white;
+}
