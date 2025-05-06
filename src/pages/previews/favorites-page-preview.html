@@ -1,36 +1,50 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Недвижимость - Избранное</title>
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
     <!-- Google Fonts - Roboto -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <!-- Header Component -->
     <header class="header">
       <div class="header__logo">
         <a href="/">
-          <img src="/images/place-holder.jpg" alt="Недвижимость" />
+          <img src="/images/logo.svg" alt="Real Estate" />
         </a>
       </div>
       <div class="header__actions">
-        <button class="header__action-btn" aria-label="Сообщения">
-          <i class="bi bi-chat"></i>
-        </button>
-        <button class="header__action-btn" aria-label="Избранное">
-          <i class="bi bi-heart"></i>
-        </button>
-        <button class="header__action-btn" aria-label="Поиск">
-          <i class="bi bi-search"></i>
-        </button>
-        <button class="header__action-btn js-menu-trigger" aria-label="Меню">
-          <i class="bi bi-list"></i>
+        <a
+          href="/support.html"
+          class="header__action-btn"
+          aria-label="Messages"
+        >
+          <i class="bi bi-chat text-brand-turquoise"> </i>
+        </a>
+        <a
+          href="/favorites.html"
+          class="header__action-btn"
+          aria-label="Favorites"
+        >
+          <i class="bi bi-heart text-brand-turquoise"></i>
+        </a>
+        <a href="/search.html" class="header__action-btn" aria-label="Search">
+          <i class="bi bi-search text-brand-turquoise"></i>
+        </a>
+        <button class="header__action-btn js-menu-trigger" aria-label="Menu">
+          <i class="bi bi-list text-brand-dark-navy"></i>
         </button>
       </div>
     </header>
@@ -38,44 +52,57 @@
     <!-- Mobile Menu -->
     <nav class="mobile-menu">
       <div class="mobile-menu__header">
-        <button class="mobile-menu__close js-menu-close" aria-label="Закрыть меню">
-          <i class="bi bi-x-lg"></i>
+        <button
+          class="mobile-menu__close js-menu-close"
+          aria-label="Close menu"
+        >
+          <i class="bi bi-x-lg text-brand-dark-navy"></i>
         </button>
+        <div class="header__logo">
+          <img src="/images/logo.svg" alt="Real Estate" />
+        </div>
       </div>
       <ul class="mobile-menu__list">
         <li class="mobile-menu__item">
           <a href="/" class="mobile-menu__link">
-            <i class="bi bi-house"></i> Главная
+            <i class="bi bi-house text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Home</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/search" class="mobile-menu__link">
-            <i class="bi bi-search"></i> Поиск недвижимости
+            <i class="bi bi-search text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Search Properties</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/my-listings" class="mobile-menu__link">
-            <i class="bi bi-building"></i> Мои объявления
+            <i class="bi bi-building text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">My Listings</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/collections" class="mobile-menu__link">
-            <i class="bi bi-collection"></i> Мои подборки
+            <i class="bi bi-collection text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">My Collections</span>
           </a>
         </li>
         <li class="mobile-menu__item">
-          <a href="/favorites.html" class="mobile-menu__link active">
-            <i class="bi bi-heart"></i> Избранное
+          <a href="/favorites.html" class="mobile-menu__link">
+            <i class="bi bi-heart text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Favorites</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/profile.html" class="mobile-menu__link">
-            <i class="bi bi-person"></i> Профиль
+            <i class="bi bi-person text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Profile</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/support.html" class="mobile-menu__link">
-            <i class="bi bi-question-circle"></i> Поддержка
+            <i class="bi bi-question-circle text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Support</span>
           </a>
         </li>
       </ul>
@@ -86,88 +113,128 @@
 
     <!-- Main Content Area -->
     <main class="page-content">
-        <div id="app">
-          <div class="favorites-page">
-            <div class="container">
-              <h1 class="favorites-title">Избранное</h1>
-              <p class="favorites-description">Объекты недвижимости, которые вы сохранили для просмотра позже</p>
-              
-              <!-- Empty state (show when needed) -->
-              <div class="favorites-empty-state js-empty-favorites" style="display: none;">
-                <div class="empty-state-icon">
-                  <i class="bi bi-heart"></i>
-                </div>
-                <h3 class="empty-state-title">Нет избранных объектов</h3>
-                <p class="empty-state-description">Объекты недвижимости, которые вы добавите в избранное, появятся здесь</p>
-                <a href="/" class="btn btn-primary">Посмотреть объекты</a>
+      <div id="app">
+        <div class="favorites-page">
+          <div class="container">
+            <h1 class="favorites-title">Избранное</h1>
+            <p class="favorites-description">
+              Объекты недвижимости, которые вы сохранили для просмотра позже
+            </p>
+
+            <!-- Empty state (show when needed) -->
+            <div
+              class="favorites-empty-state js-empty-favorites"
+              style="display: none"
+            >
+              <div class="empty-state-icon">
+                <i class="bi bi-heart"></i>
               </div>
-              
-              <!-- Favorites list -->
-              <div class="favorites-list js-favorites-list">
-                <div class="row g-3">
-                  <!-- Favorite Property Card 1 -->
-                  <div class="col-md-6 col-lg-4" data-property-id="prop123">
-                    <div class="card property-card">
-                      <div class="property-card__favorite-btn js-remove-favorite" data-property-id="prop123">
-                        <i class="bi bi-x-lg"></i>
-                      </div>
-                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
-                      <div class="card-body">
-                        <h5 class="card-title">Современная квартира</h5>
-                        <p class="card-text text-muted">Центр города</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <span class="property-price">6 500 000 ₽</span>
-                          <div class="property-stats">
-                            <span class="me-2"><i class="bi bi-rulers"></i> 85м²</span>
-                            <span><i class="bi bi-door-open"></i> 2</span>
-                          </div>
+              <h3 class="empty-state-title">Нет избранных объектов</h3>
+              <p class="empty-state-description">
+                Объекты недвижимости, которые вы добавите в избранное, появятся
+                здесь
+              </p>
+              <a href="/" class="btn btn-primary">Посмотреть объекты</a>
+            </div>
+
+            <!-- Favorites list -->
+            <div class="favorites-list js-favorites-list">
+              <div class="row g-3">
+                <!-- Favorite Property Card 1 -->
+                <div class="col-md-6 col-lg-4" data-property-id="prop123">
+                  <div class="card property-card">
+                    <div
+                      class="property-card__favorite-btn js-remove-favorite"
+                      data-property-id="prop123"
+                    >
+                      <i class="bi bi-x-lg"></i>
+                    </div>
+                    <img
+                      src="/images/place-holder.jpg"
+                      class="card-img-top"
+                      alt="Property"
+                    />
+                    <div class="card-body">
+                      <h5 class="card-title">Современная квартира</h5>
+                      <p class="card-text text-muted">Центр города</p>
+                      <div
+                        class="d-flex justify-content-between align-items-center"
+                      >
+                        <span class="property-price">6 500 000 ₽</span>
+                        <div class="property-stats">
+                          <span class="me-2"
+                            ><i class="bi bi-rulers"></i> 85м²</span
+                          >
+                          <span><i class="bi bi-door-open"></i> 2</span>
                         </div>
-                        <a href="/property/prop123" class="stretched-link"></a>
                       </div>
+                      <a href="/property/prop123" class="stretched-link"></a>
                     </div>
                   </div>
-                  
-                  <!-- Favorite Property Card 2 -->
-                  <div class="col-md-6 col-lg-4" data-property-id="prop456">
-                    <div class="card property-card">
-                      <div class="property-card__favorite-btn js-remove-favorite" data-property-id="prop456">
-                        <i class="bi bi-x-lg"></i>
-                      </div>
-                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
-                      <div class="card-body">
-                        <h5 class="card-title">Семейный дом с садом</h5>
-                        <p class="card-text text-muted">Пригородный район</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <span class="property-price">12 300 000 ₽</span>
-                          <div class="property-stats">
-                            <span class="me-2"><i class="bi bi-rulers"></i> 180м²</span>
-                            <span><i class="bi bi-door-open"></i> 4</span>
-                          </div>
+                </div>
+
+                <!-- Favorite Property Card 2 -->
+                <div class="col-md-6 col-lg-4" data-property-id="prop456">
+                  <div class="card property-card">
+                    <div
+                      class="property-card__favorite-btn js-remove-favorite"
+                      data-property-id="prop456"
+                    >
+                      <i class="bi bi-x-lg"></i>
+                    </div>
+                    <img
+                      src="/images/place-holder.jpg"
+                      class="card-img-top"
+                      alt="Property"
+                    />
+                    <div class="card-body">
+                      <h5 class="card-title">Семейный дом с садом</h5>
+                      <p class="card-text text-muted">Пригородный район</p>
+                      <div
+                        class="d-flex justify-content-between align-items-center"
+                      >
+                        <span class="property-price">12 300 000 ₽</span>
+                        <div class="property-stats">
+                          <span class="me-2"
+                            ><i class="bi bi-rulers"></i> 180м²</span
+                          >
+                          <span><i class="bi bi-door-open"></i> 4</span>
                         </div>
-                        <a href="/property/prop456" class="stretched-link"></a>
                       </div>
+                      <a href="/property/prop456" class="stretched-link"></a>
                     </div>
                   </div>
-                  
-                  <!-- Favorite Property Card 3 -->
-                  <div class="col-md-6 col-lg-4" data-property-id="prop789">
-                    <div class="card property-card">
-                      <div class="property-card__favorite-btn js-remove-favorite" data-property-id="prop789">
-                        <i class="bi bi-x-lg"></i>
-                      </div>
-                      <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
-                      <div class="card-body">
-                        <h5 class="card-title">Квартира-студия</h5>
-                        <p class="card-text text-muted">Северный район</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <span class="property-price">4 200 000 ₽</span>
-                          <div class="property-stats">
-                            <span class="me-2"><i class="bi bi-rulers"></i> 45м²</span>
-                            <span><i class="bi bi-door-open"></i> 1</span>
-                          </div>
+                </div>
+
+                <!-- Favorite Property Card 3 -->
+                <div class="col-md-6 col-lg-4" data-property-id="prop789">
+                  <div class="card property-card">
+                    <div
+                      class="property-card__favorite-btn js-remove-favorite"
+                      data-property-id="prop789"
+                    >
+                      <i class="bi bi-x-lg"></i>
+                    </div>
+                    <img
+                      src="/images/place-holder.jpg"
+                      class="card-img-top"
+                      alt="Property"
+                    />
+                    <div class="card-body">
+                      <h5 class="card-title">Квартира-студия</h5>
+                      <p class="card-text text-muted">Северный район</p>
+                      <div
+                        class="d-flex justify-content-between align-items-center"
+                      >
+                        <span class="property-price">4 200 000 ₽</span>
+                        <div class="property-stats">
+                          <span class="me-2"
+                            ><i class="bi bi-rulers"></i> 45м²</span
+                          >
+                          <span><i class="bi bi-door-open"></i> 1</span>
                         </div>
-                        <a href="/property/prop789" class="stretched-link"></a>
                       </div>
+                      <a href="/property/prop789" class="stretched-link"></a>
                     </div>
                   </div>
                 </div>
@@ -175,37 +242,68 @@
             </div>
           </div>
         </div>
+      </div>
     </main>
 
     <!-- Footer Component -->
     <footer class="footer">
       <div class="footer__container">
         <nav class="footer__nav">
-          <a href="/about" class="footer__link">О нас</a>
-          <a href="/terms" class="footer__link">Условия использования</a>
-          <a href="/privacy" class="footer__link">Политика конфиденциальности</a>
-          <a href="/contact" class="footer__link">Контакты</a>
+          <a href="/about" class="footer__link text-brand-turquoise"
+            >About Us</a
+          >
+          <a href="/terms" class="footer__link text-brand-turquoise"
+            >Terms of Use</a
+          >
+          <a href="/privacy" class="footer__link text-brand-turquoise"
+            >Privacy Policy</a
+          >
+          <a href="/contact" class="footer__link text-brand-turquoise"
+            >Contact</a
+          >
         </nav>
-        <div class="footer__copyright">
-          &copy; <span class="js-current-year">2025</span> Недвижимость. Все права защищены.
+        <div class="footer__copyright text-brand-dark-navy">
+          &copy; <span class="js-current-year">2025</span> Real Estate. All
+          rights reserved.
         </div>
       </div>
     </footer>
 
     <!-- Confirmation Modal -->
-    <div class="modal fade" id="removeFavoriteModal" tabindex="-1" aria-labelledby="removeFavoriteModalLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="removeFavoriteModal"
+      tabindex="-1"
+      aria-labelledby="removeFavoriteModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="removeFavoriteModalLabel">Удалить из избранного</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            <h5 class="modal-title" id="removeFavoriteModalLabel">
+              Удалить из избранного
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Закрыть"
+            ></button>
           </div>
           <div class="modal-body">
             <p>Вы уверены, что хотите удалить этот объект из избранного?</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-            <button type="button" class="btn btn-danger js-confirm-remove">Удалить</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Отмена
+            </button>
+            <button type="button" class="btn btn-danger js-confirm-remove">
+              Удалить
+            </button>
           </div>
         </div>
       </div>
@@ -282,5 +380,5 @@
         }
       });
     </script> -->
-</body>
+  </body>
 </html>
