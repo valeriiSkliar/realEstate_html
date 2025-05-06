@@ -1,53 +1,54 @@
 .support-page {
   padding: 20px 0;
-  background-color: #f5f5f5;
+  background-color: $light-gray;
   min-height: calc(100vh - 60px - 100px); // Adjust for header and footer
-  
+
   .container {
     max-width: 600px;
     margin: 0 auto;
     padding: 0 15px;
   }
-  
+
   .support-title {
     font-size: 1.8rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: $primary;
+    color: $dark-navy;
   }
-  
+
   .support-description {
-    color: #666;
+    color: $dark-navy;
     margin-bottom: 1.5rem;
   }
-  
+
   .support-form {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
     .form-label {
       font-weight: 500;
-      color: #555;
+      color: $dark-navy;
     }
-    
-    .form-control, .form-select {
+
+    .form-control,
+    .form-select {
       border-radius: 5px;
-      border: 1px solid #ddd;
+      border: 1px solid $light-gray;
       padding: 10px 12px;
-      
+
       &:focus {
-        border-color: lighten($primary, 20%);
-        box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+        border-color: lighten($turquoise, 20%);
+        box-shadow: 0 0 0 0.2rem rgba($turquoise, 0.25);
       }
     }
-    
+
     textarea {
       resize: vertical;
       min-height: 120px;
     }
-    
+
     .support-submit {
       padding: 12px;
       font-weight: 500;
@@ -64,17 +65,17 @@
     border-radius: 10px;
     border: none;
   }
-  
+
   .modal-header {
     border-bottom: none;
     padding-bottom: 0;
   }
-  
+
   .modal-footer {
     border-top: none;
     justify-content: center;
     padding-top: 0;
-    
+
     .btn {
       padding: 8px 30px;
     }

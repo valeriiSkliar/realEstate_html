@@ -16,21 +16,21 @@
     <header class="header">
       <div class="header__logo">
         <a href="/">
-          <img src="/images/place-holder.jpg" alt="Недвижимость" />
+          <img src="/images/logo.svg" alt="Недвижимость" />
         </a>
       </div>
       <div class="header__actions">
         <button class="header__action-btn" aria-label="Сообщения">
-          <i class="bi bi-chat"></i>
+          <i class="bi bi-chat text-brand-turquoise"></i>
         </button>
         <a href="/favorites.html" class="header__action-btn" aria-label="Favorites">
-          <i class="bi bi-heart"></i>
+          <i class="bi bi-heart text-brand-turquoise"></i>
         </a>
         <button class="header__action-btn" aria-label="Поиск">
-          <i class="bi bi-search"></i>
+          <i class="bi bi-search text-brand-turquoise"></i>
         </button>
         <button class="header__action-btn js-menu-trigger" aria-label="Меню">
-          <i class="bi bi-list"></i>
+          <i class="bi bi-list text-brand-dark-navy"></i>
         </button>
       </div>
     </header>
@@ -39,48 +39,59 @@
     <nav class="mobile-menu">
       <div class="mobile-menu__header">
         <button class="mobile-menu__close js-menu-close" aria-label="Закрыть меню">
-          <i class="bi bi-x-lg"></i>
+          <i class="bi bi-x-lg text-brand-dark-navy"></i>
         </button>
+        <div class="header__logo">
+          <img src="/images/logo.svg" alt="Недвижимость" />
+        </div>
       </div>
       <ul class="mobile-menu__list">
         <li class="mobile-menu__item">
           <a href="/" class="mobile-menu__link">
-            <i class="bi bi-house"></i> Главная
+            <i class="bi bi-house text-brand-turquoise"></i>
+            <span class="mobile-menu__link-text text-brand-dark-navy">Главная</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/search" class="mobile-menu__link">
-            <i class="bi bi-search"></i> Поиск недвижимости
+            <i class="bi bi-search text-brand-turquoise"></i>
+            <span class="mobile-menu__link-text text-brand-dark-navy">Поиск недвижимости</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/my-listings" class="mobile-menu__link">
-            <i class="bi bi-building"></i> Мои объявления
+            <i class="bi bi-building text-brand-turquoise"></i>
+            <span class="mobile-menu__link-text text-brand-dark-navy">Мои объявления</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/collections" class="mobile-menu__link">
-            <i class="bi bi-collection"></i> Мои подборки
+            <i class="bi bi-collection text-brand-turquoise"></i>
+            <span class="mobile-menu__link-text text-brand-dark-navy">Мои подборки</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/favorites.html" class="mobile-menu__link">
-            <i class="bi bi-heart"></i> Избранное
+            <i class="bi bi-heart text-brand-turquoise"></i>
+            <span class="mobile-menu__link-text text-brand-dark-navy">Избранное</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/subscriptions.html" class="mobile-menu__link">
-            <i class="bi bi-credit-card"></i> Подписки
+            <i class="bi bi-credit-card text-brand-turquoise"></i>
+            <span class="mobile-menu__link-text text-brand-dark-navy">Подписки</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/profile.html" class="mobile-menu__link">
-            <i class="bi bi-person"></i> Профиль
+            <i class="bi bi-person text-brand-turquoise"></i>
+            <span class="mobile-menu__link-text text-brand-dark-navy">Профиль</span>
           </a>
         </li>
         <li class="mobile-menu__item">
           <a href="/support.html" class="mobile-menu__link">
-            <i class="bi bi-question-circle"></i> Поддержка
+            <i class="bi bi-question-circle text-brand-turquoise"></i>
+            <span class="mobile-menu__link-text text-brand-dark-navy">Поддержка</span>
           </a>
         </li>
       </ul>
@@ -123,14 +134,14 @@
                   <div class="mb-3">
                     <input type="text" class="form-control" placeholder="Местоположение">
                   </div>
-                  <button type="submit" class="btn btn-brand-turquoise w-100">Поиск</button>
+                  <button type="submit" class="btn btn-brand-turquoise w-100 text-brand-light-gray">Поиск</button>
                 </form>
               </div>
             </div>
             
             <div class="featured-section py-4">
               <div class="container">
-                <h2 class="section-title">Рекомендуемые объекты</h2>
+                <h2 class="section-title text-brand-dark-navy">Рекомендуемые объекты</h2>
                 
                 <!-- Test Modal Trigger Button -->
                 <button type="button" class="btn btn-secondary mb-3 js-test-modal-trigger">
