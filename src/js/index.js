@@ -16,8 +16,14 @@ import { initSubscriptionsPage } from "./subscriptions";
 import { initFavoritesPage } from "./favorites";
 import { initFavoriteButtons } from "./components/favorite-button";
 import { initPropertyCardExample } from "./components/property-card-example";
+
+import { initCollectionsPage } from "./collections";
+import { initCollectionsCreatePage } from "./collections-create";
+import { initCollectionsEditPage } from "./collections-edit";
+// import { initCollectionButtons } from "./components/collection-button";
+
 // Initialize components when DOM is ready
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
   // Initialize home page
   if (document.querySelector(".home-page")) {
     initHomePage();
@@ -51,6 +57,21 @@ $(document).ready(function () {
   // Initialize property card example
   initPropertyCardExample();
 
-  // Additional initialization code here
+  // Initialize collections pages
+  if (document.querySelector(".collections-page")) {
+    initCollectionsPage();
+  }
+
+  if (document.querySelector(".collections-create-page")) {
+    initCollectionsCreatePage();
+  }
+
+  if (document.querySelector(".collections-edit-page")) {
+    initCollectionsEditPage();
+  }
+
+  // Initialize collection buttons globally
+  // initCollectionButtons();
+
   console.log("Styles should be loaded!");
 });

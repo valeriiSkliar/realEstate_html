@@ -85,6 +85,19 @@ module.exports = {
       template: "./src/pages/previews/favorites-page-preview.html",
       filename: "favorites.html",
     }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/collections-page-preview.html",
+      filename: "collections.html",
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/collections-create-page-preview.html",
+      filename: "collections-create.html",
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/collections-edit-page-preview.html",
+      filename: "collections-edit.html",
+    }),
+
     new MiniCssExtractPlugin({
       filename: "css/[name].[contenthash].css",
     }),
