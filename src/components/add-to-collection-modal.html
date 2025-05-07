@@ -1,0 +1,37 @@
+<!-- Add to Collection Modal -->
+<div class="modal fade" id="addToCollectionModal" tabindex="-1" aria-labelledby="addToCollectionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addToCollectionModalLabel">Add to Collection</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Hidden input to store property ID -->
+        <input type="hidden" id="collectionPropertyId">
+        
+        <!-- Collections list -->
+        <div class="collections-container">
+          <h6>Select a collection:</h6>
+          <div class="collections-list">
+            <!-- Collection options will be populated dynamically -->
+          </div>
+        </div>
+        
+        <!-- No collections message -->
+        <div class="no-collections-message" style="display: none;">
+          <i class="bi bi-collection"></i>
+          <p>You don't have any collections yet. Create a new collection to add this property.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-brand-turquoise text-brand-light-gray js-create-collection">
+          <i class="bi bi-plus-lg"></i> Create New Collection
+        </button>
+        <button type="button" class="btn btn-brand-lime-green text-brand-dark-navy js-add-to-collection">
+          Add to Collection
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real Estate - My Collections</title>
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Google Fonts - Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header Component -->
+    <header class="header">
+      <div class="header__logo">
+        <a href="/">
+          <img src="/images/logo.svg" alt="Real Estate" />
+        </a>
+      </div>
+      <div class="header__actions">
+        <a
+          href="/support.html"
+          class="header__action-btn"
+          aria-label="Messages"
+        >
+          <i class="bi bi-chat text-brand-turquoise"> </i>
+        </a>
+        <a
+          href="/collections.html"
+          class="header__action-btn"
+          aria-label="Collections"
+        >
+          <i class="bi bi-collection text-brand-turquoise"></i>
+        </a>
+        <a
+          href="/favorites.html"
+          class="header__action-btn"
+          aria-label="Favorites"
+        >
+          <i class="bi bi-heart text-brand-turquoise"></i>
+        </a>
+        <a href="/search.html" class="header__action-btn" aria-label="Search">
+          <i class="bi bi-search text-brand-turquoise"></i>
+        </a>
+        <button class="header__action-btn js-menu-trigger" aria-label="Menu">
+          <i class="bi bi-list text-brand-dark-navy"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu">
+      <div class="mobile-menu__header">
+        <button
+          class="mobile-menu__close js-menu-close"
+          aria-label="Close menu"
+        >
+          <i class="bi bi-x-lg text-brand-dark-navy"></i>
+        </button>
+        <div class="header__logo">
+          <img src="/images/logo.svg" alt="Real Estate" />
+        </div>
+      </div>
+      <ul class="mobile-menu__list">
+        <li class="mobile-menu__item">
+          <a href="/" class="mobile-menu__link">
+            <i class="bi bi-house text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Home</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/search" class="mobile-menu__link">
+            <i class="bi bi-search text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Search Properties</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/my-listings" class="mobile-menu__link">
+            <i class="bi bi-building text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">My Listings</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/collections.html" class="mobile-menu__link">
+            <i class="bi bi-collection text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">My Collections</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/favorites.html" class="mobile-menu__link">
+            <i class="bi bi-heart text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Favorites</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/profile.html" class="mobile-menu__link">
+            <i class="bi bi-person text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Profile</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/support.html" class="mobile-menu__link">
+            <i class="bi bi-question-circle text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Support</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Overlay for mobile menu -->
+    <div class="overlay js-overlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="page-content">
+      <div id="app">
+
+        <div class="collections-create-page">
+          <div class="container">
+            <div class="page-header">
+              <h1 class="page-title">Create Collection</h1>
+              <a href="/collections.html" class="btn btn-outline-brand-turquoise">
+                <i class="bi bi-arrow-left"></i> Back to Collections
+              </a>
+            </div>
+        
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+              <div class="step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-label">Client Info</div>
+              </div>
+              <div class="step-divider"></div>
+              <div class="step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-label">Search Parameters</div>
+              </div>
+              <div class="step-divider"></div>
+              <div class="step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-label">Select Properties</div>
+              </div>
+            </div>
+        
+            <!-- Step 1: Client Information Form -->
+            <div class="step-content active" id="step1">
+              <div class="card">
+                <div class="card-body">
+                  <h2 class="card-title">Client Information</h2>
+                  <form id="clientInfoForm">
+                    <div class="mb-3">
+                      <label for="collectionName" class="form-label">Collection Name*</label>
+                      <input type="text" class="form-control" id="collectionName" required>
+                      <div class="form-text">Give this collection a name you'll recognize later</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label for="clientName" class="form-label">Client Name*</label>
+                      <input type="text" class="form-control" id="clientName" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label for="clientEmail" class="form-label">Client Email</label>
+                      <input type="email" class="form-control" id="clientEmail">
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label for="clientPhone" class="form-label">Client Phone</label>
+                      <input type="tel" class="form-control" id="clientPhone">
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label for="collectionNotes" class="form-label">Notes</label>
+                      <textarea class="form-control" id="collectionNotes" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                      <button type="button" class="btn btn-brand-turquoise text-brand-light-gray js-next-step" data-next="2">
+                        Next <i class="bi bi-arrow-right"></i>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+        
+            <!-- Step 2: Search Parameters Form -->
+            <div class="step-content" id="step2">
+              <div class="card">
+                <div class="card-body">
+                  <h2 class="card-title">Search Parameters</h2>
+                  <form id="searchParamsForm">
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="propertyType" class="form-label">Property Type</label>
+                        <select class="form-select" id="propertyType">
+                          <option value="">Any</option>
+                          <option value="apartment">Apartment</option>
+                          <option value="house">House</option>
+                          <option value="commercial">Commercial</option>
+                          <option value="land">Land</option>
+                        </select>
+                      </div>
+                      
+                      <div class="col-md-6 mb-3">
+                        <label for="dealType" class="form-label">Deal Type</label>
+                        <select class="form-select" id="dealType">
+                          <option value="">Any</option>
+                          <option value="sale">For Sale</option>
+                          <option value="rent">For Rent</option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" placeholder="City, district, area...">
+                      </div>
+                      
+                      <div class="col-md-6 mb-3">
+                        <label for="propertySize" class="form-label">Property Size (m²)</label>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="propertySizeMin" placeholder="Min">
+                          <span class="input-group-text">-</span>
+                          <input type="number" class="form-control" id="propertySizeMax" placeholder="Max">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="priceRange" class="form-label">Price Range</label>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="priceMin" placeholder="Min">
+                          <span class="input-group-text">-</span>
+                          <input type="number" class="form-control" id="priceMax" placeholder="Max">
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-6 mb-3">
+                        <label for="rooms" class="form-label">Bedrooms</label>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="roomsMin" placeholder="Min">
+                          <span class="input-group-text">-</span>
+                          <input type="number" class="form-control" id="roomsMax" placeholder="Max">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                      <button type="button" class="btn btn-outline-brand-turquoise js-prev-step" data-prev="1">
+                        <i class="bi bi-arrow-left"></i> Back
+                      </button>
+                      <button type="button" class="btn btn-brand-turquoise text-brand-light-gray js-search-properties">
+                        Search Properties
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+        
+            <!-- Step 3: Select Properties -->
+            <div class="step-content" id="step3">
+              <div class="card">
+                <div class="card-body">
+                  <h2 class="card-title">Select Properties</h2>
+                  
+                  <!-- Controls for property selection -->
+                  <div class="selection-controls mb-4">
+                    <div class="selection-status">
+                      <span class="selected-count">0</span> properties selected
+                    </div>
+                    <div class="selection-actions">
+                      <button type="button" class="btn btn-outline-brand-turquoise js-select-all">
+                        <i class="bi bi-check-all"></i> Select All
+                      </button>
+                      <button type="button" class="btn btn-outline-brand-turquoise js-clear-selection">
+                        <i class="bi bi-x-lg"></i> Clear Selection
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <!-- Search Results / Property Selection List -->
+                  <div class="property-results js-property-results">
+                    <!-- Loading indicator -->
+                    <div class="property-results-loading">
+                      <div class="spinner-border text-brand-turquoise" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                      <p>Searching for properties...</p>
+                    </div>
+                    
+                    <!-- Results container -->
+                    <div class="row g-3 js-results-container" style="display: none;">
+                      <!-- Property cards will be populated here dynamically -->
+                    </div>
+                    
+                    <!-- No results message -->
+                    <div class="no-results-message js-no-results" style="display: none;">
+                      <i class="bi bi-search"></i>
+                      <p>No properties found matching your criteria. Try adjusting your search parameters.</p>
+                      <button type="button" class="btn btn-outline-brand-turquoise js-prev-step" data-prev="2">
+                        <i class="bi bi-arrow-left"></i> Back to Search
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div class="form-actions mt-4">
+                    <button type="button" class="btn btn-outline-brand-turquoise js-prev-step" data-prev="2">
+                      <i class="bi bi-arrow-left"></i> Back
+                    </button>
+                    <button type="button" class="btn btn-brand-turquoise text-brand-light-gray js-save-collection">
+                      <i class="bi bi-save"></i> Save Collection
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Success Modal -->
+          <div class="modal fade" id="collectionSuccessModal" tabindex="-1" aria-labelledby="collectionSuccessModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="collectionSuccessModalLabel">Collection Created</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="text-center mb-3">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+                  </div>
+                  <p class="text-center">Your collection has been created successfully!</p>
+                </div>
+                <div class="modal-footer">
+                  <a href="/collections.html" class="btn btn-secondary">Go to Collections</a>
+                  <a href="" class="btn btn-brand-turquoise text-brand-light-gray js-view-collection">View Collection</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+
+      </div>
+    </main>
+
+    <!-- Footer Component -->
+    <footer class="footer">
+      <div class="footer__container">
+        <nav class="footer__nav">
+          <a href="/about" class="footer__link text-brand-turquoise"
+            >About Us</a
+          >
+          <a href="/terms" class="footer__link text-brand-turquoise"
+            >Terms of Use</a
+          >
+          <a href="/privacy" class="footer__link text-brand-turquoise"
+            >Privacy Policy</a
+          >
+          <a href="/contact" class="footer__link text-brand-turquoise"
+            >Contact</a
+          >
+        </nav>
+        <div class="footer__copyright text-brand-dark-navy">
+          &copy; <span class="js-current-year">2025</span> Real Estate. All
+          rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <!-- Add to Collection Modal -->
+    <div
+      class="modal fade"
+      id="addToCollectionModal"
+      tabindex="-1"
+      aria-labelledby="addToCollectionModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addToCollectionModalLabel">
+              Add to Collection
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!-- Hidden input to store property ID -->
+            <input type="hidden" id="collectionPropertyId" />
+
+            <!-- Collections list -->
+            <div class="collections-container">
+              <h6>Select a collection:</h6>
+              <div class="collections-list">
+                <div class="form-check collection-option">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="collectionId"
+                    id="collection-coll_1"
+                    value="coll_1"
+                  />
+                  <label class="form-check-label" for="collection-coll_1">
+                    Modern Apartments Collection
+                  </label>
+                </div>
+                <div class="form-check collection-option">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="collectionId"
+                    id="collection-coll_2"
+                    value="coll_2"
+                  />
+                  <label class="form-check-label" for="collection-coll_2">
+                    Suburban Family Homes
+                  </label>
+                </div>
+                <div class="form-check collection-option">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="collectionId"
+                    id="collection-coll_3"
+                    value="coll_3"
+                  />
+                  <label class="form-check-label" for="collection-coll_3">
+                    City Center Commercial Spaces
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-brand-turquoise text-brand-light-gray js-create-collection"
+            >
+              <i class="bi bi-plus-lg"></i> Create New Collection
+            </button>
+            <button
+              type="button"
+              class="btn btn-brand-lime-green text-brand-dark-navy js-add-to-collection"
+            >
+              Add to Collection
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

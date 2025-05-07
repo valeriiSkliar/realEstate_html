@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real Estate - My Collections</title>
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Google Fonts - Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header Component -->
+    <header class="header">
+      <div class="header__logo">
+        <a href="/">
+          <img src="/images/logo.svg" alt="Real Estate" />
+        </a>
+      </div>
+      <div class="header__actions">
+        <a
+          href="/support.html"
+          class="header__action-btn"
+          aria-label="Messages"
+        >
+          <i class="bi bi-chat text-brand-turquoise"> </i>
+        </a>
+        <a
+          href="/collections.html"
+          class="header__action-btn"
+          aria-label="Collections"
+        >
+          <i class="bi bi-collection text-brand-turquoise"></i>
+        </a>
+        <a
+          href="/favorites.html"
+          class="header__action-btn"
+          aria-label="Favorites"
+        >
+          <i class="bi bi-heart text-brand-turquoise"></i>
+        </a>
+        <a href="/search.html" class="header__action-btn" aria-label="Search">
+          <i class="bi bi-search text-brand-turquoise"></i>
+        </a>
+        <button class="header__action-btn js-menu-trigger" aria-label="Menu">
+          <i class="bi bi-list text-brand-dark-navy"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu">
+      <div class="mobile-menu__header">
+        <button
+          class="mobile-menu__close js-menu-close"
+          aria-label="Close menu"
+        >
+          <i class="bi bi-x-lg text-brand-dark-navy"></i>
+        </button>
+        <div class="header__logo">
+          <img src="/images/logo.svg" alt="Real Estate" />
+        </div>
+      </div>
+      <ul class="mobile-menu__list">
+        <li class="mobile-menu__item">
+          <a href="/" class="mobile-menu__link">
+            <i class="bi bi-house text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Home</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/search" class="mobile-menu__link">
+            <i class="bi bi-search text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Search Properties</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/my-listings" class="mobile-menu__link">
+            <i class="bi bi-building text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">My Listings</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/collections.html" class="mobile-menu__link">
+            <i class="bi bi-collection text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">My Collections</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/favorites.html" class="mobile-menu__link">
+            <i class="bi bi-heart text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Favorites</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/profile.html" class="mobile-menu__link">
+            <i class="bi bi-person text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Profile</span>
+          </a>
+        </li>
+        <li class="mobile-menu__item">
+          <a href="/support.html" class="mobile-menu__link">
+            <i class="bi bi-question-circle text-brand-turquoise"></i>
+            <span class="text-brand-dark-navy">Support</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Overlay for mobile menu -->
+    <div class="overlay js-overlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="page-content">
+      <div id="app">
+        <div class="collections-page">
+          <div class="container">
+            <h1 class="collections-title">My Collections</h1>
+            <p class="collections-description">Organize properties for your clients</p>
+            
+            <!-- Controls panel -->
+            <div class="collections-controls js-collections-controls">
+              <a href="/collections-create.html" class="btn btn-brand-turquoise text-brand-light-gray">
+                <i class="bi bi-plus-lg"></i> Create Collection
+              </a>
+              <div class="form-group search-box">
+                <input type="text" class="form-control js-collection-search" placeholder="Search collections...">
+                <i class="bi bi-search search-icon"></i>
+              </div>
+            </div>
+            
+            <!-- Collections list -->
+            <div class="collections-list js-collections-list">
+              <!-- Collection Item 1 -->
+              <div class="collection-item" data-collection-id="coll_1">
+                <div class="collection-item__main">
+                  <h3 class="collection-item__name">Modern Apartments Collection</h3>
+                  <div class="collection-item__info">
+                    <div class="collection-item__client">
+                      <i class="bi bi-person"></i> John Smith
+                    </div>
+                    <div class="collection-item__count">
+                      <i class="bi bi-building"></i> 5 properties
+                    </div>
+                    <div class="collection-item__date">
+                      <i class="bi bi-calendar"></i> Updated May 2, 2025
+                    </div>
+                  </div>
+                </div>
+                <div class="collection-item__actions">
+                  <a href="/collections-edit.html?id=coll_1" class="btn btn-sm btn-outline-brand-turquoise">
+                    <i class="bi bi-pencil"></i> Edit
+                  </a>
+                  <button class="btn btn-sm btn-outline-brand-bright-pink js-delete-collection" data-collection-id="coll_1">
+                    <i class="bi bi-trash"></i> Delete
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Collection Item 2 -->
+              <div class="collection-item" data-collection-id="coll_2">
+                <div class="collection-item__main">
+                  <h3 class="collection-item__name">Suburban Family Homes</h3>
+                  <div class="collection-item__info">
+                    <div class="collection-item__client">
+                      <i class="bi bi-person"></i> Sarah Johnson
+                    </div>
+                    <div class="collection-item__count">
+                      <i class="bi bi-building"></i> 3 properties
+                    </div>
+                    <div class="collection-item__date">
+                      <i class="bi bi-calendar"></i> Updated May 1, 2025
+                    </div>
+                  </div>
+                </div>
+                <div class="collection-item__actions">
+                  <a href="/collections-edit.html?id=coll_2" class="btn btn-sm btn-outline-brand-turquoise">
+                    <i class="bi bi-pencil"></i> Edit
+                  </a>
+                  <button class="btn btn-sm btn-outline-brand-bright-pink js-delete-collection" data-collection-id="coll_2">
+                    <i class="bi bi-trash"></i> Delete
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Collection Item 3 -->
+              <div class="collection-item" data-collection-id="coll_3">
+                <div class="collection-item__main">
+                  <h3 class="collection-item__name">City Center Commercial Spaces</h3>
+                  <div class="collection-item__info">
+                    <div class="collection-item__client">
+                      <i class="bi bi-person"></i> Michael Brown
+                    </div>
+                    <div class="collection-item__count">
+                      <i class="bi bi-building"></i> 7 properties
+                    </div>
+                    <div class="collection-item__date">
+                      <i class="bi bi-calendar"></i> Updated April 28, 2025
+                    </div>
+                  </div>
+                </div>
+                <div class="collection-item__actions">
+                  <a href="/collections-edit.html?id=coll_3" class="btn btn-sm btn-outline-brand-turquoise">
+                    <i class="bi bi-pencil"></i> Edit
+                  </a>
+                  <button class="btn btn-sm btn-outline-brand-bright-pink js-delete-collection" data-collection-id="coll_3">
+                    <i class="bi bi-trash"></i> Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Delete Collection Confirmation Modal -->
+          <div class="modal fade" id="deleteCollectionModal" tabindex="-1" aria-labelledby="deleteCollectionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteCollectionModalLabel">Delete Collection</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to delete this collection? This action cannot be undone.</p>
+                  <input type="hidden" id="deleteCollectionId">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-danger js-confirm-delete">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer Component -->
+    <footer class="footer">
+      <div class="footer__container">
+        <nav class="footer__nav">
+          <a href="/about" class="footer__link text-brand-turquoise"
+            >About Us</a
+          >
+          <a href="/terms" class="footer__link text-brand-turquoise"
+            >Terms of Use</a
+          >
+          <a href="/privacy" class="footer__link text-brand-turquoise"
+            >Privacy Policy</a
+          >
+          <a href="/contact" class="footer__link text-brand-turquoise"
+            >Contact</a
+          >
+        </nav>
+        <div class="footer__copyright text-brand-dark-navy">
+          &copy; <span class="js-current-year">2025</span> Real Estate. All
+          rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+    
+    <!-- Add to Collection Modal -->
+    <div class="modal fade" id="addToCollectionModal" tabindex="-1" aria-labelledby="addToCollectionModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addToCollectionModalLabel">Add to Collection</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Hidden input to store property ID -->
+            <input type="hidden" id="collectionPropertyId">
+            
+            <!-- Collections list -->
+            <div class="collections-container">
+              <h6>Select a collection:</h6>
+              <div class="collections-list">
+                <div class="form-check collection-option">
+                  <input class="form-check-input" type="radio" name="collectionId" id="collection-coll_1" value="coll_1">
+                  <label class="form-check-label" for="collection-coll_1">
+                    Modern Apartments Collection
+                  </label>
+                </div>
+                <div class="form-check collection-option">
+                  <input class="form-check-input" type="radio" name="collectionId" id="collection-coll_2" value="coll_2">
+                  <label class="form-check-label" for="collection-coll_2">
+                    Suburban Family Homes
+                  </label>
+                </div>
+                <div class="form-check collection-option">
+                  <input class="form-check-input" type="radio" name="collectionId" id="collection-coll_3" value="coll_3">
+                  <label class="form-check-label" for="collection-coll_3">
+                    City Center Commercial Spaces
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-brand-turquoise text-brand-light-gray js-create-collection">
+              <i class="bi bi-plus-lg"></i> Create New Collection
+            </button>
+            <button type="button" class="btn btn-brand-lime-green text-brand-dark-navy js-add-to-collection">
+              Add to Collection
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
