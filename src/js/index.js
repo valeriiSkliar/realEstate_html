@@ -8,6 +8,17 @@ import { format } from "date-fns";
 // Import the styles - make sure this line is not commented out
 import "../scss/main.scss";
 
+// Import custom elements for previews
+import {
+  AppHeader,
+  AppMobileMenu,
+  AppFooter,
+} from "./custom_elements_for_preview";
+// Register custom elements for previews
+customElements.define("app-header", AppHeader);
+customElements.define("app-mobile-menu", AppMobileMenu);
+customElements.define("app-footer", AppFooter);
+
 import { initMobileMenu, setCurrentYear } from "./menu";
 import { initProfilePage } from "./profile";
 import { initHomePage } from "./home";

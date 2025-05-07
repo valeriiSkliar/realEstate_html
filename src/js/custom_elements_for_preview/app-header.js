@@ -1,0 +1,95 @@
+export class AppHeader extends HTMLElement {
+  connectedCallback() {
+    this.innerHTML = `
+        <!-- Header Component -->
+<header class="header">
+  <div class="header__logo">
+    <a href="/">
+      <img src="/images/logo.svg" alt="Real Estate" />
+    </a>
+  </div>
+  <div class="header__actions">
+    <a href="/support.html" class="header__action-btn" aria-label="Messages">
+      <i class="bi bi-chat text-brand-turquoise"> </i>
+    </a>
+            <a
+          href="/collections.html"
+          class="header__action-btn"
+          aria-label="Collections"
+        >
+          <i class="bi bi-collection text-brand-turquoise"></i>
+        </a>
+    <a href="/favorites.html" class="header__action-btn" aria-label="Favorites">
+      <i class="bi bi-heart text-brand-turquoise"></i>
+    </a>
+    <a href="/search.html" class="header__action-btn" aria-label="Search">
+      <i class="bi bi-search text-brand-turquoise"></i>
+    </a>
+    <button class="header__action-btn js-menu-trigger" aria-label="Menu">
+      <i class="bi bi-list text-brand-dark-navy"></i>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile Menu -->
+<nav class="mobile-menu">
+  <div class="mobile-menu__header">
+    <button class="mobile-menu__close js-menu-close" aria-label="Close menu">
+      <i class="bi bi-x-lg text-brand-dark-navy"></i>
+    </button>
+    <div class="header__logo">
+      <img src="/images/logo.svg" alt="Real Estate" />
+    </div>
+  </div>
+  <ul class="mobile-menu__list">
+    <li class="mobile-menu__item">
+      <a href="/" class="mobile-menu__link">
+        <i class="bi bi-house text-brand-turquoise"></i>
+        <span class="text-brand-dark-navy">Home</span>
+      </a>
+    </li>
+    <li class="mobile-menu__item">
+      <a href="/search" class="mobile-menu__link">
+        <i class="bi bi-search text-brand-turquoise"></i>
+        <span class="text-brand-dark-navy">Search Properties</span>
+      </a>
+    </li>
+    <li class="mobile-menu__item">
+      <a href="/my-listings" class="mobile-menu__link">
+        <i class="bi bi-building text-brand-turquoise"></i>
+        <span class="text-brand-dark-navy">My Listings</span>
+      </a>
+    </li>
+    <li class="mobile-menu__item">
+      <a href="/collections.html" class="mobile-menu__link">
+        <i class="bi bi-collection text-brand-turquoise"></i>
+        <span class="text-brand-dark-navy">My Collections</span>
+      </a>
+    </li>
+    <li class="mobile-menu__item">
+      <a href="/favorites.html" class="mobile-menu__link">
+        <i class="bi bi-heart text-brand-turquoise"></i>
+        <span class="text-brand-dark-navy">Favorites</span>
+      </a>
+    </li>
+    <li class="mobile-menu__item">
+      <a href="/profile.html" class="mobile-menu__link">
+        <i class="bi bi-person text-brand-turquoise"></i>
+        <span class="text-brand-dark-navy">Profile</span>
+      </a>
+    </li>
+    <li class="mobile-menu__item">
+      <a href="/support.html" class="mobile-menu__link">
+        <i class="bi bi-question-circle text-brand-turquoise"></i>
+        <span class="text-brand-dark-navy">Support</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- Overlay for mobile menu -->
+<div class="overlay js-overlay"></div>
+
+      `;
+  }
+}
