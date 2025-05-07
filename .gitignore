@@ -11,3 +11,5 @@ public/
 .env.production
 
 CLAUDY.md
+# Local Netlify folder
+.netlify
