@@ -1,0 +1,164 @@
+  // Filter styles
+.sidebar-filters {
+  padding: 0 1rem;
+  
+  .sidebar-filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  // Tab groups
+  .tab-group {
+    display: flex;
+    width: 100%;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    
+    .tab-item {
+      flex: 1;
+      position: relative;
+      
+      .tab-input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        
+        &:checked + .tab-label {
+          background-color: $primary-color;
+          color: white;
+        }
+      }
+      
+      .tab-label {
+        display: block;
+        text-align: center;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        font-size: 0.9rem;
+        
+        &:hover {
+          background-color: rgba($primary-color, 0.1);
+        }
+      }
+      
+      &:not(:last-child) {
+        border-right: 1px solid #dee2e6;
+      }
+    }
+  }
+  
+  .deal-type-tabs, .rent-period-tabs {
+    margin-bottom: 1rem;
+  }
+  
+  // Dropdown
+  .form-group {
+    position: relative;
+    margin-bottom: 1rem;
+    
+    .form-control {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+      appearance: none;
+      -webkit-appearance: none;
+      font-size: 0.9rem;
+    }
+    
+    .dropdown-icon {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+      pointer-events: none;
+    }
+  }
+  
+  // Filter sections
+  .filter-section {
+    margin-bottom: 1.5rem;
+    
+    .filter-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+    
+    .price-range, .area-range {
+      display: flex;
+      gap: 1rem;
+      
+      .price-input, .area-input {
+        flex: 1;
+        position: relative;
+        
+        .form-control {
+          width: 100%;
+          padding: 0.5rem 1rem;
+          padding-right: 2rem;
+          border: 1px solid #dee2e6;
+          border-radius: 0.25rem;
+          font-size: 0.9rem;
+          
+          &::placeholder {
+            color: #6c757d;
+          }
+        }
+        
+        .currency-symbol, .area-symbol {
+          position: absolute;
+          right: 0.75rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #6c757d;
+        }
+      }
+    }
+    
+    .location-option {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #f0f0f0;
+      
+      .location-icon {
+        color: #6c757d;
+        margin-right: 0.75rem;
+        width: 1rem;
+        text-align: center;
+      }
+      
+      .location-text {
+        flex: 1;
+        font-size: 0.9rem;
+      }
+      
+      .arrow-icon {
+        color: #6c757d;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+  
+  // Search button
+  .search-button-container {
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    
+    .btn-search {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      font-weight: 500;
+      background-color: $primary-color;
+      border: none;
+      border-radius: 0.25rem;
+    }
+  }
+}
