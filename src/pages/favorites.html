@@ -1,106 +1,106 @@
 <div class="favorites-page">
+  <div
+    class="welcome-section py-4 rounded-4 bg-brand-light-gray text-brand-dark-navy border border-brand-light-gray"
+  >
     <div class="container">
-      <h1 class="favorites-title">Your Favorites</h1>
-      <p class="favorites-description">Properties you've saved to review later</p>
-      
-      <!-- Empty state (shown when no favorites exist) -->
-      <div class="favorites-empty-state js-empty-favorites" style="display: none;">
-        <div class="empty-state-icon">
-          <i class="bi bi-heart"></i>
-        </div>
-        <h3 class="empty-state-title">No favorites yet</h3>
-        <p class="empty-state-description">Properties you add to favorites will appear here</p>
-        <a href="/" class="btn btn-primary">Browse Properties</a>
+      <h1 class="welcome-section__title text-center">Избранное</h1>
+      <p class="welcome-section__subtitle text-center">
+        Объекты недвижимости, которые вы сохранили для просмотра позже
+      </p>
+    </div>
+  </div>
+
+  <div class="container py-4">
+    <!-- Empty state (shown when no favorites exist) -->
+    <div class="favorites-empty-state js-empty-favorites" style="display: none">
+      <div class="empty-state-icon">
+        <i class="bi bi-heart"></i>
       </div>
-      
-      <!-- Favorites list -->
-      <div class="favorites-list js-favorites-list">
-        <div class="row g-3">
-          <!-- Favorite Property Card 1 -->
-          <div class="col-md-6 col-lg-4" data-property-id="prop123">
-            <div class="card property-card">
-              <div class="property-card__favorite-btn js-remove-favorite" data-property-id="prop123">
-                <i class="bi bi-x-lg"></i>
-              </div>
-              <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
-              <div class="card-body">
-                <h5 class="card-title">Modern Apartment</h5>
-                <p class="card-text text-muted">City Center</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <span class="property-price">$120,000</span>
-                  <div class="property-stats">
-                    <span class="me-2"><i class="bi bi-rulers"></i> 85m²</span>
-                    <span><i class="bi bi-door-open"></i> 2</span>
-                  </div>
-                </div>
-                <a href="/property/prop123" class="stretched-link"></a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Favorite Property Card 2 -->
-          <div class="col-md-6 col-lg-4" data-property-id="prop456">
-            <div class="card property-card">
-              <div class="property-card__favorite-btn js-remove-favorite" data-property-id="prop456">
-                <i class="bi bi-x-lg"></i>
-              </div>
-              <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
-              <div class="card-body">
-                <h5 class="card-title">Family House with Garden</h5>
-                <p class="card-text text-muted">Suburban Area</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <span class="property-price">$250,000</span>
-                  <div class="property-stats">
-                    <span class="me-2"><i class="bi bi-rulers"></i> 180m²</span>
-                    <span><i class="bi bi-door-open"></i> 4</span>
-                  </div>
-                </div>
-                <a href="/property/prop456" class="stretched-link"></a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Favorite Property Card 3 -->
-          <div class="col-md-6 col-lg-4" data-property-id="prop789">
-            <div class="card property-card">
-              <div class="property-card__favorite-btn js-remove-favorite" data-property-id="prop789">
-                <i class="bi bi-x-lg"></i>
-              </div>
-              <img src="/images/place-holder.jpg" class="card-img-top" alt="Property">
-              <div class="card-body">
-                <h5 class="card-title">Studio Apartment</h5>
-                <p class="card-text text-muted">North District</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <span class="property-price">$90,000</span>
-                  <div class="property-stats">
-                    <span class="me-2"><i class="bi bi-rulers"></i> 45m²</span>
-                    <span><i class="bi bi-door-open"></i> 1</span>
-                  </div>
-                </div>
-                <a href="/property/prop789" class="stretched-link"></a>
-              </div>
-            </div>
-          </div>
-        </div>
+      <h3 class="empty-state-title">Нет избранных объектов</h3>
+      <p class="empty-state-description">
+        Объекты недвижимости, которые вы добавите в избранное, появятся здесь
+      </p>
+      <a href="/" class="btn btn-brand-turquoise text-brand-light-gray"
+        >Посмотреть объекты</a
+      >
+    </div>
+
+    <!-- Favorites list -->
+    <div class="favorites-list js-favorites-list">
+      <div class="row g-3">
+        <!-- Favorite Property Card 1 -->
+        <app-favorite-property
+          property-id="prop123"
+          title="Современная квартира"
+          location="Центр города"
+          price="6 500 000"
+          area="85"
+          rooms="2"
+          image="/images/place-holder.jpg"
+        ></app-favorite-property>
+
+        <!-- Favorite Property Card 2 -->
+        <app-favorite-property
+          property-id="prop456"
+          title="Семейный дом с садом"
+          location="Пригородный район"
+          price="12 300 000"
+          area="180"
+          rooms="4"
+          image="/images/place-holder.jpg"
+        ></app-favorite-property>
+
+        <!-- Favorite Property Card 3 -->
+        <app-favorite-property
+          property-id="prop789"
+          title="Квартира-студия"
+          location="Северный район"
+          price="4 200 000"
+          area="45"
+          rooms="1"
+          image="/images/place-holder.jpg"
+        ></app-favorite-property>
       </div>
     </div>
-    
-    <!-- Confirmation Modal -->
-    <div class="modal fade" id="removeFavoriteModal" tabindex="-1" aria-labelledby="removeFavoriteModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="removeFavoriteModalLabel">Remove from Favorites</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p>Are you sure you want to remove this property from your favorites?</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-danger js-confirm-remove">Remove</button>
-          </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div
+    class="modal fade"
+    id="removeFavoriteModal"
+    tabindex="-1"
+    aria-labelledby="removeFavoriteModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="removeFavoriteModalLabel">
+            Удалить из избранного
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Закрыть"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Вы уверены, что хотите удалить этот объект из избранного?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Отмена
+          </button>
+          <button type="button" class="btn btn-danger js-confirm-remove">
+            Удалить
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>

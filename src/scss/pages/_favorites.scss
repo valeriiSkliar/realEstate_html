@@ -2,20 +2,20 @@
   padding: 20px 0;
   background-color: #f5f5f5;
   min-height: calc(100vh - 60px - 100px); // Adjust for header and footer
-  
+
   .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 15px;
   }
-  
+
   .favorites-title {
     font-size: 1.8rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
     color: $primary;
   }
-  
+
   .favorites-description {
     color: #666;
     margin-bottom: 1.5rem;
@@ -29,19 +29,19 @@
     margin-bottom: 20px;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
+
     &:hover {
       transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
     }
-    
+
     .card-img-top {
       height: 200px;
       object-fit: cover;
     }
-    
+
     .card-title {
       font-size: 1.2rem;
       font-weight: 600;
@@ -50,18 +50,18 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
+
     .property-price {
       font-weight: 700;
       font-size: 1.25rem;
-      color: $primary;
+      color: $turquoise;
     }
-    
+
     .property-stats {
       color: #666;
       font-size: 0.9rem;
     }
-    
+
     // Favorite button (remove button on favorites page)
     &__favorite-btn {
       position: absolute;
@@ -77,18 +77,18 @@
       cursor: pointer;
       z-index: 10;
       transition: all 0.2s ease;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
       &:hover {
         background-color: #dc3545;
         color: white;
       }
-      
+
       i {
         font-size: 16px;
         color: #333;
       }
-      
+
       &:hover i {
         color: white;
       }
@@ -105,22 +105,22 @@
   padding: 50px 20px;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   text-align: center;
-  
+
   .empty-state-icon {
     font-size: 4rem;
     color: #dee2e6;
     margin-bottom: 20px;
   }
-  
+
   .empty-state-title {
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 10px;
     color: #333;
   }
-  
+
   .empty-state-description {
     color: #666;
     margin-bottom: 20px;
@@ -143,20 +143,20 @@
   cursor: pointer;
   z-index: 10;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
   &:hover {
     transform: scale(1.1);
   }
-  
+
   i {
     font-size: 16px;
     color: #777;
   }
-  
+
   &.is-active {
     background-color: #dc3545;
-    
+
     i {
       color: white;
     }

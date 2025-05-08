@@ -13,11 +13,17 @@ import {
   AppHeader,
   AppMobileMenu,
   AppFooter,
+  AppFavoriteProperty,
+  AppConfirmModal,
+  AppEmptyState,
 } from "./custom_elements_for_preview";
 // Register custom elements for previews
 customElements.define("app-header", AppHeader);
 customElements.define("app-mobile-menu", AppMobileMenu);
 customElements.define("app-footer", AppFooter);
+customElements.define("app-favorite-property", AppFavoriteProperty);
+customElements.define("app-confirm-modal", AppConfirmModal);
+customElements.define("app-empty-state", AppEmptyState);
 
 import { initMobileMenu, setCurrentYear } from "./menu";
 import { initProfilePage } from "./profile";

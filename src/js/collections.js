@@ -31,11 +31,14 @@ const updateCollectionsView = () => {
     ".js-collections-controls"
   );
   const collectionsList = document.querySelector(".js-collections-list");
-
+  if (collectionsList) {
+    collectionsList.style.display = "block";
+    renderCollections(collections);
+  }
   // Show empty state if no collections
   if (!collections || collections.length === 0) {
     if (emptyState) emptyState.style.display = "flex";
-    if (collectionsControls) collectionsControls.style.display = "none";
+    // if (collectionsControls) collectionsControls.style.display = "none";
     if (collectionsList) collectionsList.style.display = "none";
   } else {
     if (emptyState) emptyState.style.display = "none";

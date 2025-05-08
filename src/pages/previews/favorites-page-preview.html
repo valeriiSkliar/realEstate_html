@@ -28,13 +28,19 @@
     <main class="page-content">
       <div id="app">
         <div class="favorites-page">
-          <div class="container">
-            <h1 class="favorites-title">Избранное</h1>
-            <p class="favorites-description">
-              Объекты недвижимости, которые вы сохранили для просмотра позже
-            </p>
+          <div
+            class="welcome-section py-4 rounded-4 bg-brand-light-gray text-brand-dark-navy border border-brand-light-gray"
+          >
+            <div class="container">
+              <h1 class="welcome-section__title text-center">Избранное</h1>
+              <p class="welcome-section__subtitle text-center">
+                Объекты недвижимости, которые вы сохранили для просмотра позже
+              </p>
+            </div>
+          </div>
 
-            <!-- Empty state (show when needed) -->
+          <div class="container py-4">
+            <!-- Empty state (shown when no favorites exist) -->
             <div
               class="favorites-empty-state js-empty-favorites"
               style="display: none"
@@ -47,7 +53,9 @@
                 Объекты недвижимости, которые вы добавите в избранное, появятся
                 здесь
               </p>
-              <a href="/" class="btn btn-primary">Посмотреть объекты</a>
+              <a href="/" class="btn btn-brand-turquoise text-brand-light-gray"
+                >Посмотреть объекты</a
+              >
             </div>
 
             <!-- Favorites list -->
@@ -65,11 +73,13 @@
                     <img
                       src="/images/place-holder.jpg"
                       class="card-img-top"
-                      alt="Property"
+                      alt="Современная квартира"
                     />
                     <div class="card-body">
                       <h5 class="card-title">Современная квартира</h5>
-                      <p class="card-text text-muted">Центр города</p>
+                      <p class="card-text text-brand-dark-navy-30">
+                        Центр города
+                      </p>
                       <div
                         class="d-flex justify-content-between align-items-center"
                       >
@@ -98,11 +108,13 @@
                     <img
                       src="/images/place-holder.jpg"
                       class="card-img-top"
-                      alt="Property"
+                      alt="Семейный дом с садом"
                     />
                     <div class="card-body">
                       <h5 class="card-title">Семейный дом с садом</h5>
-                      <p class="card-text text-muted">Пригородный район</p>
+                      <p class="card-text text-brand-dark-navy-30">
+                        Пригородный район
+                      </p>
                       <div
                         class="d-flex justify-content-between align-items-center"
                       >
@@ -131,11 +143,13 @@
                     <img
                       src="/images/place-holder.jpg"
                       class="card-img-top"
-                      alt="Property"
+                      alt="Квартира-студия"
                     />
                     <div class="card-body">
                       <h5 class="card-title">Квартира-студия</h5>
-                      <p class="card-text text-muted">Северный район</p>
+                      <p class="card-text text-brand-dark-navy-30">
+                        Северный район
+                      </p>
                       <div
                         class="d-flex justify-content-between align-items-center"
                       >
@@ -150,6 +164,51 @@
                       <a href="/property/prop789" class="stretched-link"></a>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Confirmation Modal -->
+          <div
+            class="modal fade"
+            id="removeFavoriteModal"
+            tabindex="-1"
+            aria-labelledby="removeFavoriteModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="removeFavoriteModalLabel">
+                    Удалить из избранного
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Закрыть"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <p>
+                    Вы уверены, что хотите удалить этот объект из избранного?
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Отмена
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger js-confirm-remove"
+                  >
+                    Удалить
+                  </button>
                 </div>
               </div>
             </div>
@@ -187,12 +246,15 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-brand-dark-navy-50"
               data-bs-dismiss="modal"
             >
               Отмена
             </button>
-            <button type="button" class="btn btn-danger js-confirm-remove">
+            <button
+              type="button"
+              class="btn btn-brand-bright-pink js-confirm-remove"
+            >
               Удалить
             </button>
           </div>
