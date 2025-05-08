@@ -67,6 +67,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/home-page-preview.html",
+      filename: "search-page.html",
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/main-dashboard-page-preview.html",
       filename: "index.html",
     }),
     new HtmlWebpackPlugin({
