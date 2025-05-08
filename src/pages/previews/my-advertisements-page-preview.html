@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Мои объявления - Real Estate</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      /* Примерные стили, которые должны быть в ваших SCSS файлах */
+      .bg-brand-turquoise {
+        background-color: #00c9dd !important;
+      }
+      .text-brand-light-gray {
+        color: #f5f6f4 !important;
+      }
+      .text-brand-dark-navy {
+        color: #252736 !important;
+      }
+      .text-brand-dark-navy-50 {
+        color: rgba(37, 39, 54, 0.5) !important;
+      }
+      .text-brand-dark-navy-80 {
+        color: rgba(37, 39, 54, 0.8) !important;
+      }
+      .text-brand-turquoise {
+        color: #00c9dd !important;
+      }
+      .btn-brand-turquoise {
+        background-color: #00c9dd;
+        border-color: #00c9dd;
+      }
+      .btn-brand-lime-green {
+        background-color: #d1f000;
+        border-color: #d1f000;
+      }
+      .btn-outline-brand-turquoise {
+        color: #00c9dd;
+        border-color: #00c9dd;
+      }
+      .btn-outline-brand-turquoise:hover {
+        color: #f5f6f4;
+        background-color: #00c9dd;
+        border-color: #00c9dd;
+      }
+      .btn-outline-brand-bright-pink {
+        color: #ff3fc0;
+        border-color: #ff3fc0;
+      }
+      .btn-outline-brand-bright-pink:hover {
+        color: #f5f6f4;
+        background-color: #ff3fc0;
+        border-color: #ff3fc0;
+      }
+      .bg-brand-lime-green {
+        background-color: #d1f000 !important;
+      }
+
+      .my-listings-page {
+        background-color: #f5f6f4; /* $light-gray */
+        min-height: calc(100vh - 160px); /* Примерная высота */
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+      }
+      .page-header {
+        border-bottom: 1px solid rgba(37, 39, 54, 0.1); /* $dark-navy with low opacity */
+        padding-bottom: 1rem;
+      }
+      .my-listings-title {
+        font-weight: 600;
+      }
+      .listings-controls .btn-group .btn {
+        color: rgba(37, 39, 54, 0.8); /* $dark-navy-80 */
+        border-color: rgba(37, 39, 54, 0.3);
+        font-size: 0.85rem;
+      }
+      .listings-controls .btn-group .btn:hover,
+      .listings-controls .btn-group .btn:focus {
+        background-color: #e9ecef; /* Slightly darker gray for hover */
+        color: #252736; /* $dark-navy */
+      }
+      .listings-controls .btn-group .btn i {
+        opacity: 0.6;
+      }
+      .listing-item {
+        border: 1px solid #eee;
+        transition: box-shadow 0.2s ease-in-out;
+        background-color: #fff;
+        border-radius: 8px;
+      }
+      .listing-item:hover {
+        box-shadow: 0 4px 15px rgba(37, 39, 54, 0.1); /* $dark-navy with opacity */
+      }
+      .listing-item__address {
+        color: #252736; /* $dark-navy */
+        font-size: 1rem; /* Немного крупнее адреса в object-card */
+      }
+      .listing-item__location {
+        color: rgba(37, 39, 54, 0.5); /* $dark-navy-50 */
+      }
+      .listing-item__price {
+        color: #00c9dd; /* $turquoise */
+      }
+      .listing-item__date {
+        color: rgba(37, 39, 54, 0.5); /* $dark-navy-50 */
+      }
+      .listing-item--archived,
+      .listing-item--draft {
+        opacity: 0.75;
+      }
+      .listing-item--archived .listing-item__price,
+      .listing-item--draft .listing-item__price {
+        color: rgba(37, 39, 54, 0.5); /* $dark-navy-50 */
+      }
+      .listing-item .badge {
+        font-size: 0.75rem;
+        padding: 0.3em 0.6em;
+        font-weight: 500;
+      }
+      .listing-item__actions .btn-sm {
+        padding: 0.2rem 0.4rem; /* Уменьшаем паддинги для компактности */
+        font-size: 0.8rem;
+      }
+      .listing-item__actions .btn-sm i {
+        font-size: 1rem; /* Уменьшаем иконки */
+        vertical-align: middle;
+      }
+      /* Responsive adjustments */
+      @media (max-width: 767px) {
+        .page-header {
+          flex-direction: column;
+          align-items: stretch; /* Кнопка на всю ширину */
+          gap: 1rem;
+        }
+        .page-header .btn {
+          width: 100%;
+        }
+        .listings-controls {
+          justify-content: flex-start;
+          margin-top: 1rem; /* Добавляем отступ сверху на мобильных */
+        }
+        .listing-item .row {
+          gap: 0.5rem; /* Небольшой отступ между блоками при стакинге */
+        }
+        .listing-item .listing-item__main-info {
+          width: 100%;
+        }
+        .listing-item .listing-item__controls {
+          width: 100%;
+          justify-content: flex-start !important; /* Выравнивание кнопок слева */
+          flex-wrap: wrap; /* Перенос кнопок */
+        }
+        .listing-item .listing-item__controls .badge {
+          order: -1; /* Статус первым */
+          width: 100%;
+          margin-bottom: 0.5rem;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <app-header></app-header>
+    <app-mobile-menu></app-mobile-menu>
+    <!-- Main Content Area -->
+    <main class="page-content">
+      <div id="app">
+        <div class="my-listings-page">
+          <div class="container">
+            <div
+              class="page-header d-flex justify-content-between align-items-center mb-3 flex-wrap"
+            >
+              <h1 class="my-listings-title h2 text-brand-dark-navy mb-0">
+                Мои объявления
+              </h1>
+              <a
+                href="/listings/create"
+                class="btn btn-brand-lime-green text-brand-dark-navy fw-500"
+              >
+                <i class="bi bi-plus-lg me-1"></i> Добавить объявление
+              </a>
+            </div>
+
+            <div
+              class="listings-controls d-flex justify-content-end align-items-center mb-3"
+            >
+              <span class="me-2 small text-brand-dark-navy-50"
+                >Сортировать по:</span
+              >
+              <div
+                class="btn-group btn-group-sm"
+                role="group"
+                aria-label="Sort listings"
+              >
+                <button type="button" class="btn btn-outline-secondary active">
+                  Дате <i class="bi bi-arrow-down ms-1"></i>
+                </button>
+                <button type="button" class="btn btn-outline-secondary">
+                  Цене <i class="bi bi-arrow-down-up ms-1"></i>
+                </button>
+                <button type="button" class="btn btn-outline-secondary">
+                  Статусу <i class="bi bi-arrow-down-up ms-1"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="my-listings-list">
+              <div class="listing-item card card-body mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-7 listing-item__main-info">
+                    <h5 class="listing-item__address mb-1 fs-6 fw-semibold">
+                      ул. Красная, дом 100, кв. 55
+                    </h5>
+                    <p
+                      class="listing-item__location text-brand-dark-navy-50 small mb-1"
+                    >
+                      Центральный район, г. Краснодар
+                    </p>
+                    <div
+                      class="d-flex flex-wrap gap-3 small align-items-center"
+                    >
+                      <span
+                        class="listing-item__price fw-semibold text-brand-turquoise"
+                        >12 500 000 ₽</span
+                      >
+                      <span class="listing-item__date text-brand-dark-navy-50"
+                        ><i class="bi bi-calendar3 me-1"></i> 05.05.2025</span
+                      >
+                      <span class="text-brand-dark-navy-50"
+                        ><i class="bi bi-eye me-1"></i> 150</span
+                      >
+                      <span class="text-brand-dark-navy-50"
+                        ><i class="bi bi-heart me-1"></i> 12</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="col-md-5 listing-item__controls d-flex justify-content-md-end align-items-center gap-2"
+                  >
+                    <span
+                      class="badge bg-brand-lime-green text-brand-dark-navy me-md-2"
+                      >Активно</span
+                    >
+                    <a
+                      href="/listings/edit/1"
+                      class="btn btn-sm btn-outline-brand-turquoise"
+                      title="Редактировать"
+                      ><i class="bi bi-pencil"></i
+                    ></a>
+                    <button
+                      class="btn btn-sm btn-outline-secondary"
+                      title="Архивировать"
+                    >
+                      <i class="bi bi-archive"></i>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-outline-brand-bright-pink js-delete-listing"
+                      title="Удалить"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="listing-item card card-body mb-3 listing-item--archived"
+              >
+                <div class="row align-items-center">
+                  <div class="col-md-7 listing-item__main-info">
+                    <h5 class="listing-item__address mb-1 fs-6 fw-semibold">
+                      пр. Чекистов, дом 15, 2 этаж
+                    </h5>
+                    <p
+                      class="listing-item__location text-brand-dark-navy-50 small mb-1"
+                    >
+                      Юбилейный мкр, г. Краснодар
+                    </p>
+                    <div
+                      class="d-flex flex-wrap gap-3 small align-items-center"
+                    >
+                      <span class="listing-item__price fw-semibold"
+                        >7 800 000 ₽</span
+                      >
+                      <span class="listing-item__date text-brand-dark-navy-50"
+                        ><i class="bi bi-calendar3 me-1"></i> 15.04.2025</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="col-md-5 listing-item__controls d-flex justify-content-md-end align-items-center gap-2"
+                  >
+                    <span class="badge bg-secondary text-light me-md-2"
+                      >В архиве</span
+                    >
+                    <button
+                      class="btn btn-sm btn-outline-success"
+                      title="Активировать"
+                    >
+                      <i class="bi bi-arrow-up-circle"></i>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-outline-brand-bright-pink js-delete-listing"
+                      title="Удалить"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="listing-item card card-body mb-3 listing-item--draft">
+                <div class="row align-items-center">
+                  <div class="col-md-7 listing-item__main-info">
+                    <h5 class="listing-item__address mb-1 fs-6 fw-semibold">
+                      ул. Героев-Разведчиков, дом 8
+                    </h5>
+                    <p
+                      class="listing-item__location text-brand-dark-navy-50 small mb-1"
+                    >
+                      Восточно-Кругликовский р-н, г. Краснодар
+                    </p>
+                    <div
+                      class="d-flex flex-wrap gap-3 small align-items-center"
+                    >
+                      <span class="listing-item__price fw-semibold"
+                        >Цена не указана</span
+                      >
+                      <span class="listing-item__date text-brand-dark-navy-50"
+                        ><i class="bi bi-calendar3 me-1"></i> 01.05.2025</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="col-md-5 listing-item__controls d-flex justify-content-md-end align-items-center gap-2"
+                  >
+                    <span class="badge bg-warning text-dark me-md-2"
+                      >Черновик</span
+                    >
+                    <a
+                      href="/listings/edit/3"
+                      class="btn btn-sm btn-outline-brand-turquoise"
+                      title="Редактировать"
+                      ><i class="bi bi-pencil"></i
+                    ></a>
+                    <button
+                      class="btn btn-sm btn-outline-success"
+                      title="Опубликовать"
+                    >
+                      <i class="bi bi-check-circle"></i>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-outline-brand-bright-pink js-delete-listing"
+                      title="Удалить"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <app-footer></app-footer>
+  </body>
+</html>

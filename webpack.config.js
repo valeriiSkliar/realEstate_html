@@ -97,6 +97,10 @@ module.exports = {
       template: "./src/pages/previews/collections-edit-page-preview.html",
       filename: "collections-edit.html",
     }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/my-advertisements-page-preview.html",
+      filename: "my-advertisements.html",
+    }),
 
     new MiniCssExtractPlugin({
       filename: "css/[name].[contenthash].css",

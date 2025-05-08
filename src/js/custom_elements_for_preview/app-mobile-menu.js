@@ -25,9 +25,9 @@ export class AppMobileMenu extends HTMLElement {
             </a>
           </li>
           <li class="mobile-menu__item">
-            <a href="/my-listings" class="mobile-menu__link">
+            <a href="/my-advertisements.html" class="mobile-menu__link">
               <i class="bi bi-building text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">My Listings</span>
+              <span class="text-brand-dark-navy">My Advertisements</span>
             </a>
           </li>
           <li class="mobile-menu__item">
