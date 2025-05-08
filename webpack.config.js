@@ -107,7 +107,7 @@ module.exports = {
         {
           from: path.resolve(__dirname, "src/images"), // Source directory
           to: path.resolve(__dirname, "public/images"), // Destination directory
-          noErrorOnMissing: true, // Don't throw error if src/images doesn't exist
+          // noErrorOnMissing: true, // Don't throw error if src/images doesn't exist
         },
       ],
     }),

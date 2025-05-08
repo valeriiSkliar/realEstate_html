@@ -5,7 +5,7 @@ export class AppHeader extends HTMLElement {
 <header class="header">
   <div class="header__logo">
     <a href="/">
-      <img src="/images/logo.svg" alt="Real Estate" />
+      <img src="./images/logo.svg" alt="Real Estate" />
     </a>
   </div>
   <div class="header__actions">
@@ -38,7 +38,7 @@ export class AppHeader extends HTMLElement {
       <i class="bi bi-x-lg text-brand-dark-navy"></i>
     </button>
     <div class="header__logo">
-      <img src="/images/logo.svg" alt="Real Estate" />
+      <img src="./images/logo.svg" alt="Real Estate" />
     </div>
   </div>
   <ul class="mobile-menu__list">
