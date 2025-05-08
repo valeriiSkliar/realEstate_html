@@ -1,0 +1,91 @@
+@use "../brand_color" as *;
+
+.object-card {
+  border: 1px solid $light-gray-80; // Слегка видимая граница
+  border-radius: 8px; // Немного скругленные углы
+  box-shadow: 0 1px 3px rgba($dark-navy, 0.05); // Легкая тень
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #fff; // Явный фон для карточки
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba($dark-navy, 0.1);
+  }
+
+  .card-header {
+    border-top-left-radius: inherit; // Наследование скругления
+    border-top-right-radius: inherit;
+    border-bottom: none; // Убрать границу между header и body
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .card-body {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &__price {
+    font-weight: 700;
+  }
+
+  &__price-per-sqm {
+    opacity: 0.9;
+  }
+
+  &__address {
+    color: $dark-navy; // Используем основной темный цвет для адреса
+  }
+
+  &__location {
+    // Используем 50% прозрачность для менее важной информации
+    color: $dark-navy-50;
+  }
+
+  &__stats {
+    color: $dark-navy-80; // 80% прозрачность для характеристик
+    span {
+      display: inline-flex; // Для лучшего выравнивания иконки и текста
+      align-items: center;
+    }
+    i {
+      vertical-align: middle; // Выравнивание иконки по вертикали
+    }
+  }
+
+  &__actions {
+    margin-top: 0.5rem; // Небольшой отступ сверху для кнопок
+    .btn-sm {
+      padding: 0.25rem 0.75rem; // Стандартный размер для sm кнопок
+    }
+  }
+
+  &__icon-actions {
+    .btn {
+      // Стили для кнопок-иконок
+      &:hover,
+      &:focus {
+        background-color: $light-gray; // Легкий фон при наведении
+        i {
+          color: $turquoise; // Иконка становится бирюзовой при наведении
+        }
+      }
+
+      // Стили для активной кнопки "В избранное"
+      &.js-favorite-btn.is-active {
+        i {
+          color: $bright-pink; // Активная иконка - розовая
+        }
+        &:hover i {
+          color: $bright-pink-80; // Слегка бледнее при наведении на активную
+        }
+      }
+    }
+    i {
+      transition: color 0.2s ease; // Плавное изменение цвета иконки
+      vertical-align: middle;
+    }
+  }
+}
