@@ -15,43 +15,43 @@ export class AppMobileMenu extends HTMLElement {
           <li class="mobile-menu__item">
             <a href="/" class="mobile-menu__link">
               <i class="bi bi-house text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Home</span>
+              <span class="text-brand-dark-navy">Главная</span>
             </a>
           </li>
           <li class="mobile-menu__item">
             <a href="/search" class="mobile-menu__link">
               <i class="bi bi-search text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Search Properties</span>
+              <span class="text-brand-dark-navy">Поиск недвижимости</span>
             </a>
           </li>
           <li class="mobile-menu__item">
             <a href="/my-advertisements.html" class="mobile-menu__link">
               <i class="bi bi-building text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">My Advertisements</span>
+              <span class="text-brand-dark-navy">Мои объявления</span>
             </a>
           </li>
           <li class="mobile-menu__item">
             <a href="/collections.html" class="mobile-menu__link">
               <i class="bi bi-collection text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">My Collections</span>
+              <span class="text-brand-dark-navy">Мои подборки</span>
             </a>
           </li>
           <li class="mobile-menu__item">
             <a href="/favorites.html" class="mobile-menu__link">
               <i class="bi bi-heart text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Favorites</span>
+              <span class="text-brand-dark-navy">Избранное</span>
             </a>
           </li>
           <li class="mobile-menu__item">
             <a href="/profile.html" class="mobile-menu__link">
               <i class="bi bi-person text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Profile</span>
+              <span class="text-brand-dark-navy">Профиль</span>
             </a>
           </li>
           <li class="mobile-menu__item">
             <a href="/support.html" class="mobile-menu__link">
               <i class="bi bi-question-circle text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Support</span>
+              <span class="text-brand-dark-navy">Поддержка</span>
             </a>
           </li>
         </ul>
