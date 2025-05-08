@@ -1,0 +1,120 @@
+@use "../brand_color" as *;
+
+.add-listing-page {
+  background-color: $light-gray; // Фон страницы
+  padding: 1.5rem 0 3rem 0; // Отступы
+  min-height: calc(100vh - 160px); // Примерная минимальная высота
+
+  .card {
+    border: none; // Убираем стандартную границу Bootstrap
+    box-shadow: 0 2px 15px rgba($dark-navy, 0.08); // Легкая тень
+    border-radius: 10px; // Скругление углов
+  }
+
+  .page-header {
+    border-bottom: 1px solid $light-gray-80; // Разделитель
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .add-listing-title {
+    font-weight: 600;
+    color: $dark-navy;
+  }
+
+  // Стили для меток полей
+  .form-label {
+    font-weight: 500;
+    color: $dark-navy-80;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+  }
+
+  // Кнопки действий формы
+  .form-actions {
+    border-top: 1px solid $light-gray-80; // Разделитель перед кнопками
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  // Область загрузки изображений
+  .image-upload-area {
+    border: 2px dashed $turquoise;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba($turquoise, 0.05); // Легкий фон при наведении
+    }
+
+    i {
+      font-size: 2.5rem;
+      color: $turquoise;
+      margin-bottom: 0.5rem;
+      display: block; // Иконка на своей строке
+    }
+
+    p {
+      margin-bottom: 0.25rem;
+      color: $dark-navy-80;
+    }
+    small {
+      color: $dark-navy-50;
+    }
+  }
+
+  #imageUploadInput {
+    display: none; // Скрываем стандартный input type="file"
+  }
+
+  // Контейнер для превью изображений
+  .image-previews {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; // Отступы между превью
+  }
+
+  // Обёртка для превью и кнопки удаления
+  .img-preview-wrapper {
+    position: relative;
+  }
+
+  // Стили для превью изображения
+  .img-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover; // Масштабирование с сохранением пропорций
+    border-radius: 5px;
+    border: 1px solid $light-gray-80;
+  }
+
+  // Кнопка удаления превью
+  .img-preview-remove {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    background: rgba($bright-pink, 0.9);
+    color: white;
+    border-radius: 50%;
+    border: 1px solid white; // Белая обводка для контраста
+    width: 22px;
+    height: 22px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px; // Центрирование крестика
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease;
+    padding: 0; // Убираем лишние паддинги
+
+    &:hover {
+      background: $bright-pink;
+    }
+  }
+}

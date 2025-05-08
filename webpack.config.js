@@ -101,6 +101,10 @@ module.exports = {
       template: "./src/pages/previews/my-advertisements-page-preview.html",
       filename: "my-advertisements.html",
     }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/listings-create-page-preview.html",
+      filename: "listings-create.html",
+    }),
 
     new MiniCssExtractPlugin({
       filename: "css/[name].[contenthash].css",
