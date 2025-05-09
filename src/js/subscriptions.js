@@ -65,17 +65,17 @@ const initSubscriptionCarousel = () => {
 
     // Keep slides centered
     centeredSlides: true,
-    loop: true,
+    rewind: true,
   });
 
   console.log("[Debug] Swiper instance created:", swiper);
 
-  // Return to beginning of loop after 3 slides to always show all plans
-  swiper.on("slideChange", function () {
-    if (swiper.realIndex > 2) {
-      swiper.slideTo(0, 0);
-    }
-  });
+  // // Return to beginning of loop after 3 slides to always show all plans
+  // swiper.on("slideChange", function () {
+  //   if (swiper.realIndex > 2) {
+  //     swiper.slideTo(0, 0);
+  //   }
+  // });
 };
 
 /**
