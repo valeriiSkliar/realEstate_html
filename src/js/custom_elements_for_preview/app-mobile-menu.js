@@ -19,7 +19,7 @@ export class AppMobileMenu extends HTMLElement {
             </a>
           </li>
           <li class="mobile-menu__item">
-            <a href="/search" class="mobile-menu__link">
+            <a href="/search.html" class="mobile-menu__link">
               <i class="bi bi-search text-brand-turquoise"></i>
               <span class="text-brand-dark-navy">Поиск недвижимости</span>
             </a>

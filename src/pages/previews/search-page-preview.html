@@ -15,7 +15,49 @@
       rel="stylesheet"
     />
   </head>
-  <style></style>
+  <style>
+    .search-bar-brand {
+      position: relative;
+      width: 320px;
+      min-width: 120px;
+      max-width: 100%;
+      margin-right: 1rem;
+    }
+    .search-bar-brand input[type="text"] {
+      width: 100%;
+      padding: 0.5rem 2.5rem 0.5rem 1rem;
+      border: 2px solid #00c9dd;
+      border-radius: 2rem;
+      font-size: 1rem;
+      color: #252736;
+      background: #fff;
+      transition: border-color 0.2s;
+    }
+    .search-bar-brand input[type="text"]:focus {
+      outline: none;
+      border-color: #007a85;
+    }
+    .search-bar-brand .bi-search {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #00c9dd;
+      font-size: 1.2rem;
+      pointer-events: none;
+    }
+    @media (max-width: 576px) {
+      .search-bar-brand {
+        width: 120px;
+        min-width: 80px;
+        margin-right: 0.5rem;
+        margin-bottom: 0;
+      }
+      .search-bar-brand input[type="text"] {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
   <body>
     <app-header></app-header>
     <app-mobile-menu></app-mobile-menu>
@@ -25,91 +67,104 @@
         <div class="search-page">
           <div class="featured-section">
             <div class="container mt-3 mb-3">
-              <div class="d-flex justify-content-end">
-                <div
-                  id="search-sort-dropdown"
-                  class="dropdown sort-dropdown me-2"
-                >
-                  <button
-                    class="btn btn-outline-brand-turquoise p-2 dropdown-toggle"
-                    type="button"
-                    id="sortDropdownButton"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    title="Сортировать"
+              <div
+                class="d-flex align-items-center justify-content-between gap-2 flex-nowrap"
+              >
+                <form class="search-bar-brand w-100 mb-0" role="search">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Поиск по адресу, району или ЖК..."
+                    aria-label="Поиск"
+                  />
+                  <i class="bi bi-search"></i>
+                </form>
+                <div class="d-flex align-items-center gap-1">
+                  <div
+                    id="search-sort-dropdown"
+                    class="dropdown sort-dropdown me-2"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="sort-icon"
+                    <button
+                      class="btn btn-outline-brand-turquoise p-1 dropdown-toggle"
+                      type="button"
+                      id="sortDropdownButton"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      title="Сортировать"
                     >
-                      <path d="m3 16 4 4 4-4" />
-                      <path d="M7 20V4" />
-                      <path d="m21 8-4-4-4 4" />
-                      <path d="M17 4v16" />
-                    </svg>
-                  </button>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="sortDropdownButton"
-                  >
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="#"
-                        data-sort="price"
-                        data-direction="asc"
-                        >Цена (по возрастанию)</a
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="sort-icon"
                       >
-                    </li>
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="#"
-                        data-sort="price"
-                        data-direction="desc"
-                        >Цена (по убыванию)</a
-                      >
-                    </li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="#"
-                        data-sort="date"
-                        data-direction="asc"
-                        >Дата (сначала старые)</a
-                      >
-                    </li>
-                    <li>
-                      <a
-                        class="dropdown-item active"
-                        href="#"
-                        data-sort="date"
-                        data-direction="desc"
-                        >Дата (сначала новые)</a
-                      >
-                    </li>
-                  </ul>
-                </div>
+                        <path d="m3 16 4 4 4-4" />
+                        <path d="M7 20V4" />
+                        <path d="m21 8-4-4-4 4" />
+                        <path d="M17 4v16" />
+                      </svg>
+                    </button>
+                    <ul
+                      class="dropdown-menu dropdown-menu-end"
+                      aria-labelledby="sortDropdownButton"
+                    >
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="#"
+                          data-sort="price"
+                          data-direction="asc"
+                          >Цена (по возрастанию)</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="#"
+                          data-sort="price"
+                          data-direction="desc"
+                          >Цена (по убыванию)</a
+                        >
+                      </li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="#"
+                          data-sort="date"
+                          data-direction="asc"
+                          >Дата (сначала старые)</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item active"
+                          href="#"
+                          data-sort="date"
+                          data-direction="desc"
+                          >Дата (сначала новые)</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
 
-                <button
-                  class="btn btn-brand-turquoise px-3 py-2"
-                  type="button"
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#mobileFilterSidebar"
-                  aria-controls="mobileFilterSidebar"
-                  title="Фильтры"
-                >
-                  <i class="bi bi-funnel-fill"></i>
-                </button>
+                  <button
+                    class="btn btn-brand-turquoise px-2 py-1"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#mobileFilterSidebar"
+                    aria-controls="mobileFilterSidebar"
+                    title="Фильтры"
+                  >
+                    <i class="bi bi-funnel-fill"></i>
+                  </button>
+                </div>
               </div>
               <h6 class="section-title fs-6 py-2 text-brand-dark-navy">
                 По вашему запросу найдено 5 объектов
