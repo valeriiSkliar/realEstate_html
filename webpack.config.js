@@ -66,6 +66,10 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      template: "./src/pages/previews/property-view-standalone.html",
+      filename: "property-view-standalone.html",
+    }),
+    new HtmlWebpackPlugin({
       template: "./src/pages/previews/search-page-preview.html",
       filename: "search.html",
     }),
