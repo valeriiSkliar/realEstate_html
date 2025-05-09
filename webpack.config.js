@@ -66,8 +66,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/pages/previews/home-page-preview.html",
-      filename: "search-page.html",
+      template: "./src/pages/previews/search-page-preview.html",
+      filename: "search.html",
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/main-dashboard-page-preview.html",
