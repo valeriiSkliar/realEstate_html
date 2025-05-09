@@ -8,11 +8,16 @@
 @import "swiper/css/navigation";
 @import "swiper/css/pagination";
 
+// Select2
+@import "select2/dist/css/select2.min.css";
+@import "../css-libs/select2-bootstrap-5-theme.min.css";
+
 // Components
 @import "components/header";
 @import "components/footer";
 @import "components/toast";
 @import "components/property-card";
+@import "components/sidebar/sidebar-filters";
 
 // Pages
 @import "pages/home";

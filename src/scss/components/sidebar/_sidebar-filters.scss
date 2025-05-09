@@ -1,0 +1,274 @@
+/* Brand Color Palette - Define these in your main SCSS/_brand_color.scss */
+:root {
+  --brand-light-gray: #f5f6f4;
+  --brand-lime-green: #d1f000;
+  --brand-bright-pink: #ff3fc0;
+  --brand-turquoise: #00c9dd;
+  --brand-dark-navy: #252736;
+
+  --brand-turquoise-80: rgba(0, 201, 221, 0.8);
+  --brand-turquoise-50: rgba(0, 201, 221, 0.5);
+  --brand-turquoise-30: rgba(0, 201, 221, 0.3);
+
+  --brand-lime-green-80: rgba(209, 240, 0, 0.8);
+  --brand-lime-green-50: rgba(209, 240, 0, 0.5);
+  --brand-lime-green-30: rgba(209, 240, 0, 0.3);
+
+  --brand-bright-pink-80: rgba(255, 63, 192, 0.8);
+  --brand-bright-pink-50: rgba(255, 63, 192, 0.5);
+  --brand-bright-pink-30: rgba(255, 63, 192, 0.3);
+
+  --brand-dark-navy-80: rgba(37, 39, 54, 0.8);
+  --brand-dark-navy-50: rgba(37, 39, 54, 0.5);
+  --brand-dark-navy-30: rgba(37, 39, 54, 0.3);
+}
+
+@media (min-width: 576px) {
+  :root {
+    --sidebar-width: var(--sidebar-max-width);
+  }
+}
+
+/* Sidebar General Styles */
+.offcanvas-start {
+  width: var(--sidebar-width);
+  background-color: var(--sidebar-bg);
+  color: var(--brand-dark-navy);
+}
+
+.offcanvas-header {
+  background-color: var(--sidebar-header-bg);
+  color: var(--sidebar-header-color);
+  border-bottom: 1px solid var(--sidebar-border-color);
+  padding: 1rem;
+}
+
+.offcanvas-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--brand-dark-navy);
+}
+
+.btn-clear-filters {
+  color: var(--brand-bright-pink);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.btn-clear-filters:hover {
+  color: var(--brand-bright-pink-80);
+}
+
+.offcanvas-body {
+  padding: 1rem;
+}
+
+/* Filter Form Elements */
+.sidebar-filter-form .form-group,
+.sidebar-filter-form .filter-section {
+  margin-bottom: 1.25rem;
+}
+
+.sidebar-filter-form .form-label,
+.sidebar-filter-form .filter-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--brand-dark-navy-80);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.sidebar-filter-form .form-control,
+.sidebar-filter-form .form-select {
+  border-radius: 0.375rem; /* Bootstrap's default is fine, or use 8px */
+  border: 1px solid var(--sidebar-input-border);
+  background-color: #fff;
+  color: var(--brand-dark-navy);
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+}
+.sidebar-filter-form .form-control:focus,
+.sidebar-filter-form .form-select:focus {
+  border-color: var(--sidebar-input-focus-border);
+  box-shadow: 0 0 0 0.2rem var(--sidebar-input-focus-shadow);
+}
+.sidebar-filter-form .form-control::placeholder {
+  color: var(--brand-dark-navy-50);
+}
+
+/* Tab Groups (Deal Type, New for Today) */
+.tab-group {
+  display: flex;
+  width: 100%;
+  border: 1px solid var(--sidebar-input-border);
+  border-radius: 0.375rem;
+  overflow: hidden;
+  background-color: #fff;
+}
+.tab-group .tab-item {
+  flex: 1;
+  position: relative;
+}
+.tab-group .tab-item .tab-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.tab-group .tab-item .tab-input:checked + .tab-label {
+  background-color: var(--brand-turquoise);
+  color: var(--brand-light-gray);
+  font-weight: 500;
+}
+.tab-group .tab-item .tab-label {
+  display: block;
+  text-align: center;
+  padding: 0.6rem 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  font-size: 0.9rem;
+  color: var(--brand-dark-navy-80);
+  margin-bottom: 0;
+}
+.tab-group .tab-item .tab-label:hover {
+  background-color: var(--brand-turquoise-30);
+}
+.tab-group .tab-item:not(:last-child) .tab-label {
+  border-right: 1px solid var(--sidebar-input-border);
+}
+
+/* Price and Area Range Inputs */
+.price-range,
+.area-range {
+  display: flex;
+  gap: 0.75rem;
+}
+.price-input,
+.area-input {
+  flex: 1;
+  position: relative;
+}
+.price-input .form-control,
+.area-input .form-control {
+  padding-right: 2.25rem; /* Space for symbol */
+}
+.currency-symbol,
+.area-symbol {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--brand-dark-navy-50);
+  font-size: 0.9rem;
+}
+
+/* Location Select2 */
+.location-option {
+  position: relative; /* For Select2 dropdown positioning */
+  margin-bottom: 1rem;
+}
+.location-option .location-icon {
+  /* Replaced Font Awesome with BI */
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--brand-dark-navy-50);
+  z-index: 3; /* Above Select2 input */
+}
+.location-option .select2-container--bootstrap-5 .select2-selection {
+  padding-left: 2.25rem !important; /* Space for icon */
+}
+
+/* Select2 custom styles with Brand Colors */
+.select2-container--bootstrap-5 .select2-selection {
+  border-color: var(--sidebar-input-border);
+  background-color: #fff;
+  color: var(--brand-dark-navy);
+  min-height: calc(1.5em + 1rem + 2px); /* Match Bootstrap input height */
+  padding: 0.5rem 0.75rem;
+}
+.select2-container--bootstrap-5.select2-container--focus .select2-selection,
+.select2-container--bootstrap-5.select2-container--open .select2-selection {
+  border-color: var(--sidebar-input-focus-border);
+  box-shadow: 0 0 0 0.2rem var(--sidebar-input-focus-shadow);
+}
+.select2-container--bootstrap-5 .select2-dropdown {
+  border-color: var(--sidebar-input-border);
+  border-radius: 0.375rem;
+}
+.select2-container--bootstrap-5
+  .select2-selection--multiple
+  .select2-selection__choice {
+  background-color: var(--brand-turquoise);
+  border-color: var(--brand-turquoise-80);
+  color: var(--brand-light-gray);
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.375rem;
+  margin-top: 0.125rem; /* Adjusted for better alignment */
+  margin-bottom: 0.125rem; /* Adjusted for better alignment */
+}
+.select2-container--bootstrap-5
+  .select2-selection--multiple
+  .select2-selection__choice__remove {
+  color: var(--brand-light-gray);
+  opacity: 0.7;
+}
+.select2-container--bootstrap-5
+  .select2-selection--multiple
+  .select2-selection__choice__remove:hover {
+  opacity: 1;
+}
+.select2-container--bootstrap-5 .select2-results__option--highlighted {
+  background-color: var(--brand-turquoise-80);
+  color: var(--brand-light-gray);
+}
+.select2-container--bootstrap-5 .select2-results__option--selected {
+  background-color: var(--brand-turquoise);
+  color: var(--brand-light-gray);
+}
+
+/* Search Button */
+.search-button-container {
+  margin-top: 1.5rem;
+  padding-bottom: 1rem; /* Ensure button is not cut off */
+}
+.btn-brand-lime-green {
+  background-color: var(--brand-lime-green);
+  color: var(--brand-dark-navy);
+  border-color: var(--brand-lime-green);
+  font-weight: 600;
+}
+.btn-brand-lime-green:hover {
+  background-color: var(--brand-lime-green-80);
+  border-color: var(--brand-lime-green-80);
+  color: var(--brand-dark-navy);
+}
+
+/* Demo page styles */
+body.demo-page {
+  /* Added a class to scope demo styles */
+  padding: 20px;
+  background-color: #f8f9fa; /* Light background for demo page */
+}
+.demo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+.demo-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.btn-brand-turquoise {
+  background-color: var(--brand-turquoise);
+  color: var(--brand-light-gray);
+  border-color: var(--brand-turquoise);
+}
+.btn-brand-turquoise:hover {
+  background-color: var(--brand-turquoise-80);
+  border-color: var(--brand-turquoise-80);
+  color: var(--brand-light-gray);
+}

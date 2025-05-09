@@ -107,6 +107,16 @@
                     </svg>
                   </button>
 
+                  <button
+                    class="btn btn-brand-turquoise px-4 py-2"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#mobileFilterSidebar"
+                    aria-controls="mobileFilterSidebar"
+                  >
+                    <i class="bi bi-funnel-fill me-2"></i>Открыть фильтры
+                  </button>
+
                   <ul
                     class="dropdown-menu dropdown-menu-end"
                     aria-labelledby="sortDropdownButton"
@@ -380,6 +390,189 @@
             </button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Mobile Filter Sidebar -->
+
+    <div
+      class="offcanvas offcanvas-start"
+      tabindex="-1"
+      id="mobileFilterSidebar"
+      aria-labelledby="mobileFilterSidebarLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="mobileFilterSidebarLabel">Фильтры</h5>
+        <button
+          type="button"
+          class="btn-clear-filters"
+          id="resetForm"
+          aria-label="Reset"
+        >
+          <i class="bi bi-arrow-counterclockwise me-1"></i>Очистить
+        </button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <form class="sidebar-filter-form" id="sidebarFilterForm">
+          <div class="form-group">
+            <label class="form-label">Тип сделки</label>
+            <div class="tab-group">
+              <div class="tab-item">
+                <input
+                  type="radio"
+                  name="deal_type"
+                  value="buy"
+                  id="deal-type-buy"
+                  class="tab-input"
+                  checked
+                />
+                <label for="deal-type-buy" class="tab-label">Купить</label>
+              </div>
+              <div class="tab-item">
+                <input
+                  type="radio"
+                  name="deal_type"
+                  value="rent"
+                  id="deal-type-rent"
+                  class="tab-input"
+                />
+                <label for="deal-type-rent" class="tab-label">Аренда</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="new_for_today"
+                value="true"
+                id="new-for-today"
+              />
+              <label class="form-check-label" for="new-for-today">
+                Новое за сегодня
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="property_type_select" class="form-label"
+              >Тип недвижимости</label
+            >
+            <select
+              name="property_type"
+              id="property_type_select"
+              class="form-select"
+            >
+              <option value="apartment">Квартиру</option>
+              <option value="house">Дом</option>
+              <option value="commercial">Коммерция</option>
+              <option value="land">Участок</option>
+              <option value="other">Другое</option>
+            </select>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-title">Цена</div>
+            <div class="price-range">
+              <div class="price-input">
+                <input
+                  type="number"
+                  name="price_min"
+                  min="0"
+                  class="form-control"
+                  placeholder="от 35 000"
+                />
+                <span class="currency-symbol">₽</span>
+              </div>
+              <div class="price-input">
+                <input
+                  type="number"
+                  name="price_max"
+                  min="0"
+                  class="form-control"
+                  placeholder="до 300 000"
+                />
+                <span class="currency-symbol">₽</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-title">Общая площадь</div>
+            <div class="area-range">
+              <div class="area-input">
+                <input
+                  type="number"
+                  name="area_min"
+                  min="0"
+                  class="form-control"
+                  placeholder="от"
+                />
+                <span class="area-symbol">м²</span>
+              </div>
+              <div class="area-input">
+                <input
+                  type="number"
+                  name="area_max"
+                  min="0"
+                  class="form-control"
+                  placeholder="до"
+                />
+                <span class="area-symbol">м²</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-title">Расположение</div>
+            <div class="location-option" data-option-type="district">
+              <i class="bi bi-geo-alt-fill location-icon"></i>
+              <select
+                class="form-select select2-districts"
+                id="district-select"
+                name="districts[]"
+                data-placeholder="Район"
+                multiple="multiple"
+              >
+                <option value="south">Южный</option>
+                <option value="north">Северный</option>
+                <option value="central">Центральный</option>
+                <option value="west">Западный</option>
+                <option value="east">Восточный</option>
+              </select>
+            </div>
+            <div class="location-option" data-option-type="complex">
+              <i class="bi bi-buildings-fill location-icon"></i>
+              <select
+                class="form-select select2-complexes"
+                id="complex-select"
+                name="complexes[]"
+                data-placeholder="Жилой комплекс"
+                multiple="multiple"
+              >
+                <option value="AL">Солнечный город</option>
+                <option value="WY">Зеленый квартал</option>
+                <option value="NY">Панорама</option>
+                <option value="CA">Центральный парк</option>
+                <option value="TX">Лесной</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="search-button-container">
+            <button type="submit" class="btn btn-brand-lime-green w-100 py-2">
+              Поиск
+            </button>
+          </div>
+        </form>
       </div>
     </div>
 

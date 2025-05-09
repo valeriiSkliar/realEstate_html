@@ -1,8 +1,8 @@
 // src/js/index.js
-// import "bootstrap";
-// import * as bootstrap from "bootstrap";
-
+import "bootstrap";
+import * as bootstrap from "bootstrap";
 import $ from "jquery";
+import "select2";
 import { format } from "date-fns";
 
 // Import the styles - make sure this line is not commented out
@@ -37,7 +37,7 @@ import { initPropertyCardExample } from "./components/property-card-example";
 import { initCollectionsPage } from "./collections";
 import { initCollectionsCreatePage } from "./collections-create";
 import { initCollectionsEditPage } from "./collections-edit";
-import { initSearchSortButton } from "./components";
+import { initSearchSortButton, initSidebarFilters } from "./components";
 // import { initCollectionButtons } from "./components/collection-button";
 
 // Initialize components when DOM is ready
@@ -92,5 +92,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (document.querySelector("#search-sort-dropdown")) {
     initSearchSortButton();
   }
+
+  // Initialize sidebar filters
+  initSidebarFilters();
   // initCollectionButtons();
 });

@@ -25,6 +25,17 @@ $brand-dark-section: $dark-navy;
   /* Add other opacities as needed */
   --brand-dark-navy-80: rgba(37, 39, 54, 0.8);
   --brand-dark-navy-50: rgba(37, 39, 54, 0.5);
+
+  --sidebar-width: 100%; /* Full width on mobile */
+  --sidebar-max-width: 380px; /* Max width on larger screens if needed */
+  --sidebar-bg: var(--brand-light-gray);
+  --sidebar-header-bg: var(--brand-light-gray);
+  --sidebar-header-color: var(--brand-dark-navy);
+  --sidebar-link-color: var(--brand-dark-navy-80);
+  --sidebar-border-color: var(--brand-dark-navy-30);
+  --sidebar-input-border: var(--brand-dark-navy-30);
+  --sidebar-input-focus-border: var(--brand-turquoise);
+  --sidebar-input-focus-shadow: rgba(0, 201, 221, 0.25);
 }
 
 // Color with opacity variations
