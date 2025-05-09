@@ -5,12 +5,11 @@ import {
   createAndShowToast,
 } from "./utils/uiHelpers";
 // Home page specific JavaScript
-console.log("Home page loaded");
 
 /**
  * Initialize profile page functionality
  */
-export const initHomePage = () => {
+export const initSearchPage = () => {
   createAndShowToast("Test toast for home page!", "success");
 
   const testModalButton = document.querySelector(".js-test-modal-trigger");

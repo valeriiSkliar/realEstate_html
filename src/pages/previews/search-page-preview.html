@@ -17,6 +17,7 @@
       rel="stylesheet"
     />
   </head>
+  <style></style>
   <body>
     <app-header></app-header>
     <app-mobile-menu></app-mobile-menu>
@@ -24,7 +25,7 @@
     <!-- Main Content Area -->
     <main class="page-content">
       <div id="app">
-        <div class="home-page">
+        <div class="search-page">
           <!-- <div
             class="welcome-section py-4 rounded-4 bg-brand-light-gray text-brand-dark-navy border border-brand-light-gray"
           >
@@ -74,6 +75,84 @@
           </div>
 
           <div class="featured-section py-4">
+            <!-- Sort button -->
+            <div class="container mt-3">
+              <!-- Sort dropdown -->
+              <div class="container mt-5">
+                <div id="search-sort-dropdown" class="dropdown sort-dropdown">
+                  <button
+                    class="btn btn-outline-brand-turquoise p-2 dropdown-toggle"
+                    type="button"
+                    id="sortDropdownButton"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    title="Сортировать"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="sort-icon"
+                    >
+                      <path d="m3 16 4 4 4-4" />
+                      <path d="M7 20V4" />
+                      <path d="m21 8-4-4-4 4" />
+                      <path d="M17 4v16" />
+                    </svg>
+                  </button>
+
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="sortDropdownButton"
+                  >
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        data-sort="price"
+                        data-direction="asc"
+                        >Цена (по возрастанию)</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        data-sort="price"
+                        data-direction="desc"
+                        >Цена (по убыванию)</a
+                      >
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        data-sort="date"
+                        data-direction="asc"
+                        >Дата (сначала старые)</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item active"
+                        href="#"
+                        data-sort="date"
+                        data-direction="desc"
+                        >Дата (сначала новые)</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- Property cards -->
             <div class="container">
               <h2 class="section-title text-brand-dark-navy">
                 Рекомендуемые объекты

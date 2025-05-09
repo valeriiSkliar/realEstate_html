@@ -27,7 +27,7 @@ customElements.define("app-empty-state", AppEmptyState);
 
 import { initMobileMenu, setCurrentYear } from "./menu";
 import { initProfilePage } from "./profile";
-import { initHomePage } from "./home";
+import { initSearchPage } from "./search";
 import { initSupportPage } from "./support";
 import { initSubscriptionsPage } from "./subscriptions";
 import { initFavoritesPage } from "./favorites";
@@ -37,13 +37,14 @@ import { initPropertyCardExample } from "./components/property-card-example";
 import { initCollectionsPage } from "./collections";
 import { initCollectionsCreatePage } from "./collections-create";
 import { initCollectionsEditPage } from "./collections-edit";
+import { initSearchSortButton } from "./components";
 // import { initCollectionButtons } from "./components/collection-button";
 
 // Initialize components when DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize home page
-  if (document.querySelector(".home-page")) {
-    initHomePage();
+  if (document.querySelector(".search-page")) {
+    initSearchPage();
   }
   // Initialize mobile menu
   initMobileMenu();
@@ -87,8 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
     initCollectionsEditPage();
   }
 
-  // Initialize collection buttons globally
+  // Initialize search sort button
+  if (document.querySelector("#search-sort-dropdown")) {
+    initSearchSortButton();
+  }
   // initCollectionButtons();
-
-  console.log("Styles should be loaded!");
 });

@@ -8,6 +8,25 @@ $bright-pink: #ff3fc0;
 $turquoise: #00c9dd;
 $dark-navy: #252736;
 
+// Brand Colors
+$brand-primary: $lime-green;
+$brand-secondary: $turquoise;
+$brand-accent: $bright-pink;
+$brand-background: $light-gray;
+$brand-dark-section: $dark-navy;
+
+/* Define your brand colors here if not already globally defined */
+:root {
+  --brand-turquoise: #00c9dd;
+  --brand-dark-navy: #252736;
+  --brand-light-gray: #f5f6f4;
+  --brand-bright-pink: #ff3fc0;
+  --brand-lime-green: #d1f000;
+  /* Add other opacities as needed */
+  --brand-dark-navy-80: rgba(37, 39, 54, 0.8);
+  --brand-dark-navy-50: rgba(37, 39, 54, 0.5);
+}
+
 // Color with opacity variations
 // Each color has 80%, 50%, and 30% opacity variants
 

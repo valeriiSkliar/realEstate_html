@@ -1,6 +1,6 @@
 // src/js/uiHelpers.js
-import { Modal, Toast } from 'bootstrap';
-import $ from 'jquery';
+import { Modal, Toast } from "bootstrap";
+import $ from "jquery";
 
 /**
  * Показывает модальное окно Bootstrap по его ID.
@@ -21,17 +21,16 @@ export function showModal(modalId) {
  * @param {string} modalId - ID HTML-элемента модального окна (без #).
  */
 export function hideModal(modalId) {
-    const modalElement = document.getElementById(modalId);
-    if (modalElement) {
-      const modalInstance = Modal.getInstance(modalElement);
-      if (modalInstance) {
-          modalInstance.hide();
-      }
-    } else {
-      console.error(`Modal with id "${modalId}" not found.`);
+  const modalElement = document.getElementById(modalId);
+  if (modalElement) {
+    const modalInstance = Modal.getInstance(modalElement);
+    if (modalInstance) {
+      modalInstance.hide();
     }
+  } else {
+    console.error(`Modal with id "${modalId}" not found.`);
+  }
 }
-
 
 /**
  * Показывает тост Bootstrap.
@@ -56,16 +55,15 @@ export function showToast(toastId, options = {}) {
  * @param {'success'|'error'|'warning'|'info'} type - Тип тоста для стилизации (добавьте соответствующие CSS классы).
  * @param {number} [delay=5000] - Задержка перед автоматическим скрытием.
  */
-export function createAndShowToast(message, type = 'info', delay = 5000) {
-    const toastContainer = document.querySelector('.toast-container');
-    if (!toastContainer) {
-        console.error('Toast container ".toast-container" not found in the DOM.');
-        return;
-    }
-    console.log('Toast container found in the DOM.');
+export function createAndShowToast(message, type = "info", delay = 5000) {
+  const toastContainer = document.querySelector(".toast-container");
+  if (!toastContainer) {
+    console.error('Toast container ".toast-container" not found in the DOM.');
+    return;
+  }
 
-    const toastId = `toast-${Date.now()}`;
-    const toastHTML = `
+  const toastId = `toast-${Date.now()}`;
+  const toastHTML = `
         <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="${delay}">
             <div class="d-flex">
                 <div class="toast-body">
@@ -75,16 +73,13 @@ export function createAndShowToast(message, type = 'info', delay = 5000) {
             </div>
         </div>
     `;
-    console.log('Toast HTML created.');
-    toastContainer.insertAdjacentHTML('beforeend', toastHTML);
-    const toastElement = document.getElementById(toastId);
-    const toastInstance = Toast.getOrCreateInstance(toastElement);
-    console.log('Toast instance created.');
-    toastInstance.show();
-    console.log('Toast shown.', toastInstance);
+  toastContainer.insertAdjacentHTML("beforeend", toastHTML);
+  const toastElement = document.getElementById(toastId);
+  const toastInstance = Toast.getOrCreateInstance(toastElement);
+  toastInstance.show();
 
-    // Удаляем элемент тоста из DOM после его скрытия
-    toastElement.addEventListener('hidden.bs.toast', () => {
-        toastElement.remove();
-    });
+  // Удаляем элемент тоста из DOM после его скрытия
+  toastElement.addEventListener("hidden.bs.toast", () => {
+    toastElement.remove();
+  });
 }

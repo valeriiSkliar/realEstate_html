@@ -41,5 +41,53 @@ $custom-theme-colors: (
 
 $theme-colors: map-merge($custom-theme-colors, $theme-colors);
 
+/* Button specific styles */
+.btn-outline-brand-turquoise {
+  color: var(--brand-turquoise);
+  border-color: var(--brand-turquoise);
+}
+.btn-outline-brand-turquoise:hover,
+.btn-outline-brand-turquoise:focus,
+.btn-outline-brand-turquoise.active {
+  color: var(
+    --brand-light-gray
+  ); /* Or var(--brand-dark-navy) depending on contrast preference */
+  background-color: var(--brand-turquoise);
+  border-color: var(--brand-turquoise);
+}
+.btn-outline-brand-turquoise .sort-icon {
+  stroke: var(--brand-turquoise);
+}
+.btn-outline-brand-turquoise:hover .sort-icon,
+.btn-outline-brand-turquoise:focus .sort-icon,
+.btn-outline-brand-turquoise.active .sort-icon {
+  stroke: var(--brand-light-gray); /* Or var(--brand-dark-navy) */
+}
+
+.sort-dropdown .dropdown-menu {
+  border-radius: 0.5rem; /* Rounded corners for dropdown menu */
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--brand-light-gray);
+}
+
+.sort-dropdown .dropdown-item {
+  color: var(--brand-dark-navy-80);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+}
+.sort-dropdown .dropdown-item:hover,
+.sort-dropdown .dropdown-item:focus {
+  background-color: var(--brand-light-gray);
+  color: var(--brand-dark-navy);
+}
+.sort-dropdown .dropdown-item.active,
+.sort-dropdown .dropdown-item:active {
+  background-color: var(--brand-turquoise);
+  color: var(--brand-light-gray);
+}
+.sort-dropdown .dropdown-divider {
+  border-top: 1px solid var(--brand-light-gray);
+}
+
 @import "bootstrap/scss/bootstrap";
 // 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
