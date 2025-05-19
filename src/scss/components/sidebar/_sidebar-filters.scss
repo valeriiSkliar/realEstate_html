@@ -37,6 +37,7 @@
 }
 
 .offcanvas-header {
+  justify-content: start !important;
   background-color: var(--sidebar-header-bg);
   color: var(--sidebar-header-color);
   border-bottom: 1px solid var(--sidebar-border-color);
@@ -44,18 +45,23 @@
 }
 
 .offcanvas-title {
+  margin-right: auto;
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--brand-dark-navy);
 }
 
 .btn-clear-filters {
-  color: var(--brand-bright-pink);
+  margin-right: 20px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--brand-dark-navy);
   font-weight: 500;
   font-size: 0.9rem;
 }
 .btn-clear-filters:hover {
-  color: var(--brand-bright-pink-80);
+  color: var(--brand-dark-navy-80);
 }
 
 .offcanvas-body {
@@ -242,33 +248,4 @@
   background-color: var(--brand-lime-green-80);
   border-color: var(--brand-lime-green-80);
   color: var(--brand-dark-navy);
-}
-
-/* Demo page styles */
-body.demo-page {
-  /* Added a class to scope demo styles */
-  padding: 20px;
-  background-color: #f8f9fa; /* Light background for demo page */
-}
-.demo-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-}
-.demo-header {
-  margin-bottom: 30px;
-  text-align: center;
-}
-.btn-brand-turquoise {
-  background-color: var(--brand-turquoise);
-  color: var(--brand-light-gray);
-  border-color: var(--brand-turquoise);
-}
-.btn-brand-turquoise:hover {
-  background-color: var(--brand-turquoise-80);
-  border-color: var(--brand-turquoise-80);
-  color: var(--brand-light-gray);
 }
