@@ -1,0 +1,116 @@
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  left: auto;
+  width: 80%;
+  height: 100vh;
+  background-color: #fff;
+  z-index: 2000;
+  transition: right 0.3s ease;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 75px 30px 30px 30px;
+  display: flex;
+  flex-direction: column;
+
+  &.is-active {
+    right: 0;
+  }
+
+  &__header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    border-bottom: 1px solid #eee;
+  }
+
+  &__close {
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    color: #666;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    cursor: pointer;
+  }
+
+  &__list {
+    list-style-type: none;
+    padding: 20px;
+    margin: 0;
+  }
+
+  &__item {
+    margin-bottom: 15px;
+    border-bottom: none;
+  }
+
+  &__link {
+    display: block;
+    padding: 8px 0;
+    text-decoration: none;
+    color: #999;
+    font-family: "Oswald", sans-serif;
+    text-align: left;
+    font-size: 20px;
+    line-height: 10px;
+    text-transform: none;
+
+    .text-brand-lime {
+      color: #c4ff0e;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: transparent;
+    }
+  }
+
+  &__app-description {
+    margin-top: 20px;
+    text-align: end;
+    padding: 20px;
+    padding-right: 0;
+
+    p {
+      font-size: 15px;
+      line-height: 1.4;
+      color: #666;
+      text-align: end;
+      font-family: "Oswald", sans-serif;
+      letter-spacing: 2px;
+      line-height: 20px;
+    }
+
+    .text-brand-turquoise {
+      font-family: "Oswald", sans-serif;
+      letter-spacing: 2px;
+      line-height: 20px;
+      font-size: 15px;
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1500;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+
+  &.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+}

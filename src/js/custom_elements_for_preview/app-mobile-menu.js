@@ -14,48 +14,33 @@ export class AppMobileMenu extends HTMLElement {
         <ul class="mobile-menu__list">
           <li class="mobile-menu__item">
             <a href="/" class="mobile-menu__link">
-              <i class="bi bi-house text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Главная</span>
+              <span class="text-brand-lime">Главная</span>
             </a>
           </li>
           <li class="mobile-menu__item">
             <a href="/search.html" class="mobile-menu__link">
-              <i class="bi bi-search text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Поиск недвижимости</span>
+              <span class="text-light-gray-30">Поиск недвижимости</span>
             </a>
           </li>
           <li class="mobile-menu__item">
             <a href="/my-advertisements.html" class="mobile-menu__link">
-              <i class="bi bi-building text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Мои объявления</span>
-            </a>
-          </li>
-          <li class="mobile-menu__item">
-            <a href="/collections.html" class="mobile-menu__link">
-              <i class="bi bi-collection text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Мои подборки</span>
-            </a>
-          </li>
-          <li class="mobile-menu__item">
-            <a href="/favorites.html" class="mobile-menu__link">
-              <i class="bi bi-heart text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Избранное</span>
-            </a>
-          </li>
-          <li class="mobile-menu__item">
-            <a href="/profile.html" class="mobile-menu__link">
-              <i class="bi bi-person text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Профиль</span>
-            </a>
-          </li>
-          <li class="mobile-menu__item">
-            <a href="/support.html" class="mobile-menu__link">
-              <i class="bi bi-question-circle text-brand-turquoise"></i>
-              <span class="text-brand-dark-navy">Поддержка</span>
+              <span class="text-light-gray-30">Мои объявления</span>
             </a>
           </li>
         </ul>
+        
+        <div class="mobile-menu__app-description">
+          <p class="text-end">
+            <span class="text-brand-turquoise fw-bold">GoAnyTime</span> — приложение, которое делает простым и удобным поиск объектов недвижимости
+          </p>
+        </div>
       </nav>
     `;
+
+    // Add event listener for close button
+    this.querySelector(".js-menu-close").addEventListener("click", () => {
+      document.querySelector(".mobile-menu").classList.remove("is-active");
+      document.querySelector(".overlay").classList.remove("is-active");
+    });
   }
 }
