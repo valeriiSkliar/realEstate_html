@@ -1,240 +1,238 @@
-
 .profile-page {
-    padding: 15px;
-    background-color: #f5f5f5;
-    min-height: calc(100vh - 60px);
+  padding: 15px;
+  background-color: #f5f5f5;
+}
+
+// Profile Header
+.profile-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 15px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px;
+}
+
+.profile-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+
+  i {
+    font-size: 32px;
+    color: #6c757d;
   }
-  
-  // Profile Header
-  .profile-header {
-    display: flex;
-    align-items: center;
-    padding: 20px 15px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    margin-bottom: 15px;
-  }
-  
-  .profile-avatar {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background-color: #e9ecef;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    
-    i {
-      font-size: 32px;
-      color: #6c757d;
-    }
-  }
-  
-  .profile-info {
-    flex: 1;
-  }
-  
-  .profile-name-wrapper {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  
-  .profile-name {
-    font-size: 18px;
-    font-weight: 500;
-    margin: 0;
-    margin-right: 10px;
-  }
-  
-  .profile-tariff {
-    display: inline-block;
-    background-color: #4caf50;
-    color: white;
-    padding: 3px 10px;
-    border-radius: 15px;
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: uppercase;
-  }
-  
-  // Info Cards
-  .info-cards {
-    margin-bottom: 20px;
-  }
-  
-  .info-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    margin-bottom: 15px;
-    overflow: hidden;
-    
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px;
-      cursor: pointer;
-      border-bottom: 1px solid #f0f0f0;
-    }
-    
-    &__title {
-      margin: 0;
-      font-size: 14px;
-      font-weight: 500;
-      color: #6c757d;
-      text-transform: uppercase;
-    }
-    
-    &__icon {
-      color: #6c757d;
-      transition: transform 0.3s;
-      
-      &.is-active {
-        transform: rotate(180deg);
-      }
-    }
-    
-    &__content {
-      padding: 15px;
-      border-top: 1px solid #f0f0f0;
-      display: none;
-      
-      &.is-active {
-        display: block;
-      }
-    }
-    
-    &__text {
-      margin: 0 0 10px;
-      color: #333;
-    }
-    
-    &__action {
-      color: #007bff;
-      text-decoration: none;
-      font-size: 14px;
-      
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-  
-  // Referral Program
-  .referral-program {
-    width: 100%;
-  }
-  
-  .referral-label {
-    margin: 0 0 5px;
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .referral-link-container {
-    display: flex;
-    margin-bottom: 15px;
-  }
-  
-  .referral-link-input {
-    flex: 1;
-    border: 1px solid #ddd;
-    border-radius: 4px 0 0 4px;
-    padding: 8px 10px;
-    font-size: 14px;
-    background-color: #f8f9fa;
-    color: #555;
-    &:focus {
-      outline: none;
-      border-color: #aaa;
-    }
-  }
-  
-  .referral-copy-btn {
-    border: 1px solid #ddd;
-    border-left: none;
-    border-radius: 0 4px 4px 0;
-    background-color: #f8f9fa;
-    padding: 0 10px;
-    cursor: pointer;
-    
-    &:hover {
-      background-color: #e9ecef;
-    }
-    
-    i {
-      color: #6c757d;
-    }
-  }
-  
-  .referral-stats {
-    margin-top: 15px;
-  }
-  
-  .referral-stat-item {
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-name-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  margin-right: 10px;
+}
+
+.profile-tariff {
+  display: inline-block;
+  background-color: #4caf50;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+// Info Cards
+.info-cards {
+  margin-bottom: 20px;
+}
+
+.info-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px;
+  overflow: hidden;
+
+  &__header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-    
-    &:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6c757d;
+    text-transform: uppercase;
+  }
+
+  &__icon {
+    color: #6c757d;
+    transition: transform 0.3s;
+
+    &.is-active {
+      transform: rotate(180deg);
     }
   }
-  
-  .referral-stat-label {
-    color: #666;
+
+  &__content {
+    padding: 15px;
+    border-top: 1px solid #f0f0f0;
+    display: none;
+
+    &.is-active {
+      display: block;
+    }
   }
-  
-  .referral-stat-value {
-    font-weight: 500;
+
+  &__text {
+    margin: 0 0 10px;
     color: #333;
   }
-  
-  // Profile Actions
-  .profile-actions {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .profile-action-link {
+
+  &__action {
     color: #007bff;
     text-decoration: none;
-    font-size: 16px;
-    
+    font-size: 14px;
+
     &:hover {
       text-decoration: underline;
     }
   }
-  
-  // Subscriptions Link
-  .profile-subscriptions {
-    text-align: center;
-    margin-bottom: 20px;
+}
+
+// Referral Program
+.referral-program {
+  width: 100%;
+}
+
+.referral-label {
+  margin: 0 0 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+.referral-link-container {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.referral-link-input {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  padding: 8px 10px;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  color: #555;
+  &:focus {
+    outline: none;
+    border-color: #aaa;
   }
-  
-  .subscription-link {
+}
+
+.referral-copy-btn {
+  border: 1px solid #ddd;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  background-color: #f8f9fa;
+  padding: 0 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e9ecef;
+  }
+
+  i {
     color: #6c757d;
-    text-decoration: none;
-    font-size: 14px;
-    
-    &:hover {
-      text-decoration: underline;
-      color: #495057;
-    }
   }
-  
-  // Copyright
-  .profile-copyright {
-    text-align: center;
-    color: #6c757d;
-    font-size: 14px;
-    margin-bottom: 20px;
+}
+
+.referral-stats {
+  margin-top: 15px;
+}
+
+.referral-stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
   }
+}
+
+.referral-stat-label {
+  color: #666;
+}
+
+.referral-stat-value {
+  font-weight: 500;
+  color: #333;
+}
+
+// Profile Actions
+.profile-actions {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-action-link {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 16px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Subscriptions Link
+.profile-subscriptions {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.subscription-link {
+  color: #6c757d;
+  text-decoration: none;
+  font-size: 14px;
+
+  &:hover {
+    text-decoration: underline;
+    color: #495057;
+  }
+}
+
+// Copyright
+.profile-copyright {
+  text-align: center;
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
