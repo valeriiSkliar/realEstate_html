@@ -88,6 +88,7 @@ const initSidebarFilters = () => {
 
   initializeSelect2("#district-select", "Выберите район(ы)");
   initializeSelect2("#complex-select", "Выберите ЖК");
+  initializeSelect2("#rooms-number-select", "Выберите количество комнат");
 
   // Ensure Select2 dropdowns are correctly positioned when sidebar opens
   var mobileSidebarElement = document.getElementById("mobileFilterSidebar");

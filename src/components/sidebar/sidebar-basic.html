@@ -97,8 +97,8 @@
           <div class="deal-type-tabs">
             <div class="tab-group">
               <div class="tab-item active">
-                <input type="radio" name="deal_type" value="buy" id="deal-type-buy" class="tab-input" checked>
-                <label for="deal-type-buy" class="tab-label mb-0">Купить</label>
+                <input type="radio" name="deal_type" value="sell" id="deal-type-sell" class="tab-input" checked>
+                <label for="deal-type-sell" class="tab-label mb-0">Продажа</label>
               </div>
               <div class="tab-item">
                 <input type="radio" name="deal_type" value="rent" id="deal-type-rent" class="tab-input">
@@ -107,7 +107,7 @@
             </div>
           </div>
 
-          <div class="rent-period-tabs">
+          <div class="rent-period-tabs d-none">
             <div class="tab-group">
               <div class="tab-item">
                 <input type="checkbox" name="new_for_today" value="true" id="new-for-today" class="tab-input">
@@ -118,7 +118,7 @@
 
           <!-- Тип недвижимости -->
           <div class="form-group">
-            <select name="property_type" class="form-control">
+            <select name="property_type" id="property_type_select" class="form-control">
               <option value="apartment">Квартиру</option>
               <option value="house">Дом</option>
               <option value="commercial">Коммерция</option>
@@ -127,6 +127,46 @@
             </select>
             <i class="fa fa-chevron-down dropdown-icon"></i>
           </div>
+
+          <!-- Тип комнат для квартир и дома -->
+          <div class="form-group p-2 border-1 rounded-2 border-dark-subtle border" id="property-rooms">
+            <label class="form-label"
+              >Тип</label
+            >
+          <div class="form-group d-flex flex-wrap gap-2">
+            <div class="form-check flex-grow-1 w-100">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="roomsType[]"
+                value="studio"
+                id="rooms-studio"
+              />
+              <label class="form-check-label" for="rooms-studio">
+                Студия
+              </label>
+            </div>
+            <div class="w-100">
+              <div class="rooms-number-option" data-option-type="rooms-number">
+                <label class="form-label">Количество комнат</label>
+                <select
+                  class="form-select select2-rooms-number"
+                  id="rooms-number-select"
+                  name="rooms-number[]"
+                  data-placeholder="Количество комнат"
+                  multiple="multiple"
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          </div>
+
 
           <!-- Цена -->
           <div class="filter-section">

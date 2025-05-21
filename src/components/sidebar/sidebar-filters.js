@@ -42,7 +42,6 @@ $(function () {
     $('#sidebarOverlay').removeClass('show');
     $('body').removeClass('sidebar-open');
   }
-
 });
 
 /**
@@ -137,8 +136,31 @@ $(function () {
     dropdownParent: $('.location-option[data-option-type="complex"]'),
   });
 
+  initializeSelect2("#rooms-number-select", {
+    dropdownParent: $('.rooms-number-option[data-option-type="rooms-number"]'),
+  });
+
   // Initialize district select
   initializeSelect2("#district-select", {
     dropdownParent: $('.location-option[data-option-type="district"]'),
   });
 });
+
+    // Toggle rooms visibility based on property type
+$(function () {
+    const propertyType = document.getElementById("property_type_select");
+    const propertyRooms = document.getElementById("property-rooms");
+    
+    function toggleRoomsVisibility() {
+      propertyRooms.classList.toggle("d-none", !["apartment", "house"].includes(propertyType.value));
+    }
+  
+    if (propertyType && propertyRooms) {
+      // Initial visibility check
+      toggleRoomsVisibility();
+      
+      // Listen for changes
+      propertyType.addEventListener("change", toggleRoomsVisibility);
+      
+    }
+})
