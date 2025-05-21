@@ -1,34 +1,52 @@
 .footer {
-    background-color: #f8f9fa;
-    padding: 20px 15px;
-    margin-top: 30px;
-    border-top: 1px solid #eee;
-    
-    &__container {
-      max-width: 100%;
-    }
-    
-    &__nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 15px;
-    }
-    
-    &__link {
-      color: #666;
-      text-decoration: none;
-      padding: 5px 10px;
-      font-size: 0.9rem;
-      
-      &:hover, &:focus {
-        color: #333;
-      }
-    }
-    
-    &__copyright {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #999;
+  background-color: #f8f9fa;
+  padding: 20px 15px;
+  margin-top: 30px;
+  border-top: 1px solid #eee;
+  // position: sticky;
+  // bottom: 0;
+  // width: 100%;
+
+  &__container {
+    max-width: 100%;
+  }
+
+  &__logo {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    img {
+      height: 30px;
     }
   }
+
+  &__nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+
+  &__link {
+    color: #666;
+    text-decoration: none;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+
+    &:hover,
+    &:focus {
+      color: #333;
+    }
+  }
+
+  &__copyright {
+    font-family: "Oswald";
+    letter-spacing: 2px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #999;
+  }
+}

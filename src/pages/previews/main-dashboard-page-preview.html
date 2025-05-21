@@ -15,30 +15,193 @@
       rel="stylesheet"
     />
     <style>
-      /* Basic styles for the dashboard cards - you can move this to your SCSS */
-      .dashboard-card {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      /* Базовые стили для страницы */
+      body {
+        font-family: "Roboto", sans-serif;
+        color: #333e48;
+        background-color: #f8f8f8;
+      }
+
+      /* Стили для карточек навигации */
+      .nav-cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 20px;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        aspect-ratio: 1 / 1;
+      }
+
+      .nav-card {
+        width: 100%;
+        height: 100%;
+        max-height: none;
+        background-color: #f8f8f8;
+        border-radius: 12px;
+        overflow: hidden;
         text-decoration: none;
-        color: inherit; /* Inherit text color */
-      }
-      .dashboard-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-      }
-      .dashboard-card .card-body {
+        color: #333e48;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
         display: flex;
         flex-direction: column;
+        padding: 24px;
+      }
+
+      .nav-card:hover,
+      .nav-card:focus {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-card__illustration {
+        height: 160px;
+        display: flex;
         align-items: center;
         justify-content: center;
+        margin-bottom: 25px;
+      }
+
+      .nav-card__illustration img {
+        /* width: 100%;
+        height: auto; */
+        width: 70px;
+        height: 70px;
+        --border-radius: 0px;
+        object-fit: contain;
+      }
+
+      .nav-card__title {
+        font-size: 17px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin: 0 0 12px 0;
+        font-size: 17px;
+        line-height: 20px;
+        color: rgba(8, 8, 8, 1);
         text-align: center;
+        text-transform: uppercase;
+        text-decoration: underline;
+        margin-bottom: 5px;
+        margin-top: 0px;
       }
-      .dashboard-card i {
-        font-size: 2.5rem; /* Larger icons */
-        margin-bottom: 0.75rem;
+
+      .nav-card__description {
+        text-align: center;
+        font-family: "Oswald";
+        font-size: 17px;
+        font-style: normal;
+        font-weight: 300;
+        letter-spacing: 0px;
+        line-height: 20px;
+        text-decoration: none;
+        text-transform: none;
+        margin-bottom: 0px;
+        margin-top: 0px;
       }
-      .dashboard-card .card-title {
-        font-size: 1.1rem;
-        font-weight: 500;
+
+      /* Специфические стили для карточки "Поиск" */
+      .nav-card--green {
+        background-color: #d3f40b;
+      }
+
+      /* Специфические стили для карточки "Мой профиль" */
+      .nav-card--blue {
+        background-color: #3cbfc8;
+        color: #fff;
+      }
+
+      .nav-card--blue .nav-card__title,
+      .nav-card--blue .nav-card__description {
+        color: #fff;
+      }
+
+      /* Адаптивность для мобильных устройств */
+      @media (max-width: 768px) {
+        .nav-cards {
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: repeat(2, 1fr);
+          gap: 10px;
+          width: 100%;
+          aspect-ratio: 1 / 1;
+        }
+
+        .nav-card {
+          padding: 10px;
+          height: fit-content;
+        }
+
+        .nav-card__illustration {
+          margin: 0 auto;
+          height: 70px;
+          width: 70px;
+        }
+
+        .nav-card__title {
+          font-size: 14px;
+          margin-bottom: 3px;
+          text-align: center;
+          font-family: "Oswald";
+        }
+
+        .nav-card__description {
+          font-size: 12px;
+          line-height: 1.2;
+          text-align: center;
+          font-family: "Oswald";
+        }
+      }
+
+      /* Стили для доступности */
+      .nav-card:focus-visible {
+        outline: 3px solid #333e48;
+        outline-offset: 3px;
+      }
+
+      .app-name {
+        color: #00e0ff;
+        font-weight: 600;
+      }
+
+      .item-video {
+        width: 100%;
+        height: 100%;
+        max-height: 300px;
+        margin: 30px auto;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .video-wrapper {
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%; /* соотношение сторон 16:9 */
+        position: relative;
+      }
+
+      .video-wrapper video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        background-color: #000;
+      }
+
+      /* Стили для пользовательских элементов управления видео */
+      video::-webkit-media-controls-panel {
+        background-color: rgba(0, 0, 0, 0.6);
+      }
+
+      /* Адаптивность для видео */
+      @media (max-width: 768px) {
+        .item-video {
+          max-height: 290px;
+        }
       }
     </style>
   </head>
@@ -49,123 +212,86 @@
 
     <main class="page-content">
       <div id="app">
-        <div
-          class="welcome-section py-4 mb-4 rounded-4 bg-brand-light-gray text-brand-dark-navy border border-brand-light-gray"
-        >
-          <div class="container text-center">
-            <h1 class="welcome-section__title h2">Добро пожаловать!</h1>
-            <p class="welcome-section__subtitle lead">
-              Самый быстрый способ найти и купить недвижимость в Краснодаре.
+        <div class="welcome-section">
+          <div class="container">
+            <h1 class="welcome-section__title">Добро пожаловать!</h1>
+            <p class="welcome-section__subtitle">
+              <span class="app-name">GoAnyTime</span> — приложение, которое
+              делает простым и удобным поиск недвижимости
             </p>
           </div>
         </div>
 
         <div class="container">
-          <div class="row g-3">
-            <div class="col-6 col-md-4 col-lg-3">
-              <a
-                href="/search.html"
-                class="card dashboard-card h-100 shadow-sm"
-              >
-                <div class="card-body">
-                  <i class="bi bi-search text-brand-turquoise"></i>
-                  <h5 class="card-title mb-0 text-brand-dark-navy">Поиск</h5>
-                </div>
-              </a>
-            </div>
+          <div class="nav-cards">
+            <!-- Карточка "ПОИСК" -->
+            <a
+              href="/search.html"
+              class="nav-card nav-card--green"
+              aria-label="Перейти к поиску объектов"
+            >
+              <div class="nav-card__illustration">
+                <img src="../../images/search_card.svg" alt="Поиск" />
+              </div>
+              <h2 class="nav-card__title">Поиск</h2>
+              <p class="nav-card__description">
+                Найдите объект по нужным параметрам
+              </p>
+            </a>
 
-            <div class="col-6 col-md-4 col-lg-3">
-              <a
-                href="/my-advertisements.html"
-                class="card dashboard-card h-100 shadow-sm"
-              >
-                <div class="card-body">
-                  <i class="bi bi-building text-brand-turquoise"></i>
-                  <h5 class="card-title mb-0 text-brand-dark-navy">
-                    Мои объекты
-                  </h5>
-                </div>
-              </a>
-            </div>
+            <!-- Карточка "МОИ ОБЪЕКТЫ" -->
+            <a
+              href="/my-advertisements.html"
+              class="nav-card"
+              aria-label="Перейти к управлению своими объектами"
+            >
+              <div class="nav-card__illustration">
+                <img src="../../images/my_objects_card.svg" alt="Мои объекты" />
+              </div>
+              <h2 class="nav-card__title text-brand-turquoise">Мои объекты</h2>
+              <p class="nav-card__description">
+                Добавляйте и редактируйте свои объявления
+              </p>
+            </a>
 
-            <div class="col-6 col-md-4 col-lg-3">
-              <a
-                href="/collections.html"
-                class="card dashboard-card h-100 shadow-sm"
-              >
-                <div class="card-body">
-                  <i class="bi bi-collection text-brand-turquoise"></i>
-                  <h5 class="card-title mb-0 text-brand-dark-navy">
-                    Мои подборки
-                  </h5>
-                </div>
-              </a>
-            </div>
+            <!-- Карточка "ИЗБРАННОЕ" -->
+            <a
+              href="/favorites.html"
+              class="nav-card"
+              aria-label="Перейти к избранным объектам"
+            >
+              <div class="nav-card__illustration">
+                <img src="../../images/favorites_card.svg" alt="Избранное" />
+              </div>
+              <h2 class="nav-card__title text-brand-turquoise">Избранное</h2>
+              <p class="nav-card__description">
+                Сохраняйте понравившееся объекты в подборки
+              </p>
+            </a>
 
-            <div class="col-6 col-md-4 col-lg-3">
-              <a
-                href="/favorites.html"
-                class="card dashboard-card h-100 shadow-sm"
-              >
-                <div class="card-body">
-                  <i class="bi bi-heart text-brand-turquoise"></i>
-                  <h5 class="card-title mb-0 text-brand-dark-navy">
-                    Избранное
-                  </h5>
-                </div>
-              </a>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-              <a
-                href="/subscriptions.html"
-                class="card dashboard-card h-100 shadow-sm"
-              >
-                <div class="card-body">
-                  <i class="bi bi-credit-card text-brand-turquoise"></i>
-                  <h5 class="card-title mb-0 text-brand-dark-navy">Подписки</h5>
-                </div>
-              </a>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-              <a
-                href="/profile.html"
-                class="card dashboard-card h-100 shadow-sm"
-              >
-                <div class="card-body">
-                  <i class="bi bi-person text-brand-turquoise"></i>
-                  <h5 class="card-title mb-0 text-brand-dark-navy">Профиль</h5>
-                </div>
-              </a>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-              <a
-                href="/support.html"
-                class="card dashboard-card h-100 shadow-sm"
-              >
-                <div class="card-body">
-                  <i class="bi bi-question-circle text-brand-turquoise"></i>
-                  <h5 class="card-title mb-0 text-brand-dark-navy">
-                    Поддержка
-                  </h5>
-                </div>
-              </a>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-              <a
-                href="/listings-create.html"
-                class="card dashboard-card h-100 shadow-sm bg-brand-lime-green border-brand-lime-green"
-              >
-                <div class="card-body">
-                  <i class="bi bi-plus-circle-fill text-brand-dark-navy"></i>
-                  <h5 class="card-title mb-0 text-brand-dark-navy">
-                    Добавить объявление
-                  </h5>
-                </div>
-              </a>
+            <!-- Карточка "МОЙ ПРОФИЛЬ" -->
+            <a
+              href="/profile.html"
+              class="nav-card"
+              aria-label="Перейти в личный профиль"
+            >
+              <div class="nav-card__illustration">
+                <img src="../../images/profile_card.png" alt="Мой профиль" />
+              </div>
+              <h2 class="nav-card__title text-brand-turquoise">Мой профиль</h2>
+              <p class="nav-card__description">
+                Поиск объектов по выбранным параметрам
+              </p>
+            </a>
+          </div>
+          <div class="item-video">
+            <div class="video-wrapper">
+              <video controls="">
+                <source
+                  src="https://xn----jtbargnhdv.xn--p1ai/images/Cimmetria_2.0.mp4"
+                  type="video/mp4"
+                />
+              </video>
             </div>
           </div>
         </div>
