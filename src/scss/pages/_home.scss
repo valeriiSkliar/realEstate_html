@@ -1,3 +1,4 @@
+@use "../brand_color" as *;
 .welcome-section {
   text-align: center;
   padding: 30px 20px;
@@ -78,6 +79,19 @@
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   }
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: $lime-green;
+
+    .nav-card__title {
+      color: $dark-navy;
+    }
+
+    .nav-card__description {
+      color: $dark-navy;
+    }
+  }
 
   &:focus-visible {
     outline: 3px solid #333e48;
@@ -111,6 +125,7 @@
     text-decoration: underline;
     margin-bottom: 5px;
     margin-top: 0px;
+    color: $turquoise;
   }
 
   &__description {
