@@ -1,6 +1,9 @@
 @use "brand_color" as *;
 @use "customization_bootstrap" as *;
 
+// Google Fonts - Oswald
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap");
+
 // 8. Add additional custom code and imports here
 
 // Swiper styles
@@ -36,9 +39,9 @@
 //   margin: 0;
 // }
 
-// .page-content {
-//   min-height: calc(100vh - 130px); // Account for header and footer
-// }
+.page-content {
+  min-height: calc(100vh - 130px); // Account for header and footer
+}
 
 // // Layout components
 // .container {
@@ -55,6 +58,15 @@
 // }
 
 // Simple main.scss for testing
+
+html,
+body {
+  scroll-behavior: smooth;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 
 // Define some basic styles to see if they're applied
 body {
