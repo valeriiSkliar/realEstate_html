@@ -106,103 +106,102 @@
               >
             </custom-breadcrumb>
             <div class="container mt-3 mb-3">
-              <div
-                class="d-flex align-items-center justify-content-between gap-2 flex-nowrap"
-              >
-                <form class="search-bar-brand w-100 mb-0" role="search">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Поиск по адресу, району или ЖК..."
-                    aria-label="Поиск"
-                  />
-                  <i class="bi bi-search"></i>
-                </form>
-                <div class="d-flex align-items-center gap-1">
-                  <div
-                    id="search-sort-dropdown"
-                    class="dropdown sort-dropdown me-2"
-                  >
-                    <button
-                      class="btn btn-outline-brand-turquoise p-1 dropdown-toggle"
-                      type="button"
-                      id="sortDropdownButton"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      title="Сортировать"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="sort-icon"
+              <div class="search-controls">
+                <div
+                  class="d-flex align-items-center justify-content-between gap-3"
+                >
+                  <form class="search-bar-brand w-100 mb-0" role="search">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Поиск ..."
+                      aria-label="Поиск"
+                    />
+                    <i class="bi bi-search"></i>
+                  </form>
+                  <div class="controls-group">
+                    <div id="search-sort-dropdown" class="dropdown">
+                      <button
+                        class="btn-sort"
+                        type="button"
+                        id="sortDropdownButton"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        title="Сортировать"
                       >
-                        <path d="m3 16 4 4 4-4" />
-                        <path d="M7 20V4" />
-                        <path d="m21 8-4-4-4 4" />
-                        <path d="M17 4v16" />
-                      </svg>
-                    </button>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end"
-                      aria-labelledby="sortDropdownButton"
-                    >
-                      <li>
-                        <a
-                          class="dropdown-item"
-                          href="#"
-                          data-sort="price"
-                          data-direction="asc"
-                          >Цена (по возрастанию)</a
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="sort-icon"
                         >
-                      </li>
-                      <li>
-                        <a
-                          class="dropdown-item"
-                          href="#"
-                          data-sort="price"
-                          data-direction="desc"
-                          >Цена (по убыванию)</a
-                        >
-                      </li>
-                      <li><hr class="dropdown-divider" /></li>
-                      <li>
-                        <a
-                          class="dropdown-item"
-                          href="#"
-                          data-sort="date"
-                          data-direction="asc"
-                          >Дата (сначала старые)</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          class="dropdown-item active"
-                          href="#"
-                          data-sort="date"
-                          data-direction="desc"
-                          >Дата (сначала новые)</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
+                          <path d="m3 16 4 4 4-4" />
+                          <path d="M7 20V4" />
+                          <path d="m21 8-4-4-4 4" />
+                          <path d="M17 4v16" />
+                        </svg>
+                      </button>
+                      <ul
+                        class="dropdown-menu dropdown-menu-end"
+                        aria-labelledby="sortDropdownButton"
+                      >
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            data-sort="price"
+                            data-direction="asc"
+                            >Цена (по возрастанию)</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            data-sort="price"
+                            data-direction="desc"
+                            >Цена (по убыванию)</a
+                          >
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            data-sort="date"
+                            data-direction="asc"
+                            >Дата (сначала старые)</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item active"
+                            href="#"
+                            data-sort="date"
+                            data-direction="desc"
+                            >Дата (сначала новые)</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
 
-                  <button
-                    class="btn btn-brand-turquoise px-2 py-1"
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#mobileFilterSidebar"
-                    aria-controls="mobileFilterSidebar"
-                    title="Фильтры"
-                  >
-                    <i class="bi bi-funnel-fill"></i>
-                  </button>
+                    <button
+                      class="btn-filter"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#mobileFilterSidebar"
+                      aria-controls="mobileFilterSidebar"
+                      title="Фильтры"
+                    >
+                      <i class="bi bi-funnel-fill"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
               <h6 class="section-title fs-6 py-2 text-brand-dark-navy">
@@ -211,286 +210,31 @@
             </div>
             <div class="container">
               <div class="my-listings-list">
-                <!-- 1 -->
-                <div class="listing-item card card-body mb-3">
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <div class="col-md-7 listing-item__main-info">
-                      <h5 class="listing-item__address mb-1 fs-6 fw-semibold">
-                        ул. Красная, дом 100, кв. 55
-                      </h5>
-                      <p
-                        class="listing-item__location text-brand-dark-navy-50 small mb-1"
-                      >
-                        Центральный район, г. Краснодар
-                      </p>
-                      <div
-                        class="d-flex flex-wrap gap-3 small align-items-center"
-                      >
-                        <span
-                          class="listing-item__price fw-semibold text-brand-turquoise"
-                          >12 500 000 ₽</span
-                        >
-                        <span class="listing-item__date text-brand-dark-navy-50"
-                          ><i class="bi bi-calendar3 me-1"></i> 05.05.2025</span
-                        >
-                        <span class="text-brand-dark-navy-50"
-                          ><i class="bi bi-eye me-1"></i> 150</span
-                        >
-                      </div>
-                    </div>
-                    <div
-                      class="col-md-5 ps-1 listing-item__controls d-flex flex-column justify-content-end align-items-center gap-2 mt-2 mt-md-0"
-                    >
-                      <a
-                        href="#"
-                        class="btn btn-sm btn-outline-brand-turquoise"
-                        title="add to collection"
-                        ><i class="bi bi-list"></i
-                      ></a>
-                      <button
-                        class="btn btn-sm btn-outline-secondary"
-                        title="add to favorites"
-                      >
-                        <i class="bi bi-heart"></i>
-                      </button>
-                      <button
-                        class="btn btn-sm btn-outline-brand-bright-pink js-delete-listing"
-                        title="Удалить"
-                      >
-                        <i class="bi bi-flag"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <property-list-component>
+                  <property-summary-card
+                    title-text="1-к. квартира, 65 м2 | Зиповская"
+                    title-href="/property-details/123"
+                    price-text="₽ 14 000 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"ЖК «Фонтаны»"},
+                          {"label":"Улица", "value":"Ставропольская ул."},
+                          {"label":"Этаж", "value":"10"},
+                          {"label":"Состояние", "value":"Ремонт"}
+                      ]'
+                  ></property-summary-card>
 
-                <!-- 2 -->
-                <div class="listing-item card mb-3 variant-2">
-                  <div
-                    class="row g-0 align-items-center justify-content-between"
-                  >
-                    <div class="col-8">
-                      <div class="card-body listing-item__main-info">
-                        <h5 class="listing-item__address mb-1 fs-6 fw-semibold">
-                          ул. Красная, дом 100, кв. 55
-                        </h5>
-                        <p
-                          class="listing-item__location text-brand-dark-navy-50 small mb-2"
-                        >
-                          Центральный район, г. Краснодар
-                        </p>
-                        <h4
-                          class="listing-item__price fw-semibold text-brand-turquoise mb-2"
-                        >
-                          12 500 000 ₽
-                        </h4>
-                        <div
-                          class="d-flex justify-content-start gap-3 small text-brand-dark-navy-50"
-                        >
-                          <span class="listing-item__date"
-                            ><i class="bi bi-calendar3 me-1"></i>
-                            05.05.2025</span
-                          >
-                          <span><i class="bi bi-eye me-1"></i> 150</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="col-2 bg-brand-dark-navy listing-item__controls d-flex flex-column justify-content-around align-items-center p-2"
-                    >
-                      <a
-                        href="#"
-                        class="btn btn-icon-text text-brand-light-gray w-100 mb-2"
-                        title="Добавить в подборку"
-                      >
-                        <i class="bi bi-list fs-5 text-brand-lime-green"></i>
-                        <span class="small d-block"></span>
-                      </a>
-                      <button
-                        class="btn btn-icon-text text-brand-light-gray w-100 mb-2"
-                        title="В избранное"
-                      >
-                        <i class="bi bi-heart fs-5 text-brand-lime-green"></i>
-                        <span class="small d-block"></span>
-                      </button>
-                      <button
-                        class="btn btn-icon-text text-brand-light-gray w-100"
-                        title="Пожаловаться"
-                      >
-                        <i class="bi bi-flag fs-5 text-brand-lime-green"></i>
-                        <span class="small d-block"></span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- 3 -->
-                <div class="listing-item card card-body mb-3 variant-1">
-                  <div
-                    class="variant-1__price-header bg-brand-lime-green text-brand-dark-navy p-2 text-center"
-                  >
-                    <h4 class="listing-item__price fw-bold mb-0">
-                      12 500 000 ₽
-                    </h4>
-                  </div>
-                  <div class="listing-item__main-info p-3">
-                    <h5 class="listing-item__address mb-1 fs-6 fw-semibold">
-                      ул. Красная, дом 100, кв. 55
-                    </h5>
-                    <p
-                      class="listing-item__location text-brand-dark-navy-50 small mb-2"
-                    >
-                      Центральный район, г. Краснодар
-                    </p>
-                    <div
-                      class="d-flex justify-content-between small text-brand-dark-navy-50"
-                    >
-                      <span class="listing-item__date"
-                        ><i class="bi bi-calendar3 me-1"></i> 05.05.2025</span
-                      >
-                      <span><i class="bi bi-eye me-1"></i> 150</span>
-                    </div>
-                  </div>
-                  <div
-                    class="listing-item__controls d-flex justify-content-around p-2 border-top"
-                  >
-                    <a
-                      href="#"
-                      class="btn btn-sm btn-brand-turquoise text-brand-light-gray flex-fill mx-1"
-                      title="Добавить в подборку"
-                      ><i class="bi bi-list me-1"></i>
-                    </a>
-                    <button
-                      class="btn btn-sm btn-brand-bright-pink text-brand-light-gray flex-fill mx-1"
-                      title="В избранное"
-                    >
-                      <i class="bi bi-heart me-1"></i>
-                    </button>
-                    <button
-                      class="btn btn-sm btn-outline-secondary flex-fill mx-1"
-                      title="Пожаловаться"
-                    >
-                      <i class="bi bi-flag me-1"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <!-- 4 -->
-                <div
-                  class="listing-item card card-body mb-3 variant-3"
-                  style="background-color: rgba(0, 201, 221, 0.1)"
-                >
-                  <div class="listing-item__main-info">
-                    <h5 class="listing-item__address mb-1 fs-6 fw-semibold">
-                      ул. Красная, дом 100, кв. 55
-                    </h5>
-                    <p
-                      class="listing-item__location text-brand-dark-navy-50 small mb-2"
-                    >
-                      Центральный район, г. Краснодар
-                    </p>
-                    <div
-                      class="d-flex justify-content-between align-items-center mb-2"
-                    >
-                      <span
-                        class="listing-item__price fw-bold fs-5"
-                        style="color: #ff3fc0"
-                        >12 500 000 ₽</span
-                      >
-                      <div class="d-flex gap-3 small text-brand-dark-navy-50">
-                        <span class="listing-item__date"
-                          ><i class="bi bi-calendar3 me-1"></i> 05.05.2025</span
-                        >
-                        <span><i class="bi bi-eye me-1"></i> 150</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="listing-item__controls d-flex justify-content-end gap-3 border-top pt-2"
-                  >
-                    <a
-                      href="#"
-                      class="btn btn-sm btn-outline-brand-turquoise"
-                      title="Добавить в подборку"
-                      ><i class="bi bi-list fs-5"></i
-                    ></a>
-                    <button
-                      class="btn btn-sm btn-outline-brand-bright-pink"
-                      title="В избранное"
-                    >
-                      <i class="bi bi-heart fs-5"></i>
-                    </button>
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      title="Пожаловаться"
-                    >
-                      <i class="bi bi-flag fs-5"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <!-- 5 -->
-                <div
-                  class="listing-item card card-body mb-3 variant-4 text-brand-light-gray"
-                  style="
-                    background: linear-gradient(
-                      135deg,
-                      #252736 0%,
-                      #007a85 100%
-                    );
-                  "
-                >
-                  <div class="listing-item__main-info mb-auto">
-                    <h5 class="listing-item__address mb-1 fs-6 fw-semibold">
-                      <a
-                        href="/property-view-standalone.html"
-                        class="text-brand-light-gray"
-                        >ул. Красная, дом 100, кв. 55</a
-                      >
-                    </h5>
-                    <p
-                      class="listing-item__location small mb-2"
-                      style="opacity: 0.8"
-                    >
-                      Центральный район, г. Краснодар
-                    </p>
-                    <h4 class="listing-item__price fw-semibold mb-3">
-                      12 500 000 ₽
-                    </h4>
-                    <div
-                      class="d-flex justify-content-start gap-3 small"
-                      style="opacity: 0.7"
-                    >
-                      <span class="listing-item__date"
-                        ><i class="bi bi-calendar3 me-1"></i> 05.05.2025</span
-                      >
-                      <span><i class="bi bi-eye me-1"></i> 150</span>
-                    </div>
-                  </div>
-                  <div
-                    class="listing-item__controls d-flex justify-content-end align-items-center gap-2 mt-3"
-                  >
-                    <a
-                      href="#"
-                      class="btn btn-sm btn-outline-light"
-                      title="Добавить в подборку"
-                      ><i class="bi bi-list"></i
-                    ></a>
-                    <button
-                      class="btn btn-sm btn-outline-light"
-                      title="В избранное"
-                    >
-                      <i class="bi bi-heart"></i>
-                    </button>
-                    <button
-                      class="btn btn-sm btn-outline-light"
-                      title="Пожаловаться"
-                    >
-                      <i class="bi bi-flag"></i>
-                    </button>
-                  </div>
-                </div>
+                  <property-summary-card
+                    title-text="2-к. студия, 80 м2 | Центр"
+                    title-href="/property-details/456"
+                    price-text="₽ 18 500 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"ЖК «Престиж»"},
+                          {"label":"Улица", "value":"Красная ул."},
+                          {"label":"Этаж", "value":"15"},
+                          {"label":"Состояние", "value":"Дизайнерский ремонт"}
+                      ]'
+                  ></property-summary-card>
+                </property-list-component>
               </div>
             </div>
           </div>

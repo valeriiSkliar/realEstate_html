@@ -8,6 +8,8 @@ module.exports = {
   entry: {
     main: "./src/js/index.js",
     breadcrumbs: "./src/scss/components/_breadcrumbs.scss",
+    propertyCard: "./src/scss/components/_property-card.scss",
+    propertyCardList: "./src/scss/components/_property-card-list.scss",
   },
   output: {
     path: path.resolve(__dirname, "public"),

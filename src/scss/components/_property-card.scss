@@ -1,0 +1,76 @@
+// Suggested new file: src/scss/components/_property-summary-card.scss
+@use "../variables" as vars;
+@use "../brand_color" as brand;
+
+.property-summary-card {
+  // The card in the image doesn't seem to have its own border or distinct background,
+  // so we'll assume it sits on a white page background.
+  // If needed, you can add:
+  // background-color: #fff;
+  // border: 1px solid vars.$light-gray;
+  // border-radius: 8px;
+  // box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  padding: 15px; // Add some padding if it's treated as a distinct block
+  font-family: vars.$font-family-base; // Ensure this variable points to your desired font (e.g., Roboto)
+
+  &__title {
+    font-size: 1rem; // Approx 16px, adjust as needed
+    font-weight: 500; // Medium weight
+    margin-top: 0;
+    margin-bottom: 8px;
+    line-height: 1.4;
+
+    a {
+      color: brand.$dark-navy; // Or your standard link color
+      text-decoration: underline;
+
+      &:hover,
+      &:focus {
+        color: brand.$turquoise; // Link hover color
+        text-decoration-color: brand.$turquoise;
+      }
+    }
+  }
+
+  &__price {
+    font-size: 1.625rem; // Approx 26px, to make it prominent
+    font-weight: 700; // Bold
+    color: brand.$turquoise;
+    margin-top: 0;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  &__details-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline; // Good for aligning text of different sizes
+    font-size: 0.875rem; // Approx 14px
+    line-height: 1.7; // Increased line-height for readability
+    color: brand.$dark-navy;
+    padding: 3px 0; // Small vertical padding for spacing between detail items
+
+    // Optional: add a subtle border between items
+    // &:not(:last-child) {
+    //   border-bottom: 1px solid rgba(brand.$dark-navy, 0.1);
+    // }
+  }
+
+  &__detail-label {
+    color: brand.$dark-navy-80; // Using 80% opacity of dark-navy for labels
+    margin-right: 10px; // Space between label and value
+    white-space: nowrap; // Prevent labels from wrapping
+  }
+
+  &__detail-value {
+    text-align: right;
+    font-weight: 500; // Values slightly more prominent than labels
+    color: brand.$dark-navy;
+  }
+}
