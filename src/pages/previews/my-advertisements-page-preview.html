@@ -96,7 +96,7 @@
                       {"label":"Этаж", "value":"5/9"},
                       {"label":"Состояние", "value":"Требует ремонта"}
                   ]'
-                    status="Активно"
+                    status="Черновик"
                     show-actions="true"
                     actions-position="left">
                 </my-property-card>
@@ -104,7 +104,7 @@
                 <my-property-card
                     title-text="3-к. квартира, 120 м2 | Элитный район"
                     title-href="/property-details/458"
-                    price-text="₽ 25 000 000 "
+                    price-text="₽ 25 000 000 (Продано)"
                     details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Элит»"},
                       {"label":"Улица", "value":"Парковая ул."},
@@ -130,7 +130,7 @@
                       {"label":"Площадь участка", "value":"—"}
                   ]'
                     status="Активно"
-                    show-actions="true">
+                    show-actions="false">
                 </my-property-card>
 
                 <my-property-card
@@ -158,7 +158,7 @@
                       {"label":"Этаж", "value":"8/14"},
                       {"label":"Состояние", "value":"Черновая отделка"}
                   ]'
-                    status="Активно"
+                    status="Черновик"
                     show-actions="true"
                     actions-position="right">
                 </my-property-card>
@@ -166,7 +166,7 @@
                 <my-property-card
                     title-text="Таунхаус, 180 м2 | Загородный"
                     title-href="/property-details/462"
-                    price-text="₽ 28 500 000 "
+                    price-text="₽ 28 500 000 (Продано)"
                     details-json='[
                       {"label":"Название комплекса", "value":"КП «Зеленый Берег»"},
                       {"label":"Улица", "value":"Дачная ул."},
@@ -205,8 +205,8 @@
                       {"label":"Этаж", "value":"6/12"},
                       {"label":"Состояние", "value":"Требует ремонта"}
                   ]'
-                    status="Активно"
-                    show-actions="true">
+                    status="Черновик"
+                    show-actions="false">
                 </my-property-card>
 
                 <my-property-card
@@ -227,7 +227,7 @@
               <simple-pagination
                 current-page="2"
                 total-pages="5"
-                max-page-links="5"
+                max-page-links="3"
                 page-href-template="/my-advertisements?p={page_num}"
               >
               </simple-pagination>
@@ -272,7 +272,7 @@
     <app-confirm-modal
       modal-id="activateListingModal"
       title="Активировать объявление"
-      message="Вы уверены, что хотите активировать этот Активно?"
+      message="Вы уверены, что хотите активировать этот черновик?"
       confirm-text="Активировать"
       confirm-class="btn-brand-lime-green"
     >
