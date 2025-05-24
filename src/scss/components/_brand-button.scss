@@ -4,12 +4,14 @@
 .brand-button {
   display: inline-block;
   padding: 10px 28px;
-  font-family: vars.$font-family-base;
-  font-size: 16px;
+  font-family: vars.$font-family-sans-serif;
+  text-align: right;
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: 4px;
   font-weight: 400;
   letter-spacing: 0.05em;
   text-align: center;
-  text-transform: uppercase;
   text-decoration: none;
   border-radius: 8px;
   border: 2px solid transparent;

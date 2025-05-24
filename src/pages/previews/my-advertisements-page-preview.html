@@ -12,22 +12,25 @@
   <body>
     <app-header></app-header>
     <app-mobile-menu></app-mobile-menu>
-    <!-- Main Content Area -->
     <main class="page-content">
       <div id="app">
         <div class="my-listings-page">
           <div class="container">
+            <custom-breadcrumb theme="light" class="my-3">
+              <breadcrumb-item href="/">Главная</breadcrumb-item>
+              <breadcrumb-item href="/my-advertisements.html" active
+                >Мои объявления</breadcrumb-item
+              >
+            </custom-breadcrumb>
+
             <div
-              class="page-header d-flex justify-content-between align-items-center mb-3 flex-wrap"
+              class="d-flex justify-content-end align-items-center mb-3 flex-wrap"
             >
-              <h1 class="my-listings-title h2 text-brand-dark-navy mb-0">
-                Мои объявления
-              </h1>
               <a
                 href="/listings-create.html"
-                class="btn btn-brand-lime-green text-brand-dark-navy fw-500"
+                class="brand-button brand-button--solid"
               >
-                <i class="bi bi-plus-lg me-1"></i> Добавить объявление
+                </i>Добавить объявление
               </a>
             </div>
 
@@ -38,181 +41,126 @@
                 >Сортировать по:</span
               >
               <div
-                class="btn-group btn-group-sm"
+                class="btn-group btn-group-sm my-listings-sort-group"
                 role="group"
                 aria-label="Sort listings"
               >
-                <button type="button" class="btn btn-outline-secondary active">
-                  Дате <i class="bi bi-arrow-down ms-1"></i>
+                <button
+                  type="button"
+                  class="btn btn-outline-brand-turquoise active"
+                  title="Сортировать по дате"
+                >
+                  <i class="bi bi-calendar3 me-1"></i
+                  ><i class="bi bi-arrow-down ms-1"></i>
                 </button>
-                <button type="button" class="btn btn-outline-secondary">
-                  Цене <i class="bi bi-arrow-down-up ms-1"></i>
+                <button
+                  type="button"
+                  class="btn btn-outline-brand-turquoise"
+                  title="Сортировать по цене"
+                >
+                  <i class="bi bi-cash me-1"></i
+                  ><i class="bi bi-arrow-down-up ms-1"></i>
                 </button>
-                <button type="button" class="btn btn-outline-secondary">
-                  Статусу <i class="bi bi-arrow-down-up ms-1"></i>
+                <button
+                  type="button"
+                  class="btn btn-outline-brand-turquoise"
+                  title="Сортировать по статусу"
+                >
+                  <i class="bi bi-tag me-1"></i
+                  ><i class="bi bi-arrow-down-up ms-1"></i>
                 </button>
               </div>
             </div>
 
             <div class="my-listings-list">
-              <div class="listing-item card card-body mb-3">
-                <div class="row align-items-center">
-                  <div class="col-md-7 listing-item__main-info">
-                    <h5 class="listing-item__address mb-1 fs-6 fw-semibold">
-                      ул. Красная, дом 100, кв. 55
-                    </h5>
-                    <p
-                      class="listing-item__location text-brand-dark-navy-50 small mb-1"
-                    >
-                      Центральный район, г. Краснодар
-                    </p>
-                    <div
-                      class="d-flex flex-wrap gap-3 small align-items-center"
-                    >
-                      <span
-                        class="listing-item__price fw-semibold text-brand-turquoise"
-                        >12 500 000 ₽</span
-                      >
-                      <span class="listing-item__date text-brand-dark-navy-50"
-                        ><i class="bi bi-calendar3 me-1"></i> 05.05.2025</span
-                      >
-                      <span class="text-brand-dark-navy-50"
-                        ><i class="bi bi-eye me-1"></i> 150</span
-                      >
-                      <span class="text-brand-dark-navy-50"
-                        ><i class="bi bi-heart me-1"></i> 12</span
-                      >
-                    </div>
-                  </div>
-                  <div
-                    class="col-md-5 listing-item__controls d-flex justify-content-md-end align-items-center gap-2"
-                  >
-                    <span
-                      class="badge bg-brand-lime-green text-brand-dark-navy me-md-2"
-                      >Активно</span
-                    >
-                    <a
-                      href="/listings/edit/1"
-                      class="btn btn-sm btn-outline-brand-turquoise"
-                      title="Редактировать"
-                      ><i class="bi bi-pencil"></i
-                    ></a>
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      title="Архивировать"
-                    >
-                      <i class="bi bi-archive"></i>
-                    </button>
-                    <button
-                      class="btn btn-sm btn-outline-brand-bright-pink js-delete-listing"
-                      title="Удалить"
-                    >
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <my-advertisement-card
+                title-text="ул. Красная, дом 100, кв. 55"
+                location-text="Центральный район, г. Краснодар"
+                price-text="12 500 000 ₽"
+                date-text="05.05.2025"
+                views-text="150"
+                favorites-text="12"
+                status="active"
+                details-json='[
+                    {"label":"Тип", "value":"Квартира"},
+                    {"label":"Площадь", "value":"85 м²"},
+                    {"label":"Комнат", "value":"3"}
+                ]'
+                listing-id="1"
+              ></my-advertisement-card>
 
-              <div
-                class="listing-item card card-body mb-3 listing-item--archived"
-              >
-                <div class="row align-items-center">
-                  <div class="col-md-7 listing-item__main-info">
-                    <h5 class="listing-item__address mb-1 fs-6 fw-semibold">
-                      пр. Чекистов, дом 15, 2 этаж
-                    </h5>
-                    <p
-                      class="listing-item__location text-brand-dark-navy-50 small mb-1"
-                    >
-                      Юбилейный мкр, г. Краснодар
-                    </p>
-                    <div
-                      class="d-flex flex-wrap gap-3 small align-items-center"
-                    >
-                      <span class="listing-item__price fw-semibold"
-                        >7 800 000 ₽</span
-                      >
-                      <span class="listing-item__date text-brand-dark-navy-50"
-                        ><i class="bi bi-calendar3 me-1"></i> 15.04.2025</span
-                      >
-                    </div>
-                  </div>
-                  <div
-                    class="col-md-5 listing-item__controls d-flex justify-content-md-end align-items-center gap-2"
-                  >
-                    <span class="badge bg-secondary text-light me-md-2"
-                      >В архиве</span
-                    >
-                    <button
-                      class="btn btn-sm btn-outline-success"
-                      title="Активировать"
-                    >
-                      <i class="bi bi-arrow-up-circle"></i>
-                    </button>
-                    <button
-                      class="btn btn-sm btn-outline-brand-bright-pink js-delete-listing"
-                      title="Удалить"
-                    >
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <my-advertisement-card
+                title-text="пр. Чекистов, дом 15, 2 этаж"
+                location-text="Юбилейный мкр, г. Краснодар"
+                price-text="7 800 000 ₽"
+                date-text="15.04.2025"
+                status="archived"
+                details-json='[
+                    {"label":"Тип", "value":"Офис"},
+                    {"label":"Площадь", "value":"120 м²"}
+                ]'
+                listing-id="2"
+              ></my-advertisement-card>
 
-              <div class="listing-item card card-body mb-3 listing-item--draft">
-                <div class="row align-items-center">
-                  <div class="col-md-7 listing-item__main-info">
-                    <h5 class="listing-item__address mb-1 fs-6 fw-semibold">
-                      ул. Героев-Разведчиков, дом 8
-                    </h5>
-                    <p
-                      class="listing-item__location text-brand-dark-navy-50 small mb-1"
-                    >
-                      Восточно-Кругликовский р-н, г. Краснодар
-                    </p>
-                    <div
-                      class="d-flex flex-wrap gap-3 small align-items-center"
-                    >
-                      <span class="listing-item__price fw-semibold"
-                        >Цена не указана</span
-                      >
-                      <span class="listing-item__date text-brand-dark-navy-50"
-                        ><i class="bi bi-calendar3 me-1"></i> 01.05.2025</span
-                      >
-                    </div>
-                  </div>
-                  <div
-                    class="col-md-5 listing-item__controls d-flex justify-content-md-end align-items-center gap-2"
-                  >
-                    <span class="badge bg-warning text-dark me-md-2"
-                      >Черновик</span
-                    >
-                    <a
-                      href="/listings/edit/3"
-                      class="btn btn-sm btn-outline-brand-turquoise"
-                      title="Редактировать"
-                      ><i class="bi bi-pencil"></i
-                    ></a>
-                    <button
-                      class="btn btn-sm btn-outline-success"
-                      title="Опубликовать"
-                    >
-                      <i class="bi bi-check-circle"></i>
-                    </button>
-                    <button
-                      class="btn btn-sm btn-outline-brand-bright-pink js-delete-listing"
-                      title="Удалить"
-                    >
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <my-advertisement-card
+                title-text="ул. Героев-Разведчиков, дом 8"
+                location-text="Восточно-Кругликовский р-н, г. Краснодар"
+                price-text="Цена не указана"
+                date-text="01.05.2025"
+                status="draft"
+                details-json='[
+                    {"label":"Тип", "value":"Дом"},
+                    {"label":"Площадь", "value":"210 м²"},
+                    {"label":"Участок", "value":"6 сот."}
+                ]'
+                listing-id="3"
+              ></my-advertisement-card>
             </div>
           </div>
         </div>
       </div>
     </main>
     <app-footer></app-footer>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <app-confirm-modal
+      modal-id="archiveListingModal"
+      title="Архивировать объявление"
+      message="Вы уверены, что хотите архивировать это объявление?"
+      confirm-text="Архивировать"
+      confirm-class="btn-brand-turquoise"
+    >
+      <input type="hidden" id="archiveListingId" />
+    </app-confirm-modal>
+
+    <app-confirm-modal
+      modal-id="deleteListingModal"
+      title="Удалить объявление"
+      message="Вы уверены, что хотите удалить это объявление? Это действие нельзя отменить."
+      confirm-text="Удалить"
+      confirm-class="btn-brand-bright-pink"
+    >
+      <input type="hidden" id="deleteListingId" />
+    </app-confirm-modal>
+
+    <app-confirm-modal
+      modal-id="restoreListingModal"
+      title="Восстановить объявление"
+      message="Вы уверены, что хотите восстановить это объявление из архива?"
+      confirm-text="Восстановить"
+      confirm-class="btn-brand-lime-green"
+    >
+      <input type="hidden" id="restoreListingId" />
+    </app-confirm-modal>
+
+    <app-confirm-modal
+      modal-id="activateListingModal"
+      title="Активировать объявление"
+      message="Вы уверены, что хотите активировать этот черновик?"
+      confirm-text="Активировать"
+      confirm-class="btn-brand-lime-green"
+    >
+      <input type="hidden" id="activateListingId" />
+    </app-confirm-modal>
   </body>
 </html>

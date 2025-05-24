@@ -56,7 +56,7 @@
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  aspect-ratio: 1 / 1;
+  // aspect-ratio: 1 / 1;
 }
 
 .nav-card {
@@ -198,14 +198,14 @@ video::-webkit-media-controls-panel {
   .nav-cards {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 10px;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    // aspect-ratio: 1 / 1;
   }
 
   .nav-card {
     padding: 10px;
     height: fit-content;
+    min-height: 150px;
 
     &__illustration {
       margin: 0 auto;

@@ -1,0 +1,67 @@
+// src/scss/pages/_my-advertisements.scss
+@use "../brand_color" as brand;
+@use "../variables" as vars;
+
+.my-listings-page {
+  padding: 1rem 0; // Consistent padding
+
+  .page-header {
+    // Uses utility classes, specific styling might not be needed unless overrides are required
+  }
+
+  .brand-button--solid {
+    // Assuming this uses the global brand-button styles
+    // No specific override needed here unless unique to this page
+  }
+
+  .listings-controls {
+    .my-listings-sort-group {
+      .btn {
+        min-width: 100px; // Ensure equal width, adjust as needed
+        flex-grow: 1; // Allow buttons to grow equally if in a flex container
+        border-color: brand.$turquoise;
+        color: brand.$turquoise;
+
+        &:hover,
+        &:focus {
+          background-color: rgba(brand.$turquoise, 0.1);
+          color: darken(brand.$turquoise, 10%);
+        }
+
+        &.active {
+          background-color: brand.$turquoise;
+          color: brand.$light-gray; // Text color for active sort button
+          border-color: brand.$turquoise;
+          &:hover {
+            background-color: darken(brand.$turquoise, 5%);
+            border-color: darken(brand.$turquoise, 5%);
+          }
+        }
+        i {
+          font-size: 0.8em; // Adjust icon size within button
+        }
+      }
+    }
+    .small.text-brand-dark-navy-50 {
+      color: brand.$dark-navy-50; // Ensure text color
+    }
+  }
+
+  .my-listings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; // Space between cards
+  }
+
+  // Styles for my-advertisement-card are within its Shadow DOM
+  // but if there are any container-level effects or overrides:
+  my-advertisement-card {
+    // Example: if you want to add a border around the host element itself
+    // border: 1px solid #e0e0e0;
+    // border-radius: 12px; // Should match internal card radius
+  }
+}
+
+// Ensure Bootstrap icons are available or include them if not globally scoped
+// For example, if custom elements' shadow DOM doesn't inherit global styles:
+// @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");

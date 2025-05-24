@@ -1,21 +1,18 @@
 // src/js/index.js
 import "bootstrap";
-import * as bootstrap from "bootstrap";
-import $ from "jquery";
 import "select2";
-import { format } from "date-fns";
 
 // Import the styles - make sure this line is not commented out
 import "../scss/main.scss";
 
 // Import custom elements for previews
 import {
-  AppHeader,
-  AppMobileMenu,
-  AppFooter,
-  AppFavoriteProperty,
   AppConfirmModal,
   AppEmptyState,
+  AppFavoriteProperty,
+  AppFooter,
+  AppHeader,
+  AppMobileMenu,
 } from "./custom_elements_for_preview";
 // Register custom elements for previews
 customElements.define("app-header", AppHeader);
@@ -25,19 +22,20 @@ customElements.define("app-favorite-property", AppFavoriteProperty);
 customElements.define("app-confirm-modal", AppConfirmModal);
 customElements.define("app-empty-state", AppEmptyState);
 
+import { initFavoriteButtons } from "./components/favorite-button";
+import { initPropertyCardExample } from "./components/property-card-example";
+import { initFavoritesPage } from "./favorites";
 import { initMobileMenu, setCurrentYear } from "./menu";
 import { initProfilePage } from "./profile";
 import { initSearchPage } from "./search";
-import { initSupportPage } from "./support";
 import { initSubscriptionsPage } from "./subscriptions";
-import { initFavoritesPage } from "./favorites";
-import { initFavoriteButtons } from "./components/favorite-button";
-import { initPropertyCardExample } from "./components/property-card-example";
+import { initSupportPage } from "./support";
 
 import { initCollectionsPage } from "./collections";
 import { initCollectionsCreatePage } from "./collections-create";
 import { initCollectionsEditPage } from "./collections-edit";
 import { initSearchSortButton, initSidebarFilters } from "./components";
+import { showModal } from "./utils/uiHelpers";
 // import { initCollectionButtons } from "./components/collection-button";
 
 // Initialize components when DOM is ready
@@ -96,4 +94,28 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize sidebar filters
   initSidebarFilters();
   // initCollectionButtons();
+
+  document.body.addEventListener("listingAction", function (event) {
+    const { action, id } = event.detail;
+    console.log(`Listing action: ${action} for ID: ${id}`);
+    // Based on 'action', show the corresponding modal
+    // For example:
+    if (action === "delete") {
+      document.getElementById("deleteListingId").value = id;
+      // Assuming you have a utility function showModal
+      // import { showModal } from './utils/uiHelpers'; (if not already imported)
+      showModal("deleteListingModal");
+    } else if (action === "archive") {
+      document.getElementById("archiveListingId").value = id;
+      showModal("archiveListingModal");
+    } else if (action === "restore") {
+      document.getElementById("restoreListingId").value = id;
+      showModal("restoreListingModal");
+    } else if (action === "activate") {
+      document.getElementById("activateListingId").value = id;
+      showModal("activateListingModal");
+    } else if (action === "edit") {
+      window.location.href = `/listings-edit.html?id=${id}`; // Or your edit route
+    }
+  });
 });

@@ -168,7 +168,7 @@ class PropertySummaryCard extends HTMLElement {
                   phoneNumber
                     ? `
                     <div class="property-summary-card__phone">
-                        <span class="property-summary-card__phone-label">Agent:</span>
+                        <span class="property-summary-card__phone-label">Агент:</span>
                         <a href="tel:${phoneNumber}" class="property-summary-card__phone-link">
                             📞 ${phoneNumber}
                         </a>

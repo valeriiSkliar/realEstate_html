@@ -596,33 +596,33 @@
 
         // Создаем уведомление (toast)
         const toastContainer = document.querySelector(".toast-container");
-        const toastId = "toast-" + Date.now();
+        // const toastId = "toast-" + Date.now();
 
-        const toastHTML = `
-          <div id="${toastId}" class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
-            <div class="toast-header">
-              <strong class="me-auto">${
-                isFavorite
-                  ? "❤️ Добавлено в избранное"
-                  : "💔 Удалено из избранного"
-              }</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-              "${cardTitle}"
-            </div>
-          </div>
-        `;
+        // const toastHTML = `
+        //   <div id="${toastId}" class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+        //     <div class="toast-header">
+        //       <strong class="me-auto">${
+        //         isFavorite
+        //           ? "❤️ Добавлено в избранное"
+        //           : "💔 Удалено из избранного"
+        //       }</strong>
+        //       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        //     </div>
+        //     <div class="toast-body">
+        //       "${cardTitle}"
+        //     </div>
+        //   </div>
+        // `;
 
-        toastContainer.insertAdjacentHTML("beforeend", toastHTML);
+        // toastContainer.insertAdjacentHTML("beforeend", toastHTML);
 
         // Автоматически удаляем toast через 3 секунды
-        setTimeout(() => {
-          const toast = document.getElementById(toastId);
-          if (toast) {
-            toast.remove();
-          }
-        }, 3000);
+        // setTimeout(() => {
+        //   const toast = document.getElementById(toastId);
+        //   if (toast) {
+        //     toast.remove();
+        //   }
+        // }, 3000);
 
         // Логирование для отладки
         console.log(
