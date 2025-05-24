@@ -7,4 +7,5 @@ export { AppHeader } from "./app-header";
 export { AppMobileMenu } from "./app-mobile-menu";
 export { CustomBreadcrumb } from "./custom-breadcrumb";
 export { SimplePagination } from "./pagination";
+export { PropertyListComponent } from "./property-list-component";
 export { PropertySummaryCard } from "./property-summary-card";
