@@ -85,32 +85,57 @@
                       {"label":"Этаж", "value":"1/16"},
                       {"label":"Состояние", "value":"Дизайнерский ремонт"}
                   ]'
-                  status="active"
+                status="Активно"
+                show-actions="true"
+                actions-position="right"
                     >
                 </my-property-card>
         
                 <my-property-card
-                    title-text="Cozy Downtown Apartment"
-                    title-href="#"
-                    price-text="$450,000"
-                    details-json='[{"label":"Beds","value":"2"},{"label":"Baths","value":"1"},{"label":"SqFt","value":"950"}]'
-                    status="draft">
+                    title-text="1-к. квартира, 45 м2 | Спальный район"
+                    title-href="/property-details/457"
+                    price-text="₽ 8 500 000"
+                    details-json='[
+                      {"label":"Название комплекса", "value":"ЖК «Мирный»"},
+                      {"label":"Улица", "value":"Советская ул."},
+                      {"label":"Этаж", "value":"5/9"},
+                      {"label":"Состояние", "value":"Требует ремонта"}
+                  ]'
+                    status="Черновик"
+                    show-actions="true"
+                    actions-position="left">
                 </my-property-card>
         
                 <my-property-card
-                    title-text="Suburban Family Home (Sold)"
-                    title-href="/property/456"
-                    price-text="$780,000 (Sold)"
-                    details-json='[{"label":"Beds","value":"5"},{"label":"Baths","value":"3.5"},{"label":"SqFt","value":"4,200"},{"label":"Listed","value":"15-Jan-2024"},{"label":"Sold","value":"20-Mar-2024"}]'
-                    status="archived">
+                    title-text="3-к. квартира, 120 м2 | Элитный район"
+                    title-href="/property-details/458"
+                    price-text="₽ 25 000 000 (Продано)"
+                    details-json='[
+                      {"label":"Название комплекса", "value":"ЖК «Элит»"},
+                      {"label":"Улица", "value":"Парковая ул."},
+                      {"label":"Этаж", "value":"10/20"},
+                      {"label":"Состояние", "value":"Евроремонт"},
+                      {"label":"Размещено", "value":"15-Янв-2024"},
+                      {"label":"Продано", "value":"20-Мар-2024"}
+                  ]'
+                    status="В архиве"
+                    show-actions="true"
+                    actions-position="right">
                 </my-property-card>
         
                 <my-property-card
-                    title-text="Rustic Cabin in the Woods"
-                    title-href="/property/789"
-                    price-text="$320,000"
-                    details-json='[{"label":"Beds","value":"2"},{"label":"Baths","value":"1"},{"label":"SqFt","value":"1,100"},{"label":"Acres","value":"10"}]'
-                    status="active">
+                    title-text="Студия, 28 м2 | Центр"
+                    title-href="/property-details/459"
+                    price-text="₽ 6 200 000"
+                    details-json='[
+                      {"label":"Название комплекса", "value":"ЖК «Компакт»"},
+                      {"label":"Улица", "value":"Ленина ул."},
+                      {"label":"Этаж", "value":"3/12"},
+                      {"label":"Состояние", "value":"Готово к проживанию"},
+                      {"label":"Площадь участка", "value":"—"}
+                  ]'
+                    status="Активно"
+                    show-actions="false">
                 </my-property-card>
               </property-list-component>
             </div>

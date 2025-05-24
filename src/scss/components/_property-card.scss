@@ -89,6 +89,7 @@
     letter-spacing: 0px;
     transition: all 0.3s ease;
     padding-right: 50px;
+    margin-top: 0;
 
     a {
       color: brand.$dark-navy;
@@ -192,10 +193,132 @@
   &__footer {
     margin-top: 20px;
     display: flex;
-    justify-content: flex-end; // Align badge to the right
+    justify-content: space-between; // Changed to space-between for actions
     align-items: center;
     border-top: 1px solid color.adjust(brand.$light-gray-30, $lightness: -5%);
     padding-top: 15px;
+
+    // Модификатор для выравнивания статуса справа
+    &--status-right {
+      justify-content: flex-end;
+    }
+
+    // Модификатор для выравнивания статуса слева, действий справа
+    &--actions-right {
+      justify-content: space-between;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  &__action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    width: 32px;
+    height: 32px;
+    position: relative;
+
+    &:hover {
+      background-color: rgba(brand.$dark-navy, 0.1);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus {
+      outline: 2px solid brand.$turquoise;
+      outline-offset: 2px;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      transition: color 0.2s ease;
+    }
+
+    // Стили для разных типов действий
+    &--edit {
+      svg {
+        color: brand.$turquoise;
+      }
+
+      &:hover {
+        background-color: rgba(brand.$turquoise, 0.1);
+
+        svg {
+          color: color.adjust(brand.$turquoise, $lightness: -10%);
+        }
+      }
+    }
+
+    &--archive {
+      svg {
+        color: #6b7280;
+      }
+
+      &:hover {
+        background-color: rgba(107, 114, 128, 0.1);
+
+        svg {
+          color: #4b5563;
+        }
+      }
+    }
+
+    &--delete {
+      svg {
+        color: #dc2626;
+      }
+
+      &:hover {
+        background-color: rgba(220, 38, 38, 0.1);
+
+        svg {
+          color: #b91c1c;
+        }
+      }
+    }
+
+    &--restore {
+      svg {
+        color: brand.$lime-green-80;
+      }
+
+      &:hover {
+        background-color: rgba(brand.$lime-green-80, 0.1);
+
+        svg {
+          color: color.adjust(brand.$lime-green-80, $lightness: -10%);
+        }
+      }
+    }
+
+    &--activate {
+      svg {
+        color: brand.$lime-green-80;
+      }
+
+      &:hover {
+        background-color: rgba(brand.$lime-green-80, 0.1);
+
+        svg {
+          color: color.adjust(brand.$lime-green-80, $lightness: -10%);
+        }
+      }
+    }
   }
 
   &__status-badge {
