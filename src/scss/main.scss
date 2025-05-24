@@ -121,7 +121,8 @@ body {
 // Basic styling for main content
 .page-content {
   flex: 1; /* Занимает все доступное пространство */
-  padding: 15px;
+  padding: 7px;
+  padding-top: 15px;
   background-color: $body-bg;
 }
 
