@@ -22,12 +22,61 @@
   border-style: solid;
   border-top-width: 1px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  transition: box-shadow 0.3s ease;
+  position: relative;
 
   &:active,
   &:hover {
     box-shadow: 0 4px 5px brand.$lime-green-80;
   }
+
+  &__favorite-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    z-index: 10;
+    border: none;
+    outline: none;
+    will-change: transform;
+
+    &:hover {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 1);
+    }
+
+    &:focus {
+      outline: 2px solid brand.$turquoise;
+      outline-offset: 2px;
+    }
+
+    svg {
+      transition: color 0.2s ease;
+      color: brand.$dark-navy;
+      will-change: transform;
+    }
+
+    &--active {
+      svg {
+        color: #e74c3c;
+        animation: heartBeatFavorite 0.3s ease-in-out;
+      }
+    }
+
+    &--animate {
+      svg {
+        animation: heartBeatFavorite 0.3s ease-in-out;
+      }
+    }
+  }
+
   &__title {
     margin-bottom: 3px;
     font-weight: 400;
@@ -39,13 +88,15 @@
     text-align: left;
     letter-spacing: 0px;
     transition: all 0.3s ease;
+    padding-right: 50px;
+
     a {
-      color: brand.$dark-navy; // Or your standard link color
+      color: brand.$dark-navy;
       text-decoration: underline;
 
       &:hover,
       &:focus {
-        color: brand.$turquoise; // Link hover color
+        color: brand.$turquoise;
         text-decoration-color: brand.$turquoise;
       }
     }
@@ -95,5 +146,59 @@
     font-family: "Comfortaa", sans-serif;
     font-size: 12px;
     line-height: 6px;
+  }
+
+  &__phone {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__phone-link {
+    color: brand.$turquoise;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 12px;
+    border: 1px solid brand.$turquoise;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    line-height: 1.2;
+    font-family: vars.$font-family-sans-serif;
+    background: transparent;
+
+    &:hover {
+      background-color: brand.$turquoise;
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 201, 221, 0.3);
+      text-decoration: none;
+    }
+
+    &:active {
+      transform: translateY(0);
+      animation: heartBeatFavorite 0.3s ease-in-out;
+    }
+
+    &:focus {
+      outline: 2px solid brand.$turquoise;
+      outline-offset: 2px;
+    }
+  }
+}
+
+@keyframes heartBeatFavorite {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
