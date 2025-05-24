@@ -73,48 +73,46 @@
             </div>
 
             <div class="my-listings-list">
-              <my-advertisement-card
-                title-text="ул. Красная, дом 100, кв. 55"
-                location-text="Центральный район, г. Краснодар"
-                price-text="12 500 000 ₽"
-                date-text="05.05.2025"
-                views-text="150"
-                favorites-text="12"
-                status="active"
-                details-json='[
-                    {"label":"Тип", "value":"Квартира"},
-                    {"label":"Площадь", "value":"85 м²"},
-                    {"label":"Комнат", "value":"3"}
-                ]'
-                listing-id="1"
-              ></my-advertisement-card>
+              <property-list-component>
 
-              <my-advertisement-card
-                title-text="пр. Чекистов, дом 15, 2 этаж"
-                location-text="Юбилейный мкр, г. Краснодар"
-                price-text="7 800 000 ₽"
-                date-text="15.04.2025"
-                status="archived"
+                <my-property-card
+                title-text="2-к. студия, 80 м2 | Центр"
+                title-href="/property-details/456"
+                price-text="₽ 18 500 000"
                 details-json='[
-                    {"label":"Тип", "value":"Офис"},
-                    {"label":"Площадь", "value":"120 м²"}
-                ]'
-                listing-id="2"
-              ></my-advertisement-card>
-
-              <my-advertisement-card
-                title-text="ул. Героев-Разведчиков, дом 8"
-                location-text="Восточно-Кругликовский р-н, г. Краснодар"
-                price-text="Цена не указана"
-                date-text="01.05.2025"
-                status="draft"
-                details-json='[
-                    {"label":"Тип", "value":"Дом"},
-                    {"label":"Площадь", "value":"210 м²"},
-                    {"label":"Участок", "value":"6 сот."}
-                ]'
-                listing-id="3"
-              ></my-advertisement-card>
+                      {"label":"Название комплекса", "value":"ЖК «Престиж»"},
+                      {"label":"Улица", "value":"Красная ул."},
+                      {"label":"Этаж", "value":"1/16"},
+                      {"label":"Состояние", "value":"Дизайнерский ремонт"}
+                  ]'
+                  status="active"
+                    >
+                </my-property-card>
+        
+                <my-property-card
+                    title-text="Cozy Downtown Apartment"
+                    title-href="#"
+                    price-text="$450,000"
+                    details-json='[{"label":"Beds","value":"2"},{"label":"Baths","value":"1"},{"label":"SqFt","value":"950"}]'
+                    status="draft">
+                </my-property-card>
+        
+                <my-property-card
+                    title-text="Suburban Family Home (Sold)"
+                    title-href="/property/456"
+                    price-text="$780,000 (Sold)"
+                    details-json='[{"label":"Beds","value":"5"},{"label":"Baths","value":"3.5"},{"label":"SqFt","value":"4,200"},{"label":"Listed","value":"15-Jan-2024"},{"label":"Sold","value":"20-Mar-2024"}]'
+                    status="archived">
+                </my-property-card>
+        
+                <my-property-card
+                    title-text="Rustic Cabin in the Woods"
+                    title-href="/property/789"
+                    price-text="$320,000"
+                    details-json='[{"label":"Beds","value":"2"},{"label":"Baths","value":"1"},{"label":"SqFt","value":"1,100"},{"label":"Acres","value":"10"}]'
+                    status="active">
+                </my-property-card>
+              </property-list-component>
             </div>
           </div>
         </div>

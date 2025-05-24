@@ -10,6 +10,7 @@ module.exports = {
     breadcrumbs: "./src/scss/components/_breadcrumbs.scss",
     propertyCard: "./src/scss/components/_property-card.scss",
     propertyCardList: "./src/scss/components/_property-card-list.scss",
+    myAdvertisementCard: "./src/scss/pages/_my-advertisements.scss",
   },
   output: {
     path: path.resolve(__dirname, "public"),

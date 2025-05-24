@@ -189,6 +189,39 @@
       outline-offset: 2px;
     }
   }
+  &__footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end; // Align badge to the right
+    align-items: center;
+    border-top: 1px solid color.adjust(brand.$light-gray-30, $lightness: -5%);
+    padding-top: 15px;
+  }
+
+  &__status-badge {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &--active {
+      background-color: brand.$lime-green-80;
+      color: white; // Assuming good contrast, adjust if needed
+    }
+
+    &--archived {
+      background-color: color.adjust(brand.$light-gray-30);
+      color: rgba(brand.$dark-navy, 0.7);
+      border: 1px solid rgba(brand.$dark-navy, 0.3);
+    }
+
+    &--draft {
+      background-color: #fff3cd; // A light yellow
+      color: #856404; // A dark yellow/brown
+    }
+  }
 }
 
 @keyframes heartBeatFavorite {
