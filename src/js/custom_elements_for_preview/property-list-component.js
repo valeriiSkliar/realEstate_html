@@ -19,7 +19,7 @@ class PropertyListComponent extends HTMLElement {
     // or if your bundler (like Webpack) handles CSS-in-JS or style injection.
 
     this.shadowRoot.innerHTML = `
-    <link rel="stylesheet" href="/css/propertyCardList.css">
+    <link rel="stylesheet" href="css/propertyCardList.css">
             <div class="property-card-list-container">
                 <slot></slot> 
             </div>

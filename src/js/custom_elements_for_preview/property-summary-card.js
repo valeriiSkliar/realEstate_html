@@ -34,7 +34,7 @@ class PropertySummaryCard extends HTMLElement {
     }
 
     this.shadowRoot.innerHTML = `
-    <link rel="stylesheet" href="/css/propertyCard.css">
+    <link rel="stylesheet" href="css/propertyCard.css">
             <style>
                 :host {
                     display: block;
