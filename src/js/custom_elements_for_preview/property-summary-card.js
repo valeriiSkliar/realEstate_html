@@ -34,6 +34,7 @@ class PropertySummaryCard extends HTMLElement {
     }
 
     this.shadowRoot.innerHTML = `
+    <link rel="stylesheet" href="/css/propertyCard.css">
             <style>
                 :host {
                     display: block;
@@ -56,64 +57,9 @@ class PropertySummaryCard extends HTMLElement {
                       "15px"
                     )};
                 }
-                .property-summary-card {
-                    padding: var(--card-padding);
-                    /* Add other card container styles if needed, e.g., border, background */
-                    /* background-color: #fff; */
-                    /* border: 1px solid #e0e0e0; */
-                    /* border-radius: 8px; */
-                }
-                .property-summary-card__title {
-                    font-size: 1rem;
-                    font-weight: 500;
-                    margin-top: 0;
-                    margin-bottom: 8px;
-                    line-height: 1.4;
-                }
-                .property-summary-card__title a {
-                    color: var(--brand-dark-navy);
-                    text-decoration: underline;
-                }
-                .property-summary-card__title a:hover,
-                .property-summary-card__title a:focus {
-                    color: var(--brand-turquoise);
-                    text-decoration-color: var(--brand-turquoise);
-                }
-                .property-summary-card__price {
-                    font-size: 1.625rem;
-                    font-weight: 700;
-                    color: var(--brand-turquoise);
-                    margin-top: 0;
-                    margin-bottom: 16px;
-                    line-height: 1.2;
-                }
-                .property-summary-card__details-list {
-                    list-style: none;
-                    padding: 0;
-                    margin: 0;
-                }
-                .property-summary-card__detail-item {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: baseline;
-                    font-size: 0.875rem;
-                    line-height: 1.7;
-                    color: var(--brand-dark-navy);
-                    padding: 3px 0;
-                }
-                .property-summary-card__detail-label {
-                    color: var(--brand-dark-navy-80);
-                    margin-right: 10px;
-                    white-space: nowrap;
-                }
-                .property-summary-card__detail-value {
-                    text-align: right;
-                    font-weight: 500;
-                    color: var(--brand-dark-navy);
-                }
             </style>
             <div class="property-summary-card">
-                <h3 class="property-summary-card__title">
+                <h3 class="property-summary-card__title text-light-gray-30">
                     <a href="${titleHref}">${titleText}</a>
                 </h3>
                 <p class="property-summary-card__price">${priceText}</p>

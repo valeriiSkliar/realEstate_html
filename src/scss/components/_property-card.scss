@@ -1,7 +1,7 @@
 // Suggested new file: src/scss/components/_property-summary-card.scss
 @use "../variables" as vars;
 @use "../brand_color" as brand;
-
+@use "sass:color";
 .property-summary-card {
   // The card in the image doesn't seem to have its own border or distinct background,
   // so we'll assume it sits on a white page background.
@@ -10,16 +10,35 @@
   // border: 1px solid vars.$light-gray;
   // border-radius: 8px;
   // box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  padding: 15px; // Add some padding if it's treated as a distinct block
-  font-family: vars.$font-family-base; // Ensure this variable points to your desired font (e.g., Roboto)
+  padding: 20px;
+  font-family: vars.$font-family-sans-serif;
+  border-radius: 16px;
+  background-color: color.adjust(brand.$light-gray-30, $alpha: -0.2);
+  border-bottom-width: 1px;
+  border-color: brand.$light-gray-30;
+  border-left-width: 1px;
+  border-radius: 16px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 1px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 
+  &:active,
+  &:hover {
+    box-shadow: 0 4px 5px brand.$lime-green-80;
+  }
   &__title {
-    font-size: 1rem; // Approx 16px, adjust as needed
-    font-weight: 500; // Medium weight
-    margin-top: 0;
-    margin-bottom: 8px;
-    line-height: 1.4;
-
+    margin-bottom: 3px;
+    font-weight: 400;
+    color: brand.$dark-navy;
+    font-family: vars.$font-family-sans-serif;
+    font-size: 16px;
+    text-decoration: underline;
+    line-height: 26px;
+    text-align: left;
+    letter-spacing: 0px;
+    transition: all 0.3s ease;
     a {
       color: brand.$dark-navy; // Or your standard link color
       text-decoration: underline;
@@ -33,44 +52,48 @@
   }
 
   &__price {
-    font-size: 1.625rem; // Approx 26px, to make it prominent
-    font-weight: 700; // Bold
+    font-size: 18px;
+    font-weight: 700;
     color: brand.$turquoise;
-    margin-top: 0;
-    margin-bottom: 16px;
-    line-height: 1.2;
+    line-height: 1;
+    margin: 0 0 8px;
   }
 
   &__details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     list-style: none;
     padding: 0;
     margin: 0;
+    line-height: 6px;
   }
 
   &__detail-item {
     display: flex;
     justify-content: space-between;
-    align-items: baseline; // Good for aligning text of different sizes
-    font-size: 0.875rem; // Approx 14px
-    line-height: 1.7; // Increased line-height for readability
+    align-items: center;
+    font-size: 12px;
+    line-height: 10px;
     color: brand.$dark-navy;
-    padding: 3px 0; // Small vertical padding for spacing between detail items
-
-    // Optional: add a subtle border between items
-    // &:not(:last-child) {
-    //   border-bottom: 1px solid rgba(brand.$dark-navy, 0.1);
-    // }
+    padding: 1px 0;
   }
 
   &__detail-label {
-    color: brand.$dark-navy-80; // Using 80% opacity of dark-navy for labels
-    margin-right: 10px; // Space between label and value
-    white-space: nowrap; // Prevent labels from wrapping
+    color: rgba(brand.$dark-navy, 0.7);
+    margin-right: 10px;
+    font-family: "Comfortaa", sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 10px;
+    letter-spacing: 0px;
   }
 
   &__detail-value {
     text-align: right;
-    font-weight: 500; // Values slightly more prominent than labels
-    color: brand.$dark-navy;
+    font-weight: 500;
+    font-family: "Comfortaa", sans-serif;
+    font-size: 12px;
+    line-height: 6px;
   }
 }
