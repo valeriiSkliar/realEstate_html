@@ -8,20 +8,6 @@ class CustomBreadcrumb extends HTMLElement {
     return ["separator", "theme", "class"];
   }
 
-  async connectedCallback() {
-    // Создаем и применяем стили
-    const response = await fetch("/css/components/_breadcrumbs.css");
-    const cssText = await response.text();
-
-    const sheet = new CSSStyleSheet();
-    await sheet.replace(cssText);
-
-    this.shadowRoot.adoptedStyleSheets = [sheet];
-
-    this.render();
-    this.setupEventListeners();
-  }
-
   attributeChangedCallback() {
     if (this.shadowRoot) {
       this.render();
