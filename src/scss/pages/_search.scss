@@ -1,3 +1,5 @@
+@use "../_variables" as vars;
+
 .search-page {
   .search-controls {
     background: #fff;
@@ -19,10 +21,12 @@
 
         &::placeholder {
           color: #9ca3af;
-          padding-left: 18px;
+          padding-left: 22px;
           font-size: 14px;
           line-height: 20px;
           transition: opacity 0.2s ease-in-out;
+          font-family: vars.$font-family-sans-serif;
+          font-weight: 400;
         }
 
         &:focus {
@@ -58,21 +62,27 @@
       align-items: center;
       gap: 8px;
 
+      .btn-sort {
+        color: vars.$brand-primary;
+      }
+
+      .btn-filter {
+        color: vars.$brand-secondary;
+      }
+
       .btn-sort,
       .btn-filter {
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 8px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid transparent;
         border-radius: 8px;
         background: #fff;
-        color: #374151;
         transition: all 0.2s ease-in-out;
 
         &:hover {
-          border-color: #00c9dd;
-          color: #00c9dd;
+          color: vars.$brand-dark-section; //  #00c9dd;
         }
 
         svg {
@@ -86,6 +96,18 @@
           color: #fff;
         }
       }
+    }
+    .search-results-title {
+      margin-top: 8px;
+      font-size: 14px;
+      letter-spacing: 0px;
+      line-height: 14px;
+      text-align: left;
+      text-decoration: none;
+      text-transform: none;
+      font-weight: 400;
+      color: vars.$brand-dark-section;
+      font-family: vars.$font-family-sans-serif;
     }
   }
 

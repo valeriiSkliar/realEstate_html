@@ -1,0 +1,62 @@
+@use "../brand_color" as brand;
+@use "../variables" as vars;
+
+.brand-button {
+  display: inline-block;
+  padding: 10px 28px;
+  font-family: vars.$font-family-base;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(brand.$dark-navy, 0.1);
+
+  &--solid {
+    background-color: brand.$lime-green;
+    color: brand.$dark-navy;
+    border-color: brand.$lime-green;
+
+    &:hover,
+    &:focus {
+      background-color: darken(brand.$lime-green, 7%);
+      border-color: darken(brand.$lime-green, 7%);
+      box-shadow: 0 3px 6px rgba(brand.$dark-navy, 0.12);
+    }
+
+    &:active {
+      background-color: darken(brand.$lime-green, 10%);
+      border-color: darken(brand.$lime-green, 10%);
+    }
+  }
+
+  &--outline {
+    background-color: transparent;
+    color: brand.$lime-green;
+    border-color: brand.$lime-green;
+
+    &:hover,
+    &:focus {
+      background-color: brand.$lime-green;
+      color: brand.$dark-navy;
+      border-color: brand.$lime-green;
+      box-shadow: 0 3px 6px rgba(brand.$dark-navy, 0.12);
+    }
+
+    &:active {
+      background-color: darken(brand.$lime-green, 5%);
+      color: brand.$dark-navy;
+    }
+  }
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(brand.$dark-navy, 0.08);
+  }
+}
