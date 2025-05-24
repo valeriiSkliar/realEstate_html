@@ -5,10 +5,13 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin"); // Import the plugin
 
 module.exports = {
-  entry: "./src/js/index.js",
+  entry: {
+    main: "./src/js/index.js",
+    breadcrumbs: "./src/scss/components/_breadcrumbs.scss",
+  },
   output: {
     path: path.resolve(__dirname, "public"),
-    filename: "js/[name].[contenthash].js",
+    filename: "js/[name].js",
     clean: true,
   },
   module: {
@@ -53,7 +56,13 @@ module.exports = {
       },
       {
         test: /\.css$/i,
+        use: ["css-loader"],
+        include: [path.resolve(__dirname, "src/scss/components")],
+      },
+      {
+        test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
+        exclude: [path.resolve(__dirname, "src/scss/components")],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -115,15 +124,18 @@ module.exports = {
     }),
 
     new MiniCssExtractPlugin({
-      filename: "css/[name].[contenthash].css",
+      filename: "css/[name].css",
     }),
     // Configure CopyPlugin
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, "src/images"), // Source directory
-          to: path.resolve(__dirname, "public/images"), // Destination directory
-          // noErrorOnMissing: true, // Don't throw error if src/images doesn't exist
+          from: path.resolve(__dirname, "src/images"),
+          to: path.resolve(__dirname, "public/images"),
+        },
+        {
+          from: path.resolve(__dirname, "src/scss/components"),
+          to: path.resolve(__dirname, "public/css/components"),
         },
       ],
     }),

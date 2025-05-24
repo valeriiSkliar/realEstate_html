@@ -1,3 +1,5 @@
+@forward "./brand_color";
+@use "./brand_color" as *;
 // src/scss/_variables.scss - Updated with modern syntax
 // @use 'bootstrap' as bootstrap;
 
@@ -11,7 +13,27 @@ $grid-gutter: 30px;
 
 $font-family-base: "Oswald", "Roboto", sans-serif;
 
-// You can override other variables here as needed
-// For example:
-// $body-bg: #f0f0f0;
-// $body-color: #333;
+// Breadcrumb Component Variables
+$breadcrumb-bg: $lime-green;
+$breadcrumb-color: $dark-navy;
+$breadcrumb-link-color: $dark-navy;
+$breadcrumb-link-hover-color: $turquoise;
+$breadcrumb-link-active-color: $dark-navy-80;
+$breadcrumb-link-disabled-color: $dark-navy-50;
+$breadcrumb-separator-color: transparent;
+$breadcrumb-separator-content: "/";
+$breadcrumb-separator-margin: 0 8px;
+$breadcrumb-separator-font-size: 14px;
+$breadcrumb-padding: 10px 7px;
+$breadcrumb-margin: 0 4px;
+$breadcrumb-border-radius: 16px;
+$breadcrumb-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+$breadcrumb-border: none;
+$breadcrumb-min-height: 40px;
+$breadcrumb-font-size: 14px;
+$breadcrumb-font-weight: 400;
+$breadcrumb-line-height: 1.5;
+$breadcrumb-text-decoration: none;
+$breadcrumb-text-decoration-hover: underline;
+$breadcrumb-transition: all 0.2s ease-in-out;
+$breadcrumb-item-spacing: 4px;

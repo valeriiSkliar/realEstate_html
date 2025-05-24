@@ -1,0 +1,88 @@
+@use "../variables" as *;
+
+:host {
+  display: block;
+}
+
+.breadcrumb {
+  display: block;
+  margin: var(--breadcrumb-margin, $breadcrumb-margin);
+  padding: var(--breadcrumb-padding, $breadcrumb-padding);
+  background: var(--breadcrumb-bg, $breadcrumb-bg);
+  border-radius: var(--breadcrumb-border-radius, $breadcrumb-border-radius);
+  box-shadow: var(--breadcrumb-shadow, $breadcrumb-shadow);
+  border: var(--breadcrumb-border, $breadcrumb-border);
+  min-height: var(--breadcrumb-min-height, $breadcrumb-min-height);
+  font-family: var(--breadcrumb-font-family, $font-family-base);
+  font-size: var(--breadcrumb-font-size, $breadcrumb-font-size);
+  font-weight: var(--breadcrumb-font-weight, $breadcrumb-font-weight);
+  line-height: var(--breadcrumb-line-height, $breadcrumb-line-height);
+
+  &-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--breadcrumb-item-spacing, $breadcrumb-item-spacing);
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+    color: var(--breadcrumb-color, $breadcrumb-color);
+
+    &:not(:last-child)::after {
+      margin: var(--breadcrumb-separator-margin, $breadcrumb-separator-margin);
+      color: var(--breadcrumb-separator-color, $breadcrumb-separator-color);
+      font-size: var(
+        --breadcrumb-separator-font-size,
+        $breadcrumb-separator-font-size
+      );
+    }
+  }
+
+  &-link {
+    color: var(--breadcrumb-link-color, $breadcrumb-link-color);
+    text-decoration: var(
+      --breadcrumb-text-decoration,
+      $breadcrumb-text-decoration
+    );
+    transition: var(--breadcrumb-transition, $breadcrumb-transition);
+
+    &:hover {
+      color: var(--breadcrumb-link-hover-color, $breadcrumb-link-hover-color);
+      text-decoration: var(
+        --breadcrumb-text-decoration-hover,
+        $breadcrumb-text-decoration-hover
+      );
+    }
+
+    &:active {
+      color: var(--breadcrumb-link-active-color, $breadcrumb-link-active-color);
+    }
+
+    &:disabled {
+      color: var(
+        --breadcrumb-link-disabled-color,
+        $breadcrumb-link-disabled-color
+      );
+      pointer-events: none;
+    }
+  }
+
+  &-active {
+    color: var(--breadcrumb-link-active-color, $breadcrumb-link-active-color);
+    font-weight: var(--breadcrumb-font-weight, $breadcrumb-font-weight);
+  }
+
+  @media (max-width: 768px) {
+    padding: 5px 4px;
+    font-size: calc(#{$breadcrumb-font-size} * 0.9);
+
+    &-item:not(:last-child)::after {
+      margin: 0 4px;
+    }
+  }
+}
