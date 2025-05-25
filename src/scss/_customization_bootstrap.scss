@@ -11,6 +11,20 @@
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 
+// Bootstrap form validation color overrides
+$form-valid-color: $lime-green;
+$form-valid-border-color: $lime-green;
+$form-invalid-color: $bright-pink;
+$form-invalid-border-color: $bright-pink;
+
+// Override CSS custom properties for form validation
+:root {
+  --bs-form-valid-color: #{$lime-green};
+  --bs-form-valid-border-color: #{$lime-green};
+  --bs-form-invalid-color: #{$bright-pink};
+  --bs-form-invalid-border-color: #{$bright-pink};
+}
+
 // scss-docs-start theme-colors-map
 $custom-theme-colors: (
   "custom-color": #7f9af0,

@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Недвижимость - Примеры Форм</title>
+    <!-- Компилированные стили -->
+    <link rel="stylesheet" href="../../dist/css/main.css" />
     <!-- Bootstrap Icons -->
     <link
       rel="stylesheet"
@@ -16,6 +18,46 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- <style>
+      .forms-examples-page {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .forms-examples-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #252736;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .forms-section {
+        margin-bottom: 50px;
+        padding: 30px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #252736;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #d1f000;
+      }
+
+      .demo-form {
+        background: #f5f6f4;
+        padding: 25px;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+      }
+    </style> -->
   </head>
   <body>
     <app-header></app-header>
@@ -309,6 +351,217 @@
               </div>
             </section>
 
+            <!-- Выпадающие списки -->
+            <section class="forms-section">
+              <h2 class="section-title">Выпадающие списки</h2>
+
+              <!-- Обычные select -->
+              <div class="form-field">
+                <label for="basicSelect" class="form-label"
+                  >Тип недвижимости</label
+                >
+                <select class="form-select" id="basicSelect">
+                  <option value="">Выберите тип</option>
+                  <option value="apartment">Квартира</option>
+                  <option value="house">Дом</option>
+                  <option value="commercial">Коммерческая</option>
+                  <option value="land">Земельный участок</option>
+                </select>
+              </div>
+
+              <div class="form-field">
+                <label for="selectWithValue" class="form-label">Город</label>
+                <select class="form-select" id="selectWithValue">
+                  <option value="">Выберите город</option>
+                  <option value="moscow">Москва</option>
+                  <option value="spb" selected>Санкт-Петербург</option>
+                  <option value="ekb">Екатеринбург</option>
+                  <option value="nsk">Новосибирск</option>
+                </select>
+              </div>
+
+              <!-- Состояния валидации -->
+              <div class="form-field">
+                <label for="validSelect" class="form-label"
+                  >Корректный выбор</label
+                >
+                <select class="form-select is-valid" id="validSelect">
+                  <option value="">Выберите опцию</option>
+                  <option value="option1" selected>Выбранная опция</option>
+                  <option value="option2">Другая опция</option>
+                </select>
+                <div class="form-feedback is-valid">
+                  Опция выбрана корректно
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="invalidSelect" class="form-label required"
+                  >Обязательный выбор</label
+                >
+                <select class="form-select is-invalid" id="invalidSelect">
+                  <option value="">Выберите опцию</option>
+                  <option value="option1">Опция 1</option>
+                  <option value="option2">Опция 2</option>
+                </select>
+                <div class="form-feedback is-invalid">
+                  Пожалуйста, выберите одну из опций
+                </div>
+              </div>
+
+              <!-- Размеры -->
+              <div class="form-field">
+                <label for="smallSelect" class="form-label"
+                  >Маленький список</label
+                >
+                <select class="form-select form-select-sm" id="smallSelect">
+                  <option value="">Выберите опцию</option>
+                  <option value="1">Опция 1</option>
+                  <option value="2">Опция 2</option>
+                </select>
+              </div>
+
+              <div class="form-field">
+                <label for="largeSelect" class="form-label"
+                  >Большой список</label
+                >
+                <select class="form-select form-select-lg" id="largeSelect">
+                  <option value="">Выберите опцию</option>
+                  <option value="1">Опция 1</option>
+                  <option value="2">Опция 2</option>
+                </select>
+              </div>
+
+              <!-- Отключенный select -->
+              <div class="form-field">
+                <label for="disabledSelect" class="form-label"
+                  >Отключенный список</label
+                >
+                <select class="form-select" id="disabledSelect" disabled>
+                  <option value="">Недоступно для выбора</option>
+                  <option value="1">Опция 1</option>
+                  <option value="2">Опция 2</option>
+                </select>
+              </div>
+            </section>
+
+            <!-- Select2 примеры -->
+            <section class="forms-section">
+              <h2 class="section-title">Select2 примеры</h2>
+
+              <!-- Простой Select2 -->
+              <div class="form-field">
+                <label for="select2Basic" class="form-label"
+                  >Район (с поиском)</label
+                >
+                <select
+                  class="form-select"
+                  id="select2Basic"
+                  data-select2="true"
+                >
+                  <option value="">Выберите район</option>
+                  <option value="center">Центральный</option>
+                  <option value="north">Северный</option>
+                  <option value="south">Южный</option>
+                  <option value="east">Восточный</option>
+                  <option value="west">Западный</option>
+                  <option value="vasilievsky">Васильевский остров</option>
+                  <option value="petrogradsky">Петроградский</option>
+                  <option value="admiralteysky">Адмиралтейский</option>
+                </select>
+              </div>
+
+              <!-- Multiple Select2 -->
+              <div class="form-field">
+                <label for="select2Multiple" class="form-label"
+                  >Удобства (множественный выбор)</label
+                >
+                <select
+                  class="form-select"
+                  id="select2Multiple"
+                  multiple
+                  data-select2="true"
+                >
+                  <option value="parking">Парковка</option>
+                  <option value="elevator">Лифт</option>
+                  <option value="balcony">Балкон</option>
+                  <option value="furniture">Мебель</option>
+                  <option value="appliances">Техника</option>
+                  <option value="internet">Интернет</option>
+                  <option value="security">Охрана</option>
+                  <option value="playground">Детская площадка</option>
+                </select>
+              </div>
+
+              <!-- Select2 с состояниями валидации -->
+              <div class="form-field">
+                <label for="select2Valid" class="form-label"
+                  >Корректный Select2</label
+                >
+                <select
+                  class="form-select is-valid"
+                  id="select2Valid"
+                  data-select2="true"
+                >
+                  <option value="">Выберите опцию</option>
+                  <option value="option1" selected>Выбранная опция</option>
+                  <option value="option2">Другая опция</option>
+                </select>
+                <div class="form-feedback is-valid">Выбор сделан корректно</div>
+              </div>
+
+              <div class="form-field">
+                <label for="select2Invalid" class="form-label required"
+                  >Некорректный Select2</label
+                >
+                <select
+                  class="form-select is-invalid"
+                  id="select2Invalid"
+                  data-select2="true"
+                >
+                  <option value="">Выберите опцию</option>
+                  <option value="option1">Опция 1</option>
+                  <option value="option2">Опция 2</option>
+                </select>
+                <div class="form-feedback is-invalid">
+                  Необходимо выбрать опцию
+                </div>
+              </div>
+
+              <!-- Размеры Select2 -->
+              <div class="form-field">
+                <label for="select2Small" class="form-label"
+                  >Маленький Select2</label
+                >
+                <select
+                  class="form-select select2-sm"
+                  id="select2Small"
+                  data-select2="true"
+                >
+                  <option value="">Выберите опцию</option>
+                  <option value="1">Опция 1</option>
+                  <option value="2">Опция 2</option>
+                  <option value="3">Опция 3</option>
+                </select>
+              </div>
+
+              <div class="form-field">
+                <label for="select2Large" class="form-label"
+                  >Большой Select2</label
+                >
+                <select
+                  class="form-select select2-lg"
+                  id="select2Large"
+                  data-select2="true"
+                >
+                  <option value="">Выберите опцию</option>
+                  <option value="1">Опция 1</option>
+                  <option value="2">Опция 2</option>
+                  <option value="3">Опция 3</option>
+                </select>
+              </div>
+            </section>
+
             <!-- Горизонтальная раскладка -->
             <section class="forms-section">
               <h2 class="section-title">Горизонтальная раскладка</h2>
@@ -491,5 +744,73 @@
     </main>
 
     <app-footer></app-footer>
+
+    <!-- JavaScript для инициализации Select2 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Инициализация всех Select2 элементов
+        $('[data-select2="true"]').each(function () {
+          const $element = $(this);
+          const isMultiple = $element.prop("multiple");
+          const hasValidation =
+            $element.hasClass("is-valid") || $element.hasClass("is-invalid");
+          const sizeClass = $element.hasClass("select2-sm")
+            ? "select2-sm"
+            : $element.hasClass("select2-lg")
+            ? "select2-lg"
+            : "";
+
+          // Базовые настройки Select2
+          const select2Options = {
+            theme: "bootstrap-5",
+            width: "100%",
+            placeholder:
+              $element.find('option[value=""]').text() || "Выберите опцию",
+            allowClear: true,
+            language: {
+              noResults: function () {
+                return "Ничего не найдено";
+              },
+              searching: function () {
+                return "Поиск...";
+              },
+              inputTooShort: function () {
+                return "Введите больше символов";
+              },
+              loadingMore: function () {
+                return "Загрузка...";
+              },
+            },
+          };
+
+          // Инициализация Select2
+          $element.select2(select2Options);
+
+          // Применение классов для размеров и валидации
+          const $container = $element.next(".select2-container");
+
+          if (sizeClass) {
+            $container.addClass(sizeClass);
+          }
+
+          if (hasValidation) {
+            if ($element.hasClass("is-valid")) {
+              $container.addClass("is-valid");
+            }
+            if ($element.hasClass("is-invalid")) {
+              $container.addClass("is-invalid");
+            }
+          }
+        });
+
+        // Демонстрация динамического изменения состояния
+        setTimeout(function () {
+          // Предварительный выбор в multiple select
+          $("#select2Multiple").val(["parking", "elevator"]).trigger("change");
+        }, 500);
+      });
+    </script>
   </body>
 </html>

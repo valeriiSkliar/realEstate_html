@@ -3,8 +3,9 @@
 @use "../brand_color" as brand;
 
 .forms-examples-page {
-  padding: 40px 0;
-  background-color: white;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
 
   .forms-examples-title {
     font-family: vars.$font-family-base;
@@ -34,31 +35,26 @@
     padding: 32px;
     background-color: brand.$light-gray;
     border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     border: 1px solid brand.$dark-navy-10;
 
     .section-title {
-      font-family: vars.$font-family-comfortaa;
       font-size: 1.5rem;
       font-weight: 600;
       color: brand.$dark-navy;
-      margin-bottom: 24px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid brand.$turquoise;
-      line-height: 1.3;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
+      margin-bottom: 30px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid brand.$lime-green;
+      font-family: $font-family-base;
     }
   }
 
   .demo-form {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 24px;
-    background-color: white;
+    background: brand.$light-gray;
+    padding: 25px;
     border-radius: 8px;
     border: 1px solid brand.$dark-navy-20;
+    margin-top: 20px;
   }
 
   // Responsive adjustments
