@@ -10,7 +10,7 @@
   // border: 1px solid vars.$light-gray;
   // border-radius: 8px;
   // box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  padding: 20px;
+  padding: 10px 20px;
   font-family: vars.$font-family-sans-serif;
   border-radius: 16px;
   background-color: color.adjust(brand.$light-gray-30);
@@ -211,12 +211,12 @@
   }
 
   &__footer {
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     justify-content: space-between; // Changed to space-between for actions
     align-items: center;
     border-top: 1px solid color.adjust(brand.$light-gray-30, $lightness: -5%);
-    padding-top: 15px;
+    padding-top: 10px;
 
     // Модификатор для выравнивания статуса справа
     &--status-right {
@@ -231,7 +231,7 @@
 
   &__actions {
     display: flex;
-    gap: 8px;
+    gap: 16px;
     align-items: center;
   }
 

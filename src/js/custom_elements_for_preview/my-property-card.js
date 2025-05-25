@@ -33,8 +33,8 @@ class MyPropertyCard extends HTMLElement {
     const detailsJson = this.getAttribute("details-json") || "[]";
     const phoneNumber = this.getAttribute("phone-number") || "";
     const status = this.getAttribute("status") || "Активно";
-    const actionsPosition = this.getAttribute("actions-position") || "right"; // "left" или "right"
-    const showActions = this.getAttribute("show-actions") === "true";
+    const actionsPosition = this.getAttribute("actions-position") || "right";
+    const showActions = this.getAttribute("show-actions") || "true";
 
     let details = [];
     try {
