@@ -197,6 +197,49 @@
                   >
                 </div>
               </div>
+              <h3 class="property-characteristics__description-title">
+                Описание
+              </h3>
+              <div
+                class="property-characteristics__description"
+                id="property-description"
+              >
+                <div class="description-full-text" style="display: none">
+                  <p>
+                    Продается прекрасная студия в современном жилом комплексе
+                    "Фонтаны" в микрорайоне Черемушки. Квартира расположена на
+                    10 этаже нового дома с современной планировкой и
+                    качественной отделкой. Общая площадь составляет 65,6
+                    квадратных метров, что идеально подходит для комфортного
+                    проживания одного человека или молодой пары. Квартира
+                    полностью готова к проживанию - выполнен качественный ремонт
+                    с использованием современных материалов. Установлены
+                    пластиковые окна, натяжные потолки, ламинат и керамическая
+                    плитка. Кухня оборудована встроенной техникой и мебелью.
+                    Санузел совмещенный с современной сантехникой и душевой
+                    кабиной. Жилой комплекс располагает развитой
+                    инфраструктурой: детская площадка, парковка, консьерж,
+                    видеонаблюдение. В шаговой доступности находятся магазины,
+                    школы, детские сады, медицинские учреждения и остановки
+                    общественного транспорта. Отличное транспортное сообщение с
+                    центром города.
+                  </p>
+                </div>
+                <div class="description-preview"></div>
+              </div>
+              <div
+                class="property-characteristics__description-more"
+                id="description-toggle"
+              >
+                <button
+                  type="button"
+                  class="property-characteristics__description-more-link"
+                  id="description-toggle-btn"
+                >
+                  <span class="toggle-text">Читать далее</span>
+                  <i class="bi bi-chevron-down"></i>
+                </button>
+              </div>
             </div>
           </div>
           <div
@@ -570,6 +613,113 @@
             readMoreLink.querySelector("i").classList.add("bi-chevron-down");
           });
         }
+
+        // Description read more functionality
+        function initDescriptionToggle() {
+          const descriptionContainer = document.getElementById(
+            "property-description"
+          );
+          const fullTextContainer = descriptionContainer.querySelector(
+            ".description-full-text"
+          );
+          const previewContainer = descriptionContainer.querySelector(
+            ".description-preview"
+          );
+          const toggleContainer = document.getElementById("description-toggle");
+          const toggleBtn = document.getElementById("description-toggle-btn");
+          const toggleText = toggleBtn.querySelector(".toggle-text");
+          const toggleIcon = toggleBtn.querySelector("i");
+
+          if (!fullTextContainer || !previewContainer || !toggleBtn) return;
+
+          // Получаем полный текст
+          const fullText = fullTextContainer.textContent.trim();
+          const maxLength = 250; // Максимальная длина для превью
+          let isExpanded = false;
+
+          // Если текст короткий, скрываем кнопку
+          if (fullText.length <= maxLength) {
+            previewContainer.innerHTML = fullTextContainer.innerHTML;
+            toggleContainer.classList.add(
+              "property-characteristics__description-more--hidden"
+            );
+            return;
+          }
+
+          // Создаем обрезанный текст для превью
+          function createPreviewText() {
+            const truncatedText = fullText.substring(0, maxLength);
+            const lastSpaceIndex = truncatedText.lastIndexOf(" ");
+            const previewText =
+              truncatedText.substring(0, lastSpaceIndex) + "...";
+
+            // Сохраняем HTML структуру
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = fullTextContainer.innerHTML;
+            const textContent = tempDiv.textContent || tempDiv.innerText;
+
+            if (textContent.length > maxLength) {
+              // Находим позицию обрезки в HTML
+              let charCount = 0;
+              let truncatedHTML = "";
+              const walker = document.createTreeWalker(
+                tempDiv,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+              );
+
+              let node;
+              while ((node = walker.nextNode())) {
+                const nodeText = node.textContent;
+                if (charCount + nodeText.length > lastSpaceIndex) {
+                  const remainingChars = lastSpaceIndex - charCount;
+                  if (remainingChars > 0) {
+                    node.textContent =
+                      nodeText.substring(0, remainingChars) + "...";
+                  } else {
+                    node.textContent = "";
+                  }
+                  break;
+                }
+                charCount += nodeText.length;
+              }
+
+              previewContainer.innerHTML = tempDiv.innerHTML;
+            } else {
+              previewContainer.innerHTML = fullTextContainer.innerHTML;
+            }
+          }
+
+          // Инициализация
+          createPreviewText();
+
+          // Обработчик клика по кнопке
+          toggleBtn.addEventListener("click", function () {
+            isExpanded = !isExpanded;
+
+            if (isExpanded) {
+              // Показываем полный текст
+              previewContainer.style.display = "none";
+              fullTextContainer.style.display = "block";
+              toggleText.textContent = "Скрыть";
+              toggleIcon.classList.remove("bi-chevron-down");
+              toggleIcon.classList.add("bi-chevron-up");
+              toggleBtn.classList.add("expanded");
+            } else {
+              // Показываем превью
+              fullTextContainer.style.display = "none";
+              previewContainer.style.display = "block";
+              toggleText.textContent = "Читать далее";
+              toggleIcon.classList.remove("bi-chevron-up");
+              toggleIcon.classList.add("bi-chevron-down");
+              toggleBtn.classList.remove("expanded");
+            }
+          });
+        }
+
+        // Инициализируем функциональность описания
+        initDescriptionToggle();
       });
     </script>
   </body>

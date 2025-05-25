@@ -270,6 +270,95 @@
       grid-template-columns: 1fr;
       gap: 4px;
     }
+
+    &__description-title {
+      font-size: 22px;
+      line-height: 26px;
+      font-weight: 300;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      color: brand.$brand-secondary;
+      margin: 20px 0 15px 0;
+
+      @media (max-width: 768px) {
+        font-size: 18px;
+        line-height: 22px;
+        margin: 15px 0 10px 0;
+      }
+    }
+
+    &__description {
+      font-size: 15px;
+      line-height: 22px;
+      font-weight: 300;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      color: color.adjust(brand.$brand-background, $lightness: -50%);
+      margin-bottom: 15px;
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      p {
+        margin: 0 0 10px 0;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      &--collapsed {
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      &--expanded {
+        transition: max-height 0.3s ease;
+      }
+    }
+
+    &__description-more {
+      &--hidden {
+        display: none;
+      }
+    }
+
+    &__description-more-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+      font-family: vars.$font-family-sans-serif;
+      color: brand.$brand-secondary;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+
+      @media (max-width: 768px) {
+        font-size: 13px;
+        line-height: 16px;
+      }
+
+      &:hover {
+        color: color.adjust(brand.$brand-secondary, $lightness: -20%);
+      }
+
+      i {
+        font-size: 12px;
+        transition: transform 0.2s ease;
+      }
+
+      &.expanded i {
+        transform: rotate(180deg);
+      }
+    }
   }
 
   .characteristic-item {
