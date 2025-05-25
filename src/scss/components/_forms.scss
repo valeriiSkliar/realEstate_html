@@ -607,3 +607,599 @@ select.form-select,
     }
   }
 }
+
+// =============================================================================
+// DATE/TIME INPUT STYLES
+// =============================================================================
+
+// Date, time, datetime-local inputs
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"] {
+  @extend .form-input;
+  border-radius: 8px !important;
+  cursor: pointer;
+
+  &:focus,
+  &:hover,
+  &:disabled,
+  &.is-valid,
+  &.is-invalid {
+    border-radius: 8px !important;
+  }
+
+  // Custom calendar icon for date inputs
+  &[type="date"],
+  &[type="datetime-local"] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%23252736' d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 4v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4H2z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px 16px;
+    padding-right: 44px;
+  }
+
+  // Custom clock icon for time inputs
+  &[type="time"] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%23252736' d='M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm1.5 4.5L8 5.707V2.5a.5.5 0 0 0-1 0v3.793L4.854 8.439a.5.5 0 1 0 .708.708L8 6.707l2.438 2.44a.5.5 0 1 0 .708-.708L9.5 4.5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px 16px;
+    padding-right: 44px;
+  }
+
+  // Disabled state icons
+  &:disabled {
+    &[type="date"],
+    &[type="datetime-local"] {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%23B3B5B8' d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 4v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4H2z'/%3e%3c/svg%3e");
+    }
+
+    &[type="time"] {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%23B3B5B8' d='M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm1.5 4.5L8 5.707V2.5a.5.5 0 0 0-1 0v3.793L4.854 8.439a.5.5 0 1 0 .708.708L8 6.707l2.438 2.44a.5.5 0 1 0 .708-.708L9.5 4.5z'/%3e%3c/svg%3e");
+    }
+  }
+}
+
+// =============================================================================
+// FILE UPLOAD STYLES
+// =============================================================================
+
+.form-file {
+  position: relative;
+
+  .form-file-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
+
+    &:focus + .form-file-label {
+      border-color: $turquoise;
+      box-shadow: 0 0 0 3px rgba(0, 201, 221, 0.1);
+    }
+
+    &:disabled + .form-file-label {
+      background-color: $light-gray;
+      border-color: $dark-navy-30;
+      color: $dark-navy-50;
+      cursor: not-allowed;
+
+      .form-file-icon {
+        color: $dark-navy-30;
+      }
+    }
+
+    &.is-valid + .form-file-label {
+      border-color: $lime-green;
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(209, 240, 0, 0.1);
+      }
+    }
+
+    &.is-invalid + .form-file-label {
+      border-color: $bright-pink;
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(255, 63, 192, 0.1);
+      }
+    }
+  }
+
+  .form-file-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid $dark-navy-30;
+    border-radius: 8px !important;
+    background-color: white;
+    color: $dark-navy;
+    font-family: $font-family-base;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    z-index: 1;
+
+    &:hover {
+      border-color: $dark-navy-50;
+    }
+
+    .form-file-icon {
+      color: $dark-navy-50;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .form-file-text {
+      flex: 1;
+
+      .form-file-placeholder {
+        color: $dark-navy-50;
+        font-weight: 300;
+      }
+
+      .form-file-name {
+        color: $dark-navy;
+        font-weight: 500;
+      }
+    }
+
+    .form-file-button {
+      background-color: $turquoise;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+  }
+
+  // Multiple file upload
+  &.multiple {
+    .form-file-selected {
+      margin-top: 8px;
+
+      .file-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background-color: $light-gray;
+        border-radius: 4px;
+        margin-bottom: 4px;
+        font-size: 14px;
+
+        .file-name {
+          color: $dark-navy;
+          flex: 1;
+        }
+
+        .file-remove {
+          color: $bright-pink;
+          cursor: pointer;
+          font-weight: 700;
+
+          &:hover {
+            color: $bright-pink-80;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Small file upload
+.form-file.form-file-sm {
+  .form-file-label {
+    padding: 8px 12px;
+    font-size: 14px;
+
+    .form-file-icon {
+      font-size: 16px;
+    }
+
+    .form-file-button {
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+  }
+}
+
+// Large file upload
+.form-file.form-file-lg {
+  .form-file-label {
+    padding: 16px 20px;
+    font-size: 18px;
+
+    .form-file-icon {
+      font-size: 20px;
+    }
+
+    .form-file-button {
+      padding: 8px 16px;
+      font-size: 16px;
+    }
+  }
+}
+
+// =============================================================================
+// TOGGLE SWITCH STYLES
+// =============================================================================
+
+.form-switch {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+
+  .form-switch-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .form-switch-label .form-switch-slider {
+      background-color: $turquoise;
+
+      &::before {
+        transform: translateX(28px);
+      }
+    }
+
+    &:focus + .form-switch-label .form-switch-slider {
+      box-shadow: 0 0 0 3px rgba(0, 201, 221, 0.1);
+    }
+
+    &:disabled + .form-switch-label {
+      cursor: not-allowed;
+      opacity: 0.6;
+
+      .form-switch-text {
+        color: $dark-navy-50;
+      }
+
+      .form-switch-slider {
+        background-color: $dark-navy-30;
+      }
+    }
+
+    &.is-valid:checked + .form-switch-label .form-switch-slider {
+      background-color: $lime-green;
+    }
+
+    &.is-invalid + .form-switch-label .form-switch-slider {
+      background-color: $bright-pink;
+    }
+  }
+
+  .form-switch-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-family: $font-family-base;
+    font-size: 16px;
+    font-weight: 400;
+    color: $dark-navy;
+    line-height: 1.5;
+
+    .form-switch-slider {
+      position: relative;
+      width: 56px;
+      height: 28px;
+      background-color: $dark-navy-30;
+      border-radius: 28px;
+      transition: all 0.2s ease-in-out;
+      flex-shrink: 0;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 24px;
+        height: 24px;
+        background-color: white;
+        border-radius: 50%;
+        transition: transform 0.2s ease-in-out;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .form-switch-text {
+      flex: 1;
+    }
+  }
+}
+
+// Small toggle switch
+.form-switch.form-switch-sm {
+  .form-switch-label {
+    font-size: 14px;
+
+    .form-switch-slider {
+      width: 44px;
+      height: 22px;
+      border-radius: 22px;
+
+      &::before {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  .form-switch-input:checked + .form-switch-label .form-switch-slider::before {
+    transform: translateX(22px);
+  }
+}
+
+// Large toggle switch
+.form-switch.form-switch-lg {
+  .form-switch-label {
+    font-size: 18px;
+
+    .form-switch-slider {
+      width: 68px;
+      height: 34px;
+      border-radius: 34px;
+
+      &::before {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+
+  .form-switch-input:checked + .form-switch-label .form-switch-slider::before {
+    transform: translateX(34px);
+  }
+}
+
+// =============================================================================
+// CHECKBOX & RADIO GROUP STYLES
+// =============================================================================
+
+.form-check-group,
+.form-radio-group {
+  margin-bottom: 16px;
+
+  .form-check-group-label,
+  .form-radio-group-label {
+    display: block;
+    margin-bottom: 12px;
+    font-family: $font-family-base;
+    font-size: 14px;
+    font-weight: 500;
+    color: $dark-navy;
+    line-height: 1.4;
+
+    &.required::after {
+      content: " *";
+      color: $bright-pink;
+      font-weight: 500;
+    }
+  }
+
+  .form-check-items,
+  .form-radio-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  // Horizontal layout
+  &.form-check-horizontal,
+  &.form-radio-horizontal {
+    .form-check-items,
+    .form-radio-items {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+  }
+
+  // Grid layout
+  &.form-check-grid,
+  &.form-radio-grid {
+    .form-check-items,
+    .form-radio-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+  }
+}
+
+// Individual checkbox/radio styles
+.form-check,
+.form-radio {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .form-check-input,
+  .form-radio-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .form-check-label .form-check-box,
+    &:checked + .form-radio-label .form-radio-circle {
+      background-color: $turquoise;
+      border-color: $turquoise;
+    }
+
+    &:checked + .form-check-label .form-check-box::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    &:checked + .form-radio-label .form-radio-circle::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    &:focus + .form-check-label .form-check-box,
+    &:focus + .form-radio-label .form-radio-circle {
+      box-shadow: 0 0 0 3px rgba(0, 201, 221, 0.1);
+    }
+
+    &:disabled + .form-check-label,
+    &:disabled + .form-radio-label {
+      cursor: not-allowed;
+      opacity: 0.6;
+
+      .form-check-box,
+      .form-radio-circle {
+        background-color: $light-gray;
+        border-color: $dark-navy-30;
+      }
+    }
+
+    &.is-valid:checked + .form-check-label .form-check-box,
+    &.is-valid:checked + .form-radio-label .form-radio-circle {
+      background-color: $lime-green;
+      border-color: $lime-green;
+    }
+
+    &.is-invalid + .form-check-label .form-check-box,
+    &.is-invalid + .form-radio-label .form-radio-circle {
+      border-color: $bright-pink;
+    }
+  }
+
+  .form-check-label,
+  .form-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-family: $font-family-base;
+    font-size: 16px;
+    font-weight: 400;
+    color: $dark-navy;
+    line-height: 1.5;
+    flex: 1;
+  }
+}
+
+// Checkbox specific styles
+.form-check {
+  .form-check-box {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 2px solid $dark-navy-30;
+    border-radius: 4px;
+    background-color: white;
+    transition: all 0.2s ease-in-out;
+    flex-shrink: 0;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 10px;
+      translate: -50% -50%;
+      rotate: 45deg;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: translate(-50%, -50%) rotate(45deg) scale(0);
+      transition: all 0.2s ease-in-out;
+      opacity: 0;
+    }
+  }
+}
+
+// Radio specific styles
+.form-radio {
+  .form-radio-circle {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 2px solid $dark-navy-30;
+    border-radius: 50%;
+    background-color: white;
+    transition: all 0.2s ease-in-out;
+    flex-shrink: 0;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      translate: -50% -50%;
+      background-color: white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: all 0.2s ease-in-out;
+      opacity: 0;
+    }
+  }
+}
+
+// Small checkbox/radio
+.form-check.form-check-sm,
+.form-radio.form-radio-sm {
+  .form-check-label,
+  .form-radio-label {
+    font-size: 14px;
+  }
+
+  .form-check-box,
+  .form-radio-circle {
+    width: 16px;
+    height: 16px;
+  }
+
+  .form-check-box::after {
+    width: 4px;
+    height: 8px;
+  }
+
+  .form-radio-circle::after {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+// Large checkbox/radio
+.form-check.form-check-lg,
+.form-radio.form-radio-lg {
+  .form-check-label,
+  .form-radio-label {
+    font-size: 18px;
+  }
+
+  .form-check-box,
+  .form-radio-circle {
+    width: 24px;
+    height: 24px;
+  }
+
+  .form-check-box::after {
+    width: 8px;
+    height: 12px;
+  }
+
+  .form-radio-circle::after {
+    width: 10px;
+    height: 10px;
+  }
+}

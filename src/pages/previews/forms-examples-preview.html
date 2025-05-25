@@ -612,6 +612,710 @@
               </form>
             </section>
 
+            <!-- Date/Time поля -->
+            <section class="forms-section">
+              <h2 class="section-title">Поля даты и времени</h2>
+
+              <div class="form-field">
+                <label for="dateField" class="form-label">Дата просмотра</label>
+                <input
+                  type="date"
+                  class="form-input"
+                  id="dateField"
+                  value="2024-01-15"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="timeField" class="form-label"
+                  >Время просмотра</label
+                >
+                <input
+                  type="time"
+                  class="form-input"
+                  id="timeField"
+                  value="14:30"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="datetimeField" class="form-label"
+                  >Дата и время</label
+                >
+                <input
+                  type="datetime-local"
+                  class="form-input"
+                  id="datetimeField"
+                  value="2024-01-15T14:30"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="monthField" class="form-label">Месяц заезда</label>
+                <input
+                  type="month"
+                  class="form-input"
+                  id="monthField"
+                  value="2024-01"
+                />
+              </div>
+
+              <!-- Состояния валидации для дат -->
+              <div class="form-field">
+                <label for="validDate" class="form-label"
+                  >Корректная дата</label
+                >
+                <input
+                  type="date"
+                  class="form-input is-valid"
+                  id="validDate"
+                  value="2024-02-20"
+                />
+                <div class="form-feedback is-valid">Дата выбрана корректно</div>
+              </div>
+
+              <div class="form-field">
+                <label for="invalidDate" class="form-label required"
+                  >Неверная дата</label
+                >
+                <input
+                  type="date"
+                  class="form-input is-invalid"
+                  id="invalidDate"
+                />
+                <div class="form-feedback is-invalid">
+                  Пожалуйста, выберите дату
+                </div>
+              </div>
+
+              <!-- Отключенное поле даты -->
+              <div class="form-field">
+                <label for="disabledDate" class="form-label"
+                  >Отключенная дата</label
+                >
+                <input
+                  type="date"
+                  class="form-input"
+                  id="disabledDate"
+                  value="2024-01-01"
+                  disabled
+                />
+              </div>
+            </section>
+
+            <!-- File Upload -->
+            <section class="forms-section">
+              <h2 class="section-title">Загрузка файлов</h2>
+
+              <!-- Простая загрузка файла -->
+              <div class="form-field">
+                <label class="form-label">Документы недвижимости</label>
+                <div class="form-file">
+                  <input
+                    type="file"
+                    class="form-file-input"
+                    id="singleFile"
+                    accept=".pdf,.doc,.docx"
+                  />
+                  <label for="singleFile" class="form-file-label">
+                    <i class="bi bi-file-earmark-arrow-up form-file-icon"></i>
+                    <span class="form-file-text">
+                      <span class="form-file-placeholder"
+                        >Выберите файлы для загрузки</span
+                      >
+                    </span>
+                    <span class="form-file-button">Обзор</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Загрузка изображений -->
+              <div class="form-field">
+                <label class="form-label">Фотографии объекта</label>
+                <div class="form-file">
+                  <input
+                    type="file"
+                    class="form-file-input"
+                    id="imageFile"
+                    accept="image/*"
+                  />
+                  <label for="imageFile" class="form-file-label">
+                    <i class="bi bi-image form-file-icon"></i>
+                    <span class="form-file-text">
+                      <span class="form-file-placeholder"
+                        >Выберите изображение</span
+                      >
+                    </span>
+                    <span class="form-file-button">Выбрать</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Множественная загрузка -->
+              <div class="form-field">
+                <label class="form-label">Галерея (несколько файлов)</label>
+                <div class="form-file multiple">
+                  <input
+                    type="file"
+                    class="form-file-input"
+                    id="multipleFiles"
+                    multiple
+                    accept="image/*"
+                  />
+                  <label for="multipleFiles" class="form-file-label">
+                    <i class="bi bi-images form-file-icon"></i>
+                    <span class="form-file-text">
+                      <span class="form-file-placeholder"
+                        >Выберите несколько изображений</span
+                      >
+                    </span>
+                    <span class="form-file-button">Выбрать файлы</span>
+                  </label>
+                  <div class="form-file-selected">
+                    <!-- Здесь будут показаны выбранные файлы -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Состояния валидации -->
+              <div class="form-field">
+                <label class="form-label">Файл загружен успешно</label>
+                <div class="form-file">
+                  <input
+                    type="file"
+                    class="form-file-input is-valid"
+                    id="validFile"
+                  />
+                  <label for="validFile" class="form-file-label">
+                    <i class="bi bi-check-circle form-file-icon"></i>
+                    <span class="form-file-text">
+                      <span class="form-file-name">document.pdf</span>
+                    </span>
+                    <span class="form-file-button">Изменить</span>
+                  </label>
+                </div>
+                <div class="form-feedback is-valid">Файл загружен успешно</div>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label required">Обязательный файл</label>
+                <div class="form-file">
+                  <input
+                    type="file"
+                    class="form-file-input is-invalid"
+                    id="invalidFile"
+                  />
+                  <label for="invalidFile" class="form-file-label">
+                    <i class="bi bi-exclamation-triangle form-file-icon"></i>
+                    <span class="form-file-text">
+                      <span class="form-file-placeholder">Файл не выбран</span>
+                    </span>
+                    <span class="form-file-button">Выбрать</span>
+                  </label>
+                </div>
+                <div class="form-feedback is-invalid">
+                  Пожалуйста, выберите файл
+                </div>
+              </div>
+
+              <!-- Размеры -->
+              <div class="form-field">
+                <label class="form-label">Маленький загрузчик</label>
+                <div class="form-file form-file-sm">
+                  <input type="file" class="form-file-input" id="smallFile" />
+                  <label for="smallFile" class="form-file-label">
+                    <i class="bi bi-paperclip form-file-icon"></i>
+                    <span class="form-file-text">
+                      <span class="form-file-placeholder">Выберите файл</span>
+                    </span>
+                    <span class="form-file-button">Обзор</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label">Большой загрузчик</label>
+                <div class="form-file form-file-lg">
+                  <input type="file" class="form-file-input" id="largeFile" />
+                  <label for="largeFile" class="form-file-label">
+                    <i class="bi bi-cloud-upload form-file-icon"></i>
+                    <span class="form-file-text">
+                      <span class="form-file-placeholder"
+                        >Выберите файлы для загрузки</span
+                      >
+                    </span>
+                    <span class="form-file-button">Выбрать файлы</span>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <!-- Toggle Switches -->
+            <section class="forms-section">
+              <h2 class="section-title">Переключатели</h2>
+
+              <!-- Базовые переключатели -->
+              <div class="form-switch">
+                <input
+                  type="checkbox"
+                  class="form-switch-input"
+                  id="switch1"
+                  checked
+                />
+                <label for="switch1" class="form-switch-label">
+                  <span class="form-switch-slider"></span>
+                  <span class="form-switch-text"
+                    >Получать уведомления о новых объектах</span
+                  >
+                </label>
+              </div>
+
+              <div class="form-switch">
+                <input type="checkbox" class="form-switch-input" id="switch2" />
+                <label for="switch2" class="form-switch-label">
+                  <span class="form-switch-slider"></span>
+                  <span class="form-switch-text"
+                    >Показывать контактную информацию</span
+                  >
+                </label>
+              </div>
+
+              <div class="form-switch">
+                <input type="checkbox" class="form-switch-input" id="switch3" />
+                <label for="switch3" class="form-switch-label">
+                  <span class="form-switch-slider"></span>
+                  <span class="form-switch-text">Разрешить звонки агентам</span>
+                </label>
+              </div>
+
+              <!-- Состояния валидации -->
+              <div class="form-switch">
+                <input
+                  type="checkbox"
+                  class="form-switch-input is-valid"
+                  id="validSwitch"
+                  checked
+                />
+                <label for="validSwitch" class="form-switch-label">
+                  <span class="form-switch-slider"></span>
+                  <span class="form-switch-text">Настройка активна</span>
+                </label>
+              </div>
+
+              <div class="form-switch">
+                <input
+                  type="checkbox"
+                  class="form-switch-input is-invalid"
+                  id="invalidSwitch"
+                />
+                <label for="invalidSwitch" class="form-switch-label">
+                  <span class="form-switch-slider"></span>
+                  <span class="form-switch-text">Требуется подтверждение</span>
+                </label>
+              </div>
+
+              <!-- Отключенный переключатель -->
+              <div class="form-switch">
+                <input
+                  type="checkbox"
+                  class="form-switch-input"
+                  id="disabledSwitch"
+                  disabled
+                  checked
+                />
+                <label for="disabledSwitch" class="form-switch-label">
+                  <span class="form-switch-slider"></span>
+                  <span class="form-switch-text">Недоступная настройка</span>
+                </label>
+              </div>
+
+              <!-- Размеры -->
+              <div class="form-switch form-switch-sm">
+                <input
+                  type="checkbox"
+                  class="form-switch-input"
+                  id="smallSwitch"
+                />
+                <label for="smallSwitch" class="form-switch-label">
+                  <span class="form-switch-slider"></span>
+                  <span class="form-switch-text">Маленький переключатель</span>
+                </label>
+              </div>
+
+              <div class="form-switch form-switch-lg">
+                <input
+                  type="checkbox"
+                  class="form-switch-input"
+                  id="largeSwitch"
+                  checked
+                />
+                <label for="largeSwitch" class="form-switch-label">
+                  <span class="form-switch-slider"></span>
+                  <span class="form-switch-text">Большой переключатель</span>
+                </label>
+              </div>
+            </section>
+
+            <!-- Checkbox Groups -->
+            <section class="forms-section">
+              <h2 class="section-title">Группы чекбоксов</h2>
+
+              <!-- Вертикальная группа -->
+              <div class="form-check-group">
+                <div class="form-check-group-label required">
+                  Удобства в квартире
+                </div>
+                <div class="form-check-items">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="amenity1"
+                      checked
+                    />
+                    <label for="amenity1" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Кондиционер</span>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="amenity2"
+                      checked
+                    />
+                    <label for="amenity2" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Стиральная машина</span>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="amenity3"
+                    />
+                    <label for="amenity3" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Посудомоечная машина</span>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="amenity4"
+                    />
+                    <label for="amenity4" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Интернет Wi-Fi</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Горизонтальная группа -->
+              <div class="form-check-group form-check-horizontal">
+                <div class="form-check-group-label">Инфраструктура рядом</div>
+                <div class="form-check-items">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="infra1"
+                    />
+                    <label for="infra1" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Метро</span>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="infra2"
+                      checked
+                    />
+                    <label for="infra2" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Магазины</span>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="infra3"
+                    />
+                    <label for="infra3" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Школы</span>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="infra4"
+                      checked
+                    />
+                    <label for="infra4" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Парки</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Сетка -->
+              <div class="form-check-group form-check-grid">
+                <div class="form-check-group-label">Характеристики здания</div>
+                <div class="form-check-items">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="building1"
+                    />
+                    <label for="building1" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Лифт</span>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="building2"
+                      checked
+                    />
+                    <label for="building2" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Консьерж</span>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="building3"
+                    />
+                    <label for="building3" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Парковка</span>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="building4"
+                    />
+                    <label for="building4" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Детская площадка</span>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="building5"
+                      checked
+                    />
+                    <label for="building5" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Охрана</span>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="building6"
+                    />
+                    <label for="building6" class="form-check-label">
+                      <span class="form-check-box"></span>
+                      <span>Спортзал</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Radio Groups -->
+            <section class="forms-section">
+              <h2 class="section-title">Группы радиокнопок</h2>
+
+              <!-- Вертикальная группа -->
+              <div class="form-radio-group">
+                <div class="form-radio-group-label required">Тип сделки</div>
+                <div class="form-radio-items">
+                  <div class="form-radio">
+                    <input
+                      type="radio"
+                      class="form-radio-input"
+                      id="deal1"
+                      name="dealType"
+                      value="sale"
+                      checked
+                    />
+                    <label for="deal1" class="form-radio-label">
+                      <span class="form-radio-circle"></span>
+                      <span>Продажа</span>
+                    </label>
+                  </div>
+                  <div class="form-radio">
+                    <input
+                      type="radio"
+                      class="form-radio-input"
+                      id="deal2"
+                      name="dealType"
+                      value="rent"
+                    />
+                    <label for="deal2" class="form-radio-label">
+                      <span class="form-radio-circle"></span>
+                      <span>Аренда</span>
+                    </label>
+                  </div>
+                  <div class="form-radio">
+                    <input
+                      type="radio"
+                      class="form-radio-input"
+                      id="deal3"
+                      name="dealType"
+                      value="rent-daily"
+                    />
+                    <label for="deal3" class="form-radio-label">
+                      <span class="form-radio-circle"></span>
+                      <span>Посуточная аренда</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Горизонтальная группа -->
+              <div class="form-radio-group form-radio-horizontal">
+                <div class="form-radio-group-label">Количество комнат</div>
+                <div class="form-radio-items">
+                  <div class="form-radio">
+                    <input
+                      type="radio"
+                      class="form-radio-input"
+                      id="rooms1"
+                      name="roomCount"
+                      value="studio"
+                    />
+                    <label for="rooms1" class="form-radio-label">
+                      <span class="form-radio-circle"></span>
+                      <span>Студия</span>
+                    </label>
+                  </div>
+                  <div class="form-radio">
+                    <input
+                      type="radio"
+                      class="form-radio-input"
+                      id="rooms2"
+                      name="roomCount"
+                      value="1"
+                      checked
+                    />
+                    <label for="rooms2" class="form-radio-label">
+                      <span class="form-radio-circle"></span>
+                      <span>1 комната</span>
+                    </label>
+                  </div>
+                  <div class="form-radio">
+                    <input
+                      type="radio"
+                      class="form-radio-input"
+                      id="rooms3"
+                      name="roomCount"
+                      value="2"
+                    />
+                    <label for="rooms3" class="form-radio-label">
+                      <span class="form-radio-circle"></span>
+                      <span>2 комнаты</span>
+                    </label>
+                  </div>
+                  <div class="form-radio">
+                    <input
+                      type="radio"
+                      class="form-radio-input"
+                      id="rooms4"
+                      name="roomCount"
+                      value="3+"
+                    />
+                    <label for="rooms4" class="form-radio-label">
+                      <span class="form-radio-circle"></span>
+                      <span>3+ комнат</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Сетка -->
+              <div class="form-radio-group form-radio-grid">
+                <div class="form-radio-group-label">Тип планировки</div>
+                <div class="form-radio-items">
+                  <div class="form-radio">
+                    <input
+                      type="radio"
+                      class="form-radio-input"
+                      id="layout1"
+                      name="layoutType"
+                      value="open"
+                    />
+                    <label for="layout1" class="form-radio-label">
+                      <span class="form-radio-circle"></span>
+                      <span>Открытая планировка</span>
+                    </label>
+                  </div>
+                  <div class="form-radio">
+                    <input
+                      type="radio"
+                      class="form-radio-input"
+                      id="layout2"
+                      name="layoutType"
+                      value="isolated"
+                      checked
+                    />
+                    <label for="layout2" class="form-radio-label">
+                      <span class="form-radio-circle"></span>
+                      <span>Изолированные комнаты</span>
+                    </label>
+                  </div>
+                  <div class="form-radio">
+                    <input
+                      type="radio"
+                      class="form-radio-input"
+                      id="layout3"
+                      name="layoutType"
+                      value="combined"
+                    />
+                    <label for="layout3" class="form-radio-label">
+                      <span class="form-radio-circle"></span>
+                      <span>Смежные комнаты</span>
+                    </label>
+                  </div>
+                  <div class="form-radio">
+                    <input
+                      type="radio"
+                      class="form-radio-input"
+                      id="layout4"
+                      name="layoutType"
+                      value="studio"
+                    />
+                    <label for="layout4" class="form-radio-label">
+                      <span class="form-radio-circle"></span>
+                      <span>Студия</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </section>
+
             <!-- Отключенные поля -->
             <section class="forms-section">
               <h2 class="section-title">Отключенные поля</h2>
@@ -714,6 +1418,84 @@
           // Предварительный выбор в multiple select
           $("#select2Multiple").val(["parking", "elevator"]).trigger("change");
         }, 500);
+      });
+
+      // Обработка file upload
+      document.addEventListener("DOMContentLoaded", function () {
+        // Обработка одиночных файлов
+        document
+          .querySelectorAll(".form-file:not(.multiple) .form-file-input")
+          .forEach(function (input) {
+            input.addEventListener("change", function () {
+              const label = this.nextElementSibling;
+              const textSpan = label.querySelector(".form-file-text");
+              const placeholderSpan = textSpan.querySelector(
+                ".form-file-placeholder"
+              );
+              const nameSpan = textSpan.querySelector(".form-file-name");
+
+              if (this.files && this.files.length > 0) {
+                const fileName = this.files[0].name;
+                if (nameSpan) {
+                  nameSpan.textContent = fileName;
+                } else {
+                  placeholderSpan.textContent = fileName;
+                  placeholderSpan.style.color = "#252736";
+                  placeholderSpan.style.fontWeight = "500";
+                }
+              } else {
+                if (nameSpan) {
+                  nameSpan.textContent = "";
+                }
+                placeholderSpan.textContent =
+                  placeholderSpan.getAttribute("data-original") ||
+                  "Выберите файл";
+                placeholderSpan.style.color = "";
+                placeholderSpan.style.fontWeight = "";
+              }
+            });
+          });
+
+        // Обработка множественных файлов
+        document
+          .querySelectorAll(".form-file.multiple .form-file-input")
+          .forEach(function (input) {
+            input.addEventListener("change", function () {
+              const selectedContainer = this.closest(
+                ".form-file"
+              ).querySelector(".form-file-selected");
+              selectedContainer.innerHTML = "";
+
+              if (this.files && this.files.length > 0) {
+                Array.from(this.files).forEach(function (file, index) {
+                  const fileItem = document.createElement("div");
+                  fileItem.className = "file-item";
+                  fileItem.innerHTML = `
+                  <span class="file-name">${file.name}</span>
+                  <span class="file-remove" data-index="${index}">&times;</span>
+                `;
+                  selectedContainer.appendChild(fileItem);
+                });
+
+                // Добавляем обработчики удаления
+                selectedContainer
+                  .querySelectorAll(".file-remove")
+                  .forEach(function (removeBtn) {
+                    removeBtn.addEventListener("click", function () {
+                      // В реальном приложении здесь была бы логика удаления файла
+                      this.closest(".file-item").remove();
+                    });
+                  });
+              }
+            });
+          });
+
+        // Сохраняем оригинальные тексты placeholder
+        document
+          .querySelectorAll(".form-file-placeholder")
+          .forEach(function (placeholder) {
+            placeholder.setAttribute("data-original", placeholder.textContent);
+          });
       });
     </script>
   </body>
