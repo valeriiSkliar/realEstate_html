@@ -16,10 +16,13 @@
   border-radius: 8px;
   border: 2px solid transparent;
   cursor: pointer;
+  min-width: 200px;
+  letter-spacing: 2px;
   transition: background-color 0.2s ease, color 0.2s ease,
     border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
   box-shadow: 0 2px 4px rgba(brand.$dark-navy, 0.1);
 
+  // Green color scheme (default)
   &--solid {
     background-color: brand.$lime-green;
     color: brand.$dark-navy;
@@ -54,6 +57,82 @@
     &:active {
       background-color: darken(brand.$lime-green, 5%);
       color: brand.$dark-navy;
+    }
+  }
+
+  // Turquoise color scheme
+  &--solid.brand-button--turquoise {
+    background-color: brand.$turquoise;
+    color: white;
+    border-color: brand.$turquoise;
+
+    &:hover,
+    &:focus {
+      background-color: darken(brand.$turquoise, 7%);
+      border-color: darken(brand.$turquoise, 7%);
+      box-shadow: 0 3px 6px rgba(brand.$turquoise, 0.12);
+    }
+
+    &:active {
+      background-color: darken(brand.$turquoise, 10%);
+      border-color: darken(brand.$turquoise, 10%);
+    }
+  }
+
+  &--outline.brand-button--turquoise {
+    background-color: transparent;
+    color: brand.$turquoise;
+    border-color: brand.$turquoise;
+
+    &:hover,
+    &:focus {
+      background-color: brand.$turquoise;
+      color: white;
+      border-color: brand.$turquoise;
+      box-shadow: 0 3px 6px rgba(brand.$turquoise, 0.12);
+    }
+
+    &:active {
+      background-color: darken(brand.$turquoise, 5%);
+      color: white;
+    }
+  }
+
+  // Pink color scheme
+  &--solid.brand-button--pink {
+    background-color: brand.$bright-pink;
+    color: white;
+    border-color: brand.$bright-pink;
+
+    &:hover,
+    &:focus {
+      background-color: darken(brand.$bright-pink, 7%);
+      border-color: darken(brand.$bright-pink, 7%);
+      box-shadow: 0 3px 6px rgba(brand.$bright-pink, 0.12);
+    }
+
+    &:active {
+      background-color: darken(brand.$bright-pink, 10%);
+      border-color: darken(brand.$bright-pink, 10%);
+    }
+  }
+
+  &--outline.brand-button--pink {
+    background-color: transparent;
+    color: brand.$bright-pink;
+    border-color: brand.$bright-pink;
+
+    &:hover,
+    &:focus {
+      background-color: brand.$bright-pink;
+      color: white;
+      border-color: brand.$bright-pink;
+      box-shadow: 0 3px 6px rgba(brand.$bright-pink, 0.12);
+    }
+
+    &:active {
+      background-color: darken(brand.$bright-pink, 5%);
+      color: white;
     }
   }
 

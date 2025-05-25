@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand Button Colors Demo</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/main.css" />
+    <style>
+      .demo-section {
+        margin-bottom: 3rem;
+        padding: 2rem;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+      }
+      .button-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .color-demo {
+        padding: 1rem;
+        border-radius: 8px;
+        background: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container py-5">
+      <h1 class="mb-4">Brand Button Color Schemes Demo</h1>
+      <p class="lead mb-5">
+        Демонстрация кнопок с разными цветовыми схемами: зеленый (по умолчанию),
+        голубой и розовый.
+      </p>
+
+      <!-- Green Color Scheme -->
+      <div class="demo-section">
+        <h3 class="mb-3">🟢 Зеленая схема (Green - по умолчанию)</h3>
+        <div class="button-grid">
+          <div class="color-demo">
+            <h5>Solid Green</h5>
+            <brand-button variant="solid" color="green"
+              >Добавить в подборку</brand-button
+            >
+          </div>
+          <div class="color-demo">
+            <h5>Outline Green</h5>
+            <brand-button variant="outline" color="green"
+              >Пожаловаться</brand-button
+            >
+          </div>
+          <div class="color-demo">
+            <h5>Green with Icon</h5>
+            <brand-button variant="solid" color="green" icon="plus-lg"
+              >Добавить объявление</brand-button
+            >
+          </div>
+          <div class="color-demo">
+            <h5>Green Link</h5>
+            <brand-button variant="outline" color="green" href="#" icon="eye"
+              >Посмотреть</brand-button
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Turquoise Color Scheme -->
+      <div class="demo-section">
+        <h3 class="mb-3">🔵 Голубая схема (Turquoise)</h3>
+        <div class="button-grid">
+          <div class="color-demo">
+            <h5>Solid Turquoise</h5>
+            <brand-button variant="solid" color="turquoise"
+              >Добавить в подборку</brand-button
+            >
+          </div>
+          <div class="color-demo">
+            <h5>Outline Turquoise</h5>
+            <brand-button variant="outline" color="turquoise"
+              >Пожаловаться</brand-button
+            >
+          </div>
+          <div class="color-demo">
+            <h5>Turquoise with Icon</h5>
+            <brand-button variant="solid" color="turquoise" icon="plus-lg"
+              >Добавить объявление</brand-button
+            >
+          </div>
+          <div class="color-demo">
+            <h5>Turquoise Link</h5>
+            <brand-button
+              variant="outline"
+              color="turquoise"
+              href="#"
+              icon="eye"
+              >Посмотреть</brand-button
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Pink Color Scheme -->
+      <div class="demo-section">
+        <h3 class="mb-3">🟣 Розовая схема (Pink)</h3>
+        <div class="button-grid">
+          <div class="color-demo">
+            <h5>Solid Pink</h5>
+            <brand-button variant="solid" color="pink"
+              >Добавить в подборку</brand-button
+            >
+          </div>
+          <div class="color-demo">
+            <h5>Outline Pink</h5>
+            <brand-button variant="outline" color="pink"
+              >Пожаловаться</brand-button
+            >
+          </div>
+          <div class="color-demo">
+            <h5>Pink with Icon</h5>
+            <brand-button variant="solid" color="pink" icon="plus-lg"
+              >Добавить объявление</brand-button
+            >
+          </div>
+          <div class="color-demo">
+            <h5>Pink Link</h5>
+            <brand-button variant="outline" color="pink" href="#" icon="eye"
+              >Посмотреть</brand-button
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Demo -->
+      <div class="demo-section">
+        <h3 class="mb-3">🎮 Интерактивная демо</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <brand-button
+                id="demo-button"
+                variant="solid"
+                color="green"
+                icon="heart"
+                >Интерактивная кнопка</brand-button
+              >
+            </div>
+
+            <div class="btn-group mb-3" role="group">
+              <button
+                class="btn btn-sm btn-outline-secondary"
+                onclick="setVariant('solid')"
+              >
+                Solid
+              </button>
+              <button
+                class="btn btn-sm btn-outline-secondary"
+                onclick="setVariant('outline')"
+              >
+                Outline
+              </button>
+            </div>
+
+            <div class="btn-group mb-3" role="group">
+              <button
+                class="btn btn-sm btn-outline-primary"
+                onclick="setColor('green')"
+              >
+                Green
+              </button>
+              <button
+                class="btn btn-sm btn-outline-info"
+                onclick="setColor('turquoise')"
+              >
+                Turquoise
+              </button>
+              <button
+                class="btn btn-sm btn-outline-danger"
+                onclick="setColor('pink')"
+              >
+                Pink
+              </button>
+            </div>
+
+            <div class="btn-group mb-3" role="group">
+              <button
+                class="btn btn-sm btn-outline-secondary"
+                onclick="toggleIcon()"
+              >
+                Toggle Icon
+              </button>
+              <button
+                class="btn btn-sm btn-outline-secondary"
+                onclick="toggleDisabled()"
+              >
+                Toggle Disabled
+              </button>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div
+              id="event-log"
+              class="p-3 bg-light border rounded"
+              style="height: 200px; overflow-y: auto"
+            >
+              <strong>Event Log:</strong><br />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HTML Examples -->
+      <div class="demo-section">
+        <h3 class="mb-3">📋 Примеры использования</h3>
+        <pre><code>&lt;!-- Зеленые кнопки (по умолчанию) --&gt;
+&lt;brand-button variant="solid"&gt;Добавить в подборку&lt;/brand-button&gt;
+&lt;brand-button variant="outline" color="green"&gt;Пожаловаться&lt;/brand-button&gt;
+
+&lt;!-- Голубые кнопки --&gt;
+&lt;brand-button variant="solid" color="turquoise"&gt;Добавить в подборку&lt;/brand-button&gt;
+&lt;brand-button variant="outline" color="turquoise"&gt;Пожаловаться&lt;/brand-button&gt;
+
+&lt;!-- Розовые кнопки --&gt;
+&lt;brand-button variant="solid" color="pink" icon="plus-lg"&gt;Добавить объявление&lt;/brand-button&gt;
+&lt;brand-button variant="outline" color="pink" href="/page.html"&gt;Ссылка&lt;/brand-button&gt;</code></pre>
+      </div>
+    </div>
+
+    <script type="module">
+      import { BrandButton } from "../js/custom_elements_for_preview/brand-button.js";
+
+      // Demo functions
+      window.setVariant = function (variant) {
+        const button = document.getElementById("demo-button");
+        button.variant = variant;
+        logEvent(`Variant changed to: ${variant}`);
+      };
+
+      window.setColor = function (color) {
+        const button = document.getElementById("demo-button");
+        button.color = color;
+        logEvent(`Color changed to: ${color}`);
+      };
+
+      window.toggleIcon = function () {
+        const button = document.getElementById("demo-button");
+        button.icon = button.icon ? null : "heart";
+        logEvent(`Icon: ${button.icon || "none"}`);
+      };
+
+      window.toggleDisabled = function () {
+        const button = document.getElementById("demo-button");
+        button.disabled = !button.disabled;
+        logEvent(`Disabled state: ${button.disabled}`);
+      };
+
+      function logEvent(message) {
+        const log = document.getElementById("event-log");
+        const time = new Date().toLocaleTimeString();
+        log.innerHTML += `<small class="text-muted">[${time}]</small> ${message}<br>`;
+        log.scrollTop = log.scrollHeight;
+      }
+
+      // Listen for custom events
+      document.addEventListener("brand-button-click", (e) => {
+        logEvent(
+          `Button clicked: variant=${e.detail.variant}, color=${e.detail.color}, text="${e.detail.text}"`
+        );
+      });
+
+      // Initial log
+      logEvent("Color demo loaded successfully");
+    </script>
+  </body>
+</html>
