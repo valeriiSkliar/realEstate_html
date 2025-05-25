@@ -20,6 +20,7 @@
 @import "components/mobile_menu";
 @import "components/footer";
 @import "components/toast";
+@import "components/forms";
 @import "components/property-card";
 @import "components/brand-button";
 @import "components/sidebar/sidebar-filters";
@@ -37,6 +38,7 @@
 @import "pages/add-listing";
 @import "pages/search";
 @import "pages/property-detail-page"; // This imports the gallery styles too
+@import "pages/forms-examples";
 
 // // Global styles
 // body {

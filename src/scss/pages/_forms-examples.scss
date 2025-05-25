@@ -1,0 +1,101 @@
+// Forms Examples Page Styles
+@use "../variables" as vars;
+@use "../brand_color" as brand;
+
+.forms-examples-page {
+  padding: 40px 0;
+  background-color: white;
+
+  .forms-examples-title {
+    font-family: vars.$font-family-base;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: brand.$dark-navy;
+    text-align: center;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .forms-examples-description {
+    font-family: vars.$font-family-base;
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: brand.$dark-navy-70;
+    text-align: center;
+    margin-bottom: 48px;
+    line-height: 1.5;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .forms-section {
+    margin-bottom: 48px;
+    padding: 32px;
+    background-color: brand.$light-gray;
+    border-radius: 12px;
+    border: 1px solid brand.$dark-navy-10;
+
+    .section-title {
+      font-family: vars.$font-family-comfortaa;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: brand.$dark-navy;
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid brand.$turquoise;
+      line-height: 1.3;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .demo-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid brand.$dark-navy-20;
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    padding: 24px 0;
+
+    .forms-examples-title {
+      font-size: 2rem;
+    }
+
+    .forms-examples-description {
+      font-size: 1rem;
+      margin-bottom: 32px;
+    }
+
+    .forms-section {
+      margin-bottom: 32px;
+      padding: 20px;
+
+      .section-title {
+        font-size: 1.25rem;
+        margin-bottom: 20px;
+      }
+    }
+
+    .demo-form {
+      padding: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .forms-examples-title {
+      font-size: 1.75rem;
+    }
+
+    .forms-section {
+      padding: 16px;
+    }
+  }
+}

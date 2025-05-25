@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Недвижимость - Примеры Форм</title>
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Google Fonts - Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <app-header></app-header>
+    <app-mobile-menu></app-mobile-menu>
+
+    <!-- Overlay for mobile menu -->
+    <div class="overlay js-overlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="page-content">
+      <div id="app">
+        <div class="forms-examples-page">
+          <div class="container">
+            <h1 class="forms-examples-title">Примеры Форм</h1>
+            <p class="forms-examples-description">
+              Демонстрация всех стилей и компонентов форм, доступных в проекте.
+            </p>
+
+            <!-- Базовые поля -->
+            <section class="forms-section">
+              <h2 class="section-title">Базовые поля</h2>
+
+              <div class="form-field">
+                <label for="basicText" class="form-label">Текстовое поле</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  id="basicText"
+                  placeholder="Введите текст"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="basicEmail" class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-input"
+                  id="basicEmail"
+                  placeholder="example@domain.com"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="basicPassword" class="form-label">Пароль</label>
+                <input
+                  type="password"
+                  class="form-input"
+                  id="basicPassword"
+                  placeholder="Введите пароль"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="basicNumber" class="form-label">Число</label>
+                <input
+                  type="number"
+                  class="form-input"
+                  id="basicNumber"
+                  placeholder="Введите число"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="basicTel" class="form-label">Телефон</label>
+                <input
+                  type="tel"
+                  class="form-input"
+                  id="basicTel"
+                  placeholder="+7 (999) 123-45-67"
+                />
+              </div>
+            </section>
+
+            <!-- Обязательные поля -->
+            <section class="forms-section">
+              <h2 class="section-title">Обязательные поля</h2>
+
+              <div class="form-field">
+                <label for="requiredName" class="form-label required"
+                  >Имя</label
+                >
+                <input
+                  type="text"
+                  class="form-input"
+                  id="requiredName"
+                  placeholder="Ваше имя"
+                  required
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="requiredEmail" class="form-label required"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  class="form-input"
+                  id="requiredEmail"
+                  placeholder="Ваш email"
+                  required
+                />
+              </div>
+            </section>
+
+            <!-- Состояния валидации -->
+            <section class="forms-section">
+              <h2 class="section-title">Состояния валидации</h2>
+
+              <div class="form-field">
+                <label for="validField" class="form-label"
+                  >Корректное поле</label
+                >
+                <input
+                  type="text"
+                  class="form-input is-valid"
+                  id="validField"
+                  value="Корректное значение"
+                />
+                <div class="form-feedback is-valid">
+                  Поле заполнено корректно
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="invalidField" class="form-label"
+                  >Некорректное поле</label
+                >
+                <input
+                  type="email"
+                  class="form-input is-invalid"
+                  id="invalidField"
+                  value="неправильный-email"
+                />
+                <div class="form-feedback is-invalid">
+                  Пожалуйста, введите корректный email
+                </div>
+              </div>
+            </section>
+
+            <!-- Размеры полей -->
+            <section class="forms-section">
+              <h2 class="section-title">Размеры полей</h2>
+
+              <div class="form-field">
+                <label for="smallField" class="form-label"
+                  >Маленькое поле</label
+                >
+                <input
+                  type="text"
+                  class="form-input form-input-sm"
+                  id="smallField"
+                  placeholder="Маленькое поле"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="normalField" class="form-label">Обычное поле</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  id="normalField"
+                  placeholder="Обычное поле"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="largeField" class="form-label">Большое поле</label>
+                <input
+                  type="text"
+                  class="form-input form-input-lg"
+                  id="largeField"
+                  placeholder="Большое поле"
+                />
+              </div>
+            </section>
+
+            <!-- Поля с иконками -->
+            <section class="forms-section">
+              <h2 class="section-title">Поля с иконками</h2>
+
+              <div class="form-field">
+                <label for="iconLeftField" class="form-label"
+                  >Поле с иконкой слева</label
+                >
+                <div class="input-group has-icon-left">
+                  <i class="bi bi-person input-icon"></i>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="iconLeftField"
+                    placeholder="Имя пользователя"
+                  />
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="iconRightField" class="form-label"
+                  >Поле с иконкой справа</label
+                >
+                <div class="input-group has-icon-right">
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="iconRightField"
+                    placeholder="Поиск"
+                  />
+                  <i class="bi bi-search input-icon"></i>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="iconEmailField" class="form-label"
+                  >Email с иконкой</label
+                >
+                <div class="input-group has-icon-left">
+                  <i class="bi bi-envelope input-icon"></i>
+                  <input
+                    type="email"
+                    class="form-input"
+                    id="iconEmailField"
+                    placeholder="email@example.com"
+                  />
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="iconPhoneField" class="form-label"
+                  >Телефон с иконкой</label
+                >
+                <div class="input-group has-icon-left">
+                  <i class="bi bi-telephone input-icon"></i>
+                  <input
+                    type="tel"
+                    class="form-input"
+                    id="iconPhoneField"
+                    placeholder="+7 (999) 123-45-67"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <!-- Плавающие лейблы -->
+            <section class="forms-section">
+              <h2 class="section-title">Плавающие лейблы</h2>
+
+              <div class="form-field floating-label">
+                <input
+                  type="text"
+                  class="form-input"
+                  id="floatingName"
+                  placeholder=" "
+                />
+                <label for="floatingName" class="form-label">Ваше имя</label>
+              </div>
+
+              <div class="form-field floating-label">
+                <input
+                  type="email"
+                  class="form-input"
+                  id="floatingEmail"
+                  placeholder=" "
+                />
+                <label for="floatingEmail" class="form-label"
+                  >Email адрес</label
+                >
+              </div>
+
+              <div class="form-field floating-label">
+                <input
+                  type="password"
+                  class="form-input"
+                  id="floatingPassword"
+                  placeholder=" "
+                />
+                <label for="floatingPassword" class="form-label">Пароль</label>
+              </div>
+
+              <div class="form-field floating-label">
+                <input
+                  type="text"
+                  class="form-input is-valid"
+                  id="floatingValid"
+                  placeholder=" "
+                  value="Корректное значение"
+                />
+                <label for="floatingValid" class="form-label"
+                  >Корректное поле</label
+                >
+              </div>
+
+              <div class="form-field floating-label">
+                <input
+                  type="email"
+                  class="form-input is-invalid"
+                  id="floatingInvalid"
+                  placeholder=" "
+                  value="неправильный-email"
+                />
+                <label for="floatingInvalid" class="form-label"
+                  >Некорректное поле</label
+                >
+              </div>
+            </section>
+
+            <!-- Горизонтальная раскладка -->
+            <section class="forms-section">
+              <h2 class="section-title">Горизонтальная раскладка</h2>
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="firstName" class="form-label">Имя</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="firstName"
+                    placeholder="Имя"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="lastName" class="form-label">Фамилия</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="lastName"
+                    placeholder="Фамилия"
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="city" class="form-label">Город</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="city"
+                    placeholder="Город"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="zip" class="form-label">Индекс</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="zip"
+                    placeholder="123456"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="country" class="form-label">Страна</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="country"
+                    placeholder="Страна"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <!-- Комбинированная форма -->
+            <section class="forms-section">
+              <h2 class="section-title">Комбинированная форма</h2>
+
+              <form class="demo-form">
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="demoFirstName" class="form-label required"
+                      >Имя</label
+                    >
+                    <input
+                      type="text"
+                      class="form-input"
+                      id="demoFirstName"
+                      placeholder="Ваше имя"
+                      required
+                    />
+                  </div>
+                  <div class="form-field">
+                    <label for="demoLastName" class="form-label required"
+                      >Фамилия</label
+                    >
+                    <input
+                      type="text"
+                      class="form-input"
+                      id="demoLastName"
+                      placeholder="Ваша фамилия"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="demoEmail" class="form-label required"
+                    >Email</label
+                  >
+                  <div class="input-group has-icon-left">
+                    <i class="bi bi-envelope input-icon"></i>
+                    <input
+                      type="email"
+                      class="form-input"
+                      id="demoEmail"
+                      placeholder="email@example.com"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="demoPhone" class="form-label">Телефон</label>
+                  <div class="input-group has-icon-left">
+                    <i class="bi bi-telephone input-icon"></i>
+                    <input
+                      type="tel"
+                      class="form-input"
+                      id="demoPhone"
+                      placeholder="+7 (999) 123-45-67"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-field floating-label">
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="demoCompany"
+                    placeholder=" "
+                  />
+                  <label for="demoCompany" class="form-label">Компания</label>
+                </div>
+
+                <div class="form-field">
+                  <label for="demoMessage" class="form-label">Сообщение</label>
+                  <textarea
+                    class="form-input"
+                    id="demoMessage"
+                    rows="4"
+                    placeholder="Ваше сообщение..."
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-brand-turquoise text-brand-light-gray w-100"
+                >
+                  Отправить форму
+                </button>
+              </form>
+            </section>
+
+            <!-- Отключенные поля -->
+            <section class="forms-section">
+              <h2 class="section-title">Отключенные поля</h2>
+
+              <div class="form-field">
+                <label for="disabledField" class="form-label"
+                  >Отключенное поле</label
+                >
+                <input
+                  type="text"
+                  class="form-input"
+                  id="disabledField"
+                  placeholder="Это поле отключено"
+                  disabled
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="disabledWithValue" class="form-label"
+                  >Отключенное поле со значением</label
+                >
+                <input
+                  type="text"
+                  class="form-input"
+                  id="disabledWithValue"
+                  value="Заблокированное значение"
+                  disabled
+                />
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <app-footer></app-footer>
+  </body>
+</html>

@@ -126,6 +126,11 @@ module.exports = {
       filename: "listings-create.html",
     }),
 
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/forms-examples-preview.html",
+      filename: "forms-examples.html",
+    }),
+
     new MiniCssExtractPlugin({
       filename: "css/[name].css",
     }),
