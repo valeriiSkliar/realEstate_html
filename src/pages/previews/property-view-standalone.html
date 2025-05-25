@@ -592,28 +592,6 @@
           });
         }
 
-        // Read more/less functionality
-        const readMoreLink = document.querySelector(".read-more-link");
-        const collapseSummary = document.getElementById("collapseSummary");
-
-        if (readMoreLink && collapseSummary) {
-          // Слушатель для события показа секции
-          collapseSummary.addEventListener("show.bs.collapse", function () {
-            readMoreLink.querySelector(".read-more-text").textContent =
-              "Свернуть";
-            readMoreLink.querySelector("i").classList.remove("bi-chevron-down");
-            readMoreLink.querySelector("i").classList.add("bi-chevron-up");
-          });
-
-          // Слушатель для события скрытия секции
-          collapseSummary.addEventListener("hide.bs.collapse", function () {
-            readMoreLink.querySelector(".read-more-text").textContent =
-              "Читать дальше";
-            readMoreLink.querySelector("i").classList.remove("bi-chevron-up");
-            readMoreLink.querySelector("i").classList.add("bi-chevron-down");
-          });
-        }
-
         // Description read more functionality
         function initDescriptionToggle() {
           const descriptionContainer = document.getElementById(
@@ -628,7 +606,6 @@
           const toggleContainer = document.getElementById("description-toggle");
           const toggleBtn = document.getElementById("description-toggle-btn");
           const toggleText = toggleBtn.querySelector(".toggle-text");
-          const toggleIcon = toggleBtn.querySelector("i");
 
           if (!fullTextContainer || !previewContainer || !toggleBtn) return;
 
@@ -703,16 +680,12 @@
               previewContainer.style.display = "none";
               fullTextContainer.style.display = "block";
               toggleText.textContent = "Скрыть";
-              toggleIcon.classList.remove("bi-chevron-down");
-              toggleIcon.classList.add("bi-chevron-up");
               toggleBtn.classList.add("expanded");
             } else {
               // Показываем превью
               fullTextContainer.style.display = "none";
               previewContainer.style.display = "block";
               toggleText.textContent = "Читать далее";
-              toggleIcon.classList.remove("bi-chevron-up");
-              toggleIcon.classList.add("bi-chevron-down");
               toggleBtn.classList.remove("expanded");
             }
           });
