@@ -34,7 +34,6 @@
           <div class="container-fluid px-0">
             <div class="property-gallery mb-4">
               <div class="gallery-container">
-                <!-- Левый блок с превью -->
                 <div class="gallery-thumbnails">
                   <div class="thumbnail-item active" data-index="0">
                     <img
@@ -68,7 +67,6 @@
                   </div>
                 </div>
 
-                <!-- Правый блок с основным изображением -->
                 <div class="gallery-main">
                   <div class="main-image-container">
                     <button
@@ -77,7 +75,6 @@
                     >
                       <i class="bi bi-chevron-left"></i>
                     </button>
-
                     <div class="main-image-wrapper">
                       <img
                         id="main-gallery-image"
@@ -86,7 +83,6 @@
                         alt="3-комнатная квартира, 85 м²"
                       />
                     </div>
-
                     <button
                       class="gallery-nav-btn gallery-nav-next"
                       id="gallery-next"
@@ -306,6 +302,59 @@
           }
         });
 
+        // Touch/Swipe navigation
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
+        const minSwipeDistance = 50; // Минимальная дистанция для срабатывания свайпа
+        const maxVerticalDistance = 100; // Максимальное вертикальное смещение для горизонтального свайпа
+
+        const mainImageWrapper = document.querySelector(".main-image-wrapper");
+
+        if (mainImageWrapper) {
+          // Начало касания
+          mainImageWrapper.addEventListener(
+            "touchstart",
+            (e) => {
+              touchStartX = e.touches[0].clientX;
+              touchStartY = e.touches[0].clientY;
+            },
+            { passive: true }
+          );
+
+          // Конец касания
+          mainImageWrapper.addEventListener(
+            "touchend",
+            (e) => {
+              touchEndX = e.changedTouches[0].clientX;
+              touchEndY = e.changedTouches[0].clientY;
+              handleSwipe();
+            },
+            { passive: true }
+          );
+        }
+
+        // Функция обработки свайпа
+        function handleSwipe() {
+          const deltaX = touchEndX - touchStartX;
+          const deltaY = Math.abs(touchEndY - touchStartY);
+
+          // Проверяем, что это горизонтальный свайп достаточной длины
+          if (
+            Math.abs(deltaX) > minSwipeDistance &&
+            deltaY < maxVerticalDistance
+          ) {
+            if (deltaX > 0) {
+              // Свайп вправо - предыдущее изображение
+              prevBtn.click();
+            } else {
+              // Свайп влево - следующее изображение
+              nextBtn.click();
+            }
+          }
+        }
+
         // Favorite button toggle
         const favoriteButton = document.querySelector(
           ".property-detail-header__favorite-btn"
@@ -318,8 +367,10 @@
             // Дополнительно можно менять title
             if (icon.classList.contains("bi-heart-fill")) {
               this.title = "Удалить из избранного";
+              this.setAttribute("aria-label", "Удалить из избранного");
             } else {
               this.title = "Добавить в избранное";
+              this.setAttribute("aria-label", "Добавить в избранное");
             }
           });
         }

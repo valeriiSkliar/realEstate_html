@@ -7,28 +7,19 @@
 
   .gallery-container {
     display: flex;
-    gap: 20px;
     width: 100%;
-
-    @media (max-width: 768px) {
-      flex-direction: column;
-      gap: 15px;
-    }
+    flex-direction: row;
+    gap: 10px;
   }
 
   .gallery-thumbnails {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; // Vertical thumbnails
     gap: 10px;
-    width: 120px;
+    width: fit-content; // Adjust as needed
     flex-shrink: 0;
-
-    @media (max-width: 768px) {
-      flex-direction: row;
-      width: 100%;
-      overflow-x: auto;
-      padding-bottom: 5px;
-    }
+    overflow-y: auto; // Allow horizontal scrolling for thumbnails
+    overflow-x: hidden;
 
     .thumbnail-item {
       cursor: pointer;
@@ -36,50 +27,59 @@
       border-radius: 8px;
       overflow: hidden;
       transition: all 0.3s ease;
-      flex-shrink: 0;
+      flex-shrink: 0; // Prevent thumbnails from shrinking in flex row
 
       &:hover {
-        border-color: brand.$brand-primary;
+        border-color: darken(brand.$brand-primary, 10%);
         transform: scale(1.05);
       }
 
       &.active {
-        border-color: brand.$brand-primary;
+        border-color: brand.$brand-primary; // Lime-green border for active
         box-shadow: 0 2px 8px rgba(brand.$brand-primary, 0.3);
       }
 
       img {
-        width: 100%;
-        height: 80px;
         object-fit: cover;
         display: block;
-
-        @media (max-width: 768px) {
-          width: 80px;
-          height: 60px;
-        }
+        width: 60px;
+        height: 40px;
       }
     }
   }
 
   .gallery-main {
-    flex: 1;
+    flex: 1; // Main image takes remaining space
+    min-width: 0; /* Prevents flexbox overflow issues with the main image */
 
     .main-image-container {
       position: relative;
       border-radius: 12px;
       overflow: hidden;
+      height: 100%;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      // aspect-ratio: 16 / 9; /* Maintain aspect ratio for the container */
+      display: flex; /* To help center the image if it's smaller */
+      align-items: center;
+      justify-content: center;
+      background-color: brand.$light-gray-30; // Fallback bg
+
+      .main-image-wrapper {
+        width: 100%;
+        height: 100%;
+        padding-top: 56.25%; // 16:9 Aspect Ratio
+        position: relative;
+        background-color: brand.$light-gray-30; // Light background for image area
+      }
 
       .main-image {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
-        height: 400px;
+        height: 100%;
         object-fit: cover;
         display: block;
-
-        @media (max-width: 768px) {
-          height: 250px;
-        }
       }
 
       .gallery-nav-btn {
@@ -88,7 +88,7 @@
         transform: translateY(-50%);
         width: 40px;
         height: 40px;
-        background-color: rgba(255, 255, 255, 0.9);
+        background-color: rgba(brand.$dark-navy, 0.5);
         border: none;
         border-radius: 50%;
         display: flex;
@@ -97,20 +97,15 @@
         cursor: pointer;
         z-index: 10;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 
         &:hover {
-          background-color: brand.$brand-primary;
-          color: white;
+          background-color: rgba(brand.$dark-navy, 0.8);
           transform: translateY(-50%) scale(1.1);
         }
 
         i {
           font-size: 18px;
-          color: #333;
-        }
-
-        &:hover i {
           color: white;
         }
 
@@ -125,15 +120,12 @@
         @media (max-width: 768px) {
           width: 35px;
           height: 35px;
-
           &.gallery-nav-prev {
             left: 10px;
           }
-
           &.gallery-nav-next {
             right: 10px;
           }
-
           i {
             font-size: 16px;
           }
