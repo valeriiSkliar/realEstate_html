@@ -167,17 +167,17 @@
 
   &__container {
     position: relative;
-    width: 90%;
-    height: 90%;
+    // width: 90%;
+    // height: 90%;
     max-width: 1200px;
     max-height: 800px;
     cursor: default;
   }
 
   &__close {
-    position: absolute;
-    top: -50px;
-    right: 0;
+    position: fixed;
+    top: 20px;
+    right: 20px;
     width: 40px;
     height: 40px;
     background: none;
@@ -195,14 +195,6 @@
       color: brand.$brand-primary;
       transform: scale(1.1);
     }
-
-    @media (max-width: 768px) {
-      top: -40px;
-      right: -10px;
-      width: 35px;
-      height: 35px;
-      font-size: 20px;
-    }
   }
 
   &__content {
@@ -212,6 +204,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 10px;
   }
 
   &__image-container {

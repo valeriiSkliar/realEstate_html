@@ -377,10 +377,24 @@
         // Modal close handlers
         modalCloseBtn.addEventListener("click", closeModal);
 
-        modalOverlay.addEventListener("click", (e) => {
-          if (e.target === modalOverlay) {
+        // Improved modal overlay click handler
+        imageModal.addEventListener("click", (e) => {
+          // Close modal if clicked outside the image container
+          if (
+            !e.target.closest(".image-modal__container") ||
+            e.target.classList.contains("image-modal__overlay")
+          ) {
+            console.log("closeModal");
             closeModal();
           }
+        });
+
+        // Prevent modal from closing when clicking on modal content
+        const modalContainer = imageModal.querySelector(
+          ".image-modal__container"
+        );
+        modalContainer.addEventListener("click", (e) => {
+          e.stopPropagation();
         });
 
         // Thumbnail click handlers
@@ -480,6 +494,40 @@
             }
           }
         }
+
+        // Modal touch events for mobile
+        let modalTouchStartX = 0;
+        let modalTouchStartY = 0;
+        let modalTouchEndX = 0;
+        let modalTouchEndY = 0;
+
+        // Touch events for modal overlay to close on tap outside
+        imageModal.addEventListener(
+          "touchstart",
+          (e) => {
+            modalTouchStartX = e.touches[0].clientX;
+            modalTouchStartY = e.touches[0].clientY;
+          },
+          { passive: true }
+        );
+
+        imageModal.addEventListener(
+          "touchend",
+          (e) => {
+            modalTouchEndX = e.changedTouches[0].clientX;
+            modalTouchEndY = e.changedTouches[0].clientY;
+
+            // Check if it's a tap (not a swipe)
+            const deltaX = Math.abs(modalTouchEndX - modalTouchStartX);
+            const deltaY = Math.abs(modalTouchEndY - modalTouchStartY);
+            const isTap = deltaX < 10 && deltaY < 10; // Small threshold for tap detection
+
+            if (isTap && !e.target.closest(".image-modal__container")) {
+              closeModal();
+            }
+          },
+          { passive: true }
+        );
 
         // Favorite button toggle
         const favoriteButton = document.querySelector(
