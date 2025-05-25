@@ -81,6 +81,7 @@
                         src="https://fakeimg.pl/1920x1080/?retina=1&font=noto&text=image_1"
                         class="main-image"
                         alt="3-комнатная квартира, 85 м²"
+                        style="cursor: pointer"
                       />
                     </div>
                     <button
@@ -210,6 +211,43 @@
       </div>
     </main>
 
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal" aria-hidden="true">
+      <div class="image-modal__overlay">
+        <div class="image-modal__container">
+          <button class="image-modal__close" type="button" aria-label="Закрыть">
+            <i class="bi bi-x"></i>
+          </button>
+
+          <div class="image-modal__content">
+            <button
+              class="image-modal__nav image-modal__nav--prev"
+              type="button"
+              aria-label="Предыдущее изображение"
+            >
+              <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <div class="image-modal__image-container">
+              <img id="modalImage" src="" alt="" class="image-modal__image" />
+            </div>
+
+            <button
+              class="image-modal__nav image-modal__nav--next"
+              type="button"
+              aria-label="Следующее изображение"
+            >
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+
+          <div class="image-modal__counter">
+            <span id="modalCounter">1 / 5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <app-footer></app-footer>
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
@@ -255,6 +293,19 @@
         const prevBtn = document.getElementById("gallery-prev");
         const nextBtn = document.getElementById("gallery-next");
 
+        // Modal elements
+        const imageModal = document.getElementById("imageModal");
+        const modalImage = document.getElementById("modalImage");
+        const modalCounter = document.getElementById("modalCounter");
+        const modalCloseBtn = imageModal.querySelector(".image-modal__close");
+        const modalOverlay = imageModal.querySelector(".image-modal__overlay");
+        const modalPrevBtn = imageModal.querySelector(
+          ".image-modal__nav--prev"
+        );
+        const modalNextBtn = imageModal.querySelector(
+          ".image-modal__nav--next"
+        );
+
         // Function to update main image
         function updateMainImage(index) {
           if (index < 0 || index >= galleryImages.length) return;
@@ -268,6 +319,69 @@
             thumb.classList.toggle("active", i === index);
           });
         }
+
+        // Modal functions
+        function openModal(index) {
+          if (index < 0 || index >= galleryImages.length) return;
+
+          currentImageIndex = index;
+          modalImage.src = galleryImages[index].src;
+          modalImage.alt = galleryImages[index].alt;
+          modalCounter.textContent = `${index + 1} / ${galleryImages.length}`;
+
+          imageModal.classList.add("active");
+          imageModal.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden"; // Prevent body scroll
+        }
+
+        function closeModal() {
+          imageModal.classList.remove("active");
+          imageModal.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = ""; // Restore body scroll
+        }
+
+        function updateModalImage(index) {
+          if (index < 0 || index >= galleryImages.length) return;
+
+          currentImageIndex = index;
+          modalImage.src = galleryImages[index].src;
+          modalImage.alt = galleryImages[index].alt;
+          modalCounter.textContent = `${index + 1} / ${galleryImages.length}`;
+
+          // Also update the main gallery
+          updateMainImage(index);
+        }
+
+        // Main image click to open modal
+        mainImage.addEventListener("click", () => {
+          openModal(currentImageIndex);
+        });
+
+        // Modal navigation
+        modalPrevBtn.addEventListener("click", () => {
+          const newIndex =
+            currentImageIndex > 0
+              ? currentImageIndex - 1
+              : galleryImages.length - 1;
+          updateModalImage(newIndex);
+        });
+
+        modalNextBtn.addEventListener("click", () => {
+          const newIndex =
+            currentImageIndex < galleryImages.length - 1
+              ? currentImageIndex + 1
+              : 0;
+          updateModalImage(newIndex);
+        });
+
+        // Modal close handlers
+        modalCloseBtn.addEventListener("click", closeModal);
+
+        modalOverlay.addEventListener("click", (e) => {
+          if (e.target === modalOverlay) {
+            closeModal();
+          }
+        });
 
         // Thumbnail click handlers
         thumbnails.forEach((thumbnail, index) => {
@@ -295,10 +409,22 @@
 
         // Keyboard navigation
         document.addEventListener("keydown", (e) => {
-          if (e.key === "ArrowLeft") {
-            prevBtn.click();
-          } else if (e.key === "ArrowRight") {
-            nextBtn.click();
+          if (imageModal.classList.contains("active")) {
+            // Modal is open
+            if (e.key === "Escape") {
+              closeModal();
+            } else if (e.key === "ArrowLeft") {
+              modalPrevBtn.click();
+            } else if (e.key === "ArrowRight") {
+              modalNextBtn.click();
+            }
+          } else {
+            // Modal is closed, normal gallery navigation
+            if (e.key === "ArrowLeft") {
+              prevBtn.click();
+            } else if (e.key === "ArrowRight") {
+              nextBtn.click();
+            }
           }
         });
 
