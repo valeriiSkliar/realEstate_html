@@ -1,31 +1,10 @@
 @use "../variables" as vars;
 @use "../brand_color" as brand;
+@use "../components/property-detail/property-detail-gallery";
 @use "sass:color";
 
 .property-detail-page {
   min-height: 100vh;
-
-  .property-gallery {
-    .main-swiper-container {
-      position: relative;
-
-      .swiper-container {
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-
-        .swiper-slide img {
-          width: 100%;
-          height: 400px;
-          object-fit: cover;
-
-          @media (max-width: 768px) {
-            height: 250px;
-          }
-        }
-      }
-    }
-  }
 
   // Хлебные крошки в светлой теме
   custom-breadcrumb[theme="light"] {

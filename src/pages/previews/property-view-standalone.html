@@ -33,17 +33,66 @@
           </div>
           <div class="container-fluid px-0">
             <div class="property-gallery mb-4">
-              <div class="main-swiper-container">
-                <div class="swiper-container" id="property-gallery-swiper">
-                  <div class="swiper-wrapper">
-                    <div class="swiper-slide">
+              <div class="gallery-container">
+                <!-- Левый блок с превью -->
+                <div class="gallery-thumbnails">
+                  <div class="thumbnail-item active" data-index="0">
+                    <img
+                      src="https://fakeimg.pl/200x150/?retina=1&font=noto&text=image_1"
+                      alt="Preview 1"
+                    />
+                  </div>
+                  <div class="thumbnail-item" data-index="1">
+                    <img
+                      src="https://fakeimg.pl/200x150/?retina=1&font=noto&text=image_2"
+                      alt="Preview 2"
+                    />
+                  </div>
+                  <div class="thumbnail-item" data-index="2">
+                    <img
+                      src="https://fakeimg.pl/200x150/?retina=1&font=noto&text=image_3"
+                      alt="Preview 3"
+                    />
+                  </div>
+                  <div class="thumbnail-item" data-index="3">
+                    <img
+                      src="https://fakeimg.pl/200x150/?retina=1&font=noto&text=image_4"
+                      alt="Preview 4"
+                    />
+                  </div>
+                  <div class="thumbnail-item" data-index="4">
+                    <img
+                      src="https://fakeimg.pl/200x150/?retina=1&font=noto&text=image_5"
+                      alt="Preview 5"
+                    />
+                  </div>
+                </div>
+
+                <!-- Правый блок с основным изображением -->
+                <div class="gallery-main">
+                  <div class="main-image-container">
+                    <button
+                      class="gallery-nav-btn gallery-nav-prev"
+                      id="gallery-prev"
+                    >
+                      <i class="bi bi-chevron-left"></i>
+                    </button>
+
+                    <div class="main-image-wrapper">
                       <img
+                        id="main-gallery-image"
                         src="https://fakeimg.pl/1920x1080/?retina=1&font=noto&text=image_1"
-                        class="img-fluid w-100 rounded"
+                        class="main-image"
                         alt="3-комнатная квартира, 85 м²"
-                        style="aspect-ratio: 16/9; object-fit: cover"
                       />
                     </div>
+
+                    <button
+                      class="gallery-nav-btn gallery-nav-next"
+                      id="gallery-next"
+                    >
+                      <i class="bi bi-chevron-right"></i>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -167,31 +216,100 @@
 
     <app-footer></app-footer>
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
-    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // Initialize Swiper
-        var swiper = new Swiper("#property-gallery-swiper", {
-          slidesPerView: 1,
-          spaceBetween: 10,
-          loop: true,
-          autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
+        // Gallery images data
+        const galleryImages = [
+          {
+            src: "https://fakeimg.pl/1920x1080/?retina=1&font=noto&text=image_1",
+            thumb:
+              "https://fakeimg.pl/200x150/?retina=1&font=noto&text=image_1",
+            alt: "Изображение 1",
           },
-          pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
+          {
+            src: "https://fakeimg.pl/1920x1080/?retina=1&font=noto&text=image_2",
+            thumb:
+              "https://fakeimg.pl/200x150/?retina=1&font=noto&text=image_2",
+            alt: "Изображение 2",
           },
-          navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
+          {
+            src: "https://fakeimg.pl/1920x1080/?retina=1&font=noto&text=image_3",
+            thumb:
+              "https://fakeimg.pl/200x150/?retina=1&font=noto&text=image_3",
+            alt: "Изображение 3",
           },
+          {
+            src: "https://fakeimg.pl/1920x1080/?retina=1&font=noto&text=image_4",
+            thumb:
+              "https://fakeimg.pl/200x150/?retina=1&font=noto&text=image_4",
+            alt: "Изображение 4",
+          },
+          {
+            src: "https://fakeimg.pl/1920x1080/?retina=1&font=noto&text=image_5",
+            thumb:
+              "https://fakeimg.pl/200x150/?retina=1&font=noto&text=image_5",
+            alt: "Изображение 5",
+          },
+        ];
+
+        let currentImageIndex = 0;
+        const mainImage = document.getElementById("main-gallery-image");
+        const thumbnails = document.querySelectorAll(".thumbnail-item");
+        const prevBtn = document.getElementById("gallery-prev");
+        const nextBtn = document.getElementById("gallery-next");
+
+        // Function to update main image
+        function updateMainImage(index) {
+          if (index < 0 || index >= galleryImages.length) return;
+
+          currentImageIndex = index;
+          mainImage.src = galleryImages[index].src;
+          mainImage.alt = galleryImages[index].alt;
+
+          // Update active thumbnail
+          thumbnails.forEach((thumb, i) => {
+            thumb.classList.toggle("active", i === index);
+          });
+        }
+
+        // Thumbnail click handlers
+        thumbnails.forEach((thumbnail, index) => {
+          thumbnail.addEventListener("click", () => {
+            updateMainImage(index);
+          });
+        });
+
+        // Navigation buttons
+        prevBtn.addEventListener("click", () => {
+          const newIndex =
+            currentImageIndex > 0
+              ? currentImageIndex - 1
+              : galleryImages.length - 1;
+          updateMainImage(newIndex);
+        });
+
+        nextBtn.addEventListener("click", () => {
+          const newIndex =
+            currentImageIndex < galleryImages.length - 1
+              ? currentImageIndex + 1
+              : 0;
+          updateMainImage(newIndex);
+        });
+
+        // Keyboard navigation
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowLeft") {
+            prevBtn.click();
+          } else if (e.key === "ArrowRight") {
+            nextBtn.click();
+          }
         });
 
         // Favorite button toggle
-        const favoriteButton = document.getElementById("favorite-button");
+        const favoriteButton = document.querySelector(
+          ".property-detail-header__favorite-btn"
+        );
         if (favoriteButton) {
           favoriteButton.addEventListener("click", function () {
             const icon = this.querySelector("i");
