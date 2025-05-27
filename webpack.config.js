@@ -17,6 +17,11 @@ module.exports = {
     filename: "js/[name].js",
     clean: true,
   },
+  resolve: {
+    alias: {
+      '@fonts': path.resolve(__dirname, 'src/fonts'),
+    },
+  },
   module: {
     rules: [
       {
@@ -72,6 +77,13 @@ module.exports = {
         type: "asset/resource",
         generator: {
           filename: "images/[name].[hash][ext]",
+        },
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "fonts/[name][ext]",
         },
       },
     ],
@@ -144,6 +156,10 @@ module.exports = {
         {
           from: path.resolve(__dirname, "src/scss/components"),
           to: path.resolve(__dirname, "public/css/components"),
+        },
+        {
+          from: path.resolve(__dirname, "src/fonts"),
+          to: path.resolve(__dirname, "public/fonts"),
         },
       ],
     }),
