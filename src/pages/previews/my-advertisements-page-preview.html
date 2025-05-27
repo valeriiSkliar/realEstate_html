@@ -33,53 +33,58 @@
               >
             </custom-breadcrumb>
 
-
-
             <div
               class="listings-controls d-flex flex-column justify-content-end align-items-end mb-3"
             >
               <div
-                class="d-flex justify-content-end align-items-center mb-3 flex-wrap mt-3"
+                class="d-flex justify-content-between gap-2 align-items-center mb-3 flex-wrap mt-3"
               >
-                <a
-                  href="/listings-create.html"
-                  class="brand-button brand-button--solid"
+                <brand-button
+                  href="/archived-advertisements.html"
+                  variant="solid"
+                  color="turquoise"
                 >
-                  </i>Добавить объявление
-                </a>
+                  Архив
+                </brand-button>
+                <brand-button
+                  href="/listings-create.html"
+                  variant="solid"
+                  color="green"
+                >
+                  Добавить объявление
+                </brand-button>
               </div>
               <div
-              class="btn-group btn-group-sm my-listings-sort-group"
-              role="group"
-              aria-label="Sort listings"
-            >
-              <button
-                type="button"
-                class="btn btn-outline-brand-turquoise active"
-                title="Сортировать по дате"
+                class="btn-group btn-group-sm my-listings-sort-group"
+                role="group"
+                aria-label="Sort listings"
               >
-                <i class="bi bi-calendar3"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-brand-turquoise"
-                title="Сортировать по цене"
-              >
-                <i class="bi bi-cash"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-brand-turquoise"
-                title="Сортировать по статусу"
-              >
-                <i class="bi bi-tag"></i>
-              </button>
-            </div>
+                <button
+                  type="button"
+                  class="btn btn-outline-brand-turquoise active"
+                  title="Сортировать по дате"
+                >
+                  <i class="bi bi-calendar3"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-brand-turquoise"
+                  title="Сортировать по цене"
+                >
+                  <i class="bi bi-cash"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-brand-turquoise"
+                  title="Сортировать по статусу"
+                >
+                  <i class="bi bi-tag"></i>
+                </button>
+              </div>
             </div>
 
             <div class="my-listings-list">
               <property-list-component>
-
                 <my-property-card
                   title-text="2-к. студия, 80 м2 | Центр"
                   title-href="/property-details/456"
@@ -94,26 +99,27 @@
                   show-actions="true"
                 >
                 </my-property-card>
-        
+
                 <my-property-card
-                    title-text="1-к. квартира, 45 м2 | Спальный район"
-                    title-href="/property-details/457"
-                    price-text="₽ 8 500 000"
-                    details-json='[
+                  title-text="1-к. квартира, 45 м2 | Спальный район"
+                  title-href="/property-details/457"
+                  price-text="₽ 8 500 000"
+                  details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Мирный»"},
                       {"label":"Улица", "value":"Советская ул."},
                       {"label":"Этаж", "value":"5/9"},
                       {"label":"Состояние", "value":"Требует ремонта"}
                   ]'
-                    status="Черновик"
-                    show-actions="true">
+                  status="Черновик"
+                  show-actions="true"
+                >
                 </my-property-card>
-        
+
                 <my-property-card
-                    title-text="3-к. квартира, 120 м2 | Элитный район"
-                    title-href="/property-details/458"
-                    price-text="₽ 25 000 000 (Продано)"
-                    details-json='[
+                  title-text="3-к. квартира, 120 м2 | Элитный район"
+                  title-href="/property-details/458"
+                  price-text="₽ 25 000 000 (Продано)"
+                  details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Элит»"},
                       {"label":"Улица", "value":"Парковая ул."},
                       {"label":"Этаж", "value":"10/20"},
@@ -121,61 +127,62 @@
                       {"label":"Размещено", "value":"15-Янв-2024"},
                       {"label":"Продано", "value":"20-Мар-2024"}
                   ]'
-                    status="В архиве"
-                    show-actions="true"
-                  >
+                  status="В архиве"
+                  show-actions="true"
+                >
                 </my-property-card>
-        
+
                 <my-property-card
-                    title-text="Студия, 28 м2 | Центр"
-                    title-href="/property-details/459"
-                    price-text="₽ 6 200 000"
-                    details-json='[
+                  title-text="Студия, 28 м2 | Центр"
+                  title-href="/property-details/459"
+                  price-text="₽ 6 200 000"
+                  details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Компакт»"},
                       {"label":"Улица", "value":"Ленина ул."},
                       {"label":"Этаж", "value":"3/12"},
                       {"label":"Состояние", "value":"Готово к проживанию"},
                       {"label":"Площадь участка", "value":"—"}
                   ]'
-                    status="Активно"
-                    show-actions="true">
+                  status="Активно"
+                  show-actions="true"
+                >
                 </my-property-card>
 
                 <my-property-card
-                    title-text="4-к. квартира, 150 м2 | Бизнес-класс"
-                    title-href="/property-details/460"
-                    price-text="₽ 32 000 000"
-                    details-json='[
+                  title-text="4-к. квартира, 150 м2 | Бизнес-класс"
+                  title-href="/property-details/460"
+                  price-text="₽ 32 000 000"
+                  details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Панорама»"},
                       {"label":"Улица", "value":"Морская ул."},
                       {"label":"Этаж", "value":"15/25"},
                       {"label":"Состояние", "value":"Панорамные окна"}
                   ]'
-                    status="Активно"
-                    show-actions="true"
-                  >
+                  status="Активно"
+                  show-actions="true"
+                >
                 </my-property-card>
 
                 <my-property-card
-                    title-text="2-к. квартира, 65 м2 | Новостройка"
-                    title-href="/property-details/461"
-                    price-text="₽ 12 300 000"
-                    details-json='[
+                  title-text="2-к. квартира, 65 м2 | Новостройка"
+                  title-href="/property-details/461"
+                  price-text="₽ 12 300 000"
+                  details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Современник»"},
                       {"label":"Улица", "value":"Строительная ул."},
                       {"label":"Этаж", "value":"8/14"},
                       {"label":"Состояние", "value":"Черновая отделка"}
                   ]'
-                    status="Черновик"
-                    show-actions="true"
-                  >
+                  status="Черновик"
+                  show-actions="true"
+                >
                 </my-property-card>
 
                 <my-property-card
-                    title-text="Таунхаус, 180 м2 | Загородный"
-                    title-href="/property-details/462"
-                    price-text="₽ 28 500 000 (Продано)"
-                    details-json='[
+                  title-text="Таунхаус, 180 м2 | Загородный"
+                  title-href="/property-details/462"
+                  price-text="₽ 28 500 000 (Продано)"
+                  details-json='[
                       {"label":"Название комплекса", "value":"КП «Зеленый Берег»"},
                       {"label":"Улица", "value":"Дачная ул."},
                       {"label":"Этаж", "value":"2 этажа"},
@@ -183,53 +190,54 @@
                       {"label":"Размещено", "value":"10-Фев-2024"},
                       {"label":"Продано", "value":"05-Апр-2024"}
                   ]'
-                    status="В архиве"
-                    show-actions="true"
-                  >
+                  status="В архиве"
+                  show-actions="true"
+                >
                 </my-property-card>
 
                 <my-property-card
-                    title-text="1-к. квартира, 38 м2 | Спальный район"
-                    title-href="/property-details/463"
-                    price-text="₽ 7 800 000"
-                    details-json='[
+                  title-text="1-к. квартира, 38 м2 | Спальный район"
+                  title-href="/property-details/463"
+                  price-text="₽ 7 800 000"
+                  details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Уютный»"},
                       {"label":"Улица", "value":"Рабочая ул."},
                       {"label":"Этаж", "value":"4/9"},
                       {"label":"Состояние", "value":"Косметический ремонт"}
                   ]'
-                    status="Активно"
-                    show-actions="true"
-                  >
+                  status="Активно"
+                  show-actions="true"
+                >
                 </my-property-card>
 
                 <my-property-card
-                    title-text="3-к. квартира, 95 м2 | Центр"
-                    title-href="/property-details/464"
-                    price-text="₽ 22 100 000"
-                    details-json='[
+                  title-text="3-к. квартира, 95 м2 | Центр"
+                  title-href="/property-details/464"
+                  price-text="₽ 22 100 000"
+                  details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Центральный»"},
                       {"label":"Улица", "value":"Театральная ул."},
                       {"label":"Этаж", "value":"6/12"},
                       {"label":"Состояние", "value":"Требует ремонта"}
                   ]'
-                    status="Черновик"
-                    show-actions="false">
+                  status="Черновик"
+                  show-actions="false"
+                >
                 </my-property-card>
 
                 <my-property-card
-                    title-text="Студия, 32 м2 | Новостройка"
-                    title-href="/property-details/465"
-                    price-text="₽ 8 900 000"
-                    details-json='[
+                  title-text="Студия, 32 м2 | Новостройка"
+                  title-href="/property-details/465"
+                  price-text="₽ 8 900 000"
+                  details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Молодежный»"},
                       {"label":"Улица", "value":"Студенческая ул."},
                       {"label":"Этаж", "value":"11/16"},
                       {"label":"Состояние", "value":"Готово к проживанию"}
                   ]'
-                    status="Активно"
-                    show-actions="true"
-                  >
+                  status="Активно"
+                  show-actions="true"
+                >
                 </my-property-card>
               </property-list-component>
               <simple-pagination

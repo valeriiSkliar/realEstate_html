@@ -354,6 +354,20 @@ module.exports = {
         "common",
       ],
     }),
+    new HtmlWebpackPlugin({
+      template:
+        "./src/pages/previews/archived-advertisements-page-preview.html",
+      filename: "archived-advertisements.html",
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+      ],
+    }),
 
     new MiniCssExtractPlugin({
       filename: "css/[name].css",
