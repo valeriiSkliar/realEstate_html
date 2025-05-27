@@ -47,6 +47,7 @@
       width: auto !important;
     }
   </style>
+
   <style>
     .search-bar-brand {
       position: relative;
@@ -92,7 +93,49 @@
   </style>
   <body>
     <app-header></app-header>
+    <div class="fullscreen-spinner-container" id="myFullscreenSpinner">
+      <div class="spinner-item ba-item-preloader ba-item" data-delay="1">
+        <div class="preloader-wrapper ba-pt-fade ba-spinner-8">
+          <div class="preloader-point-wrapper">
+            <div class="preloader-point-1"></div>
+            <div class="preloader-point-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div style="padding: 20px">
+      <h1>Заголовок страницы</h1>
+      <p>Это какой-то контент под спиннером...</p>
+      <button onclick="showSpinner()">Показать спиннер на 3 секунды</button>
+    </div>
+    <script>
+      // Пример управления видимостью спиннера
+      const spinnerContainer = document.getElementById("myFullscreenSpinner");
+
+      function showSpinner() {
+        spinnerContainer.classList.remove("hidden");
+        // Можно добавить класс preloader-animation-out к самому спиннеру, если нужно
+        // document.querySelector('.spinner-item').classList.remove('preloader-animation-out');
+        // document.querySelector('.preloader-wrapper').classList.remove('ba-pt-fade');
+
+        setTimeout(() => {
+          hideSpinner();
+        }, 3000); // Скрыть через 3 секунды
+      }
+
+      function hideSpinner() {
+        spinnerContainer.classList.add("hidden");
+        // Если вы использовали анимацию pt-fade-out для самого спиннера:
+        // document.querySelector('.spinner-item').classList.add('preloader-animation-out');
+        // document.querySelector('.preloader-wrapper').classList.add('ba-pt-fade');
+      }
+
+      // Показать спиннер при загрузке (опционально)
+      // window.addEventListener('load', () => {
+      //     setTimeout(hideSpinner, 2000); // Показать на 2 секунды после загрузки
+      // });
+    </script>
     <main class="page-content">
       <div id="app">
         <div class="search-page">
