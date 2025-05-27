@@ -1,4 +1,19 @@
-// src/js/index.js
+// src/js/index.js - Главный файл для импорта всех скриптов
+// Этот файл используется только для разработки и тестирования
+// В продакшене используются отдельные entry points для каждой страницы
+
+// Импортируем общие скрипты
+import "./common";
+
+// Импортируем страничные скрипты
+import "./pages/collections";
+import "./pages/favorites";
+import "./pages/my-advertisements";
+import "./pages/profile";
+import "./pages/search";
+import "./pages/subscriptions";
+import "./pages/support";
+
 import "bootstrap";
 import "select2";
 

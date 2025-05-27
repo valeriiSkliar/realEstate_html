@@ -1,5 +1,6 @@
 import { Offcanvas } from "bootstrap";
 import $ from "jquery";
+import "select2";
 const initSidebarFilters = () => {
   // Sidebar form reset logic
   var sidebarPreserveParams = ["search", "sort", "direction"]; // Parameters to keep on reset
