@@ -29,14 +29,11 @@ customElements.define("app-empty-state", AppEmptyState);
 
 // Import and initialize common components
 import { initFavoriteButtons } from "./components/favorite-button";
-import { initMobileMenu, setCurrentYear } from "./menu";
+import { setCurrentYear } from "./menu";
 import { showModal } from "./utils/uiHelpers";
 
 // Initialize common functionality when DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
-  // Initialize mobile menu
-  initMobileMenu();
-
   // Set current year in footer
   setCurrentYear();
 

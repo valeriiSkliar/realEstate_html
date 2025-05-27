@@ -40,7 +40,7 @@ customElements.define("app-empty-state", AppEmptyState);
 import { initFavoriteButtons } from "./components/favorite-button";
 import { initPropertyCardExample } from "./components/property-card-example";
 import { initFavoritesPage } from "./favorites";
-import { initMobileMenu, setCurrentYear } from "./menu";
+import { setCurrentYear } from "./menu";
 import { initProfilePage } from "./profile";
 import { initSearchPage } from "./search";
 import { initSubscriptionsPage } from "./subscriptions";
@@ -59,8 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (document.querySelector(".search-page")) {
     initSearchPage();
   }
-  // Initialize mobile menu
-  initMobileMenu();
 
   // Set current year in footer
   setCurrentYear();
