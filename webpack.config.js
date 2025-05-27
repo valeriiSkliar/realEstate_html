@@ -3,6 +3,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin"); // Import the plugin
+const TerserPlugin = require("terser-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const webpack = require("webpack");
 
 module.exports = {
@@ -36,13 +38,65 @@ module.exports = {
     },
   },
   optimization: {
+    minimize: process.env.NODE_ENV === "production",
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            drop_debugger: true,
+          },
+          format: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      }),
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: [
+            "default",
+            {
+              discardComments: { removeAll: true },
+            },
+          ],
+        },
+      }),
+    ],
     splitChunks: {
       chunks: "all",
+      maxInitialRequests: 20,
+      maxAsyncRequests: 20,
       cacheGroups: {
+        jquery: {
+          test: /[\\/]node_modules[\\/]jquery[\\/]/,
+          name: "jquery",
+          chunks: "all",
+          priority: 40,
+        },
+        bootstrap: {
+          test: /[\\/]node_modules[\\/]bootstrap[\\/]/,
+          name: "bootstrap",
+          chunks: "all",
+          priority: 30,
+        },
+        swiper: {
+          test: /[\\/]node_modules[\\/]swiper[\\/]/,
+          name: "swiper",
+          chunks: "all",
+          priority: 30,
+        },
+        select2: {
+          test: /[\\/]node_modules[\\/]select2[\\/]/,
+          name: "select2",
+          chunks: "all",
+          priority: 30,
+        },
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: "vendors",
           chunks: "all",
+          priority: 10,
         },
         shared: {
           name: "shared",
@@ -124,74 +178,186 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/property-view-standalone.html",
       filename: "property-view-standalone.html",
-      chunks: ["common", "vendors", "shared"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/search-page-preview.html",
       filename: "search.html",
-      chunks: ["common", "vendors", "shared", "search"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+        "search",
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/main-dashboard-page-preview.html",
       filename: "index.html",
-      chunks: ["common", "vendors", "shared"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/profile-page-preview.html",
       filename: "profile.html",
-      chunks: ["common", "vendors", "shared", "profile"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+        "profile",
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/support-page-preview.html",
       filename: "support.html",
-      chunks: ["common", "vendors", "shared", "support"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+        "support",
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/subscriptions-page-preview.html",
       filename: "subscriptions.html",
-      chunks: ["common", "vendors", "shared", "subscriptions"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+        "subscriptions",
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/favorites-page-preview.html",
       filename: "favorites.html",
-      chunks: ["common", "vendors", "shared", "favorites"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+        "favorites",
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/collections-page-preview.html",
       filename: "collections.html",
-      chunks: ["common", "vendors", "shared", "collections"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+        "collections",
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/collections-create-page-preview.html",
       filename: "collections-create.html",
-      chunks: ["common", "vendors", "shared", "collections"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+        "collections",
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/collections-edit-page-preview.html",
       filename: "collections-edit.html",
-      chunks: ["common", "vendors", "shared", "collections"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+        "collections",
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/my-advertisements-page-preview.html",
       filename: "my-advertisements.html",
-      chunks: ["common", "vendors", "shared", "myAdvertisements"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+        "myAdvertisements",
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/listings-create-page-preview.html",
       filename: "listings-create.html",
-      chunks: ["common", "vendors", "shared"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+      ],
     }),
 
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/forms-examples-preview.html",
       filename: "forms-examples.html",
-      chunks: ["common", "vendors", "shared"],
+      chunks: [
+        "jquery",
+        "bootstrap",
+        "swiper",
+        "select2",
+        "vendors",
+        "shared",
+        "common",
+      ],
     }),
 
     new MiniCssExtractPlugin({
       filename: "css/[name].css",
     }),
-    // Configure CopyPlugin
     new CopyPlugin({
       patterns: [
         {
@@ -208,12 +374,16 @@ module.exports = {
         },
       ],
     }),
-    // Provide jQuery globally
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",
     }),
   ],
+  performance: {
+    maxAssetSize: 500000,
+    maxEntrypointSize: 1000000,
+    hints: process.env.NODE_ENV === "production" ? "warning" : false,
+  },
   devServer: {
     static: {
       directory: path.join(__dirname, "public"),
