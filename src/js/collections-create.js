@@ -1,5 +1,5 @@
 import { createCollection } from './components/collections-manager';
-import { showModal, hideModal, createAndShowToast } from './utils/uiHelpers';
+import { createAndShowToast, showModal } from './utils/uiHelpers';
 
 /**
  * Initialize collections create page functionality
@@ -385,12 +385,10 @@ const initSaveCollection = () => {
     saveButton.addEventListener('click', () => {
       // Get collection name and client name
       const collectionName = document.getElementById('collectionName').value.trim();
-      const clientName = document.getElementById('clientName').value.trim();
       
       // Validate required fields
-      if (!collectionName || !clientName) {
-        createAndShowToast('Please fill in all required fields', 'warning');
-        goToStep('1'); // Go back to step 1
+      if (!collectionName) {
+        createAndShowToast('Пожалуйста, заполните все обязательные поля', 'warning');
         return;
       }
       
@@ -427,11 +425,10 @@ const initSaveCollection = () => {
       // Create collection object
       const collectionData = {
         name: collectionName,
-        clientName: clientName,
         description: collectionNotes,
         properties: selectedProperties,
-        clientEmail: clientEmail,
-        clientPhone: clientPhone,
+        clientEmail: clientEmail || '',
+        clientPhone: clientPhone || '',
         parameters: {
           propertyType,
           dealType,
@@ -456,7 +453,7 @@ const initSaveCollection = () => {
         showModal('collectionSuccessModal');
       } else {
         // Show error message
-        createAndShowToast('Failed to create collection', 'error');
+        createAndShowToast('Не удалось создать коллекцию', 'error');
       }
     });
   }
