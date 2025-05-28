@@ -2,7 +2,6 @@
 
 .support-page {
   padding: 20px 0;
-  background-color: $light-gray;
   min-height: calc(100vh - 83px - 100px);
 
   .container {
@@ -43,27 +42,27 @@
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
-    .form-label {
-      font-weight: 500;
-      color: $dark-navy;
-    }
+    // .form-label {
+    //   font-weight: 500;
+    //   color: $dark-navy;
+    // }
 
-    .form-control,
-    .form-select {
-      border-radius: 5px;
-      border: 1px solid $light-gray;
-      padding: 10px 12px;
+    // .form-control,
+    // .form-select {
+    //   border-radius: 5px;
+    //   border: 1px solid $light-gray;
+    //   padding: 10px 12px;
 
-      &:focus {
-        border-color: lighten($turquoise, 20%);
-        box-shadow: 0 0 0 0.2rem rgba($turquoise, 0.25);
-      }
-    }
+    //   &:focus {
+    //     border-color: lighten($turquoise, 20%);
+    //     box-shadow: 0 0 0 0.2rem rgba($turquoise, 0.25);
+    //   }
+    // }
 
-    textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
+    // textarea {
+    //   resize: vertical;
+    //   min-height: 120px;
+    // }
 
     .support-submit {
       padding: 12px;

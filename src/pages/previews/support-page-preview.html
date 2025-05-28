@@ -36,31 +36,37 @@
               можно скорее.
             </p>
 
-            <form id="supportForm" class="support-form">
-              <div class="mb-3">
-                <label for="supportName" class="form-label">Ваше имя</label>
+            <form id="supportForm" class="support-form forms-section">
+              <div class="form-field floating-label">
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-input"
                   id="supportName"
+                  placeholder=" "
                   required
                 />
+                <label for="supportName" class="form-label required"
+                  >Ваше имя</label
+                >
               </div>
 
-              <div class="mb-3">
-                <label for="supportEmail" class="form-label"
-                  >Адрес электронной почты</label
-                >
+              <div class="form-field floating-label">
                 <input
                   type="email"
-                  class="form-control"
+                  class="form-input"
                   id="supportEmail"
+                  placeholder=" "
                   required
                 />
+                <label for="supportEmail" class="form-label required"
+                  >Адрес электронной почты</label
+                >
               </div>
 
-              <div class="mb-3">
-                <label for="supportSubject" class="form-label">Тема</label>
+              <div class="mb-3 form-field">
+                <!-- <label for="supportSubject" class="form-label"
+                  >Выберите тему</label
+                > -->
                 <select class="form-select" id="supportSubject" required>
                   <option value="" selected disabled>Выберите тему</option>
                   <option value="general">Общий вопрос</option>
@@ -71,12 +77,13 @@
                 </select>
               </div>
 
-              <div class="mb-3">
-                <label for="supportMessage" class="form-label"
+              <div class="mb-3 form-field floating-label">
+                <!-- <label for="supportMessage" class="form-label"
                   >Ваше сообщение</label
-                >
+                > -->
                 <textarea
-                  class="form-control"
+                  placeholder="Ваше сообщение..."
+                  class="form-input"
                   id="supportMessage"
                   rows="5"
                   required
