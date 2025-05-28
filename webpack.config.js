@@ -42,7 +42,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "public"),
-    filename: "js/[name].js",
+    filename: "js/[name].[contenthash].js",
     clean: true,
   },
   resolve: {
@@ -81,30 +81,30 @@ module.exports = {
       maxInitialRequests: 20,
       maxAsyncRequests: 20,
       cacheGroups: {
-        jquery: {
-          test: /[\\/]node_modules[\\/]jquery[\\/]/,
-          name: "jquery",
-          chunks: "all",
-          priority: 40,
-        },
-        bootstrap: {
-          test: /[\\/]node_modules[\\/]bootstrap[\\/]/,
-          name: "bootstrap",
-          chunks: "all",
-          priority: 30,
-        },
-        swiper: {
-          test: /[\\/]node_modules[\\/]swiper[\\/]/,
-          name: "swiper",
-          chunks: "all",
-          priority: 30,
-        },
-        select2: {
-          test: /[\\/]node_modules[\\/]select2[\\/]/,
-          name: "select2",
-          chunks: "all",
-          priority: 30,
-        },
+        // jquery: {
+        //   test: /[\\/]node_modules[\\/]jquery[\\/]/,
+        //   name: "jquery",
+        //   chunks: "all",
+        //   priority: 40,
+        // },
+        // bootstrap: {
+        //   test: /[\\/]node_modules[\\/]bootstrap[\\/]/,
+        //   name: "bootstrap",
+        //   chunks: "all",
+        //   priority: 30,
+        // },
+        // swiper: {
+        //   test: /[\\/]node_modules[\\/]swiper[\\/]/,
+        //   name: "swiper",
+        //   chunks: "all",
+        //   priority: 30,
+        // },
+        // select2: {
+        //   test: /[\\/]node_modules[\\/]select2[\\/]/,
+        //   name: "select2",
+        //   chunks: "all",
+        //   priority: 30,
+        // },
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: "vendors",
@@ -386,7 +386,7 @@ module.exports = {
     }),
 
     new MiniCssExtractPlugin({
-      filename: "css/[name].css",
+      filename: "css/[name].[contenthash].css",
     }),
     new CopyPlugin({
       patterns: [
