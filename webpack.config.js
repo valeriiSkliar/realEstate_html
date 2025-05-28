@@ -9,10 +9,10 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: {
-    // Общий скрипт для всех страниц
+    // Common script
     common: "./src/js/common.js",
 
-    // Специфические скрипты для страниц
+    // Pages scripts
     search: "./src/js/pages/search.js",
     profile: "./src/js/pages/profile.js",
     favorites: "./src/js/pages/favorites.js",
@@ -21,11 +21,24 @@ module.exports = {
     support: "./src/js/pages/support.js",
     myAdvertisements: "./src/js/pages/my-advertisements.js",
 
-    // Стили компонентов
+    // Components styles
     breadcrumbs: "./src/scss/components/_breadcrumbs.scss",
     propertyCard: "./src/scss/components/_property-card.scss",
     propertyCardList: "./src/scss/components/_property-card-list.scss",
     myAdvertisementCard: "./src/scss/pages/_my-advertisements.scss",
+
+    // Pages styles
+    searchPage: "./src/scss/pages/_search.scss",
+    profilePage: "./src/scss/pages/_profile.scss",
+    favoritesPage: "./src/scss/pages/_favorites.scss",
+    collectionsPage: "./src/scss/pages/_collections.scss",
+    subscriptionsPage: "./src/scss/pages/_subscriptions.scss",
+    supportPage: "./src/scss/pages/_support.scss",
+    myAdvertisementsPage: "./src/scss/pages/_my-advertisements.scss",
+    propertyViewPage: "./src/scss/pages/_property-view.scss",
+    listingsCreatePage: "./src/scss/pages/_listings-create.scss",
+    archivedAdvertisementsPage:
+      "./src/scss/pages/_archived-advertisements.scss",
   },
   output: {
     path: path.resolve(__dirname, "public"),
@@ -186,6 +199,7 @@ module.exports = {
         "vendors",
         "shared",
         "common",
+        "propertyViewPage",
       ],
     }),
     new HtmlWebpackPlugin({

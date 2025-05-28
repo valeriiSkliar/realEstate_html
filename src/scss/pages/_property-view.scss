@@ -1,0 +1,433 @@
+@use "../variables" as vars;
+@use "../brand_color" as brand;
+@use "../components/property-detail/property-detail-gallery";
+@use "sass:color";
+
+.property-detail-page {
+  min-height: 100vh;
+
+  // Хлебные крошки в светлой теме
+  custom-breadcrumb[theme="light"] {
+    padding: 0 15px;
+
+    @media (max-width: 768px) {
+      padding: 0 10px;
+    }
+  }
+
+  // Стили для заголовка
+  .property-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    background-color: brand.$brand-background;
+
+    &__title {
+      font-size: 20px;
+      line-height: 22px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      font-family: vars.$font-family-sans-serif;
+      font-weight: 300;
+      font-style: normal;
+      color: color.adjust(brand.$brand-background, $lightness: -60%);
+      margin: 0;
+      padding-right: 20px;
+
+      @media (max-width: 768px) {
+        font-size: 20px;
+      }
+    }
+
+    &__favorite-btn {
+      background: none;
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      i {
+        font-size: 24px;
+        color: brand.$brand-accent;
+        transition: color 0.2s ease;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+
+        i {
+          color: brand.$brand-accent;
+        }
+      }
+
+      // Активное состояние (когда добавлено в избранное)
+      &.active {
+        i {
+          &::before {
+            content: "\F415"; // Код иконки закрашенного сердца
+          }
+        }
+      }
+    }
+  }
+  // Стили для блока с ценой
+  .property-detail-pricing {
+    margin-bottom: 30px;
+
+    &__main {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 20px;
+      background-color: brand.$brand-background;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      margin: 0;
+      padding-right: 20px;
+      @media (max-width: 768px) {
+        // flex-direction: column;
+        gap: 20px;
+      }
+    }
+  }
+
+  .price-block {
+    &__main {
+      font-size: 30px;
+      line-height: 35px;
+      font-weight: 300;
+      margin-bottom: 8px;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      color: brand.$brand-primary;
+
+      @media (max-width: 768px) {
+        font-size: 28px;
+      }
+    }
+
+    &__per-meter {
+      font-size: 10px;
+      line-height: 12px;
+      letter-spacing: 2px;
+      font-weight: 300;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      color: brand.$brand-dark-section;
+    }
+  }
+
+  .agent-block {
+    text-align: left;
+
+    &__name-block {
+      margin-bottom: 8px;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+    }
+
+    &__label {
+      letter-spacing: 2px;
+      font-weight: 300;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      text-align: right;
+      font-size: 12px;
+      line-height: 14px;
+      text-decoration: none;
+      color: brand.$brand-dark-section;
+      margin-right: 6px;
+    }
+
+    &__name {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      text-align: right;
+      color: color.adjust(brand.$brand-background, $lightness: -60%);
+    }
+
+    &__phone {
+      color: brand.$turquoise;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 10px;
+      border: 1px solid brand.$turquoise;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+      font-size: 11px;
+      line-height: 1;
+      font-family: vars.$font-family-sans-serif;
+      background: transparent;
+
+      &:before {
+        content: "📞";
+        display: block;
+        // width: 10px;
+        // height: 10px;
+        // background-color: brand.$turquoise;
+      }
+
+      &:hover {
+        color: color.adjust(brand.$brand-secondary, $lightness: -40%);
+      }
+    }
+  }
+
+  // Стили для блока с информацией о недвижимости
+  .property-detail-info {
+    margin-bottom: 20px;
+
+    &__main {
+      padding: 20px 15px;
+      background-color: brand.$brand-background;
+    }
+  }
+
+  .property-info-block {
+    margin-bottom: 20px;
+
+    &__complex-name {
+      font-size: 26px;
+      line-height: 28px;
+      font-weight: 300;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      color: color.adjust(brand.$brand-background, $lightness: -60%);
+      margin: 0 0 8px 0;
+
+      @media (max-width: 768px) {
+        font-size: 20px;
+        line-height: 24px;
+      }
+    }
+
+    &__address {
+      font-size: 16px;
+      line-height: 20px;
+      font-weight: 300;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      color: color.adjust(brand.$brand-background, $lightness: -40%);
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+        line-height: 18px;
+      }
+    }
+  }
+
+  .property-meta-block {
+    &__item {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &__label {
+      font-size: 12px;
+      line-height: 6px;
+      font-weight: 300;
+      font-family: vars.$font-family-comfortaa;
+      font-style: normal;
+      color: brand.$brand-dark-section;
+      margin-right: 6px;
+    }
+
+    &__value {
+      font-size: 12px;
+      line-height: 14px;
+      font-weight: 400;
+      font-family: vars.$font-family-comfortaa;
+      font-style: normal;
+      color: color.adjust(brand.$brand-background, $lightness: -50%);
+    }
+
+    &__stats {
+      font-size: 12px;
+      line-height: 14px;
+      font-weight: 300;
+      font-family: vars.$font-family-comfortaa;
+      font-style: normal;
+      color: brand.$brand-dark-section;
+    }
+  }
+
+  // Стили для блока характеристик квартиры
+  .property-characteristics {
+    // margin-bottom: 30px;
+
+    &__main {
+      padding: 20px 15px;
+      background-color: brand.$brand-background;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    &__title {
+      font-size: 22px;
+      line-height: 26px;
+      font-weight: 300;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      color: brand.$brand-secondary;
+      margin: 0 0 20px 0;
+
+      @media (max-width: 768px) {
+        font-size: 18px;
+        line-height: 22px;
+        margin-bottom: 15px;
+      }
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+
+    &__description-title {
+      font-size: 22px;
+      line-height: 26px;
+      font-weight: 300;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      color: brand.$brand-secondary;
+      margin: 20px 0 15px 0;
+
+      @media (max-width: 768px) {
+        font-size: 18px;
+        line-height: 22px;
+        margin: 15px 0 10px 0;
+      }
+    }
+
+    &__description {
+      font-size: 15px;
+      line-height: 22px;
+      font-weight: 300;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      color: color.adjust(brand.$brand-background, $lightness: -50%);
+      margin-bottom: 15px;
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      p {
+        margin: 0 0 10px 0;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      &--collapsed {
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      &--expanded {
+        transition: max-height 0.3s ease;
+      }
+    }
+
+    &__description-more {
+      &--hidden {
+        display: none;
+      }
+    }
+
+    &__description-more-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+      font-family: vars.$font-family-sans-serif;
+      color: brand.$brand-secondary;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+
+      @media (max-width: 768px) {
+        font-size: 13px;
+        line-height: 16px;
+      }
+
+      &:hover {
+        color: color.adjust(brand.$brand-secondary, $lightness: -20%);
+      }
+
+      i {
+        font-size: 12px;
+        transition: transform 0.2s ease;
+      }
+
+      &.expanded i {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .characteristic-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0;
+
+    &:nth-child(3) {
+      margin-bottom: 16px;
+    }
+
+    &__label {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 300;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      color: brand.$brand-dark-section;
+      flex: 1;
+      margin-right: 20px;
+
+      @media (max-width: 768px) {
+        font-size: 13px;
+        line-height: 16px;
+      }
+    }
+
+    &__value {
+      font-size: 16px;
+      line-height: 20px;
+      font-weight: 300;
+      font-family: vars.$font-family-sans-serif;
+      font-style: normal;
+      color: color.adjust(brand.$brand-background, $lightness: -60%);
+      text-align: right;
+      white-space: nowrap;
+      letter-spacing: 1px;
+      text-decoration: none;
+
+      @media (max-width: 768px) {
+        font-size: 13px;
+        line-height: 16px;
+      }
+    }
+  }
+}
