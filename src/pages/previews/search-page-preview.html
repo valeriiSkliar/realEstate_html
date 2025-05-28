@@ -98,12 +98,33 @@
       <div id="app">
         <div class="search-page">
           <div class="featured-section">
-            <custom-breadcrumb theme="light" class="mb-3">
+            <!-- <custom-breadcrumb theme="light" class="mb-3">
               <breadcrumb-item href="/">Главная</breadcrumb-item>
               <breadcrumb-item href="/catalog"
                 >Поиск недвижимости</breadcrumb-item
               >
-            </custom-breadcrumb>
+            </custom-breadcrumb> -->
+
+            <nav
+              class="breadcrumb"
+              aria-label="Breadcrumb navigation"
+              role="navigation"
+            >
+              <ol class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/">Главная</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/catalog"
+                    >Поиск недвижимости</a
+                  >
+                </li>
+                <li class="breadcrumb-item active-page">
+                  <span class="breadcrumb-text">Квартиры</span>
+                </li>
+              </ol>
+            </nav>
+
             <div class="container mt-3 mb-3">
               <div class="search-controls">
                 <div
