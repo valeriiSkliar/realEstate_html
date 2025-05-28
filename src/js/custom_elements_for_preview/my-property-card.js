@@ -1,4 +1,4 @@
-class MyPropertyCard extends HTMLElement {
+export class MyPropertyCard extends HTMLElement {
   constructor() {
     super(); // No Shadow DOM attachment
   }
@@ -260,5 +260,3 @@ class MyPropertyCard extends HTMLElement {
     );
   }
 }
-
-customElements.define("my-property-card", MyPropertyCard);

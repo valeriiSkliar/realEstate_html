@@ -1,4 +1,4 @@
-class CustomBreadcrumb extends HTMLElement {
+export class CustomBreadcrumb extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -117,7 +117,7 @@ class CustomBreadcrumb extends HTMLElement {
   }
 }
 
-class BreadcrumbItem extends HTMLElement {
+export class BreadcrumbItem extends HTMLElement {
   constructor() {
     super();
   }
@@ -142,6 +142,3 @@ class BreadcrumbItem extends HTMLElement {
     }
   }
 }
-
-customElements.define("custom-breadcrumb", CustomBreadcrumb);
-customElements.define("breadcrumb-item", BreadcrumbItem);

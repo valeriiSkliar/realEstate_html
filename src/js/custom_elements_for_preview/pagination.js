@@ -1,5 +1,4 @@
-// src/js/components/simple-pagination.js
-class SimplePagination extends HTMLElement {
+export class SimplePagination extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -319,5 +318,3 @@ class SimplePagination extends HTMLElement {
     ];
   }
 }
-
-customElements.define("simple-pagination", SimplePagination);

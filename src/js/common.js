@@ -28,7 +28,6 @@ customElements.define("app-confirm-modal", AppConfirmModal);
 customElements.define("app-empty-state", AppEmptyState);
 
 // Import and initialize common components
-import { initFavoriteButtons } from "./components/favorite-button";
 import { setCurrentYear } from "./menu";
 import { showModal } from "./utils/uiHelpers";
 
@@ -36,9 +35,6 @@ import { showModal } from "./utils/uiHelpers";
 document.addEventListener("DOMContentLoaded", function () {
   // Set current year in footer
   setCurrentYear();
-
-  // Initialize favorite buttons globally
-  initFavoriteButtons();
 
   // Global listing action handler
   document.body.addEventListener("listingAction", function (event) {

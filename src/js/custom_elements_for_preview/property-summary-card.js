@@ -1,5 +1,4 @@
-// src/js/components/property-summary-card.js
-class PropertySummaryCard extends HTMLElement {
+export class PropertySummaryCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -197,5 +196,3 @@ class PropertySummaryCard extends HTMLElement {
     return `var(${varName}, ${defaultValue})`;
   }
 }
-
-customElements.define("property-summary-card", PropertySummaryCard);

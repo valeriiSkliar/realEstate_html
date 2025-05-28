@@ -7,9 +7,9 @@ import {
   AppMobileMenu,
   BrandButton,
   CustomBreadcrumb,
+  MyAdvertisementCard,
   MyPropertyCard,
   PropertyListComponent,
-  PropertyStatusCard,
   PropertySummaryCard,
   SimplePagination,
 } from "./index";
@@ -29,7 +29,7 @@ export function registerCustomElements() {
   // Дополнительные компоненты
   customElements.define("brand-button", BrandButton);
   customElements.define("custom-breadcrumb", CustomBreadcrumb);
-  customElements.define("property-status-card", PropertyStatusCard);
+  customElements.define("my-advertisement-card", MyAdvertisementCard);
   customElements.define("my-property-card", MyPropertyCard);
   customElements.define("simple-pagination", SimplePagination);
   customElements.define("property-list-component", PropertyListComponent);

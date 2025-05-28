@@ -2,43 +2,9 @@
 @use "../variables" as vars;
 @use "../brand_color" as brand;
 
-// Styles for the list container itself
 .property-card-list {
-  display: grid; // Using grid for layout
-  gap: 20px; // Space between cards
-
-  // Responsive grid columns
-  // For example: 1 column on small screens, 2 on medium, etc.
-  // Adjust these breakpoints and column counts as needed for your design.
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(300px, 1fr)
-  ); // Default to fill, min 300px
-
-  // @media (min-width: 576px) {
-  //   grid-template-columns: repeat(1, 1fr);
-  // }
-  // @media (min-width: 768px) {
-  //   grid-template-columns: repeat(2, 1fr);
-  // }
-  // @media (min-width: 992px) {
-  //   grid-template-columns: repeat(3, 1fr);
-  // }
-
-  // Add any other list-specific styles here
-  // e.g., padding, margin for the list container
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   padding: 10px 0;
 }
-
-// Styles for the property-summary-card (from previous step, slightly adjusted for context)
-// We assume property-summary-card elements will be direct children or slotted into this list.
-// If using Shadow DOM for property-summary-card, these styles would be inside it.
-// If property-summary-card does NOT use Shadow DOM, these styles can live here or globally.
-// For this example, I'll assume property-summary-card has its own Shadow DOM with styles.
-// So, this file will focus on the LIST LAYOUT.
-
-// If you decide NOT to use Shadow DOM for property-summary-card,
-// you would paste its CSS (not SCSS) rules here, targeting it like:
-// property-summary-card { /* ... base styles for the card component ... */ }
-// .property-summary-card { /* ... its inner structure ... */ }
-// For now, we will keep card styles within the card component itself.
