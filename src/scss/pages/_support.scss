@@ -3,7 +3,7 @@
 .support-page {
   padding: 20px 0;
   background-color: $light-gray;
-  min-height: calc(100vh - 60px - 100px); // Adjust for header and footer
+  min-height: calc(100vh - 83px - 100px);
 
   .container {
     max-width: 600px;
@@ -16,9 +16,23 @@
     font-weight: 600;
     margin-bottom: 0.5rem;
     color: $dark-navy;
+    font-family: $font-family-oswald;
+    font-weight: 400;
+    line-height: 1.2;
+    text-align: left;
+    text-decoration: none;
+    text-transform: none;
+    color: $dark-navy;
   }
 
   .support-description {
+    font-family: $font-family-roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+    text-decoration: none;
+    text-transform: none;
     color: $dark-navy;
     margin-bottom: 1.5rem;
   }
