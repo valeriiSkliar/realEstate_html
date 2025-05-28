@@ -20,30 +20,10 @@ module.exports = {
     subscriptions: "./src/js/pages/subscriptions.js",
     support: "./src/js/pages/support.js",
     myAdvertisements: "./src/js/pages/my-advertisements.js",
-
-    // Components styles
-    breadcrumbs: "./src/scss/components/_breadcrumbs.scss",
-    propertyCard: "./src/scss/components/_property-card.scss",
-    propertyCardList: "./src/scss/components/_property-card-list.scss",
-    myAdvertisementCard: "./src/scss/pages/_my-advertisements.scss",
-
-    // Pages styles
-    homePage: "./src/scss/pages/_home.scss",
-    searchPage: "./src/scss/pages/_search.scss",
-    profilePage: "./src/scss/pages/_profile.scss",
-    supportPage: "./src/scss/pages/_support.scss",
-    favoritesPage: "./src/scss/pages/_favorites.scss",
-    collectionsPage: "./src/scss/pages/_collections.scss",
-    subscriptionsPage: "./src/scss/pages/_subscriptions.scss",
-    myAdvertisementsPage: "./src/scss/pages/_my-advertisements.scss",
-    propertyViewPage: "./src/scss/pages/_property-view.scss",
-    listingsCreatePage: "./src/scss/pages/_listings-create.scss",
-    archivedAdvertisementsPage:
-      "./src/scss/pages/_archived-advertisements.scss",
   },
   output: {
     path: path.resolve(__dirname, "public"),
-    filename: "js/[name].js",
+    filename: "js/[name].[contenthash].js",
     clean: true,
   },
   resolve: {
@@ -387,7 +367,8 @@ module.exports = {
     }),
 
     new MiniCssExtractPlugin({
-      filename: "css/[name].css",
+      filename: "css/[name].[contenthash].css",
+      chunkFilename: "css/[id].[contenthash].css",
     }),
     new CopyPlugin({
       patterns: [

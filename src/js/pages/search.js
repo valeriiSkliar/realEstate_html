@@ -1,4 +1,5 @@
 // src/js/pages/search.js - Скрипты для страницы поиска
+import "../../scss/pages/_search.scss";
 import { initSearchSortButton, initSidebarFilters } from "../components";
 import { initPropertyCardExample } from "../components/property-card-example";
 import { initSearchPage } from "../search";
