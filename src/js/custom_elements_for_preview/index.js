@@ -12,3 +12,6 @@ export { MyPropertyCard } from "./my-property-card";
 export { SimplePagination } from "./pagination";
 export { PropertyListComponent } from "./property-list-component";
 export { PropertySummaryCard } from "./property-summary-card";
+
+// Экспорт функции регистрации
+export { registerCustomElements } from "./connection";

@@ -20,28 +20,15 @@ import "select2";
 // Import the styles - make sure this line is not commented out
 import "../scss/main.scss";
 
-// Import custom elements for previews
-import {
-  AppConfirmModal,
-  AppEmptyState,
-  AppFavoriteProperty,
-  AppFooter,
-  AppHeader,
-  AppMobileMenu,
-} from "./custom_elements_for_preview";
-// Register custom elements for previews
-customElements.define("app-header", AppHeader);
-customElements.define("app-mobile-menu", AppMobileMenu);
-customElements.define("app-footer", AppFooter);
-customElements.define("app-favorite-property", AppFavoriteProperty);
-customElements.define("app-confirm-modal", AppConfirmModal);
-customElements.define("app-empty-state", AppEmptyState);
+// Import and register custom elements
+import { registerCustomElements } from "./custom_elements_for_preview/connection";
+
+// Register all custom elements
+registerCustomElements();
 
 import { initFavoriteButtons } from "./components/favorite-button";
-import { initPropertyCardExample } from "./components/property-card-example";
 import { initFavoritesPage } from "./favorites";
 import { setCurrentYear } from "./menu";
-import { initProfilePage } from "./profile";
 import { initSearchPage } from "./search";
 import { initSubscriptionsPage } from "./subscriptions";
 import { initSupportPage } from "./support";
@@ -62,10 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Set current year in footer
   setCurrentYear();
-
-  if (document.querySelector(".profile-page")) {
-    initProfilePage();
-  }
 
   if (document.querySelector(".support-page")) {
     initSupportPage();
