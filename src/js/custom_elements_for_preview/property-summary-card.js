@@ -1,5 +1,4 @@
-// src/js/components/property-summary-card.js
-class PropertySummaryCard extends HTMLElement {
+export class PropertySummaryCard extends HTMLElement {
   constructor() {
     super();
     // Убираем Shadow DOM
@@ -277,5 +276,3 @@ class PropertySummaryCard extends HTMLElement {
     this.setupEventListeners();
   }
 }
-
-customElements.define("property-summary-card", PropertySummaryCard);

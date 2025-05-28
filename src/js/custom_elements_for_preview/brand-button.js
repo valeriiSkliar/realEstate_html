@@ -205,6 +205,3 @@ export class BrandButton extends HTMLElement {
     element?.blur();
   }
 }
-
-// Register the custom element
-customElements.define("brand-button", BrandButton);

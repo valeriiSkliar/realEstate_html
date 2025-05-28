@@ -30,6 +30,7 @@
 @import "components/brand-button";
 @import "components/sidebar/sidebar-filters";
 @import "components/breadcrumbs";
+@import "components/pagination";
 // @import "components/spiner";
 
 // Pages
@@ -42,8 +43,9 @@
 @import "pages/collections-create";
 @import "pages/add-listing";
 @import "pages/search";
+@import "pages/home";
 // @import "pages/property-detail-page";
-@import "pages/forms-examples";
+// @import "pages/forms-examples";
 
 // // Global styles
 // body {
