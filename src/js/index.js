@@ -107,3 +107,6 @@ registerCustomElements();
 //     }
 //   });
 // });
+
+// Импортируем страничные скрипты
+import "./pages/property-page";

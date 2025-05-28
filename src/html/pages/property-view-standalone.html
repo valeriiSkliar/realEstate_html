@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Недвижимость</title>
+  </head>
+  <body>
+    <app-header></app-header>
+    <app-mobile-menu></app-mobile-menu>
+
+    <main class="page-content">
+      <div id="app">
+        <div class="property-detail-page">
+          <div class="featured-section">
+            <!-- Breadcrumb -->
+            <nav
+              class="breadcrumb mb-3"
+              aria-label="Breadcrumb navigation"
+              role="navigation"
+            >
+              <ol class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/">Главная</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/search.html">Поиск</a>
+                </li>
+                <li class="breadcrumb-item active-page">
+                  <span class="breadcrumb-text"
+                    >Студия, 65.6 м² | Черемушки</span
+                  >
+                </li>
+              </ol>
+            </nav>
+            <!-- End Breadcrumb -->
+          </div>
+          <div class="container-fluid px-0">
+            <div class="property-gallery mb-4">
+              <div class="gallery-container">
+                <div class="gallery-thumbnails">
+                  <div class="thumbnail-item active" data-index="0">
+                    <img
+                      src="images/property_view_example/1.jpg"
+                      alt="Preview 1"
+                    />
+                  </div>
+                  <div class="thumbnail-item" data-index="1">
+                    <img
+                      src="images/property_view_example/2.jpg"
+                      alt="Preview 2"
+                    />
+                  </div>
+                  <div class="thumbnail-item" data-index="2">
+                    <img
+                      src="images/property_view_example/3.jpg"
+                      alt="Preview 3"
+                    />
+                  </div>
+                  <div class="thumbnail-item" data-index="3">
+                    <img
+                      src="images/property_view_example/4.jpg"
+                      alt="Preview 4"
+                    />
+                  </div>
+                  <div class="thumbnail-item" data-index="4">
+                    <img
+                      src="images/property_view_example/5.jpg"
+                      alt="Preview 5"
+                    />
+                  </div>
+                  <div class="thumbnail-item" data-index="5">
+                    <img
+                      src="images/property_view_example/6.jpg"
+                      alt="Preview 6"
+                    />
+                  </div>
+                  <div class="thumbnail-item" data-index="6">
+                    <img
+                      src="images/property_view_example/7.jpg"
+                      alt="Preview 7"
+                    />
+                  </div>
+                </div>
+
+                <div class="gallery-main">
+                  <div class="main-image-container">
+                    <button
+                      class="gallery-nav-btn gallery-nav-prev"
+                      id="gallery-prev"
+                    >
+                      <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <div class="main-image-wrapper">
+                      <img
+                        id="main-gallery-image"
+                        src="images/property_view_example/1.jpg"
+                        class="main-image"
+                        alt="3-комнатная квартира, 85 м²"
+                        style="cursor: pointer"
+                      />
+                    </div>
+                    <button
+                      class="gallery-nav-btn gallery-nav-next"
+                      id="gallery-next"
+                    >
+                      <i class="bi bi-chevron-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid px-0">
+            <div class="property-detail-header">
+              <h1 class="property-detail-header__title">
+                Студия, 65.6 м² | Черемушки
+              </h1>
+              <button
+                class="property-detail-header__favorite-btn"
+                type="button"
+                aria-label="Добавить в избранное"
+              >
+                <i class="bi bi-heart"></i>
+              </button>
+            </div>
+          </div>
+          <div class="property-detail-pricing">
+            <div class="property-detail-pricing__main">
+              <div class="price-block">
+                <div class="price-block__main">₽ 12 000 000</div>
+                <div class="price-block__per-meter">127 000 ₽ за м²</div>
+              </div>
+              <div class="agent-block">
+                <div class="agent-block__name-block">
+                  <div class="agent-block__label">Агент:</div>
+                  <div class="agent-block__name">Иван</div>
+                </div>
+                <a href="tel:89182542536" class="agent-block__phone"
+                  >+7 (918) 254-25-36</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="property-detail-info">
+            <div class="property-detail-info__main">
+              <div class="property-info-block">
+                <h2 class="property-info-block__complex-name">
+                  ЖК «Солнечный»
+                </h2>
+                <div class="property-info-block__address">
+                  Краснодар, ул. Ленина, 126, Фестивальный
+                </div>
+              </div>
+              <div class="property-meta-block">
+                <div class="property-meta-block__item">
+                  <span class="property-meta-block__label">Обновлено:</span>
+                  <span class="property-meta-block__value"
+                    >сегодня в 10:45</span
+                  >
+                </div>
+                <div class="property-meta-block__item">
+                  <span class="property-meta-block__stats"
+                    >1198 просмотров, 41 за сегодня</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="property-characteristics">
+            <div class="property-characteristics__main">
+              <h3 class="property-characteristics__title">О квартире</h3>
+              <div class="property-characteristics__grid">
+                <div class="characteristic-item">
+                  <span class="characteristic-item__label"
+                    >Название комплекса</span
+                  >
+                  <span class="characteristic-item__value">ЖК «Фонтаны»</span>
+                </div>
+                <div class="characteristic-item">
+                  <span class="characteristic-item__label">Район</span>
+                  <span class="characteristic-item__value">Черемушки мкр.</span>
+                </div>
+                <div class="characteristic-item">
+                  <span class="characteristic-item__label">Улица</span>
+                  <span class="characteristic-item__value"
+                    >Ставропольская ул.</span
+                  >
+                </div>
+                <div class="characteristic-item">
+                  <span class="characteristic-item__label"
+                    >Количество комнат</span
+                  >
+                  <span class="characteristic-item__value">Студия</span>
+                </div>
+                <div class="characteristic-item">
+                  <span class="characteristic-item__label"
+                    >Общая площадь, м²</span
+                  >
+                  <span class="characteristic-item__value">65.60</span>
+                </div>
+                <div class="characteristic-item">
+                  <span class="characteristic-item__label">Состояние</span>
+                  <span class="characteristic-item__value">Ремонт</span>
+                </div>
+                <div class="characteristic-item">
+                  <span class="characteristic-item__label">Этаж</span>
+                  <span class="characteristic-item__value">10</span>
+                </div>
+                <div class="characteristic-item">
+                  <span class="characteristic-item__label">Телефон агента</span>
+                  <a href="tel:89182542536" class="characteristic-item__value"
+                    >8 918 254 25 36</a
+                  >
+                </div>
+              </div>
+              <h3 class="property-characteristics__description-title">
+                Описание
+              </h3>
+              <div
+                class="property-characteristics__description"
+                id="property-description"
+              >
+                <div class="description-full-text" style="display: none">
+                  <p>
+                    Продается прекрасная студия в современном жилом комплексе
+                    "Фонтаны" в микрорайоне Черемушки. Квартира расположена на
+                    10 этаже нового дома с современной планировкой и
+                    качественной отделкой. Общая площадь составляет 65,6
+                    квадратных метров, что идеально подходит для комфортного
+                    проживания одного человека или молодой пары. Квартира
+                    полностью готова к проживанию - выполнен качественный ремонт
+                    с использованием современных материалов. Установлены
+                    пластиковые окна, натяжные потолки, ламинат и керамическая
+                    плитка. Кухня оборудована встроенной техникой и мебелью.
+                    Санузел совмещенный с современной сантехникой и душевой
+                    кабиной. Жилой комплекс располагает развитой
+                    инфраструктурой: детская площадка, парковка, консьерж,
+                    видеонаблюдение. В шаговой доступности находятся магазины,
+                    школы, детские сады, медицинские учреждения и остановки
+                    общественного транспорта. Отличное транспортное сообщение с
+                    центром города.
+                  </p>
+                </div>
+                <div class="description-preview"></div>
+              </div>
+              <div
+                class="property-characteristics__description-more"
+                id="description-toggle"
+              >
+                <button
+                  type="button"
+                  class="property-characteristics__description-more-link"
+                  id="description-toggle-btn"
+                >
+                  <span class="toggle-text">Читать далее</span>
+                  <i class="bi bi-chevron-down"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="container-fluid px-0 mt-3 d-flex flex-column justify-content-center align-items-center gap-3"
+          >
+            <brand-button variant="solid">Добавить в подборку</brand-button>
+            <brand-button variant="solid" color="turquoise"
+              >Пожаловаться</brand-button
+            >
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal" aria-hidden="true">
+      <div class="image-modal__overlay">
+        <div class="image-modal__container">
+          <button class="image-modal__close" type="button" aria-label="Закрыть">
+            <i class="bi bi-x"></i>
+          </button>
+
+          <div class="image-modal__content">
+            <button
+              class="image-modal__nav image-modal__nav--prev"
+              type="button"
+              aria-label="Предыдущее изображение"
+            >
+              <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <div class="image-modal__image-container">
+              <img id="modalImage" src="" alt="" class="image-modal__image" />
+            </div>
+
+            <button
+              class="image-modal__nav image-modal__nav--next"
+              type="button"
+              aria-label="Следующее изображение"
+            >
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+
+          <div class="image-modal__counter">
+            <span id="modalCounter">1 / 5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-footer></app-footer>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+  </body>
+</html>
