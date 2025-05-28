@@ -378,14 +378,6 @@ module.exports = {
           from: path.resolve(__dirname, "src/images"),
           to: path.resolve(__dirname, "public/images"),
         },
-        {
-          from: path.resolve(__dirname, "src/scss/components"),
-          to: path.resolve(__dirname, "public/css/components"),
-        },
-        {
-          from: path.resolve(__dirname, "src/fonts"),
-          to: path.resolve(__dirname, "public/fonts"),
-        },
       ],
     }),
     new webpack.ProvidePlugin({

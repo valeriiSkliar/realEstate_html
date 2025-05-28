@@ -32,32 +32,32 @@ import { initFavoriteButtons } from "./components/favorite-button";
 import { setCurrentYear } from "./menu";
 import { showModal } from "./utils/uiHelpers";
 
-// Loader management
-const showLoader = () => {
-  console.log("showLoader");
-  const loader = document.getElementById("myFullscreenSpinner");
-  if (loader) {
-    loader.classList.remove("hidden");
-  }
-};
+// // Loader management
+// const showLoader = () => {
+//   console.log("showLoader");
+//   const loader = document.getElementById("myFullscreenSpinner");
+//   if (loader) {
+//     loader.classList.remove("hidden");
+//   }
+// };
 
-const hideLoader = () => {
-  console.log("hideLoader");
-  const loader = document.getElementById("myFullscreenSpinner");
-  if (loader) {
-    loader.classList.add("hidden");
-  }
-};
+// const hideLoader = () => {
+//   console.log("hideLoader");
+//   const loader = document.getElementById("myFullscreenSpinner");
+//   if (loader) {
+//     loader.classList.add("hidden");
+//   }
+// };
 
-// Show loader immediately when script loads
-showLoader();
+// // Show loader immediately when script loads
+// showLoader();
 
-// Hide loader when everything is loaded
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    hideLoader();
-  }, 1000);
-});
+// // Hide loader when everything is loaded
+// window.addEventListener("load", () => {
+//   setTimeout(() => {
+//     hideLoader();
+//   }, 1000);
+// });
 
 // Initialize common functionality when DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
