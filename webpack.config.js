@@ -28,6 +28,7 @@ module.exports = {
     myAdvertisementCard: "./src/scss/pages/_my-advertisements.scss",
 
     // Pages styles
+    homePage: "./src/scss/pages/_home.scss",
     searchPage: "./src/scss/pages/_search.scss",
     profilePage: "./src/scss/pages/_profile.scss",
     favoritesPage: "./src/scss/pages/_favorites.scss",
@@ -227,6 +228,7 @@ module.exports = {
         "vendors",
         "shared",
         "common",
+        "homePage",
       ],
     }),
     new HtmlWebpackPlugin({
