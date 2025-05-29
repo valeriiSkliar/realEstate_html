@@ -1,9 +1,8 @@
+import { createAndShowToast, hideModal, showModal } from "../utils/uiHelpers";
 import {
-  getCollections,
   deleteCollection,
-  getCollectionById,
+  getCollections,
 } from "./components/collections-manager";
-import { showModal, hideModal, createAndShowToast } from "./utils/uiHelpers";
 
 /**
  * Initialize collections page functionality
