@@ -9,10 +9,8 @@ import "./bootstrap";
 // import "./pages/collections";
 // import "./pages/favorites";
 // import "./pages/my-advertisements";
-// import "./pages/profile";
 // import "./pages/search";
 // import "./pages/subscriptions";
-// import "./pages/support";
 
 // import "bootstrap";
 // import "select2";
@@ -108,5 +106,10 @@ registerCustomElements();
 //   });
 // });
 
+// components
+import "./components/index";
+
 // Импортируем страничные скрипты
+import "./pages/profile";
 import "./pages/property-page";
+import "./pages/support";

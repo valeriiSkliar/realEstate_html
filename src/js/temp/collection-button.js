@@ -1,6 +1,5 @@
-import { getCollections, addPropertyToCollection } from "./collections-manager";
-import { createAndShowToast } from "../utils/uiHelpers";
-import { showModal, hideModal } from "../utils/uiHelpers";
+import { createAndShowToast, hideModal, showModal } from "../utils/uiHelpers";
+import { addPropertyToCollection, getCollections } from "./collections-manager";
 
 /**
  * Initialize Collection buttons functionality throughout the application
@@ -80,19 +79,19 @@ const handleCollectionClick = (propertyId) => {
       collections.forEach((collection) => {
         const listItem = document.createElement("div");
         listItem.className = "form-check collection-option";
-        
+
         const input = document.createElement("input");
         input.className = "form-check-input";
         input.type = "radio";
         input.name = "collectionId";
         input.id = `collection-${collection.id}`;
         input.value = collection.id;
-        
+
         const label = document.createElement("label");
         label.className = "form-check-label";
         label.htmlFor = `collection-${collection.id}`;
         label.textContent = collection.name;
-        
+
         listItem.appendChild(input);
         listItem.appendChild(label);
         collectionsList.appendChild(listItem);
@@ -122,23 +121,25 @@ const initAddToCollectionModal = () => {
     addToCollectionButton.addEventListener("click", () => {
       // Get property ID from hidden input
       const propertyId = document.getElementById("collectionPropertyId").value;
-      
+
       // Get selected collection
-      const selectedCollection = document.querySelector('input[name="collectionId"]:checked');
-      
+      const selectedCollection = document.querySelector(
+        'input[name="collectionId"]:checked'
+      );
+
       if (selectedCollection) {
         const collectionId = selectedCollection.value;
-        
+
         // Add property to collection
         const success = addPropertyToCollection(collectionId, propertyId);
-        
+
         // Show notification
         if (success) {
           createAndShowToast("Property added to collection", "success");
         } else {
           createAndShowToast("Property already in this collection", "info");
         }
-        
+
         // Hide modal
         hideModal("addToCollectionModal");
       } else {
@@ -149,20 +150,22 @@ const initAddToCollectionModal = () => {
   }
 
   // Handle Create New Collection button click in modal
-  const createCollectionButton = document.querySelector(".js-create-collection");
+  const createCollectionButton = document.querySelector(
+    ".js-create-collection"
+  );
   if (createCollectionButton) {
     createCollectionButton.addEventListener("click", () => {
       // Get property ID from hidden input
       const propertyId = document.getElementById("collectionPropertyId").value;
-      
+
       // Store property ID in session storage for use in collection creation form
       if (propertyId) {
         sessionStorage.setItem("pendingPropertyForCollection", propertyId);
       }
-      
+
       // Hide current modal
       hideModal("addToCollectionModal");
-      
+
       // Redirect to collection creation page
       window.location.href = "/collections-create.html";
     });

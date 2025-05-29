@@ -43,6 +43,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "js/[name].[contenthash].js",
+    filename: "js/[name].[contenthash].js",
     clean: true,
   },
   resolve: {

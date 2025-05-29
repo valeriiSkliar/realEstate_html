@@ -1,7 +1,4 @@
-import {
-  createAndShowToast,
-  showModal
-} from "./utils/uiHelpers";
+import { createAndShowToast, showModal } from "../utils/uiHelpers";
 // Home page specific JavaScript
 
 /**
@@ -20,17 +17,19 @@ export const initSearchPage = () => {
   // Toggle rooms visibility based on property type
   const propertyType = document.querySelector("#property_type_select");
   const propertyRooms = document.querySelector("#property-rooms");
-  
+
   function toggleRoomsVisibility() {
-    propertyRooms.classList.toggle("d-none", !["apartment", "house"].includes(propertyType.value));
+    propertyRooms.classList.toggle(
+      "d-none",
+      !["apartment", "house"].includes(propertyType.value)
+    );
   }
 
   if (propertyType && propertyRooms) {
     // Initial visibility check
     toggleRoomsVisibility();
-    
+
     // Listen for changes
     propertyType.addEventListener("change", toggleRoomsVisibility);
-    
   }
 };
