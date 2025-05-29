@@ -1,8 +1,11 @@
-// src/js/components/property-summary-card.js
-class PropertySummaryCard extends HTMLElement {
+export class PropertySummaryCard extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
+    // Убираем Shadow DOM
+    this.rendered = false;
+    this.isToggling = false; // Флаг для предотвращения множественных кликов
+    this.boundToggleFavorite = null;
+    this.boundKeydownHandler = null;
   }
 
   static get observedAttributes() {
@@ -19,7 +22,14 @@ class PropertySummaryCard extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
-      this.render();
+      // Only re-render if it's not the favorite attribute being changed
+      // or if the component hasn't been rendered yet
+      if (name !== "is-favorite" || !this.rendered) {
+        this.render();
+      } else if (name === "is-favorite") {
+        // Just update the favorite icon without full re-render
+        this.updateFavoriteIcon(newValue === "true");
+      }
     }
   }
 
@@ -29,30 +39,54 @@ class PropertySummaryCard extends HTMLElement {
   }
 
   setupEventListeners() {
-    const favoriteIcon = this.shadowRoot.querySelector(
+    const favoriteIcon = this.querySelector(
       ".property-summary-card__favorite-icon"
     );
     if (favoriteIcon) {
-      favoriteIcon.addEventListener("click", this.toggleFavorite.bind(this));
+      // Удаляем старые обработчики перед добавлением новых
+      favoriteIcon.removeEventListener("click", this.boundToggleFavorite);
+      favoriteIcon.removeEventListener("keydown", this.boundKeydownHandler);
 
-      // Добавляем поддержку клавиатуры для доступности
-      favoriteIcon.addEventListener("keydown", (event) => {
+      // Создаем bound функции для возможности их удаления
+      this.boundToggleFavorite = this.toggleFavorite.bind(this);
+      this.boundKeydownHandler = (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          this.toggleFavorite();
+          this.toggleFavorite(event);
         }
-      });
+      };
+
+      favoriteIcon.addEventListener("click", this.boundToggleFavorite);
+      favoriteIcon.addEventListener("keydown", this.boundKeydownHandler);
     }
   }
 
-  toggleFavorite() {
+  toggleFavorite(event) {
+    // Предотвращаем всплытие события и множественные вызовы
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    }
+
+    // Добавляем защиту от множественных быстрых кликов
+    if (this.isToggling) {
+      return;
+    }
+    this.isToggling = true;
+
     const currentState = this.getAttribute("is-favorite") === "true";
     const newState = !currentState;
 
     // Находим иконку избранного
-    const favoriteIcon = this.shadowRoot.querySelector(
+    const favoriteIcon = this.querySelector(
       ".property-summary-card__favorite-icon"
     );
+
+    if (!favoriteIcon) {
+      this.isToggling = false;
+      return;
+    }
 
     // Добавляем класс анимации только к кнопке
     favoriteIcon.classList.add("property-summary-card__favorite-icon--animate");
@@ -62,9 +96,10 @@ class PropertySummaryCard extends HTMLElement {
       favoriteIcon.classList.remove(
         "property-summary-card__favorite-icon--animate"
       );
+      this.isToggling = false; // Разрешаем следующий клик после анимации
     }, 300);
 
-    // Обновляем атрибут
+    // Обновляем атрибут (это НЕ будет вызывать полный re-render благодаря логике в attributeChangedCallback)
     this.setAttribute("is-favorite", newState.toString());
 
     // Создаем кастомное событие для уведомления родительского элемента
@@ -76,6 +111,48 @@ class PropertySummaryCard extends HTMLElement {
         },
         bubbles: true,
       })
+    );
+  }
+
+  // Новый метод для обновления только иконки избранного
+  updateFavoriteIcon(isFavorite) {
+    const favoriteIcon = this.querySelector(
+      ".property-summary-card__favorite-icon"
+    );
+
+    if (!favoriteIcon) return;
+
+    // SVG иконки сердечка
+    const heartIconEmpty = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-bright-pink)" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+    `;
+
+    const heartIconFilled = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--brand-bright-pink)" stroke="var(--brand-bright-pink)" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+    `;
+
+    // Обновляем иконку
+    favoriteIcon.innerHTML = isFavorite ? heartIconFilled : heartIconEmpty;
+
+    // Обновляем CSS класс
+    if (isFavorite) {
+      favoriteIcon.classList.add(
+        "property-summary-card__favorite-icon--active"
+      );
+    } else {
+      favoriteIcon.classList.remove(
+        "property-summary-card__favorite-icon--active"
+      );
+    }
+
+    // Обновляем aria-label для доступности
+    favoriteIcon.setAttribute(
+      "aria-label",
+      isFavorite ? "Удалить из избранного" : "Добавить в избранное"
     );
   }
 
@@ -108,31 +185,39 @@ class PropertySummaryCard extends HTMLElement {
       </svg>
     `;
 
-    this.shadowRoot.innerHTML = `
-    <link rel="stylesheet" href="css/propertyCard.css">
-            <style>
-                :host {
-                    display: block;
-                    font-family: var(--property-card-font-family, Roboto, sans-serif);
-                    /* Define CSS custom properties for theming, with fallbacks */
-                    --brand-dark-navy: ${this.getCSSVariableValue(
-                      "--brand-dark-navy",
-                      "#252736"
-                    )};
-                    --brand-turquoise: ${this.getCSSVariableValue(
-                      "--brand-turquoise",
-                      "#00c9dd"
-                    )};
-                    --brand-dark-navy-80: ${this.getCSSVariableValue(
-                      "--brand-dark-navy-80",
-                      "rgba(37, 39, 54, 0.8)"
-                    )};
-                    --card-padding: ${this.getCSSVariableValue(
-                      "--card-padding",
-                      "15px"
-                    )};
-                }
-            </style>
+    // Создаем CSS стили если их еще нет в документе
+    if (!document.querySelector("#property-summary-card-styles")) {
+      const styleElement = document.createElement("style");
+      styleElement.id = "property-summary-card-styles";
+      styleElement.textContent = `
+        property-summary-card {
+          display: block;
+          font-family: var(--property-card-font-family, Roboto, sans-serif);
+          /* Define CSS custom properties for theming, with fallbacks */
+          --brand-dark-navy: var(--brand-dark-navy, #252736);
+          --brand-turquoise: var(--brand-turquoise, #00c9dd);
+          --brand-dark-navy-80: var(--brand-dark-navy-80, rgba(37, 39, 54, 0.8));
+          --card-padding: var(--card-padding, 15px);
+        }
+      `;
+      document.head.appendChild(styleElement);
+    }
+
+    // Очищаем старые обработчики перед рендерингом
+    if (this.rendered) {
+      const oldFavoriteIcon = this.querySelector(
+        ".property-summary-card__favorite-icon"
+      );
+      if (oldFavoriteIcon && this.boundToggleFavorite) {
+        oldFavoriteIcon.removeEventListener("click", this.boundToggleFavorite);
+        oldFavoriteIcon.removeEventListener(
+          "keydown",
+          this.boundKeydownHandler
+        );
+      }
+    }
+
+    this.innerHTML = `
             <div class="property-summary-card">
                 <div class="property-summary-card__favorite-icon ${
                   isFavorite
@@ -185,17 +270,9 @@ class PropertySummaryCard extends HTMLElement {
             </div>
         `;
 
+    this.rendered = true;
+
     // Переустанавливаем обработчики событий после рендеринга
     this.setupEventListeners();
   }
-
-  // Helper to allow overriding CSS variables from outside the component via adoptedStyleSheets or parent styles
-  getCSSVariableValue(varName, defaultValue) {
-    // This is a simplified way; for complex scenarios, you might need more robust detection
-    // or rely on CSS variable inheritance into the shadow DOM.
-    // For now, we'll just allow direct fallback if not defined by :host styles.
-    return `var(${varName}, ${defaultValue})`;
-  }
 }
-
-customElements.define("property-summary-card", PropertySummaryCard);

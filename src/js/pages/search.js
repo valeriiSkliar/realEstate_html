@@ -1,6 +1,5 @@
 // src/js/pages/search.js - Скрипты для страницы поиска
 import { initSearchSortButton, initSidebarFilters } from "../components";
-import { initPropertyCardExample } from "../components/property-card-example";
 import { initSearchPage } from "../search";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -16,7 +15,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize sidebar filters
   initSidebarFilters();
-
-  // Initialize property card example
-  initPropertyCardExample();
 });

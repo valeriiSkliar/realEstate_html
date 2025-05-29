@@ -17,7 +17,7 @@ import {
   AppFooter,
   AppHeader,
   AppMobileMenu,
-} from "./custom_elements_for_preview";
+} from "../custom_elements_for_preview";
 
 // Register common custom elements
 customElements.define("app-header", AppHeader);
@@ -28,17 +28,13 @@ customElements.define("app-confirm-modal", AppConfirmModal);
 customElements.define("app-empty-state", AppEmptyState);
 
 // Import and initialize common components
-import { initFavoriteButtons } from "./components/favorite-button";
+import { showModal } from "../utils/uiHelpers";
 import { setCurrentYear } from "./menu";
-import { showModal } from "./utils/uiHelpers";
 
 // Initialize common functionality when DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
   // Set current year in footer
   setCurrentYear();
-
-  // Initialize favorite buttons globally
-  initFavoriteButtons();
 
   // Global listing action handler
   document.body.addEventListener("listingAction", function (event) {

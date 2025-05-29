@@ -1,0 +1,290 @@
+<!-- Property Summary Card Template -->
+<!-- Базовая карточка недвижимости -->
+<div
+  class="property-summary-card"
+  data-component="property-summary-card"
+  data-property-id="123"
+>
+  <!-- Иконка избранного -->
+  <div
+    class="property-summary-card__favorite-icon"
+    role="button"
+    aria-label="Добавить в избранное"
+    tabindex="0"
+    data-favorite="false"
+  >
+    <!-- Пустое сердечко (по умолчанию) -->
+    <svg
+      class="property-summary-card__heart-empty"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="var(--brand-bright-pink)"
+      stroke-width="2"
+    >
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+      ></path>
+    </svg>
+    <!-- Заполненное сердечко (скрыто по умолчанию) -->
+    <svg
+      class="property-summary-card__heart-filled"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="var(--brand-bright-pink)"
+      stroke="var(--brand-bright-pink)"
+      stroke-width="2"
+      style="display: none"
+    >
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+      ></path>
+    </svg>
+  </div>
+
+  <!-- Заголовок недвижимости -->
+  <h3 class="property-summary-card__title text-light-gray-30">
+    <a href="/property/123">2-комнатная квартира в центре города</a>
+  </h3>
+
+  <!-- Цена -->
+  <p class="property-summary-card__price">2 500 000 ₽</p>
+
+  <!-- Детали недвижимости -->
+  <ul class="property-summary-card__details-list">
+    <li class="property-summary-card__detail-item">
+      <span class="property-summary-card__detail-label">Площадь</span>
+      <span class="property-summary-card__detail-value">65 м²</span>
+    </li>
+    <li class="property-summary-card__detail-item">
+      <span class="property-summary-card__detail-label">Комнаты</span>
+      <span class="property-summary-card__detail-value">2</span>
+    </li>
+    <li class="property-summary-card__detail-item">
+      <span class="property-summary-card__detail-label">Этаж</span>
+      <span class="property-summary-card__detail-value">5/9</span>
+    </li>
+    <li class="property-summary-card__detail-item">
+      <span class="property-summary-card__detail-label">Район</span>
+      <span class="property-summary-card__detail-value">Центральный</span>
+    </li>
+  </ul>
+
+  <!-- Контактная информация агента (опционально) -->
+  <div class="property-summary-card__phone">
+    <span class="property-summary-card__phone-label">Агент:</span>
+    <span class="property-summary-card__phone-agent-name">Иван Петров</span>
+    <a href="tel:+79001234567" class="property-summary-card__phone-link">
+      📞 +7 (900) 123-45-67
+    </a>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- ВАРИАНТЫ СОСТОЯНИЙ ДЛЯ РАЗНЫХ СЛУЧАЕВ -->
+<!-- ========================================= -->
+
+<!-- Карточка в избранном -->
+<div
+  class="property-summary-card"
+  data-component="property-summary-card"
+  data-property-id="124"
+>
+  <div
+    class="property-summary-card__favorite-icon property-summary-card__favorite-icon--active"
+    role="button"
+    aria-label="Удалить из избранного"
+    tabindex="0"
+    data-favorite="true"
+  >
+    <!-- Пустое сердечко (скрыто) -->
+    <svg
+      class="property-summary-card__heart-empty"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="var(--brand-bright-pink)"
+      stroke-width="2"
+      style="display: none"
+    >
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+      ></path>
+    </svg>
+    <!-- Заполненное сердечко (видимо) -->
+    <svg
+      class="property-summary-card__heart-filled"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="var(--brand-bright-pink)"
+      stroke="var(--brand-bright-pink)"
+      stroke-width="2"
+    >
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+      ></path>
+    </svg>
+  </div>
+
+  <h3 class="property-summary-card__title text-light-gray-30">
+    <a href="/property/124">Дом с участком</a>
+  </h3>
+
+  <p class="property-summary-card__price">8 500 000 ₽</p>
+
+  <ul class="property-summary-card__details-list">
+    <li class="property-summary-card__detail-item">
+      <span class="property-summary-card__detail-label">Площадь дома</span>
+      <span class="property-summary-card__detail-value">150 м²</span>
+    </li>
+    <li class="property-summary-card__detail-item">
+      <span class="property-summary-card__detail-label">Участок</span>
+      <span class="property-summary-card__detail-value">6 соток</span>
+    </li>
+    <li class="property-summary-card__detail-item">
+      <span class="property-summary-card__detail-label">Комнаты</span>
+      <span class="property-summary-card__detail-value">4</span>
+    </li>
+  </ul>
+
+  <div class="property-summary-card__phone">
+    <span class="property-summary-card__phone-label">Агент:</span>
+    <span class="property-summary-card__phone-agent-name">Мария Сидорова</span>
+    <a href="tel:+79007654321" class="property-summary-card__phone-link">
+      📞 +7 (900) 765-43-21
+    </a>
+  </div>
+</div>
+
+<!-- Карточка без агента -->
+<div
+  class="property-summary-card"
+  data-component="property-summary-card"
+  data-property-id="125"
+>
+  <div
+    class="property-summary-card__favorite-icon"
+    role="button"
+    aria-label="Добавить в избранное"
+    tabindex="0"
+    data-favorite="false"
+  >
+    <svg
+      class="property-summary-card__heart-empty"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="var(--brand-bright-pink)"
+      stroke-width="2"
+    >
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+      ></path>
+    </svg>
+    <svg
+      class="property-summary-card__heart-filled"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="var(--brand-bright-pink)"
+      stroke="var(--brand-bright-pink)"
+      stroke-width="2"
+      style="display: none"
+    >
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+      ></path>
+    </svg>
+  </div>
+
+  <h3 class="property-summary-card__title text-light-gray-30">
+    <a href="/property/125">Студия в новостройке</a>
+  </h3>
+
+  <p class="property-summary-card__price">1 800 000 ₽</p>
+
+  <ul class="property-summary-card__details-list">
+    <li class="property-summary-card__detail-item">
+      <span class="property-summary-card__detail-label">Площадь</span>
+      <span class="property-summary-card__detail-value">28 м²</span>
+    </li>
+    <li class="property-summary-card__detail-item">
+      <span class="property-summary-card__detail-label">Этаж</span>
+      <span class="property-summary-card__detail-value">12/25</span>
+    </li>
+    <li class="property-summary-card__detail-item">
+      <span class="property-summary-card__detail-label">Отделка</span>
+      <span class="property-summary-card__detail-value">Чистовая</span>
+    </li>
+  </ul>
+
+  <!-- Без блока агента -->
+</div>
+
+<!-- Карточка с минимальными деталями -->
+<div
+  class="property-summary-card"
+  data-component="property-summary-card"
+  data-property-id="126"
+>
+  <div
+    class="property-summary-card__favorite-icon"
+    role="button"
+    aria-label="Добавить в избранное"
+    tabindex="0"
+    data-favorite="false"
+  >
+    <svg
+      class="property-summary-card__heart-empty"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="var(--brand-bright-pink)"
+      stroke-width="2"
+    >
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+      ></path>
+    </svg>
+    <svg
+      class="property-summary-card__heart-filled"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="var(--brand-bright-pink)"
+      stroke="var(--brand-bright-pink)"
+      stroke-width="2"
+      style="display: none"
+    >
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+      ></path>
+    </svg>
+  </div>
+
+  <h3 class="property-summary-card__title text-light-gray-30">
+    <a href="/property/126">Коммерческое помещение</a>
+  </h3>
+
+  <p class="property-summary-card__price">Цена по запросу</p>
+
+  <ul class="property-summary-card__details-list">
+    <li class="property-summary-card__detail-item">
+      <span class="property-summary-card__detail-label">Площадь</span>
+      <span class="property-summary-card__detail-value">200 м²</span>
+    </li>
+  </ul>
+
+  <div class="property-summary-card__phone">
+    <span class="property-summary-card__phone-label">Контакт:</span>
+    <a href="tel:+79001111111" class="property-summary-card__phone-link">
+      📞 +7 (900) 111-11-11
+    </a>
+  </div>
+</div>

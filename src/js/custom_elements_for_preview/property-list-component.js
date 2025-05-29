@@ -1,4 +1,4 @@
-class PropertyListComponent extends HTMLElement {
+export class PropertyListComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -28,5 +28,3 @@ class PropertyListComponent extends HTMLElement {
     `;
   }
 }
-
-customElements.define("property-list-component", PropertyListComponent);

@@ -1,9 +1,9 @@
 import Swiper from "swiper";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 
 // Import Swiper styles
 
-import { showModal, createAndShowToast } from "./utils/uiHelpers";
+import { createAndShowToast, showModal } from "../utils/uiHelpers";
 
 // Initialize Subscriptions page functionality
 export const initSubscriptionsPage = () => {

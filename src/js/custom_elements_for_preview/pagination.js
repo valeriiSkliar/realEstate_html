@@ -1,8 +1,6 @@
-// src/js/components/simple-pagination.js
-class SimplePagination extends HTMLElement {
+export class SimplePagination extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
   }
 
   static get observedAttributes() {
@@ -28,7 +26,7 @@ class SimplePagination extends HTMLElement {
       this.setAttribute("total-pages", "1");
     }
     if (!this.hasAttribute("max-page-links")) {
-      this.setAttribute("max-page-links", "5"); // Default, image shows 2
+      this.setAttribute("max-page-links", "5");
     }
     this.render();
   }
@@ -59,7 +57,7 @@ class SimplePagination extends HTMLElement {
     const totalPages = this.totalPages;
 
     if (totalPages <= 0) {
-      this.shadowRoot.innerHTML = ""; // Render nothing if no pages
+      this.innerHTML = ""; // Очищаем содержимое если нет страниц
       return;
     }
 
@@ -73,25 +71,25 @@ class SimplePagination extends HTMLElement {
 
     // First Page
     itemsHtml += `
-            <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
-                <a class="page-link" href="${this._getPageHref(
-                  1
-                )}" data-page="1" aria-label="First">
-                    <i class="bi bi-chevron-bar-left"></i>
-                </a>
-            </li>
-        `;
+      <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
+        <a class="page-link" href="${this._getPageHref(
+          1
+        )}" data-page="1" aria-label="First">
+          <i class="bi bi-chevron-bar-left"></i>
+        </a>
+      </li>
+    `;
 
     // Previous Page
     itemsHtml += `
-            <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
-                <a class="page-link" href="${this._getPageHref(
-                  currentPage - 1
-                )}" data-page="${currentPage - 1}" aria-label="Previous">
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-            </li>
-        `;
+      <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
+        <a class="page-link" href="${this._getPageHref(
+          currentPage - 1
+        )}" data-page="${currentPage - 1}" aria-label="Previous">
+          <i class="bi bi-chevron-left"></i>
+        </a>
+      </li>
+    `;
 
     // Page Numbers
     pageNumbers.forEach((page) => {
@@ -99,138 +97,70 @@ class SimplePagination extends HTMLElement {
         itemsHtml += `<li class="page-item disabled"><span class="page-link ellipsis">...</span></li>`;
       } else {
         itemsHtml += `
-                    <li class="page-item ${
-                      page === currentPage ? "active" : ""
-                    }">
-                        <a class="page-link" href="${this._getPageHref(
-                          page
-                        )}" data-page="${page}">${page}</a>
-                    </li>
-                `;
+          <li class="page-item ${page === currentPage ? "active" : ""}">
+            <a class="page-link" href="${this._getPageHref(
+              page
+            )}" data-page="${page}" ${
+          page === currentPage ? 'aria-current="page"' : ""
+        }>${page}</a>
+          </li>
+        `;
       }
     });
 
     // Next Page
     itemsHtml += `
-            <li class="page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }">
-                <a class="page-link" href="${this._getPageHref(
-                  currentPage + 1
-                )}" data-page="${currentPage + 1}" aria-label="Next">
-                    <i class="bi bi-chevron-right"></i>
-                </a>
-            </li>
-        `;
+      <li class="page-item ${currentPage === totalPages ? "disabled" : ""}">
+        <a class="page-link" href="${this._getPageHref(
+          currentPage + 1
+        )}" data-page="${currentPage + 1}" aria-label="Next">
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      </li>
+    `;
 
     // Last Page
     itemsHtml += `
-            <li class="page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }">
-                <a class="page-link" href="${this._getPageHref(
-                  totalPages
-                )}" data-page="${totalPages}" aria-label="Last">
-                    <i class="bi bi-chevron-bar-right"></i>
-                </a>
-            </li>
-        `;
+      <li class="page-item ${currentPage === totalPages ? "disabled" : ""}">
+        <a class="page-link" href="${this._getPageHref(
+          totalPages
+        )}" data-page="${totalPages}" aria-label="Last">
+          <i class="bi bi-chevron-bar-right"></i>
+        </a>
+      </li>
+    `;
 
-    this.shadowRoot.innerHTML = `
-            <style>
-                @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
-                :host {
-                    display: block;
-                    --pagination-active-text-color: var(--brand-lime-green, #D1F000); /* Yellowish for active page text */
-                    --pagination-text-color: var(--brand-dark-navy, #252736);
-                    --pagination-disabled-color: var(--brand-dark-navy-50, rgba(37, 39, 54, 0.5));
-                    --pagination-hover-bg-color: var(--brand-light-gray, #f5f6f4);
-                    --pagination-hover-text-color: var(--brand-turquoise, #00c9dd);
-                    --pagination-active-bg-color: transparent; /* No background for active, just text color change */
-                    --pagination-link-padding: 0.5rem 0.75rem;
-                    --pagination-font-family: var(--font-family-base, 'Roboto', sans-serif);
-                    --pagination-font-size: 0.875rem;
-                    --pagination-border-radius: 0.25rem; /* Optional: if you want rounded links */
-                }
-                .pagination {
-                    display: flex;
-                    padding-left: 0;
-                    list-style: none;
-                    justify-content: center; /* Center the pagination block */
-                    align-items: center;
-                    font-family: var(--pagination-font-family);
-                    font-size: var(--pagination-font-size);
-                }
-                .page-item {
-                    margin: 0 2px;
-                }
-                .page-link {
-                    position: relative;
-                    display: block;
-                    padding: var(--pagination-link-padding);
-                    color: var(--pagination-text-color);
-                    text-decoration: none;
-                    background-color: transparent;
-                    border: none; /* No borders as per image */
-                    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
-                    border-radius: var(--pagination-border-radius);
-                    line-height: 1.25; /* Ensure icons and text align well */
-                }
-                .page-link:hover {
-                    color: var(--pagination-hover-text-color);
-                    background-color: var(--pagination-hover-bg-color);
-                }
-                .page-item.active .page-link {
-                    z-index: 3;
-                    color: var(--pagination-active-text-color);
-                    background-color: var(--pagination-active-bg-color);
-                    font-weight: bold;
-                }
-                .page-item.disabled .page-link {
-                    color: var(--pagination-disabled-color);
-                    pointer-events: none;
-                    cursor: auto;
-                    background-color: transparent;
-                }
-                .page-link .bi { /* Bootstrap Icon styling */
-                    vertical-align: -0.125em; /* Adjust icon alignment */
-                    font-size: 1.1em; /* Slightly larger icons */
-                }
-                .ellipsis {
-                    padding-top: 0.5rem; /* Align ellipsis better */
-                    padding-bottom: 0.5rem;
-                }
-            </style>
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    ${itemsHtml}
-                </ul>
-            </nav>
-        `;
+    // Рендерим в общий DOM без Shadow DOM и встроенных стилей
+    this.innerHTML = `
+      <nav class="pagination-wrapper" aria-label="Page navigation" data-component="pagination">
+        <ul class="pagination">
+          ${itemsHtml}
+        </ul>
+      </nav>
+    `;
 
-    this.shadowRoot
-      .querySelectorAll(".page-link[data-page]")
-      .forEach((link) => {
-        link.addEventListener("click", (event) => {
-          if (link.closest(".page-item.disabled")) {
-            event.preventDefault();
-            return;
-          }
-          const page = parseInt(link.getAttribute("data-page"), 10);
-          if (page && page !== this.currentPage) {
-            this.dispatchEvent(
-              new CustomEvent("page-change", {
-                detail: { page: page },
-                bubbles: true,
-                composed: true,
-              })
-            );
-          }
-          if (this.pageHrefTemplate === "#") {
-            event.preventDefault(); // Prevent hash change if only using events
-          }
-        });
+    // Привязываем события к ссылкам
+    this.querySelectorAll(".page-link[data-page]").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        if (link.closest(".page-item.disabled")) {
+          event.preventDefault();
+          return;
+        }
+        const page = parseInt(link.getAttribute("data-page"), 10);
+        if (page && page !== this.currentPage) {
+          this.dispatchEvent(
+            new CustomEvent("page-change", {
+              detail: { page: page },
+              bubbles: true,
+              composed: true,
+            })
+          );
+        }
+        if (this.pageHrefTemplate === "#") {
+          event.preventDefault(); // Предотвращаем переход по хешу если используем только события
+        }
       });
+    });
   }
 
   _generatePageNumbersArray(currentPage, totalPages, maxPageLinks) {
@@ -258,12 +188,10 @@ class SimplePagination extends HTMLElement {
           )
         );
         pageNumbers.push("...");
-        // pageNumbers.push(totalPages); // Removed to match image style closer (no last page number after ellipsis if far)
       } else if (hasLeftEllipsis && !hasRightEllipsis) {
         // Near the end
         startPage = totalPages - (maxPageLinks - 2); // -2 for first page and ellipsis
         endPage = totalPages;
-        // pageNumbers.push(1); // Removed to match image style closer
         pageNumbers.push("...");
         pageNumbers.push(
           ...Array.from(
@@ -275,7 +203,6 @@ class SimplePagination extends HTMLElement {
         // In the middle
         startPage = currentPage - Math.floor((maxPageLinks - 3) / 2); // -3 for 1, ..., ... N
         endPage = currentPage + Math.ceil((maxPageLinks - 3) / 2);
-        // pageNumbers.push(1); // Removed
         pageNumbers.push("...");
         pageNumbers.push(
           ...Array.from(
@@ -284,13 +211,13 @@ class SimplePagination extends HTMLElement {
           )
         );
         pageNumbers.push("...");
-        // pageNumbers.push(totalPages); // Removed
       } else {
         // Very few pages, should be caught by the first if, but as a fallback
         for (let i = 1; i <= totalPages; i++) {
           pageNumbers.push(i);
         }
       }
+
       // To better match the image (e.g., 1 2), if maxPageLinks is small
       if (maxPageLinks <= 2) {
         pageNumbers.length = 0; // Clear previous
@@ -308,6 +235,7 @@ class SimplePagination extends HTMLElement {
         }
       }
     }
+
     // Ensure unique numbers and filter out invalid ones if logic gets complex
     return [
       ...new Set(
@@ -319,5 +247,3 @@ class SimplePagination extends HTMLElement {
     ];
   }
 }
-
-customElements.define("simple-pagination", SimplePagination);

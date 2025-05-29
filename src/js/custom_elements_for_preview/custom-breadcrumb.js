@@ -1,4 +1,4 @@
-class CustomBreadcrumb extends HTMLElement {
+export class CustomBreadcrumb extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -55,7 +55,6 @@ class CustomBreadcrumb extends HTMLElement {
       .filter(Boolean);
 
     this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" href="/css/breadcrumbs.css">
             <style>
               /* Minimal inline styles, if any are truly dynamic and component-specific. */
               /* Example: if separator was still fully dynamic via attribute: */
@@ -117,7 +116,7 @@ class CustomBreadcrumb extends HTMLElement {
   }
 }
 
-class BreadcrumbItem extends HTMLElement {
+export class BreadcrumbItem extends HTMLElement {
   constructor() {
     super();
   }
@@ -142,6 +141,3 @@ class BreadcrumbItem extends HTMLElement {
     }
   }
 }
-
-customElements.define("custom-breadcrumb", CustomBreadcrumb);
-customElements.define("breadcrumb-item", BreadcrumbItem);
