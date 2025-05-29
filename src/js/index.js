@@ -112,4 +112,5 @@ import "./components/index";
 // Импортируем страничные скрипты
 import "./pages/profile";
 import "./pages/property-page";
+import "./pages/search";
 import "./pages/support";
