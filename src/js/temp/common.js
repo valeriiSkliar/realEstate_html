@@ -7,6 +7,9 @@ import "select2";
 window.$ = window.jQuery = $;
 
 // Import the global styles
+import "../scss/components/_breadcrumbs.scss";
+import "../scss/components/_property-card-list.scss";
+import "../scss/components/_property-card.scss";
 import "../scss/main.scss";
 
 // Import common custom elements
