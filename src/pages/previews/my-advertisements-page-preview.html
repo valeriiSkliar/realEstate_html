@@ -26,12 +26,24 @@
       <div id="app">
         <div class="my-listings-page">
           <div class="container">
-            <custom-breadcrumb theme="light" class="mb-3">
-              <breadcrumb-item href="/">Главная</breadcrumb-item>
-              <breadcrumb-item href="/my-advertisements.html" active
-                >Мои объявления</breadcrumb-item
-              >
-            </custom-breadcrumb>
+            <!-- breadcrumbs -->
+            <nav
+              class="breadcrumb"
+              aria-label="Breadcrumb navigation"
+              role="navigation"
+            >
+              <ol class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/">Главная</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/my-advertisements.html"
+                    >Мои объявления</a
+                  >
+                </li>
+              </ol>
+            </nav>
+            <!-- breadcrumbs -->
 
             <div
               class="listings-controls d-flex flex-column justify-content-end align-items-end mb-3"
