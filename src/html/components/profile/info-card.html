@@ -1,0 +1,18 @@
+<!-- Info Card -->
+<div class="info-card">
+  <div class="info-card__header js-card-toggle">
+    <h3 class="info-card__title text-brand-dark-navy">{{ card.title }}</h3>
+    <i class="bi bi-chevron-down info-card__icon text-brand-turquoise"></i>
+  </div>
+  <div class="info-card__content">
+    <p class="info-card__text text-brand-dark-navy">{{ card.content }}</p>
+    {% if card.actionUrl %}
+    <a
+      href="{{ card.actionUrl }}"
+      class="info-card__action text-brand-turquoise"
+    >
+      {{ card.actionText }}
+    </a>
+    {% endif %}
+  </div>
+</div>
