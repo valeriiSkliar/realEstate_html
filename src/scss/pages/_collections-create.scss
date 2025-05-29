@@ -137,6 +137,11 @@
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+
+    .btn-brand-turquoise {
+      background-color: $turquoise;
+      color: $light-gray;
+    }
     
     @media (max-width: 576px) {
       flex-direction: column;
@@ -366,5 +371,17 @@
         border-radius: 0 4px 4px 0;
       }
     }
+  }
+}
+
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  .btn-brand-turquoise {
+    background-color: $turquoise;
+    color: $light-gray;
   }
 }
