@@ -45,36 +45,31 @@
             <div class="step-content active" id="step1">
               <div class="card">
                 <div class="card-body">
-                  <h2 class="card-title">Информация о Коллекции</h2>
                   <form id="collectionId">
-                    <div class="mb-3">
-                      <label for="collectionName" class="form-label"
-                        >Название Коллекции*</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="collectionName"
-                        required
-                      />
-                      <div class="form-text">
-                        Дайте коллекции название, которое вы узнаете позже
+                    <section class="forms-section">
+                      <h5 class="section-title">Информация о Коллекции</h2>
+                      <div class="row g-3">
+                        <div class="col-12">
+                          <div class="form-field floating-label">
+                            <label for="collectionName" class="form-label required">Название Коллекции</label>
+                            <input type="text" class="form-input form-input-sm" id="collectionName" required>
+                          </div>
+                        </div>  
+                          <div class="col-12">
+                            <div class="form-field">
+                              <label for="collectionNotes" class="form-label">
+                                Примечания
+                              </label>
+                              <textarea class="form-input form-input-sm" id="collectionNotes" name="collectionNotes" rows="3"></textarea>
+                            </div>
+                          </div>
+                        
                       </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="collectionNotes" class="form-label"
-                        >Примечания</label
-                      >
-                      <textarea
-                        class="form-control"
-                        id="collectionNotes"
-                        rows="3"
-                      ></textarea>
-                    </div>
+                    </section>
                   </form>
                 </div>
               </div>
+              
             </div>
 
             <!-- Properties Section -->
