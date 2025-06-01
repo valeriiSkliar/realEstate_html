@@ -9,6 +9,9 @@
 // Fonts
 @import "fonts";
 
+// Bootstrap Icons
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
 // Swiper styles
 @import "swiper/css";
 @import "swiper/css/navigation";
@@ -24,11 +27,14 @@
 @import "components/footer";
 @import "components/toast";
 @import "components/forms";
+@import "components/_property-card-list";
+
 @import "components/property-card";
+@import "components/property-detail/property-detail-gallery";
 @import "components/brand-button";
 @import "components/sidebar/sidebar-filters";
 @import "components/breadcrumbs";
-@import "components/property-detail/property-detail-gallery";
+@import "components/pagination";
 // @import "components/spiner";
 
 // Pages
@@ -41,8 +47,9 @@
 @import "pages/collections-create";
 @import "pages/add-listing";
 @import "pages/search";
-// @import "pages/property-detail-page";
-@import "pages/forms-examples";
+@import "pages/home";
+@import "pages/property-detail-page";
+// @import "pages/forms-examples";
 
 // // Global styles
 // body {

@@ -1,4 +1,4 @@
-class MyPropertyCard extends HTMLElement {
+export class MyPropertyCard extends HTMLElement {
   constructor() {
     super(); // No Shadow DOM attachment
   }
@@ -139,7 +139,6 @@ class MyPropertyCard extends HTMLElement {
     // You might need to adjust your CSS to be more specific
     // or embed styles directly if you need encapsulation.
     this.innerHTML = `
-      <link rel="stylesheet" href="css/propertyCard.css"> 
       <div class="property-summary-card">
           <h3 class="property-summary-card__title text-light-gray-30">
               <a href="${titleHref}">${titleText}</a>
@@ -260,5 +259,3 @@ class MyPropertyCard extends HTMLElement {
     );
   }
 }
-
-customElements.define("my-property-card", MyPropertyCard);

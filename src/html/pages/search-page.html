@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Недвижимость</title>
+  </head>
+  <body>
+    <app-header></app-header>
+
+    <main class="page-content">
+      <div id="app">
+        <div class="search-page">
+          <div class="featured-section">
+            <!-- Breadcrumb -->
+            <nav
+              class="breadcrumb"
+              aria-label="Breadcrumb navigation"
+              role="navigation"
+            >
+              <ol class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/">Главная</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/catalog"
+                    >Поиск недвижимости</a
+                  >
+                </li>
+                <li class="breadcrumb-item active-page">
+                  <span class="breadcrumb-text">Квартиры</span>
+                </li>
+              </ol>
+            </nav>
+            <!-- End Breadcrumb -->
+            <div class="container mt-3 mb-3">
+              <div class="search-controls">
+                <div
+                  class="d-flex align-items-center justify-content-between gap-1"
+                >
+                  <form class="search-bar-brand w-100 mb-0" role="search">
+                    <input
+                      type="text"
+                      class="search-input"
+                      placeholder="Поиск ..."
+                      aria-label="Поиск"
+                    />
+                    <i class="bi bi-search"></i>
+                  </form>
+                  <div class="controls-group">
+                    <div id="search-sort-dropdown" class="dropdown">
+                      <button
+                        class="btn-sort"
+                        type="button"
+                        id="sortDropdownButton"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        title="Сортировать"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="sort-icon"
+                        >
+                          <path d="m3 16 4 4 4-4" />
+                          <path d="M7 20V4" />
+                          <path d="m21 8-4-4-4 4" />
+                          <path d="M17 4v16" />
+                        </svg>
+                      </button>
+                      <ul
+                        class="dropdown-menu dropdown-menu-end"
+                        aria-labelledby="sortDropdownButton"
+                      >
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            data-sort="price"
+                            data-direction="asc"
+                            >Цена (по возрастанию)</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            data-sort="price"
+                            data-direction="desc"
+                            >Цена (по убыванию)</a
+                          >
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            data-sort="date"
+                            data-direction="asc"
+                            >Дата (сначала старые)</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item active"
+                            href="#"
+                            data-sort="date"
+                            data-direction="desc"
+                            >Дата (сначала новые)</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+
+                    <button
+                      class="btn-filter"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#mobileFilterSidebar"
+                      aria-controls="mobileFilterSidebar"
+                      title="Фильтры"
+                    >
+                      <i class="bi bi-funnel-fill"></i>
+                    </button>
+                  </div>
+                </div>
+                <h6 class="search-results-title py-2">
+                  По вашему запросу найдено 10 объектов
+                </h6>
+              </div>
+            </div>
+            <div class="container">
+              <div class="my-listings-list">
+                <div class="property-card-list">
+                  <property-summary-card
+                    title-text="1-к. квартира, 65 м2 | Зиповская"
+                    title-href="/property-view-standalone.html"
+                    price-text="₽ 14 000 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"ЖК «Фонтаны»"},
+                          {"label":"Улица", "value":"Ставропольская ул."},
+                          {"label":"Состояние", "value":"Ремонт"}
+                      ]'
+                    is-favorite="false"
+                    phone-number="+7 (918) 254-25-36"
+                    agent-name="Иван"
+                  ></property-summary-card>
+
+                  <property-summary-card
+                    title-text="2-к. студия, 80 м2 | Центр"
+                    title-href="/property-view-standalone.html"
+                    price-text="₽ 18 500 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"ЖК «Престиж»"},
+                          {"label":"Улица", "value":"Красная ул."},
+                          {"label":"Состояние", "value":"Дизайнерский ремонт"}
+                      ]'
+                    is-favorite="true"
+                    phone-number="+7 (918) 254-25-36"
+                    agent-name="Анна"
+                  ></property-summary-card>
+
+                  <property-summary-card
+                    title-text="3-к. квартира, 95 м2 | ФМР"
+                    title-href="/property-view-standalone.html"
+                    price-text="₽ 21 500 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"ЖК «Империал»"},
+                          {"label":"Улица", "value":"Гагарина ул."},
+                          {"label":"Состояние", "value":"Предчистовая"}
+                      ]'
+                    is-favorite="false"
+                    phone-number="+7 (918) 254-25-36"
+                    agent-name="Алексей"
+                  ></property-summary-card>
+
+                  <property-summary-card
+                    title-text="Студия, 28 м2 | ГМР"
+                    title-href="/property-view-standalone.html"
+                    price-text="₽ 4 900 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"ЖК «Стрижи»"},
+                          {"label":"Улица", "value":"Автолюбителей ул."},
+                          {"label":"Состояние", "value":"С ремонтом"}
+                      ]'
+                    is-favorite="true"
+                    phone-number="+7 (918) 254-25-36"
+                    agent-name="Алексей"
+                  ></property-summary-card>
+
+                  <property-summary-card
+                    title-text="Дом, 180 м2 | Немецкая деревня"
+                    title-href="/property-view-standalone.html"
+                    price-text="₽ 35 000 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"КП «Европа»"},
+                          {"label":"Улица", "value":"Рейнская ул."},
+                          {"label":"Состояние", "value":"Под ключ"}
+                      ]'
+                    is-favorite="false"
+                    phone-number="+7 (861) 123-45-67"
+                    agent-name="Роман"
+                  ></property-summary-card>
+
+                  <property-summary-card
+                    title-text="2-к. квартира, 75 м2 | ЮМР"
+                    title-href="/property-view-standalone.html"
+                    price-text="₽ 16 800 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"ЖК «Тургенев»"},
+                          {"label":"Улица", "value":"Думенко ул."},
+                          {"label":"Состояние", "value":"Евроремонт"}
+                      ]'
+                    is-favorite="true"
+                    phone-number="+7 (861) 123-45-67"
+                  ></property-summary-card>
+
+                  <property-summary-card
+                    title-text="Коммерция, 120 м2 | Центр"
+                    title-href="/property-view-standalone.html"
+                    price-text="₽ 45 000 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"БЦ «Кристалл»"},
+                          {"label":"Улица", "value":"Северная ул."},
+                          {"label":"Состояние", "value":"Готовый бизнес"}
+                      ]'
+                    is-favorite="false"
+                    phone-number="+7 (861) 987-65-43"
+                  ></property-summary-card>
+
+                  <property-summary-card
+                    title-text="4-к. квартира, 150 м2 | ЗИП"
+                    title-href="/property-view-standalone.html"
+                    price-text="₽ 29 900 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"ЖК «Московский»"},
+                          {"label":"Улица", "value":"Московская ул."},
+                          {"label":"Состояние", "value":"Дизайнерский ремонт"}
+                      ]'
+                    is-favorite="true"
+                    phone-number="+7 (861) 987-65-43"
+                  ></property-summary-card>
+
+                  <property-summary-card
+                    title-text="Участок, 6 соток | Знаменский"
+                    title-href="/property-view-standalone.html"
+                    price-text="₽ 3 500 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"КП «Родные просторы»"},
+                          {"label":"Улица", "value":"Светлая ул."},
+                          {"label":"Состояние", "value":"ИЖС"}
+                      ]'
+                    is-favorite="false"
+                    phone-number="+7 (988) 555-12-34"
+                  ></property-summary-card>
+
+                  <property-summary-card
+                    title-text="1-к. квартира, 41 м2 | КМР"
+                    title-href="/property-view-standalone.html"
+                    price-text="₽ 8 900 000"
+                    details-json='[
+                          {"label":"Название комплекса", "value":"ЖК «Почтовый»"},
+                          {"label":"Улица", "value":"Сормовская ул."},
+                          {"label":"Состояние", "value":"Косметический ремонт"}
+                      ]'
+                    is-favorite="false"
+                    phone-number="+7 (988) 555-12-34"
+                  ></property-summary-card>
+                </div>
+                <simple-pagination
+                  current-page="1"
+                  total-pages="10"
+                  max-page-links="2"
+                  page-href-template="/search-results?p={page_num}"
+                >
+                </simple-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <app-footer></app-footer>
+
+    <div
+      class="offcanvas offcanvas-start"
+      tabindex="-1"
+      id="mobileFilterSidebar"
+      aria-labelledby="mobileFilterSidebarLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="mobileFilterSidebarLabel">Фильтры</h5>
+        <button
+          type="button"
+          class="btn-clear-filters"
+          id="resetForm"
+          aria-label="Reset"
+        >
+          <i class="bi bi-arrow-counterclockwise me-1"></i>Очистить
+        </button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <form class="sidebar-filter-form" id="sidebarFilterForm">
+          <div class="form-group">
+            <label class="form-label">Тип сделки</label>
+            <div class="tab-group">
+              <div class="tab-item">
+                <input
+                  type="radio"
+                  name="deal_type"
+                  value="sell"
+                  id="deal-type-sell"
+                  class="tab-input"
+                  checked
+                />
+                <label for="deal-type-sell" class="tab-label">Продажа</label>
+              </div>
+              <div class="tab-item">
+                <input
+                  type="radio"
+                  name="deal_type"
+                  value="rent"
+                  id="deal-type-rent"
+                  class="tab-input"
+                />
+                <label for="deal-type-rent" class="tab-label">Аренда</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="form-group">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="new_for_today"
+                value="true"
+                id="new-for-today"
+              />
+              <label class="form-check-label" for="new-for-today">
+                Новое за сегодня
+              </label>
+            </div>
+          </div> -->
+
+          <div class="form-group">
+            <label for="property_type_select" class="form-label"
+              >Тип недвижимости</label
+            >
+            <select
+              name="property_type"
+              id="property_type_select"
+              class="form-select"
+            >
+              <option value="apartment">Квартиру</option>
+              <option value="house">Дом</option>
+              <option value="commercial">Коммерция</option>
+              <option value="land">Участок</option>
+              <option value="other">Другое</option>
+            </select>
+          </div>
+
+          <div
+            class="form-group p-2 border-1 rounded-2 border-dark-subtle border"
+            id="property-rooms"
+          >
+            <label class="form-label">Тип</label>
+            <div class="form-group d-flex flex-wrap gap-2">
+              <div class="form-check flex-grow-1 w-100">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="roomsType[]"
+                  value="studio"
+                  id="rooms-studio"
+                />
+                <label class="form-check-label" for="rooms-studio">
+                  Студия
+                </label>
+              </div>
+              <div class="w-100">
+                <div
+                  class="rooms-number-option"
+                  data-option-type="rooms-number"
+                >
+                  <label class="form-label">Количество комнат</label>
+                  <select
+                    class="form-select select2-rooms-number"
+                    id="rooms-number-select"
+                    name="rooms-number[]"
+                    data-placeholder="Количество комнат"
+                    multiple="multiple"
+                  >
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-title">Цена</div>
+            <div class="price-range">
+              <div class="price-input">
+                <input
+                  type="number"
+                  name="price_min"
+                  min="0"
+                  class="form-control"
+                  placeholder="от 35 000"
+                />
+                <span class="currency-symbol">₽</span>
+              </div>
+              <div class="price-input">
+                <input
+                  type="number"
+                  name="price_max"
+                  min="0"
+                  class="form-control"
+                  placeholder="до 300 000"
+                />
+                <span class="currency-symbol">₽</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-title">Общая площадь</div>
+            <div class="area-range">
+              <div class="area-input">
+                <input
+                  type="number"
+                  name="area_min"
+                  min="0"
+                  class="form-control"
+                  placeholder="от"
+                />
+                <span class="area-symbol">м²</span>
+              </div>
+              <div class="area-input">
+                <input
+                  type="number"
+                  name="area_max"
+                  min="0"
+                  class="form-control"
+                  placeholder="до"
+                />
+                <span class="area-symbol">м²</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-title">Расположение</div>
+            <div class="location-option" data-option-type="district">
+              <i class="bi bi-geo-alt-fill location-icon"></i>
+              <select
+                class="form-select select2-districts"
+                id="district-select"
+                name="districts[]"
+                data-placeholder="Район"
+                multiple="multiple"
+              >
+                <option value="south">Южный</option>
+                <option value="north">Северный</option>
+                <option value="central">Центральный</option>
+                <option value="west">Западный</option>
+                <option value="east">Восточный</option>
+              </select>
+            </div>
+            <div class="location-option" data-option-type="complex">
+              <i class="bi bi-buildings-fill location-icon"></i>
+              <select
+                class="form-select select2-complexes"
+                id="complex-select"
+                name="complexes[]"
+                data-placeholder="Жилой комплекс"
+                multiple="multiple"
+              >
+                <option value="AL">Солнечный город</option>
+                <option value="WY">Зеленый квартал</option>
+                <option value="NY">Панорама</option>
+                <option value="CA">Центральный парк</option>
+                <option value="TX">Лесной</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="search-button-container">
+            <button
+              type="submit"
+              class="btn btn-brand-lime-green text-brand-dark-navy w-100 py-2"
+            >
+              Поиск
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+  </body>
+</html>

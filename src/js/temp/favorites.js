@@ -1,8 +1,7 @@
-import { showModal, createAndShowToast, hideModal } from "./utils/uiHelpers";
-import { addToFavorites } from "./components/favorite-button";
+import { createAndShowToast, hideModal, showModal } from "../utils/uiHelpers";
 import {
-  removeFromFavorites,
   getFavorites,
+  removeFromFavorites,
 } from "./components/favorites-manager";
 
 /**

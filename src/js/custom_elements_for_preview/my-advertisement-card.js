@@ -9,7 +9,7 @@ const brandColors = {
   darkNavy80: "var(--brand-dark-navy-80)",
 };
 
-class MyAdvertisementCard extends HTMLElement {
+export class MyAdvertisementCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -392,7 +392,3 @@ class MyAdvertisementCard extends HTMLElement {
     });
   }
 }
-customElements.define("my-advertisement-card", MyAdvertisementCard);
-
-// Add to global scope if not using modules, or ensure it's imported in the main JS file
-// window.MyAdvertisementCard = MyAdvertisementCard;

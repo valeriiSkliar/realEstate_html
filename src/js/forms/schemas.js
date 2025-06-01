@@ -1,3 +1,5 @@
+import { validators } from "./validators";
+
 const schemas = {
   registration: {
     firstName: [
@@ -76,3 +78,5 @@ const schemas = {
     ],
   },
 };
+
+export { schemas };

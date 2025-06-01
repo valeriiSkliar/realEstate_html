@@ -1,0 +1,263 @@
+<!-- Pagination Component Template -->
+<!-- Базовая пагинация -->
+<nav
+  class="pagination-wrapper"
+  aria-label="Page navigation"
+  data-component="pagination"
+>
+  <ul class="pagination">
+    <!-- Первая страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=1" aria-label="First">
+        <i class="bi bi-chevron-bar-left"></i>
+      </a>
+    </li>
+
+    <!-- Предыдущая страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=2" aria-label="Previous">
+        <i class="bi bi-chevron-left"></i>
+      </a>
+    </li>
+
+    <!-- Номера страниц -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=1">1</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="/search?page=2">2</a>
+    </li>
+    <li class="page-item active">
+      <a class="page-link" href="/search?page=3" aria-current="page">3</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="/search?page=4">4</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="/search?page=5">5</a>
+    </li>
+
+    <!-- Следующая страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=4" aria-label="Next">
+        <i class="bi bi-chevron-right"></i>
+      </a>
+    </li>
+
+    <!-- Последняя страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=10" aria-label="Last">
+        <i class="bi bi-chevron-bar-right"></i>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- ========================================= -->
+<!-- ВАРИАНТЫ СОСТОЯНИЙ ДЛЯ РАЗНЫХ СЛУЧАЕВ -->
+<!-- ========================================= -->
+
+<!-- Пагинация на первой странице -->
+<nav
+  class="pagination-wrapper"
+  aria-label="Page navigation"
+  data-component="pagination"
+>
+  <ul class="pagination">
+    <!-- Первая страница (отключена) -->
+    <li class="page-item disabled">
+      <span class="page-link" aria-label="First">
+        <i class="bi bi-chevron-bar-left"></i>
+      </span>
+    </li>
+
+    <!-- Предыдущая страница (отключена) -->
+    <li class="page-item disabled">
+      <span class="page-link" aria-label="Previous">
+        <i class="bi bi-chevron-left"></i>
+      </span>
+    </li>
+
+    <!-- Номера страниц -->
+    <li class="page-item active">
+      <a class="page-link" href="/search?page=1" aria-current="page">1</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="/search?page=2">2</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="/search?page=3">3</a>
+    </li>
+
+    <!-- Следующая страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=2" aria-label="Next">
+        <i class="bi bi-chevron-right"></i>
+      </a>
+    </li>
+
+    <!-- Последняя страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=10" aria-label="Last">
+        <i class="bi bi-chevron-bar-right"></i>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- Пагинация на последней странице -->
+<nav
+  class="pagination-wrapper"
+  aria-label="Page navigation"
+  data-component="pagination"
+>
+  <ul class="pagination">
+    <!-- Первая страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=1" aria-label="First">
+        <i class="bi bi-chevron-bar-left"></i>
+      </a>
+    </li>
+
+    <!-- Предыдущая страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=9" aria-label="Previous">
+        <i class="bi bi-chevron-left"></i>
+      </a>
+    </li>
+
+    <!-- Номера страниц -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=8">8</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="/search?page=9">9</a>
+    </li>
+    <li class="page-item active">
+      <a class="page-link" href="/search?page=10" aria-current="page">10</a>
+    </li>
+
+    <!-- Следующая страница (отключена) -->
+    <li class="page-item disabled">
+      <span class="page-link" aria-label="Next">
+        <i class="bi bi-chevron-right"></i>
+      </span>
+    </li>
+
+    <!-- Последняя страница (отключена) -->
+    <li class="page-item disabled">
+      <span class="page-link" aria-label="Last">
+        <i class="bi bi-chevron-bar-right"></i>
+      </span>
+    </li>
+  </ul>
+</nav>
+
+<!-- Пагинация с многоточием -->
+<nav
+  class="pagination-wrapper"
+  aria-label="Page navigation"
+  data-component="pagination"
+>
+  <ul class="pagination">
+    <!-- Первая страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=1" aria-label="First">
+        <i class="bi bi-chevron-bar-left"></i>
+      </a>
+    </li>
+
+    <!-- Предыдущая страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=4" aria-label="Previous">
+        <i class="bi bi-chevron-left"></i>
+      </a>
+    </li>
+
+    <!-- Номера страниц с многоточием -->
+    <li class="page-item disabled">
+      <span class="page-link ellipsis">...</span>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="/search?page=4">4</a>
+    </li>
+    <li class="page-item active">
+      <a class="page-link" href="/search?page=5" aria-current="page">5</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="/search?page=6">6</a>
+    </li>
+    <li class="page-item disabled">
+      <span class="page-link ellipsis">...</span>
+    </li>
+
+    <!-- Следующая страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=6" aria-label="Next">
+        <i class="bi bi-chevron-right"></i>
+      </a>
+    </li>
+
+    <!-- Последняя страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=20" aria-label="Last">
+        <i class="bi bi-chevron-bar-right"></i>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- Пагинация с одной страницей (скрыта) -->
+<nav
+  class="pagination-wrapper"
+  aria-label="Page navigation"
+  data-component="pagination"
+  style="display: none"
+>
+  <!-- Пагинация не отображается если всего 1 страница -->
+</nav>
+
+<!-- Пагинация только с 2 страницами -->
+<nav
+  class="pagination-wrapper"
+  aria-label="Page navigation"
+  data-component="pagination"
+>
+  <ul class="pagination">
+    <!-- Первая страница (отключена) -->
+    <li class="page-item disabled">
+      <span class="page-link" aria-label="First">
+        <i class="bi bi-chevron-bar-left"></i>
+      </span>
+    </li>
+
+    <!-- Предыдущая страница (отключена) -->
+    <li class="page-item disabled">
+      <span class="page-link" aria-label="Previous">
+        <i class="bi bi-chevron-left"></i>
+      </span>
+    </li>
+
+    <!-- Номера страниц -->
+    <li class="page-item active">
+      <a class="page-link" href="/search?page=1" aria-current="page">1</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="/search?page=2">2</a>
+    </li>
+
+    <!-- Следующая страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=2" aria-label="Next">
+        <i class="bi bi-chevron-right"></i>
+      </a>
+    </li>
+
+    <!-- Последняя страница -->
+    <li class="page-item">
+      <a class="page-link" href="/search?page=2" aria-label="Last">
+        <i class="bi bi-chevron-bar-right"></i>
+      </a>
+    </li>
+  </ul>
+</nav>

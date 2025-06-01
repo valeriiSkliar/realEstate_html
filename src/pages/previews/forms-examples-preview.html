@@ -33,229 +33,12 @@
           <div class="container">
             <h1 class="forms-examples-title">Примеры Форм</h1>
 
-            <!-- Базовые поля -->
-            <section class="forms-section">
-              <h2 class="section-title">Базовые поля</h2>
-
-              <div class="form-field">
-                <label for="basicText" class="form-label">Текстовое поле</label>
-                <input
-                  type="text"
-                  class="form-input"
-                  id="basicText"
-                  placeholder="Введите текст"
-                />
-              </div>
-
-              <div class="form-field">
-                <label for="basicEmail" class="form-label">Email</label>
-                <input
-                  type="email"
-                  class="form-input"
-                  id="basicEmail"
-                  placeholder="example@domain.com"
-                />
-              </div>
-
-              <div class="form-field">
-                <label for="basicPassword" class="form-label">Пароль</label>
-                <input
-                  type="password"
-                  class="form-input"
-                  id="basicPassword"
-                  placeholder="Введите пароль"
-                />
-              </div>
-
-              <div class="form-field">
-                <label for="basicNumber" class="form-label">Число</label>
-                <input
-                  type="number"
-                  class="form-input"
-                  id="basicNumber"
-                  placeholder="Введите число"
-                />
-              </div>
-
-              <div class="form-field">
-                <label for="basicTel" class="form-label">Телефон</label>
-                <input
-                  type="tel"
-                  class="form-input"
-                  id="basicTel"
-                  placeholder="+7 (999) 123-45-67"
-                />
-              </div>
-            </section>
-
-            <!-- Обязательные поля -->
-            <section class="forms-section">
-              <h2 class="section-title">Обязательные поля</h2>
-
-              <div class="form-field">
-                <label for="requiredName" class="form-label required"
-                  >Имя</label
-                >
-                <input
-                  type="text"
-                  class="form-input"
-                  id="requiredName"
-                  placeholder="Ваше имя"
-                  required
-                />
-              </div>
-
-              <div class="form-field">
-                <label for="requiredEmail" class="form-label required"
-                  >Email</label
-                >
-                <input
-                  type="email"
-                  class="form-input"
-                  id="requiredEmail"
-                  placeholder="Ваш email"
-                  required
-                />
-              </div>
-            </section>
-
-            <!-- Состояния валидации -->
-            <section class="forms-section">
-              <h2 class="section-title">Состояния валидации</h2>
-
-              <div class="form-field">
-                <label for="validField" class="form-label"
-                  >Корректное поле</label
-                >
-                <input
-                  type="text"
-                  class="form-input is-valid"
-                  id="validField"
-                  value="Корректное значение"
-                />
-                <div class="form-feedback is-valid">
-                  Поле заполнено корректно
-                </div>
-              </div>
-
-              <div class="form-field">
-                <label for="invalidField" class="form-label"
-                  >Некорректное поле</label
-                >
-                <input
-                  type="email"
-                  class="form-input is-invalid"
-                  id="invalidField"
-                  value="неправильный-email"
-                />
-                <div class="form-feedback is-invalid">
-                  Пожалуйста, введите корректный email
-                </div>
-              </div>
-            </section>
-
-            <!-- Размеры полей -->
-            <section class="forms-section">
-              <h2 class="section-title">Размеры полей</h2>
-
-              <div class="form-field">
-                <label for="smallField" class="form-label"
-                  >Маленькое поле</label
-                >
-                <input
-                  type="text"
-                  class="form-input form-input-sm"
-                  id="smallField"
-                  placeholder="Маленькое поле"
-                />
-              </div>
-
-              <div class="form-field">
-                <label for="normalField" class="form-label">Обычное поле</label>
-                <input
-                  type="text"
-                  class="form-input"
-                  id="normalField"
-                  placeholder="Обычное поле"
-                />
-              </div>
-
-              <div class="form-field">
-                <label for="largeField" class="form-label">Большое поле</label>
-                <input
-                  type="text"
-                  class="form-input form-input-lg"
-                  id="largeField"
-                  placeholder="Большое поле"
-                />
-              </div>
-            </section>
-
-            <!-- Поля с иконками -->
-            <section class="forms-section">
-              <h2 class="section-title">Поля с иконками</h2>
-
-              <div class="form-field">
-                <label for="iconLeftField" class="form-label"> слева</label>
-                <div class="input-group has-icon-left">
-                  <i class="bi bi-person input-icon"></i>
-                  <input
-                    type="text"
-                    class="form-input"
-                    id="iconLeftField"
-                    placeholder="Имя пользователя"
-                  />
-                </div>
-              </div>
-
-              <div class="form-field">
-                <label for="iconRightField" class="form-label"> справа</label>
-                <div class="input-group has-icon-right">
-                  <input
-                    type="text"
-                    class="form-input"
-                    id="iconRightField"
-                    placeholder="Поиск"
-                  />
-                  <i class="bi bi-search input-icon"></i>
-                </div>
-              </div>
-
-              <div class="form-field">
-                <label for="iconEmailField" class="form-label">Email</label>
-                <div class="input-group has-icon-left">
-                  <i class="bi bi-envelope input-icon"></i>
-                  <input
-                    type="email"
-                    class="form-input"
-                    id="iconEmailField"
-                    placeholder="email@example.com"
-                  />
-                </div>
-              </div>
-
-              <div class="form-field">
-                <label for="iconPhoneField" class="form-label">Телефон</label>
-                <div class="input-group has-icon-left">
-                  <i class="bi bi-telephone input-icon"></i>
-                  <input
-                    type="tel"
-                    class="form-input"
-                    id="iconPhoneField"
-                    placeholder="+7 (999) 123-45-67"
-                  />
-                </div>
-              </div>
-            </section>
-
             <!-- Плавающие лейблы -->
             <section class="forms-section">
-              <h2 class="section-title">Плавающие лейблы</h2>
-
               <div class="form-field floating-label">
                 <input
                   type="text"
-                  class="form-input"
+                  class="form-input form-input-sm"
                   id="floatingName"
                   placeholder=" "
                 />
@@ -265,7 +48,7 @@
               <div class="form-field floating-label">
                 <input
                   type="email"
-                  class="form-input"
+                  class="form-input form-input-sm"
                   id="floatingEmail"
                   placeholder=" "
                 />
@@ -277,7 +60,7 @@
               <div class="form-field floating-label">
                 <input
                   type="password"
-                  class="form-input"
+                  class="form-input form-input-sm"
                   id="floatingPassword"
                   placeholder=" "
                 />
@@ -287,7 +70,7 @@
               <div class="form-field floating-label">
                 <input
                   type="text"
-                  class="form-input is-valid"
+                  class="form-input form-input-sm is-valid"
                   id="floatingValid"
                   placeholder=" "
                   value="Корректное значение"
@@ -300,7 +83,7 @@
               <div class="form-field floating-label">
                 <input
                   type="email"
-                  class="form-input is-invalid"
+                  class="form-input form-input-sm is-invalid"
                   id="floatingInvalid"
                   placeholder=" "
                   value="неправильный-email"
@@ -320,7 +103,7 @@
                 <label for="basicSelect" class="form-label"
                   >Тип недвижимости</label
                 >
-                <select class="form-select" id="basicSelect">
+                <select class="form-select form-select-sm" id="basicSelect">
                   <option value="">Выберите тип</option>
                   <option value="apartment">Квартира</option>
                   <option value="house">Дом</option>
@@ -329,23 +112,15 @@
                 </select>
               </div>
 
-              <div class="form-field">
-                <label for="selectWithValue" class="form-label">Город</label>
-                <select class="form-select" id="selectWithValue">
-                  <option value="">Выберите город</option>
-                  <option value="moscow">Москва</option>
-                  <option value="spb" selected>Санкт-Петербург</option>
-                  <option value="ekb">Екатеринбург</option>
-                  <option value="nsk">Новосибирск</option>
-                </select>
-              </div>
-
               <!-- Состояния валидации -->
               <div class="form-field">
                 <label for="validSelect" class="form-label"
                   >Корректный выбор</label
                 >
-                <select class="form-select is-valid" id="validSelect">
+                <select
+                  class="form-select form-select-sm is-valid"
+                  id="validSelect"
+                >
                   <option value="">Выберите опцию</option>
                   <option value="option1" selected>Выбранная опция</option>
                   <option value="option2">Другая опция</option>
@@ -359,7 +134,10 @@
                 <label for="invalidSelect" class="form-label required"
                   >Обязательный выбор</label
                 >
-                <select class="form-select is-invalid" id="invalidSelect">
+                <select
+                  class="form-select form-select-sm is-invalid"
+                  id="invalidSelect"
+                >
                   <option value="">Выберите опцию</option>
                   <option value="option1">Опция 1</option>
                   <option value="option2">Опция 2</option>
@@ -369,35 +147,16 @@
                 </div>
               </div>
 
-              <!-- Размеры -->
-              <div class="form-field">
-                <label for="smallSelect" class="form-label"
-                  >Маленький список</label
-                >
-                <select class="form-select form-select-sm" id="smallSelect">
-                  <option value="">Выберите опцию</option>
-                  <option value="1">Опция 1</option>
-                  <option value="2">Опция 2</option>
-                </select>
-              </div>
-
-              <div class="form-field">
-                <label for="largeSelect" class="form-label"
-                  >Большой список</label
-                >
-                <select class="form-select form-select-lg" id="largeSelect">
-                  <option value="">Выберите опцию</option>
-                  <option value="1">Опция 1</option>
-                  <option value="2">Опция 2</option>
-                </select>
-              </div>
-
               <!-- Отключенный select -->
               <div class="form-field">
                 <label for="disabledSelect" class="form-label"
                   >Отключенный список</label
                 >
-                <select class="form-select" id="disabledSelect" disabled>
+                <select
+                  class="form-select form-select-sm"
+                  id="disabledSelect"
+                  disabled
+                >
                   <option value="">Недоступно для выбора</option>
                   <option value="1">Опция 1</option>
                   <option value="2">Опция 2</option>
@@ -415,7 +174,7 @@
                   >Район (с поиском)</label
                 >
                 <select
-                  class="form-select"
+                  class="form-select form-select-sm"
                   id="select2Basic"
                   data-select2="true"
                 >
@@ -437,7 +196,7 @@
                   >Удобства (множественный выбор)</label
                 >
                 <select
-                  class="form-select"
+                  class="form-select form-select-sm"
                   id="select2Multiple"
                   multiple
                   data-select2="true"
@@ -459,7 +218,7 @@
                   >Корректный Select2</label
                 >
                 <select
-                  class="form-select is-valid"
+                  class="form-select form-select-sm is-valid"
                   id="select2Valid"
                   data-select2="true"
                 >
@@ -475,7 +234,7 @@
                   >Некорректный Select2</label
                 >
                 <select
-                  class="form-select is-invalid"
+                  class="form-select form-select-sm is-invalid"
                   id="select2Invalid"
                   data-select2="true"
                 >
@@ -487,129 +246,6 @@
                   Необходимо выбрать опцию
                 </div>
               </div>
-
-              <!-- Размеры Select2 -->
-              <div class="form-field">
-                <label for="select2Small" class="form-label"
-                  >Маленький Select2</label
-                >
-                <select
-                  class="form-select select2-sm"
-                  id="select2Small"
-                  data-select2="true"
-                >
-                  <option value="">Выберите опцию</option>
-                  <option value="1">Опция 1</option>
-                  <option value="2">Опция 2</option>
-                  <option value="3">Опция 3</option>
-                </select>
-              </div>
-
-              <div class="form-field">
-                <label for="select2Large" class="form-label"
-                  >Большой Select2</label
-                >
-                <select
-                  class="form-select select2-lg"
-                  id="select2Large"
-                  data-select2="true"
-                >
-                  <option value="">Выберите опцию</option>
-                  <option value="1">Опция 1</option>
-                  <option value="2">Опция 2</option>
-                  <option value="3">Опция 3</option>
-                </select>
-              </div>
-            </section>
-
-            <!-- Комбинированная форма -->
-            <section class="forms-section">
-              <h2 class="section-title">Форма для добавления объявления</h2>
-
-              <form class="demo-form">
-                <div class="form-row">
-                  <div class="form-field">
-                    <label for="demoFirstName" class="form-label required"
-                      >Имя</label
-                    >
-                    <input
-                      type="text"
-                      class="form-input"
-                      id="demoFirstName"
-                      placeholder="Ваше имя"
-                      required
-                    />
-                  </div>
-                  <div class="form-field">
-                    <label for="demoLastName" class="form-label required"
-                      >Фамилия</label
-                    >
-                    <input
-                      type="text"
-                      class="form-input"
-                      id="demoLastName"
-                      placeholder="Ваша фамилия"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div class="form-field">
-                  <label for="demoEmail" class="form-label required"
-                    >Email</label
-                  >
-                  <div class="input-group has-icon-left">
-                    <i class="bi bi-envelope input-icon"></i>
-                    <input
-                      type="email"
-                      class="form-input"
-                      id="demoEmail"
-                      placeholder="email@example.com"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div class="form-field">
-                  <label for="demoPhone" class="form-label">Телефон</label>
-                  <div class="input-group has-icon-left">
-                    <i class="bi bi-telephone input-icon"></i>
-                    <input
-                      type="tel"
-                      class="form-input"
-                      id="demoPhone"
-                      placeholder="+7 (999) 123-45-67"
-                    />
-                  </div>
-                </div>
-
-                <div class="form-field floating-label">
-                  <input
-                    type="text"
-                    class="form-input"
-                    id="demoCompany"
-                    placeholder=" "
-                  />
-                  <label for="demoCompany" class="form-label">Компания</label>
-                </div>
-
-                <div class="form-field">
-                  <label for="demoMessage" class="form-label">Сообщение</label>
-                  <textarea
-                    class="form-input"
-                    id="demoMessage"
-                    rows="4"
-                    placeholder="Ваше сообщение..."
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  class="btn btn-brand-turquoise text-brand-light-gray w-100"
-                >
-                  Отправить форму
-                </button>
-              </form>
             </section>
 
             <!-- Date/Time поля -->
@@ -620,43 +256,9 @@
                 <label for="dateField" class="form-label">Дата просмотра</label>
                 <input
                   type="date"
-                  class="form-input"
+                  class="form-input form-input-sm"
                   id="dateField"
                   value="2024-01-15"
-                />
-              </div>
-
-              <div class="form-field">
-                <label for="timeField" class="form-label"
-                  >Время просмотра</label
-                >
-                <input
-                  type="time"
-                  class="form-input"
-                  id="timeField"
-                  value="14:30"
-                />
-              </div>
-
-              <div class="form-field">
-                <label for="datetimeField" class="form-label"
-                  >Дата и время</label
-                >
-                <input
-                  type="datetime-local"
-                  class="form-input"
-                  id="datetimeField"
-                  value="2024-01-15T14:30"
-                />
-              </div>
-
-              <div class="form-field">
-                <label for="monthField" class="form-label">Месяц заезда</label>
-                <input
-                  type="month"
-                  class="form-input"
-                  id="monthField"
-                  value="2024-01"
                 />
               </div>
 
@@ -667,7 +269,7 @@
                 >
                 <input
                   type="date"
-                  class="form-input is-valid"
+                  class="form-input form-input-sm is-valid"
                   id="validDate"
                   value="2024-02-20"
                 />
@@ -680,7 +282,7 @@
                 >
                 <input
                   type="date"
-                  class="form-input is-invalid"
+                  class="form-input form-input-sm is-invalid"
                   id="invalidDate"
                 />
                 <div class="form-feedback is-invalid">
@@ -695,7 +297,7 @@
                 >
                 <input
                   type="date"
-                  class="form-input"
+                  class="form-input form-input-sm"
                   id="disabledDate"
                   value="2024-01-01"
                   disabled
@@ -707,54 +309,10 @@
             <section class="forms-section">
               <h2 class="section-title">Загрузка файлов</h2>
 
-              <!-- Простая загрузка файла -->
-              <div class="form-field">
-                <label class="form-label">Документы недвижимости</label>
-                <div class="form-file">
-                  <input
-                    type="file"
-                    class="form-file-input"
-                    id="singleFile"
-                    accept=".pdf,.doc,.docx"
-                  />
-                  <label for="singleFile" class="form-file-label">
-                    <i class="bi bi-file-earmark-arrow-up form-file-icon"></i>
-                    <span class="form-file-text">
-                      <span class="form-file-placeholder"
-                        >Выберите файлы для загрузки</span
-                      >
-                    </span>
-                    <span class="form-file-button">Обзор</span>
-                  </label>
-                </div>
-              </div>
-
-              <!-- Загрузка изображений -->
-              <div class="form-field">
-                <label class="form-label">Фотографии объекта</label>
-                <div class="form-file">
-                  <input
-                    type="file"
-                    class="form-file-input"
-                    id="imageFile"
-                    accept="image/*"
-                  />
-                  <label for="imageFile" class="form-file-label">
-                    <i class="bi bi-image form-file-icon"></i>
-                    <span class="form-file-text">
-                      <span class="form-file-placeholder"
-                        >Выберите изображение</span
-                      >
-                    </span>
-                    <span class="form-file-button">Выбрать</span>
-                  </label>
-                </div>
-              </div>
-
               <!-- Множественная загрузка -->
               <div class="form-field">
                 <label class="form-label">Галерея (несколько файлов)</label>
-                <div class="form-file multiple">
+                <div class="form-file multiple form-file-sm">
                   <input
                     type="file"
                     class="form-file-input"
@@ -780,7 +338,7 @@
               <!-- Состояния валидации -->
               <div class="form-field">
                 <label class="form-label">Файл загружен успешно</label>
-                <div class="form-file">
+                <div class="form-file form-file-sm">
                   <input
                     type="file"
                     class="form-file-input is-valid"
@@ -796,100 +354,14 @@
                 </div>
                 <div class="form-feedback is-valid">Файл загружен успешно</div>
               </div>
-
-              <div class="form-field">
-                <label class="form-label required">Обязательный файл</label>
-                <div class="form-file">
-                  <input
-                    type="file"
-                    class="form-file-input is-invalid"
-                    id="invalidFile"
-                  />
-                  <label for="invalidFile" class="form-file-label">
-                    <i class="bi bi-exclamation-triangle form-file-icon"></i>
-                    <span class="form-file-text">
-                      <span class="form-file-placeholder">Файл не выбран</span>
-                    </span>
-                    <span class="form-file-button">Выбрать</span>
-                  </label>
-                </div>
-                <div class="form-feedback is-invalid">
-                  Пожалуйста, выберите файл
-                </div>
-              </div>
-
-              <!-- Размеры -->
-              <div class="form-field">
-                <label class="form-label">Маленький загрузчик</label>
-                <div class="form-file form-file-sm">
-                  <input type="file" class="form-file-input" id="smallFile" />
-                  <label for="smallFile" class="form-file-label">
-                    <i class="bi bi-paperclip form-file-icon"></i>
-                    <span class="form-file-text">
-                      <span class="form-file-placeholder">Выберите файл</span>
-                    </span>
-                    <span class="form-file-button">Обзор</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-field">
-                <label class="form-label">Большой загрузчик</label>
-                <div class="form-file form-file-lg">
-                  <input type="file" class="form-file-input" id="largeFile" />
-                  <label for="largeFile" class="form-file-label">
-                    <i class="bi bi-cloud-upload form-file-icon"></i>
-                    <span class="form-file-text">
-                      <span class="form-file-placeholder"
-                        >Выберите файлы для загрузки</span
-                      >
-                    </span>
-                    <span class="form-file-button">Выбрать файлы</span>
-                  </label>
-                </div>
-              </div>
             </section>
 
             <!-- Toggle Switches -->
             <section class="forms-section">
               <h2 class="section-title">Переключатели</h2>
 
-              <!-- Базовые переключатели -->
-              <div class="form-switch">
-                <input
-                  type="checkbox"
-                  class="form-switch-input"
-                  id="switch1"
-                  checked
-                />
-                <label for="switch1" class="form-switch-label">
-                  <span class="form-switch-slider"></span>
-                  <span class="form-switch-text"
-                    >Получать уведомления о новых объектах</span
-                  >
-                </label>
-              </div>
-
-              <div class="form-switch">
-                <input type="checkbox" class="form-switch-input" id="switch2" />
-                <label for="switch2" class="form-switch-label">
-                  <span class="form-switch-slider"></span>
-                  <span class="form-switch-text"
-                    >Показывать контактную информацию</span
-                  >
-                </label>
-              </div>
-
-              <div class="form-switch">
-                <input type="checkbox" class="form-switch-input" id="switch3" />
-                <label for="switch3" class="form-switch-label">
-                  <span class="form-switch-slider"></span>
-                  <span class="form-switch-text">Разрешить звонки агентам</span>
-                </label>
-              </div>
-
               <!-- Состояния валидации -->
-              <div class="form-switch">
+              <div class="form-switch form-switch-sm">
                 <input
                   type="checkbox"
                   class="form-switch-input is-valid"
@@ -902,7 +374,7 @@
                 </label>
               </div>
 
-              <div class="form-switch">
+              <div class="form-switch form-switch-sm">
                 <input
                   type="checkbox"
                   class="form-switch-input is-invalid"
@@ -915,7 +387,7 @@
               </div>
 
               <!-- Отключенный переключатель -->
-              <div class="form-switch">
+              <div class="form-switch form-switch-sm">
                 <input
                   type="checkbox"
                   class="form-switch-input"
@@ -926,32 +398,6 @@
                 <label for="disabledSwitch" class="form-switch-label">
                   <span class="form-switch-slider"></span>
                   <span class="form-switch-text">Недоступная настройка</span>
-                </label>
-              </div>
-
-              <!-- Размеры -->
-              <div class="form-switch form-switch-sm">
-                <input
-                  type="checkbox"
-                  class="form-switch-input"
-                  id="smallSwitch"
-                />
-                <label for="smallSwitch" class="form-switch-label">
-                  <span class="form-switch-slider"></span>
-                  <span class="form-switch-text">Маленький переключатель</span>
-                </label>
-              </div>
-
-              <div class="form-switch form-switch-lg">
-                <input
-                  type="checkbox"
-                  class="form-switch-input"
-                  id="largeSwitch"
-                  checked
-                />
-                <label for="largeSwitch" class="form-switch-label">
-                  <span class="form-switch-slider"></span>
-                  <span class="form-switch-text">Большой переключатель</span>
                 </label>
               </div>
             </section>
@@ -1313,37 +759,6 @@
                     </label>
                   </div>
                 </div>
-              </div>
-            </section>
-
-            <!-- Отключенные поля -->
-            <section class="forms-section">
-              <h2 class="section-title">Отключенные поля</h2>
-
-              <div class="form-field">
-                <label for="disabledField" class="form-label"
-                  >Отключенное поле</label
-                >
-                <input
-                  type="text"
-                  class="form-input"
-                  id="disabledField"
-                  placeholder="Это поле отключено"
-                  disabled
-                />
-              </div>
-
-              <div class="form-field">
-                <label for="disabledWithValue" class="form-label"
-                  >Отключенное поле со значением</label
-                >
-                <input
-                  type="text"
-                  class="form-input"
-                  id="disabledWithValue"
-                  value="Заблокированное значение"
-                  disabled
-                />
               </div>
             </section>
           </div>

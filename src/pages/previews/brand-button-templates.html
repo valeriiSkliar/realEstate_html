@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand Button Templates</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Временные стили для демонстрации - замените на ваш скомпилированный CSS */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        padding: 2rem;
+        background-color: #f8f9fa;
+      }
+
+      .template-section {
+        background: white;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .template-section h2 {
+        margin-bottom: 1rem;
+        color: #333;
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 0.5rem;
+      }
+
+      .button-row {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .demo-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      /* Базовые стили brand-button на основе вашего SCSS */
+      .brand-button {
+        display: inline-block;
+        padding: 10px 28px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        text-align: center;
+        font-size: 13px;
+        line-height: 20px;
+        letter-spacing: 2px;
+        font-weight: 400;
+        text-decoration: none;
+        border-radius: 8px;
+        border: 2px solid transparent;
+        cursor: pointer;
+        min-width: 100px;
+        white-space: nowrap;
+        transition: background-color 0.2s ease, color 0.2s ease,
+          border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+        box-shadow: 0 2px 4px rgba(13, 27, 62, 0.1);
+      }
+
+      /* Lime Green (default) - Solid */
+      .brand-button--solid {
+        background-color: #7ed321;
+        color: #0d1b3e;
+        border-color: #7ed321;
+      }
+
+      .brand-button--solid:hover,
+      .brand-button--solid:focus {
+        background-color: #71c01e;
+        border-color: #71c01e;
+        box-shadow: 0 3px 6px rgba(13, 27, 62, 0.12);
+      }
+
+      .brand-button--solid:active {
+        background-color: #68b31b;
+        border-color: #68b31b;
+        transform: translateY(1px);
+        box-shadow: 0 1px 2px rgba(13, 27, 62, 0.08);
+      }
+
+      /* Lime Green - Outline */
+      .brand-button--outline {
+        background-color: transparent;
+        color: #7ed321;
+        border-color: #7ed321;
+      }
+
+      .brand-button--outline:hover,
+      .brand-button--outline:focus {
+        background-color: #7ed321;
+        color: #0d1b3e;
+        border-color: #7ed321;
+        box-shadow: 0 3px 6px rgba(13, 27, 62, 0.12);
+      }
+
+      .brand-button--outline:active {
+        background-color: #75c71f;
+        color: #0d1b3e;
+        transform: translateY(1px);
+        box-shadow: 0 1px 2px rgba(13, 27, 62, 0.08);
+      }
+
+      /* Turquoise - Solid */
+      .brand-button--solid.brand-button--turquoise {
+        background-color: #50e3c2;
+        color: white;
+        border-color: #50e3c2;
+      }
+
+      .brand-button--solid.brand-button--turquoise:hover,
+      .brand-button--solid.brand-button--turquoise:focus {
+        background-color: #45d4b5;
+        border-color: #45d4b5;
+        box-shadow: 0 3px 6px rgba(80, 227, 194, 0.12);
+      }
+
+      .brand-button--solid.brand-button--turquoise:active {
+        background-color: #3bc5a8;
+        border-color: #3bc5a8;
+      }
+
+      /* Turquoise - Outline */
+      .brand-button--outline.brand-button--turquoise {
+        background-color: transparent;
+        color: #50e3c2;
+        border-color: #50e3c2;
+      }
+
+      .brand-button--outline.brand-button--turquoise:hover,
+      .brand-button--outline.brand-button--turquoise:focus {
+        background-color: #50e3c2;
+        color: white;
+        border-color: #50e3c2;
+        box-shadow: 0 3px 6px rgba(80, 227, 194, 0.12);
+      }
+
+      .brand-button--outline.brand-button--turquoise:active {
+        background-color: #4bdbb9;
+        color: white;
+      }
+
+      /* Pink - Solid */
+      .brand-button--solid.brand-button--pink {
+        background-color: #f5a623;
+        color: white;
+        border-color: #f5a623;
+      }
+
+      .brand-button--solid.brand-button--pink:hover,
+      .brand-button--solid.brand-button--pink:focus {
+        background-color: #e3951e;
+        border-color: #e3951e;
+        box-shadow: 0 3px 6px rgba(245, 166, 35, 0.12);
+      }
+
+      .brand-button--solid.brand-button--pink:active {
+        background-color: #d1851a;
+        border-color: #d1851a;
+      }
+
+      /* Pink - Outline */
+      .brand-button--outline.brand-button--pink {
+        background-color: transparent;
+        color: #f5a623;
+        border-color: #f5a623;
+      }
+
+      .brand-button--outline.brand-button--pink:hover,
+      .brand-button--outline.brand-button--pink:focus {
+        background-color: #f5a623;
+        color: white;
+        border-color: #f5a623;
+        box-shadow: 0 3px 6px rgba(245, 166, 35, 0.12);
+      }
+
+      .brand-button--outline.brand-button--pink:active {
+        background-color: #f0a020;
+        color: white;
+      }
+
+      /* Disabled state */
+      .brand-button:disabled,
+      .brand-button.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      /* Icon spacing */
+      .brand-button i {
+        margin-right: 0.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <app-header></app-header>
+        <h1>Brand Button Templates</h1>
+        <p>
+          Различные варианты brand-button компонента на основе ваших SCSS стилей
+        </p>
+
+        <!-- Solid Buttons (Default Lime Green) -->
+        <div class="template-section">
+          <h2>Solid Buttons</h2>
+
+          <span class="demo-label"
+            >Базовые цвета (lime-green по умолчанию):</span
+          >
+          <div class="button-row">
+            <button class="brand-button brand-button--solid" type="button">
+              Добавить объявление
+            </button>
+            <button
+              class="brand-button brand-button--solid brand-button--turquoise"
+              type="button"
+            >
+              Turquoise кнопка
+            </button>
+            <button
+              class="brand-button brand-button--solid brand-button--pink"
+              type="button"
+            >
+              Pink кнопка
+            </button>
+          </div>
+
+          <span class="demo-label">С иконками:</span>
+          <div class="button-row">
+            <button class="brand-button brand-button--solid" type="button">
+              <i class="bi bi-plus-circle"></i>Добавить
+            </button>
+            <button
+              class="brand-button brand-button--solid brand-button--turquoise"
+              type="button"
+            >
+              <i class="bi bi-download"></i>Скачать
+            </button>
+            <button
+              class="brand-button brand-button--solid brand-button--pink"
+              type="button"
+            >
+              <i class="bi bi-heart"></i>В избранное
+            </button>
+          </div>
+
+          <span class="demo-label">Disabled состояние:</span>
+          <div class="button-row">
+            <button
+              class="brand-button brand-button--solid"
+              type="button"
+              disabled
+            >
+              Отключенная кнопка
+            </button>
+            <button
+              class="brand-button brand-button--solid brand-button--turquoise"
+              type="button"
+              disabled
+            >
+              <i class="bi bi-save"></i>Сохранить
+            </button>
+          </div>
+        </div>
+
+        <!-- Outline Buttons -->
+        <div class="template-section">
+          <h2>Outline Buttons</h2>
+
+          <span class="demo-label">Базовые цвета:</span>
+          <div class="button-row">
+            <button class="brand-button brand-button--outline" type="button">
+              Добавить объявление
+            </button>
+            <button
+              class="brand-button brand-button--outline brand-button--turquoise"
+              type="button"
+            >
+              Turquoise кнопка
+            </button>
+            <button
+              class="brand-button brand-button--outline brand-button--pink"
+              type="button"
+            >
+              Pink кнопка
+            </button>
+          </div>
+
+          <span class="demo-label">С иконками:</span>
+          <div class="button-row">
+            <button class="brand-button brand-button--outline" type="button">
+              <i class="bi bi-eye"></i>Просмотр
+            </button>
+            <button
+              class="brand-button brand-button--outline brand-button--turquoise"
+              type="button"
+            >
+              <i class="bi bi-pencil"></i>Редактировать
+            </button>
+            <button
+              class="brand-button brand-button--outline brand-button--pink"
+              type="button"
+            >
+              <i class="bi bi-share"></i>Поделиться
+            </button>
+          </div>
+
+          <span class="demo-label">Disabled состояние:</span>
+          <div class="button-row">
+            <button
+              class="brand-button brand-button--outline"
+              type="button"
+              disabled
+            >
+              Отключенная кнопка
+            </button>
+            <button
+              class="brand-button brand-button--outline brand-button--turquoise"
+              type="button"
+              disabled
+            >
+              <i class="bi bi-info-circle"></i>Информация
+            </button>
+          </div>
+        </div>
+
+        <!-- Link Buttons -->
+        <div class="template-section">
+          <h2>Link Buttons (href)</h2>
+
+          <span class="demo-label">Ссылки как кнопки:</span>
+          <div class="button-row">
+            <a href="#" class="brand-button brand-button--solid">
+              Добавить объявление
+            </a>
+            <a
+              href="#"
+              class="brand-button brand-button--solid brand-button--turquoise"
+            >
+              <i class="bi bi-house"></i>На главную
+            </a>
+            <a href="#" class="brand-button brand-button--outline">
+              <i class="bi bi-info-circle"></i>Подробнее
+            </a>
+            <a
+              href="#"
+              class="brand-button brand-button--outline brand-button--pink"
+            >
+              <i class="bi bi-question-circle"></i>Справка
+            </a>
+          </div>
+        </div>
+
+        <!-- Different Button Types -->
+        <div class="template-section">
+          <h2>Различные типы кнопок</h2>
+
+          <span class="demo-label">Submit/Reset формы:</span>
+          <div class="button-row">
+            <button class="brand-button brand-button--solid" type="submit">
+              <i class="bi bi-check"></i>Отправить
+            </button>
+            <button
+              class="brand-button brand-button--outline brand-button--pink"
+              type="reset"
+            >
+              <i class="bi bi-arrow-counterclockwise"></i>Сбросить
+            </button>
+            <button class="brand-button brand-button--outline" type="button">
+              <i class="bi bi-x"></i>Отмена
+            </button>
+          </div>
+        </div>
+
+        <!-- Usage Examples -->
+        <div class="template-section">
+          <h2>Примеры использования в контексте</h2>
+
+          <span class="demo-label">Карточка недвижимости:</span>
+          <div
+            style="
+              border: 1px solid #ddd;
+              padding: 1rem;
+              border-radius: 8px;
+              max-width: 300px;
+              margin-bottom: 1rem;
+            "
+          >
+            <h4>Квартира в центре</h4>
+            <p>2-комнатная квартира, 65 м²</p>
+            <p><strong>5 500 000 ₽</strong></p>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+              <button class="brand-button brand-button--solid" type="button">
+                <i class="bi bi-phone"></i>Позвонить
+              </button>
+              <button class="brand-button brand-button--outline" type="button">
+                <i class="bi bi-heart"></i>В избранное
+              </button>
+              <button
+                class="brand-button brand-button--outline brand-button--turquoise"
+                type="button"
+              >
+                <i class="bi bi-share"></i>Поделиться
+              </button>
+            </div>
+          </div>
+
+          <span class="demo-label">Форма добавления объявления:</span>
+          <div
+            style="
+              border: 1px solid #ddd;
+              padding: 1rem;
+              border-radius: 8px;
+              max-width: 400px;
+            "
+          >
+            <h4>Добавить объявление</h4>
+            <div style="margin-bottom: 1rem">
+              <input
+                type="text"
+                placeholder="Заголовок"
+                style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem"
+              />
+              <textarea
+                placeholder="Описание"
+                style="width: 100%; padding: 0.5rem; height: 80px"
+              ></textarea>
+            </div>
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end">
+              <button class="brand-button brand-button--outline" type="button">
+                Отмена
+              </button>
+              <button class="brand-button brand-button--solid" type="submit">
+                <i class="bi bi-plus-circle"></i>Добавить объявление
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Copy-paste HTML Examples -->
+        <div class="template-section">
+          <h2>HTML для копирования</h2>
+
+          <span class="demo-label">Базовые примеры:</span>
+          <pre
+            style="
+              background: #f8f9fa;
+              padding: 1rem;
+              border-radius: 4px;
+              font-size: 12px;
+              overflow-x: auto;
+            "
+          ><code>&lt;!-- Solid lime-green кнопка --&gt;
+&lt;button class="brand-button brand-button--solid" type="button"&gt;
+  Добавить объявление
+&lt;/button&gt;
+
+&lt;!-- Outline turquoise кнопка с иконкой --&gt;
+&lt;button class="brand-button brand-button--outline brand-button--turquoise" type="button"&gt;
+  &lt;i class="bi bi-pencil"&gt;&lt;/i&gt;Редактировать
+&lt;/button&gt;
+
+&lt;!-- Solid pink кнопка --&gt;
+&lt;button class="brand-button brand-button--solid brand-button--pink" type="button"&gt;
+  &lt;i class="bi bi-heart"&gt;&lt;/i&gt;В избранное
+&lt;/button&gt;
+
+&lt;!-- Ссылка как кнопка --&gt;
+&lt;a href="/add-listing" class="brand-button brand-button--solid"&gt;
+  &lt;i class="bi bi-plus-circle"&gt;&lt;/i&gt;Добавить объявление
+&lt;/a&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+    <app-footer></app-footer>
+  </body>
+</html>

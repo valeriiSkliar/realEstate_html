@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ pageTitle | default: 'Мой профиль - Недвижимость' }}</title>
+  </head>
+  <body>
+    {% include 'header.html' %}
+
+    <!-- Main Content Area -->
+    <main class="page-content">
+      <div id="app">
+        <div class="profile-page">
+          <!-- Breadcrumb -->
+          {% include 'breadcrumb.html' with breadcrumbs = page.breadcrumbs %}
+
+          <!-- User Profile Header -->
+          {% include 'profile-header.html' with user = currentUser %}
+
+          <!-- User Info Cards -->
+          <div class="info-cards">
+            {% for card in userInfoCards %} {% include 'info-card.html' with
+            card = card %} {% endfor %}
+
+            <!-- Referral Program Card -->
+            {% if referralProgram %} {% include 'referral-card.html' with
+            referral = referralProgram %} {% endif %}
+          </div>
+
+          <!-- Profile Actions -->
+          {% include 'profile-actions.html' with supportUrl = supportUrl
+          supportText = supportText subscriptionsUrl = subscriptionsUrl
+          subscriptionsText = subscriptionsText %}
+        </div>
+      </div>
+    </main>
+
+    {% include 'footer.html' %} {% include 'toast-container.html' %}
+  </body>
+</html>

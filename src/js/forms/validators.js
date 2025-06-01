@@ -69,3 +69,5 @@ const validators = {
     async: true,
   }),
 };
+
+export { validators };

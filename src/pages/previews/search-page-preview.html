@@ -98,12 +98,27 @@
       <div id="app">
         <div class="search-page">
           <div class="featured-section">
-            <custom-breadcrumb theme="light" class="mb-3">
-              <breadcrumb-item href="/">Главная</breadcrumb-item>
-              <breadcrumb-item href="/catalog"
-                >Поиск недвижимости</breadcrumb-item
-              >
-            </custom-breadcrumb>
+            <!-- Breadcrumb -->
+            <nav
+              class="breadcrumb"
+              aria-label="Breadcrumb navigation"
+              role="navigation"
+            >
+              <ol class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/">Главная</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/catalog"
+                    >Поиск недвижимости</a
+                  >
+                </li>
+                <li class="breadcrumb-item active-page">
+                  <span class="breadcrumb-text">Квартиры</span>
+                </li>
+              </ol>
+            </nav>
+            <!-- End Breadcrumb -->
             <div class="container mt-3 mb-3">
               <div class="search-controls">
                 <div
@@ -209,7 +224,7 @@
             </div>
             <div class="container">
               <div class="my-listings-list">
-                <property-list-component>
+                <div class="property-card-list">
                   <property-summary-card
                     title-text="1-к. квартира, 65 м2 | Зиповская"
                     title-href="/property-view-standalone.html"
@@ -344,7 +359,7 @@
                     is-favorite="false"
                     phone-number="+7 (988) 555-12-34"
                   ></property-summary-card>
-                </property-list-component>
+                </div>
                 <simple-pagination
                   current-page="1"
                   total-pages="10"
