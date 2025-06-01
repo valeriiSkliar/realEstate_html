@@ -357,6 +357,19 @@ module.exports = {
       // ],
     }),
     new HtmlWebpackPlugin({
+      template: "./src/pages/previews/listings-edit-page-preview.html",
+      filename: "listings-edit.html",
+      // chunks: [
+      //   "jquery",
+      //   "bootstrap",
+      //   "swiper",
+      //   "select2",
+      //   "vendors",
+      //   "shared",
+      //   "index",
+      // ],
+    }),
+    new HtmlWebpackPlugin({
       template: "./src/pages/previews/brand-button-templates.html",
       filename: "brand-button-templates.html",
     }),
