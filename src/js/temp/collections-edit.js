@@ -3,7 +3,7 @@ import {
   getCollectionById,
   removePropertyFromCollection,
   updateCollection,
-} from "./components/collections-manager";
+} from "./collections-manager";
 
 /**
  * Initialize collections edit page functionality
@@ -19,12 +19,6 @@ export const initCollectionsEditPage = () => {
     // No collection ID provided, redirect to collections page
     window.location.href = "/collections.html";
     return;
-  }
-
-
-  if (collection.isFavorite) {
-    const inputCollectionName = document.getElementById('collectionName');
-    inputCollectionName.disabled = true;
   }
 
   // Store collection ID in hidden field
@@ -55,6 +49,11 @@ const loadCollectionData = (collectionId) => {
     createAndShowToast("Collection not found", "error");
     window.location.href = "/collections.html";
     return;
+  }
+
+  if (collection.isFavorite) {
+    const inputCollectionName = document.getElementById('collectionName');
+    inputCollectionName.disabled = true;
   }
 
   // Populate form fields with collection data
