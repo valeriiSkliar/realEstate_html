@@ -357,6 +357,10 @@ module.exports = {
       //   "index",
       // ],
     }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/brand-button-templates.html",
+      filename: "brand-button-templates.html",
+    }),
 
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/forms-examples-preview.html",
