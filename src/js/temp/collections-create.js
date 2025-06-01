@@ -1,5 +1,5 @@
 import { createAndShowToast, showModal } from "../utils/uiHelpers";
-import { createCollection } from "./components/collections-manager";
+import { createCollection } from "./collections-manager";
 
 /**
  * Initialize collections create page functionality
@@ -406,10 +406,9 @@ const initSaveCollection = () => {
       const collectionName = document
         .getElementById("collectionName")
         .value.trim();
-      const clientName = document.getElementById("clientName").value.trim();
 
       // Validate required fields
-      if (!collectionName || !clientName) {
+      if (!collectionName) {
         createAndShowToast("Please fill in all required fields", "warning");
         goToStep("1"); // Go back to step 1
         return;
@@ -437,8 +436,6 @@ const initSaveCollection = () => {
       }
 
       // Get other collection data
-      const clientEmail = document.getElementById("clientEmail")?.value || "";
-      const clientPhone = document.getElementById("clientPhone")?.value || "";
       const collectionNotes =
         document.getElementById("collectionNotes")?.value || "";
 
@@ -456,11 +453,8 @@ const initSaveCollection = () => {
       // Create collection object
       const collectionData = {
         name: collectionName,
-        clientName: clientName,
         description: collectionNotes,
         properties: selectedProperties,
-        clientEmail: clientEmail,
-        clientPhone: clientPhone,
         parameters: {
           propertyType,
           dealType,

@@ -29,6 +29,7 @@
   
   .page-title {
     font-size: 1.8rem;
+    font-family: $roboto;
     font-weight: 600;
     margin-bottom: 0;
     color: $dark-navy;
@@ -136,6 +137,11 @@
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+
+    .btn-brand-turquoise {
+      background-color: $turquoise;
+      color: $light-gray;
+    }
     
     @media (max-width: 576px) {
       flex-direction: column;
@@ -365,5 +371,17 @@
         border-radius: 0 4px 4px 0;
       }
     }
+  }
+}
+
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  .btn-brand-turquoise {
+    background-color: $turquoise;
+    color: $light-gray;
   }
 }

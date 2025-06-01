@@ -1,7 +1,7 @@
 // src/js/pages/collections.js - Скрипты для страниц коллекций
-import { initCollectionsPage } from "../collections";
-import { initCollectionsCreatePage } from "../collections-create";
-import { initCollectionsEditPage } from "../collections-edit";
+import { initCollectionsPage } from "../temp/collections";
+import { initCollectionsCreatePage } from "../temp/collections-create";
+import { initCollectionsEditPage } from "../temp/collections-edit";
 
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize collections page

@@ -3,7 +3,7 @@ import {
   getCollectionById,
   removePropertyFromCollection,
   updateCollection,
-} from "./components/collections-manager";
+} from "./collections-manager";
 
 /**
  * Initialize collections edit page functionality
@@ -51,11 +51,16 @@ const loadCollectionData = (collectionId) => {
     return;
   }
 
+  if (collection.isFavorite) {
+    const inputCollectionName = document.getElementById('collectionName');
+    inputCollectionName.disabled = true;
+  }
+
   // Populate form fields with collection data
   document.getElementById("collectionName").value = collection.name || "";
-  document.getElementById("clientName").value = collection.clientName || "";
-  document.getElementById("clientEmail").value = collection.clientEmail || "";
-  document.getElementById("clientPhone").value = collection.clientPhone || "";
+  // document.getElementById("clientName").value = collection.clientName || "";
+  // document.getElementById("clientEmail").value = collection.clientEmail || "";
+  // document.getElementById("clientPhone").value = collection.clientPhone || "";
   document.getElementById("collectionNotes").value =
     collection.description || "";
 
@@ -673,18 +678,18 @@ const initSaveCollection = () => {
       const collectionName = document
         .getElementById("collectionName")
         .value.trim();
-      const clientName = document.getElementById("clientName").value.trim();
+      // const clientName = document.getElementById("clientName").value.trim();
 
       // Validate required fields
-      if (!collectionName || !clientName) {
-        createAndShowToast("Please fill in all required fields", "warning");
-        goToStep("1"); // Go back to step 1
-        return;
-      }
+      // if (!collectionName || !clientName) {
+      //   createAndShowToast("Please fill in all required fields", "warning");
+      //   goToStep("1"); // Go back to step 1
+      //   return;
+      // }
 
       // Get updated collection data
-      const clientEmail = document.getElementById("clientEmail")?.value || "";
-      const clientPhone = document.getElementById("clientPhone")?.value || "";
+      // const clientEmail = document.getElementById("clientEmail")?.value || "";
+      // const clientPhone = document.getElementById("clientPhone")?.value || "";
       const collectionNotes =
         document.getElementById("collectionNotes")?.value || "";
 
@@ -713,11 +718,11 @@ const initSaveCollection = () => {
       // Create updated collection object
       const updatedCollectionData = {
         name: collectionName,
-        clientName: clientName,
+        // clientName: clientName,
         description: collectionNotes,
         properties: properties,
-        clientEmail: clientEmail,
-        clientPhone: clientPhone,
+        // clientEmail: clientEmail,
+        // clientPhone: clientPhone,
         parameters: {
           propertyType,
           dealType,
