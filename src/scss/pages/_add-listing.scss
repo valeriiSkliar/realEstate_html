@@ -1,7 +1,6 @@
 @use "../brand_color" as *;
 
 .add-listing-page {
-  background-color: $light-gray; // Фон страницы
   padding: 1.5rem 0 3rem 0; // Отступы
   min-height: calc(100vh - 160px); // Примерная минимальная высота
 

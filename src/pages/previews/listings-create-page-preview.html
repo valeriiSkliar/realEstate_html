@@ -9,13 +9,30 @@
     <app-header></app-header>
 
     <!-- Overlay for mobile menu -->
-    <div class="overlay js-overlay"></div>
 
     <main class="page-content">
       <div id="app">
+        <nav
+          class="breadcrumb"
+          aria-label="Breadcrumb navigation"
+          role="navigation"
+        >
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item">
+              <a class="breadcrumb-link" href="/">Главная</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a class="breadcrumb-link" href="/my-advertisements.html"
+                >Мои объявления</a
+              >
+            </li>
+            <li class="breadcrumb-item">
+              <span class="breadcrumb-text">Добавить объявление</span>
+            </li>
+          </ol>
+        </nav>
         <div class="add-listing-page">
           <div class="container">
-            <!-- Хедер страницы -->
             <div
               class="page-header d-flex justify-content-between align-items-center"
             >

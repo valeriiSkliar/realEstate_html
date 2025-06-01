@@ -11,76 +11,46 @@
   </head>
   <body>
     <app-header></app-header>
-    <div class="fullscreen-spinner-container" id="myFullscreenSpinner">
-      <div class="spinner-item ba-item-preloader ba-item" data-delay="1">
-        <div class="preloader-wrapper ba-pt-fade ba-spinner-8">
-          <div class="preloader-point-wrapper">
-            <div class="preloader-point-1"></div>
-            <div class="preloader-point-2"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <main class="page-content">
       <div id="app">
         <div class="archived-listings-page">
           <div class="container">
-            <custom-breadcrumb theme="light" class="mb-3">
-              <breadcrumb-item href="/">Главная</breadcrumb-item>
-              <breadcrumb-item href="/my-advertisements.html"
-                >Мои объявления</breadcrumb-item
-              >
-              <breadcrumb-item href="/archived-advertisements.html" active
-                >Архив объявлений</breadcrumb-item
-              >
-            </custom-breadcrumb>
+            <nav
+              class="breadcrumb"
+              aria-label="Breadcrumb navigation"
+              role="navigation"
+            >
+              <ol class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/">Главная</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" href="/my-advertisements.html"
+                    >Мои объявления</a
+                  >
+                </li>
+                <li class="breadcrumb-item">
+                  <a
+                    class="breadcrumb-link"
+                    href="/archived-advertisements.html"
+                    >Архив объявлений</a
+                  >
+                </li>
+              </ol>
+            </nav>
 
             <div
-              class="listings-controls d-flex flex-column justify-content-end align-items-end mb-3"
+              class="page-header d-flex justify-content-between align-items-center my-3"
             >
-              <div
-                class="d-flex justify-content-end align-items-center mb-3 flex-wrap mt-3"
-              >
-                <!-- <a
+              <div class="d-flex justify-content-end align-items-center">
+                <a
                   href="/my-advertisements.html"
-                  class="brand-button brand-button--blue me-2"
+                  class="brand-button brand-button--solid brand-button--turquoise"
                 >
+                  <i class="bi bi-arrow-left me-2"></i>
                   Активные объявления
-                </a> -->
-                <brand-button
-                  href="/my-advertisements.html"
-                  variant="solid"
-                  color="turquoise"
-                >
-                  Активные объявления
-                </brand-button>
-              </div>
-              <div
-                class="btn-group btn-group-sm my-listings-sort-group"
-                role="group"
-                aria-label="Sort listings"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-brand-turquoise active"
-                  title="Сортировать по дате"
-                >
-                  <i class="bi bi-calendar3"></i>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-brand-turquoise"
-                  title="Сортировать по цене"
-                >
-                  <i class="bi bi-cash"></i>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-brand-turquoise"
-                  title="Сортировать по статусу"
-                >
-                  <i class="bi bi-tag"></i>
-                </button>
+                </a>
               </div>
             </div>
 
