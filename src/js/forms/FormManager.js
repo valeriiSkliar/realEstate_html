@@ -17,12 +17,10 @@ export class FormManager {
       onServerError: null,
       validateOnBlur: true,
       validateOnChange: false,
-      showErrors: true,
       showGeneralError: false,
       generalErrorTimeout: 5000,
       errorClass: "is-invalid",
       validClass: "is-valid",
-      errorMessageClass: "form-feedback is-invalid",
       submitButton: null,
       resetOnSuccess: false,
       scrollToError: true,
@@ -156,9 +154,7 @@ export class FormManager {
     }
 
     // Отображаем ошибки
-    if (this.options.showErrors) {
-      this.displayAllErrors();
-    }
+    this.displayAllErrors();
 
     // Вызываем callback для ошибок
     if (this.options.onServerError) {
@@ -223,9 +219,7 @@ export class FormManager {
 
     await Promise.all(validationPromises);
 
-    if (this.options.showErrors) {
-      this.displayAllErrors();
-    }
+    this.displayAllErrors();
 
     return Object.keys(this.errors).length === 0;
   }
@@ -239,9 +233,7 @@ export class FormManager {
     const formData = new FormData(this.form);
     await this.validateFieldRules(fieldName, value, rules, formData);
 
-    if (this.options.showErrors) {
-      this.displayFieldError(fieldName);
-    }
+    this.displayFieldError(fieldName);
 
     return !this.errors[fieldName];
   }
@@ -330,49 +322,13 @@ export class FormManager {
 
       if (this.errors[fieldName]) {
         f.classList.add(this.options.errorClass);
-        this.showErrorMessage(f, this.errors[fieldName]);
       } else if (this.touched.has(fieldName)) {
         f.classList.add(this.options.validClass);
-        this.hideErrorMessage(f);
       }
     });
   }
 
-  showErrorMessage(field, message) {
-    let errorElement = this.getErrorElement(field);
-
-    if (!errorElement) {
-      errorElement = document.createElement("div");
-      errorElement.className = this.options.errorMessageClass;
-
-      const parent = field.closest(".form-field") || field.parentElement;
-      parent.appendChild(errorElement);
-    }
-
-    errorElement.textContent = message;
-    errorElement.style.display = "block";
-  }
-
-  hideErrorMessage(field) {
-    const errorElement = this.getErrorElement(field);
-    if (errorElement) {
-      errorElement.style.display = "none";
-    }
-  }
-
-  getErrorElement(field) {
-    const parent = field.closest(".form-field") || field.parentElement;
-    return parent.querySelector(
-      `.${this.options.errorMessageClass.split(" ")[0]}`
-    );
-  }
-
   clearAllErrors() {
-    const errorElements = this.form.querySelectorAll(
-      `.${this.options.errorMessageClass.split(" ")[0]}`
-    );
-    errorElements.forEach((el) => (el.style.display = "none"));
-
     const fields = this.form.querySelectorAll(`.${this.options.errorClass}`);
     fields.forEach((field) => {
       field.classList.remove(this.options.errorClass);

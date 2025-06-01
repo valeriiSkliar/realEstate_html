@@ -19,7 +19,6 @@ export { formAdapters, formHandlers };
 export const FORM_CONFIG = {
   DEFAULT_ERROR_CLASS: "is-invalid",
   DEFAULT_VALID_CLASS: "is-valid",
-  DEFAULT_ERROR_MESSAGE_CLASS: "invalid-feedback",
   DEFAULT_SUBMIT_LOADING_TEXT: "Отправка...",
   DEFAULT_VALIDATION_DEBOUNCE: 300,
   DEFAULT_SCROLL_BEHAVIOR: "smooth",
