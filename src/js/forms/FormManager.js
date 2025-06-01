@@ -243,30 +243,63 @@ export class FormManager {
    * Обновляет CSS классы валидации для конкретного поля
    */
   updateFieldValidationState(fieldName) {
-    const field = this.form.elements[fieldName];
+    // Получаем элемент по querySelector, чтобы избежать проблемы с HTMLOptionsCollection
+    let field = this.form.querySelector(`[name="${fieldName}"]`);
+
+    // Fallback к form.elements если querySelector не нашел
+    if (!field) {
+      field = this.form.elements[fieldName];
+    }
+
     if (!field) return;
 
     const hasError = this.errors[fieldName];
     const errorClass = this.options.errorClass || "is-invalid";
     const validClass = this.options.validClass || "is-valid";
 
-    // Обрабатываем NodeList для radio/checkbox групп
-    const fields = field.length !== undefined ? Array.from(field) : [field];
+    // Обрабатываем NodeList только для radio/checkbox групп, НЕ для select
+    const isNodeList =
+      field.length !== undefined &&
+      !field.tagName &&
+      typeof field[0] !== "undefined";
+
+    const fields = isNodeList ? Array.from(field) : [field];
 
     fields.forEach((fieldElement) => {
-      // Удаляем существующие классы валидации
-      fieldElement.classList.remove(errorClass, validClass);
+      // Проверяем, есть ли Select2 контейнер рядом с полем
+      let select2Container = null;
+      if (fieldElement.tagName === "SELECT" && typeof $ !== "undefined") {
+        const $nextElement = $(fieldElement).next(".select2-container");
+        if ($nextElement.length > 0) {
+          select2Container = $nextElement;
+        }
+      }
 
-      // Добавляем соответствующий класс
-      if (this.touched.has(fieldName)) {
-        if (hasError) {
-          fieldElement.classList.add(errorClass);
-        } else if (
-          fieldElement.value.trim() !== "" ||
-          fieldElement.type === "checkbox" ||
-          fieldElement.type === "radio"
-        ) {
-          fieldElement.classList.add(validClass);
+      if (select2Container) {
+        // Для Select2 элементов применяем классы к контейнеру
+        select2Container.removeClass(errorClass + " " + validClass);
+
+        if (this.touched.has(fieldName)) {
+          if (hasError) {
+            select2Container.addClass(errorClass);
+          } else if (fieldElement.value && fieldElement.value.trim() !== "") {
+            select2Container.addClass(validClass);
+          }
+        }
+      } else {
+        // Для обычных элементов используем стандартную логику
+        fieldElement.classList.remove(errorClass, validClass);
+
+        if (this.touched.has(fieldName)) {
+          if (hasError) {
+            fieldElement.classList.add(errorClass);
+          } else if (
+            fieldElement.value.trim() !== "" ||
+            fieldElement.type === "checkbox" ||
+            fieldElement.type === "radio"
+          ) {
+            fieldElement.classList.add(validClass);
+          }
         }
       }
     });
