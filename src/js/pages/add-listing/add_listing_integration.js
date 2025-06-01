@@ -1,4 +1,3 @@
-// Упрощенная версия add_listing_integration.js без Select2
 import {
   createAndShowToast,
   createForm,
@@ -6,140 +5,43 @@ import {
 } from "../../forms/index.js";
 
 /**
- * Схема валидации для формы добавления объявления
+ * Упрощенная схема валидации
  */
 const addListingSchema = {
-  // Основная информация
   propertyType: [validators.required("Выберите тип объекта")],
   tradeType: [validators.required("Выберите тип сделки")],
   propertyName: [
     validators.required("Введите заголовок объявления"),
     validators.minLength(10, "Заголовок должен содержать минимум 10 символов"),
-    validators.maxLength(100, "Заголовок не должен превышать 100 символов"),
   ],
-
-  // Местоположение
   locality: [validators.required("Выберите населенный пункт")],
-  address: [
-    validators.required("Введите адрес объекта"),
-    validators.minLength(5, "Адрес слишком короткий"),
-  ],
-
-  // Характеристики
+  address: [validators.required("Введите адрес объекта")],
   propertyArea: [
     validators.required("Укажите площадь объекта"),
     validators.min(1, "Площадь должна быть больше 0"),
     validators.max(10000, "Площадь не может превышать 10,000 м²"),
   ],
-  // roomQuantity: [
-  //   validators.custom((value, formData) => {
-  //     const propertyType = formData.get("propertyType");
-  //     // Для квартир и домов количество комнат обязательно
-  //     if (["apartment"].includes(propertyType)) {
-  //       return value && parseInt(value) > 0;
-  //     }
-  //     return true;
-  //   }, "Укажите количество комнат"),
-  // ],
-  floor: [
-    validators.custom((value, formData) => {
-      const propertyType = formData.get("propertyType");
-      // Для квартир этаж обязателен
-      if (propertyType === "apartment" && (!value || parseInt(value) < 1)) {
-        return false;
-      }
-      return true;
-    }, "Укажите этаж для квартиры"),
-  ],
-
-  // Цена
   price: [
     validators.required("Укажите цену"),
     validators.min(1, "Цена должна быть больше 0"),
-    validators.max(1000000000, "Цена слишком высокая"),
-  ],
-
-  // Описание (не обязательное, но если заполнено - проверяем длину)
-  cleanDescription: [
-    validators.custom((value) => {
-      if (!value || value.trim() === "") return true; // Пустое описание разрешено
-      return value.length >= 50;
-    }, "Описание должно содержать минимум 50 символов"),
-    validators.maxLength(2000, "Описание не должно превышать 2000 символов"),
   ],
 };
 
 /**
- * Обработчик для формы добавления объявления
- */
-const addListingHandler = {
-  async onSubmit(data, formData) {
-    try {
-      console.log("📝 Отправка формы...", data);
-
-      // Имитируем отправку на сервер
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          console.log("✅ Форма успешно отправлена");
-          resolve({ success: true, listingId: 123 });
-        }, 1000);
-      });
-    } catch (error) {
-      console.error("❌ Ошибка отправки:", error);
-      throw error;
-    }
-  },
-
-  onSuccess(result) {
-    console.log("🎉 Успех!", result);
-    createAndShowToast("Объявление успешно создано!", "success");
-  },
-
-  onError(errors) {
-    console.log("⚠️ Ошибки валидации:", errors);
-    createAndShowToast("Проверьте заполнение полей", "warning");
-  },
-
-  onServerError(errors) {
-    console.log("💥 Серверные ошибки:", errors);
-    createAndShowToast("Ошибка сервера", "danger");
-  },
-};
-
-/**
- * Настройка условных полей
+ *  настройка условных полей
  */
 function setupConditionalFields(form) {
   const propertyTypeSelect = form.querySelector("#propertyType");
-  const roomQuantityField = form.querySelector("#roomQuantity");
   const floorField = form.querySelector("#floor");
 
-  if (!propertyTypeSelect) {
-    console.warn("Поле propertyType не найдено");
-    return;
-  }
+  if (!propertyTypeSelect) return;
 
-  const roomQuantityContainer = roomQuantityField?.closest(".form-field");
   const floorContainer = floorField?.closest(".form-field");
 
   const toggleFields = () => {
     const propertyType = propertyTypeSelect.value;
 
-    // Поле "Количество комнат"
-    if (roomQuantityContainer) {
-      if (["apartment"].includes(propertyType)) {
-        roomQuantityContainer.style.display = "block";
-        if (roomQuantityField) roomQuantityField.required = true;
-      } else {
-        roomQuantityContainer.style.display = "none";
-        if (roomQuantityField) {
-          roomQuantityField.required = false;
-          roomQuantityField.value = "";
-        }
-      }
-    }
-
-    // Поле "Этаж"
+    // Показываем поле "Этаж" только для квартир
     if (floorContainer) {
       if (propertyType === "apartment") {
         floorContainer.style.display = "block";
@@ -155,110 +57,210 @@ function setupConditionalFields(form) {
   };
 
   propertyTypeSelect.addEventListener("change", toggleFields);
-  toggleFields(); // Инициализация
+  toggleFields();
 }
 
 /**
- * Настройка превью файлов
+ * Исправленная настройка загрузки файлов
  */
 function setupFileUpload(form) {
   const fileInput = form.querySelector("#imageUploadInput");
+  const fileLabel = form.querySelector('label[for="imageUploadInput"]');
   const previewContainer = form.querySelector("#imagePreviews");
 
-  if (!fileInput || !previewContainer) {
-    console.warn("Элементы для загрузки файлов не найдены");
+  console.log("setupFileUpload:", { fileInput, fileLabel, previewContainer });
+
+  if (!fileInput) {
+    console.warn("Поле загрузки файлов не найдено");
     return;
   }
 
+  // Если нет label, создаем обработчик на кнопку
+  const uploadButton = form.querySelector(".form-file-button");
+  if (uploadButton) {
+    uploadButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      fileInput.click();
+    });
+  }
+
+  // Обработчик изменения файлов
   fileInput.addEventListener("change", (e) => {
+    console.log("Files selected:", e.target.files);
+
+    if (!previewContainer) return;
+
     const files = e.target.files;
     previewContainer.innerHTML = "";
 
-    if (files.length === 0) return;
+    if (files.length === 0) {
+      previewContainer.innerHTML =
+        '<div class="text-muted">Файлы не выбраны</div>';
+      return;
+    }
 
+    // Показываем выбранные файлы
     Array.from(files).forEach((file, index) => {
+      const fileItem = document.createElement("div");
+      fileItem.className = "selected-file d-flex align-items-center mb-2";
+
       if (file.type.startsWith("image/")) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          const preview = document.createElement("div");
-          preview.className = "image-preview d-inline-block me-2 mb-2";
-          preview.innerHTML = `
+          fileItem.innerHTML = `
             <img src="${e.target.result}" 
-                 style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
-            <small class="d-block text-muted text-center mt-1" style="font-size: 10px;">
-              ${
-                file.name.length > 15
-                  ? file.name.substring(0, 12) + "..."
-                  : file.name
-              }
-            </small>
+                 style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
+            <div>
+              <div class="fw-bold">${file.name}</div>
+              <div class="text-muted small">${(file.size / 1024).toFixed(
+                1
+              )} KB</div>
+            </div>
           `;
-          previewContainer.appendChild(preview);
         };
         reader.readAsDataURL(file);
+      } else {
+        fileItem.innerHTML = `
+          <div class="file-icon me-2">📄</div>
+          <div>
+            <div class="fw-bold">${file.name}</div>
+            <div class="text-muted small">${(file.size / 1024).toFixed(
+              1
+            )} KB</div>
+          </div>
+        `;
       }
+
+      previewContainer.appendChild(fileItem);
     });
+
+    // Обновляем текст кнопки
+    const placeholderText = form.querySelector(".form-file-placeholder");
+    if (placeholderText) {
+      placeholderText.textContent = `Выбрано файлов: ${files.length}`;
+    }
   });
+
+  // Drag & Drop
+  const fileArea = form.querySelector(".form-file");
+  if (fileArea) {
+    fileArea.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      fileArea.classList.add("drag-over");
+    });
+
+    fileArea.addEventListener("dragleave", () => {
+      fileArea.classList.remove("drag-over");
+    });
+
+    fileArea.addEventListener("drop", (e) => {
+      e.preventDefault();
+      fileArea.classList.remove("drag-over");
+
+      const files = e.dataTransfer.files;
+      fileInput.files = files;
+      fileInput.dispatchEvent(new Event("change"));
+    });
+  }
 }
 
 /**
- * Инициализация формы добавления объявления
+ * Обработчики формы без показа ошибок под полями
+ */
+const addListingHandler = {
+  async onSubmit(data, formData) {
+    console.log("📝 Отправка формы...", data);
+
+    // Простая имитация отправки
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log("✅ Форма успешно отправлена");
+        resolve({ success: true, listingId: 123 });
+      }, 1500);
+    });
+  },
+
+  onSuccess(result) {
+    console.log("🎉 Успех!", result);
+    createAndShowToast("Объявление успешно создано!", "success");
+  },
+
+  onError(errors) {
+    console.log("⚠️ Ошибки валидации:", errors);
+
+    // Находим первое поле с ошибкой и фокусируемся на нем
+    const firstErrorField = Object.keys(errors)[0];
+    if (firstErrorField) {
+      const field = document.querySelector(`[name="${firstErrorField}"]`);
+      if (field) {
+        field.focus();
+        field.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+
+    createAndShowToast("Заполните обязательные поля", "warning");
+  },
+};
+
+/**
+ * Основная функция инициализации
  */
 export const initAddListingForm = () => {
   const form = document.getElementById("addListingForm");
 
   if (!form) {
-    console.warn("❌ Add listing form not found");
+    console.warn("❌ Форма не найдена");
     return null;
   }
 
-  // Проверяем, не была ли форма уже инициализирована
   if (form.dataset.initialized === "true") {
-    console.warn("⚠️ Add listing form already initialized");
+    console.warn("⚠️ Форма уже инициализирована");
     return form.formManager;
   }
 
-  console.log("🚀 Initializing add listing form...");
+  console.log("🚀 Инициализация формы...");
 
   try {
-    // Создаем FormManager
+    // Создаем FormManager с отключенным показом ошибок
     const formManager = createForm(form, addListingSchema, {
-      onSubmit: addListingHandler.onSubmit.bind(addListingHandler),
+      onSubmit: addListingHandler.onSubmit,
       onSuccess: addListingHandler.onSuccess,
       onError: addListingHandler.onError,
-      onServerError: addListingHandler.onServerError,
       validateOnBlur: true,
-      validateOnChange: false,
-      scrollToError: true,
+      validateOnChange: true,
+      showErrors: false, // Отключаем показ ошибок под полями
     });
 
     // Настраиваем дополнительную логику
     setupConditionalFields(form);
     setupFileUpload(form);
 
-    // Отмечаем что форма инициализирована
+    // Обработчик кнопки "Сохранить как черновик"
+    const saveAsDraftBtn = form.querySelector("#saveAsDraftBtn");
+    if (saveAsDraftBtn) {
+      saveAsDraftBtn.addEventListener("click", () => {
+        createAndShowToast("Черновик сохранен", "info");
+      });
+    }
+
     form.dataset.initialized = "true";
     form.formManager = formManager;
 
-    console.log("✅ Add listing form initialized successfully");
+    console.log("✅ Форма инициализирована");
     return formManager;
   } catch (error) {
-    console.error("❌ Error initializing form:", error);
+    console.error("❌ Ошибка инициализации:", error);
     return null;
   }
 };
 
-// Инициализация при загрузке страницы
+// Инициализация при загрузке DOM
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("📄 DOM loaded, checking for add-listing-page...");
-
   if (document.querySelector(".add-listing-page")) {
-    console.log("🏠 Add listing page found, initializing form...");
+    console.log("🏠 Найдена страница добавления объявления");
     setTimeout(() => {
       initAddListingForm();
     }, 100);
-  } else {
-    console.log("🔍 Add listing page not found");
   }
 });
 
