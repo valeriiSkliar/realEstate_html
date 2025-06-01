@@ -110,6 +110,7 @@ registerCustomElements();
 import "./components/index";
 
 // Импортируем страничные скрипты
+import "./pages/add-listing";
 import "./pages/profile";
 import "./pages/property-page";
 import "./pages/search";

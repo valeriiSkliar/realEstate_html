@@ -1,4 +1,4 @@
-class FormManager {
+export class FormManager {
   constructor(formElement, options = {}) {
     this.form =
       typeof formElement === "string"
