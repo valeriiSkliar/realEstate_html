@@ -18,6 +18,28 @@ export const initCollectionsCreatePage = () => {
 
   // Check if we have a pending property to add from another page
   checkPendingProperty();
+
+  const form = document.getElementById('collectionInfoForm');
+  
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const formData = {
+        name: document.getElementById('collectionName').value,
+        notes: document.getElementById('collectionNotes').value
+      };
+      
+      const newCollection = createCollection(formData);
+      
+      if (newCollection) {
+        createAndShowToast('Коллекция успешно создана', 'success');
+        window.location.href = `/collections-edit.html?id=${newCollection.id}`;
+      } else {
+        createAndShowToast('Ошибка при создании коллекции', 'error');
+      }
+    });
+  }
 };
 
 /**

@@ -4,148 +4,148 @@
  */
 
 // Local storage key for collections
-const COLLECTIONS_STORAGE_KEY = "realEstateCollections";
+const STORAGE_KEY = 'realEstateCollections';
 
 /**
- * Get all collections from local storage
+ * Get all collections from localStorage
  * @returns {Array} Array of collection objects
  */
 export const getCollections = () => {
-  try {
-    const collectionsJson = localStorage.getItem(COLLECTIONS_STORAGE_KEY);
-    return collectionsJson ? JSON.parse(collectionsJson) : [];
-  } catch (error) {
-    console.error("Error retrieving collections:", error);
-    return [];
-  }
+  const collections = localStorage.getItem(STORAGE_KEY);
+  return collections ? JSON.parse(collections) : [];
 };
 
 /**
- * Save collections to local storage
+ * Save collections to localStorage
  * @param {Array} collections - Array of collection objects
  */
 const saveCollections = (collections) => {
-  try {
-    localStorage.setItem(COLLECTIONS_STORAGE_KEY, JSON.stringify(collections));
-  } catch (error) {
-    console.error("Error saving collections:", error);
-  }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(collections));
 };
 
 /**
- * Create a new collection
- * @param {Object} collectionData - Collection data object
- * @returns {string} ID of the created collection
+ * Get collection by ID
+ * @param {string} id - Collection ID
+ * @returns {Object|null} Collection object or null if not found
+ */
+export const getCollectionById = (id) => {
+  const collections = getCollections();
+  return collections.find(collection => collection.id === id) || null;
+};
+
+/**
+ * Create new collection
+ * @param {Object} collectionData - Collection data
+ * @returns {Object} Created collection object
  */
 export const createCollection = (collectionData) => {
-  try {
-    console.log(`Creating new collection: ${collectionData.name}`);
-
-    // Get current collections
-    const collections = getCollections();
-
-    // Create new collection with unique ID
-    const newCollection = {
-      id: `coll_${Date.now()}`,
-      name: collectionData.name,
-      clientName: collectionData.clientName,
-      description: collectionData.description,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      properties: collectionData.properties || [],
-      parameters: collectionData.parameters || {}
-    };
-
-    // Add to collections and save
-    collections.push(newCollection);
-    saveCollections(collections);
-
-    return newCollection.id;
-  } catch (error) {
-    console.error("Error creating collection:", error);
-    return null;
-  }
+  const collections = getCollections();
+  
+  // Generate unique ID
+  const id = 'coll_' + Date.now();
+  
+  // Create new collection object
+  const newCollection = {
+    id,
+    name: collectionData.name,
+    notes: collectionData.notes || '',
+    properties: [],
+    isFavorite: false, // Initialize as non-favorite
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+  
+  // Add to collections array
+  collections.push(newCollection);
+  
+  // Save to localStorage
+  saveCollections(collections);
+  
+  return newCollection;
 };
 
 /**
- * Update an existing collection
- * @param {string} collectionId - ID of the collection to update
- * @param {Object} collectionData - Updated collection data
- * @returns {boolean} True if the collection was updated successfully
+ * Update existing collection
+ * @param {string} id - Collection ID
+ * @param {Object} updateData - Data to update
+ * @returns {Object|null} Updated collection object or null if not found
  */
-export const updateCollection = (collectionId, collectionData) => {
-  try {
-    console.log(`Updating collection ${collectionId}`);
+export const updateCollection = (id, updateData) => {
+  const collections = getCollections();
+  const index = collections.findIndex(collection => collection.id === id);
+  
+  if (index === -1) return null;
+  
+  // Don't allow updating favorite status or name/notes of favorite collection
+  if (collections[index].isFavorite) {
+    const { isFavorite, name, notes, ...allowedUpdates } = updateData;
+    updateData = allowedUpdates;
+  }
+  
+  // Update collection
+  collections[index] = {
+    ...collections[index],
+    ...updateData,
+    updatedAt: new Date().toISOString()
+  };
+  
+  // Save to localStorage
+  saveCollections(collections);
+  
+  return collections[index];
+};
 
-    // Get current collections
-    const collections = getCollections();
-
-    // Find the collection
-    const index = collections.findIndex(c => c.id === collectionId);
-    if (index === -1) {
-      console.error(`Collection ${collectionId} not found`);
-      return false;
-    }
-
-    // Update collection data
-    collections[index] = {
-      ...collections[index],
-      ...collectionData,
-      updatedAt: new Date().toISOString()
-    };
-
-    // Save updated collections
-    saveCollections(collections);
-    return true;
-  } catch (error) {
-    console.error("Error updating collection:", error);
+/**
+ * Delete collection
+ * @param {string} id - Collection ID
+ * @returns {boolean} Success status
+ */
+export const deleteCollection = (id) => {
+  const collections = getCollections();
+  const collection = collections.find(c => c.id === id);
+  
+  // Don't allow deleting favorite collection
+  if (collection && collection.isFavorite) {
     return false;
   }
-};
-
-/**
- * Delete a collection
- * @param {string} collectionId - ID of the collection to delete
- * @returns {boolean} True if the collection was deleted successfully
- */
-export const deleteCollection = (collectionId) => {
-  try {
-    console.log(`Deleting collection ${collectionId}`);
-
-    // Get current collections
-    const collections = getCollections();
-
-    // Filter out the collection to delete
-    const updatedCollections = collections.filter(c => c.id !== collectionId);
-
-    // Check if a collection was actually removed
-    if (collections.length === updatedCollections.length) {
-      console.error(`Collection ${collectionId} not found`);
-      return false;
-    }
-
-    // Save updated collections
-    saveCollections(updatedCollections);
-    return true;
-  } catch (error) {
-    console.error("Error deleting collection:", error);
+  
+  const filteredCollections = collections.filter(collection => collection.id !== id);
+  
+  if (filteredCollections.length === collections.length) {
     return false;
   }
+  
+  saveCollections(filteredCollections);
+  return true;
 };
 
 /**
- * Get a single collection by ID
- * @param {string} collectionId - ID of the collection to retrieve
- * @returns {Object|null} The collection object or null if not found
+ * Toggle favorite status of a collection
+ * @param {string} id - Collection ID
+ * @returns {Object|null} Updated collection object or null if not found
  */
-export const getCollectionById = (collectionId) => {
-  try {
-    const collections = getCollections();
-    return collections.find(c => c.id === collectionId) || null;
-  } catch (error) {
-    console.error("Error retrieving collection:", error);
-    return null;
+export const toggleCollectionFavorite = (id) => {
+  const collections = getCollections();
+  
+  // Find target collection
+  const targetCollection = collections.find(c => c.id === id);
+  if (!targetCollection) return null;
+  
+  if (targetCollection.isFavorite) {
+    // If collection is currently favorite, remove favorite status
+    targetCollection.isFavorite = false;
+  } else {
+    // If setting as favorite, remove favorite from all other collections first
+    collections.forEach(collection => {
+      collection.isFavorite = false;
+    });
+    // Then set this collection as favorite
+    targetCollection.isFavorite = true;
   }
+  
+  // Save changes
+  saveCollections(collections);
+  return targetCollection;
 };
 
 /**

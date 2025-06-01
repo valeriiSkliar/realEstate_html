@@ -20,9 +20,10 @@ export const initCollectionsEditPage = () => {
     window.location.href = '/collections.html';
     return;
   }
-  
+
+  const hiddenCollectionId = document.getElementById('collectionId') || document.getElementById('collectionInfoForm');
   // Store collection ID in hidden field
-  document.getElementById('collectionId').value = collectionId;
+  hiddenCollectionId.value = collectionId;
   
   // Load collection data
   loadCollectionData(collectionId);
@@ -41,7 +42,7 @@ export const initCollectionsEditPage = () => {
  * Load collection data
  * @param {string} collectionId - ID of the collection to load
  */
-const loadCollectionData = (collectionId) => {
+function loadCollectionData(collectionId) {
   const collection = getCollectionById(collectionId);
   
   if (!collection) {
@@ -50,12 +51,14 @@ const loadCollectionData = (collectionId) => {
     window.location.href = '/collections.html';
     return;
   }
+
+  if (collection.isFavorite) {
+    const inputCollectionName = document.getElementById('collectionName');
+    inputCollectionName.disabled = true;
+  }
   
   // Populate form fields with collection data
   document.getElementById('collectionName').value = collection.name || '';
-  document.getElementById('clientName').value = collection.clientName || '';
-  document.getElementById('clientEmail').value = collection.clientEmail || '';
-  document.getElementById('clientPhone').value = collection.clientPhone || '';
   document.getElementById('collectionNotes').value = collection.description || '';
   
   // Populate search parameters
@@ -638,18 +641,18 @@ const initSaveCollection = () => {
       
       // Get form data
       const collectionName = document.getElementById('collectionName').value.trim();
-      const clientName = document.getElementById('clientName').value.trim();
+      // const clientName = document.getElementById('clientName').value.trim();
       
       // Validate required fields
-      if (!collectionName || !clientName) {
+      if (!collectionName) {
         createAndShowToast('Please fill in all required fields', 'warning');
         goToStep('1'); // Go back to step 1
         return;
       }
       
       // Get updated collection data
-      const clientEmail = document.getElementById('clientEmail')?.value || '';
-      const clientPhone = document.getElementById('clientPhone')?.value || '';
+      // const clientEmail = document.getElementById('clientEmail')?.value || '';
+      // const clientPhone = document.getElementById('clientPhone')?.value || '';
       const collectionNotes = document.getElementById('collectionNotes')?.value || '';
       
       // Get search parameters
@@ -675,11 +678,8 @@ const initSaveCollection = () => {
       // Create updated collection object
       const updatedCollectionData = {
         name: collectionName,
-        clientName: clientName,
         description: collectionNotes,
         properties: properties,
-        clientEmail: clientEmail,
-        clientPhone: clientPhone,
         parameters: {
           propertyType,
           dealType,

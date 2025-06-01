@@ -9,6 +9,8 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
+    <!-- Collections Styles -->
+    <link rel="stylesheet" href="/styles/collections.css" />
     <!-- Google Fonts - Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,7 +33,10 @@
           <div class="container">
             <div class="page-header">
               <h1 class="page-title">Редактировать Коллекцию</h1>
-              <a href="/collections.html" class="btn btn-outline-brand-turquoise">
+              <a
+                href="/collections.html"
+                class="btn btn-outline-brand-turquoise"
+              >
                 <i class="bi bi-arrow-left"></i> Назад к Коллекциям
               </a>
             </div>
@@ -41,16 +46,31 @@
               <div class="card">
                 <div class="card-body">
                   <h2 class="card-title">Информация о Коллекции</h2>
-                  <form id="collectionInfoForm">
+                  <form id="collectionId">
                     <div class="mb-3">
-                      <label for="collectionName" class="form-label">Название Коллекции*</label>
-                      <input type="text" class="form-control" id="collectionName" required>
-                      <div class="form-text">Дайте коллекции название, которое вы узнаете позже</div>
+                      <label for="collectionName" class="form-label"
+                        >Название Коллекции*</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="collectionName"
+                        required
+                      />
+                      <div class="form-text">
+                        Дайте коллекции название, которое вы узнаете позже
+                      </div>
                     </div>
-                    
+
                     <div class="mb-3">
-                      <label for="collectionNotes" class="form-label">Примечания</label>
-                      <textarea class="form-control" id="collectionNotes" rows="3"></textarea>
+                      <label for="collectionNotes" class="form-label"
+                        >Примечания</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="collectionNotes"
+                        rows="3"
+                      ></textarea>
                     </div>
                   </form>
                 </div>
@@ -62,13 +82,16 @@
               <div class="card">
                 <div class="card-body">
                   <h2 class="card-title">Объекты в Коллекции</h2>
-                  
+
                   <div class="selection-controls mb-4">
                     <div class="selection-status">
                       <span class="current-count">2</span> объектов в коллекции
                     </div>
                     <div class="selection-actions">
-                      <a href="/search.html" class="btn btn-outline-brand-turquoise js-search-more">
+                      <a
+                        href="/search.html"
+                        class="btn btn-brand-turquoise js-search-more"
+                      >
                         <i class="bi bi-search"></i> Поиск Объектов
                       </a>
                     </div>
@@ -94,7 +117,10 @@
                   </div>
 
                   <div class="form-actions mt-4">
-                    <button type="button" class="btn btn-brand-turquoise text-brand-light-gray js-save-collection">
+                    <button
+                      type="button"
+                      class="btn btn-brand-turquoise text-brand-light-gray js-save-collection"
+                    >
                       Сохранить Изменения
                     </button>
                   </div>
@@ -102,7 +128,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </main>
@@ -111,5 +136,49 @@
 
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <!-- Success Modal -->
+    <div
+      class="modal fade"
+      id="collectionUpdateSuccessModal"
+      tabindex="-1"
+      aria-labelledby="collectionSuccessModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="collectionSuccessModalLabel">
+              Коллекция Обновлена
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center mb-3">
+              <i
+                class="bi bi-check-circle-fill text-success"
+                style="font-size: 4rem"
+              ></i>
+            </div>
+            <p class="text-center">Ваша коллекция была успешно обновлена!</p>
+          </div>
+          <div class="modal-footer">
+            <a href="/collections.html" class="btn btn-secondary"
+              >Перейти к Коллекциям</a
+            >
+            <a
+              href="/search.html"
+              class="btn btn-primary btn-brand-turquoise text-brand-light-gray js-view-collection"
+              >Перейти к Поиску</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
