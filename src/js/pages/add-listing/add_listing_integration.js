@@ -228,7 +228,6 @@ export const initAddListingForm = () => {
       onError: addListingHandler.onError,
       validateOnBlur: true,
       validateOnChange: true,
-      showErrors: false, // Отключаем показ ошибок под полями
     });
 
     // Настраиваем дополнительную логику

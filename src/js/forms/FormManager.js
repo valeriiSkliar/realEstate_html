@@ -130,6 +130,9 @@ export class FormManager {
       });
     }
 
+    // Обновляем состояние валидации всех полей после получения ошибок с сервера
+    this.updateAllFieldsValidationState();
+
     if (this.options.onServerError) {
       this.options.onServerError(this.errors);
     }
@@ -191,6 +194,15 @@ export class FormManager {
     }
 
     await Promise.all(validationPromises);
+
+    // Добавляем все поля с ошибками в touched для показа подсветки
+    Object.keys(this.errors).forEach((fieldName) => {
+      this.touched.add(fieldName);
+    });
+
+    // Обновляем состояние валидации всех полей
+    this.updateAllFieldsValidationState();
+
     return Object.keys(this.errors).length === 0;
   }
 
@@ -202,6 +214,9 @@ export class FormManager {
 
     const formData = new FormData(this.form);
     await this.validateFieldRules(fieldName, value, rules, formData);
+
+    // Обновляем состояние валидации поля
+    this.updateFieldValidationState(fieldName);
 
     return !this.errors[fieldName];
   }
@@ -221,6 +236,48 @@ export class FormManager {
         this.errors[fieldName] = error.message || rule.message;
         break;
       }
+    }
+  }
+
+  /**
+   * Обновляет CSS классы валидации для конкретного поля
+   */
+  updateFieldValidationState(fieldName) {
+    const field = this.form.elements[fieldName];
+    if (!field) return;
+
+    const hasError = this.errors[fieldName];
+    const errorClass = this.options.errorClass || "is-invalid";
+    const validClass = this.options.validClass || "is-valid";
+
+    // Обрабатываем NodeList для radio/checkbox групп
+    const fields = field.length !== undefined ? Array.from(field) : [field];
+
+    fields.forEach((fieldElement) => {
+      // Удаляем существующие классы валидации
+      fieldElement.classList.remove(errorClass, validClass);
+
+      // Добавляем соответствующий класс
+      if (this.touched.has(fieldName)) {
+        if (hasError) {
+          fieldElement.classList.add(errorClass);
+        } else if (
+          fieldElement.value.trim() !== "" ||
+          fieldElement.type === "checkbox" ||
+          fieldElement.type === "radio"
+        ) {
+          fieldElement.classList.add(validClass);
+        }
+      }
+    });
+  }
+
+  /**
+   * Обновляет состояние валидации для всех полей формы
+   */
+  updateAllFieldsValidationState() {
+    for (const fieldName of Object.keys(this.options.schema)) {
+      this.updateFieldValidationState(fieldName);
     }
   }
 
