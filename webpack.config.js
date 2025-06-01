@@ -42,8 +42,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "public"),
-    filename: "js/[name].[contenthash].js",
-    filename: "js/[name].[contenthash].js",
+    filename: "js/[name].js",
     clean: true,
   },
   resolve: {
@@ -391,7 +390,7 @@ module.exports = {
     }),
 
     new MiniCssExtractPlugin({
-      filename: "css/[name].[contenthash].css",
+      filename: "css/[name].css",
     }),
     new CopyPlugin({
       patterns: [
