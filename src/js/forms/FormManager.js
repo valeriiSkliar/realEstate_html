@@ -76,10 +76,6 @@ export class FormManager {
         // Проверяем, есть ли ошибки валидации с сервера
         if (result && result.errors) {
           this.handleServerErrors(result.errors);
-
-          if (this.options.scrollToError) {
-            this.scrollToFirstError();
-          }
         } else {
           // Успешная отправка
           if (this.options.onSuccess) {
@@ -117,10 +113,6 @@ export class FormManager {
       if (this.options.onError) {
         this.options.onError(this.errors);
       }
-
-      if (this.options.scrollToError) {
-        this.scrollToFirstError();
-      }
     }
 
     this.isSubmitting = false;
@@ -152,9 +144,6 @@ export class FormManager {
         this.touched.add(field);
       });
     }
-
-    // Отображаем ошибки
-    this.displayAllErrors();
 
     // Вызываем callback для ошибок
     if (this.options.onServerError) {
@@ -219,8 +208,6 @@ export class FormManager {
 
     await Promise.all(validationPromises);
 
-    this.displayAllErrors();
-
     return Object.keys(this.errors).length === 0;
   }
 
@@ -232,8 +219,6 @@ export class FormManager {
 
     const formData = new FormData(this.form);
     await this.validateFieldRules(fieldName, value, rules, formData);
-
-    this.displayFieldError(fieldName);
 
     return !this.errors[fieldName];
   }
@@ -300,49 +285,6 @@ export class FormManager {
     return values;
   }
 
-  displayAllErrors() {
-    // Сначала очищаем все ошибки
-    this.clearAllErrors();
-
-    // Отображаем текущие ошибки
-    for (const fieldName in this.errors) {
-      this.displayFieldError(fieldName);
-    }
-  }
-
-  displayFieldError(fieldName) {
-    const field = this.form.elements[fieldName];
-    if (!field) return;
-
-    const fields = field.length ? Array.from(field) : [field];
-
-    fields.forEach((f) => {
-      // Удаляем предыдущие классы
-      f.classList.remove(this.options.errorClass, this.options.validClass);
-
-      if (this.errors[fieldName]) {
-        f.classList.add(this.options.errorClass);
-      } else if (this.touched.has(fieldName)) {
-        f.classList.add(this.options.validClass);
-      }
-    });
-  }
-
-  clearAllErrors() {
-    const fields = this.form.querySelectorAll(`.${this.options.errorClass}`);
-    fields.forEach((field) => {
-      field.classList.remove(this.options.errorClass);
-    });
-  }
-
-  scrollToFirstError() {
-    const firstError = this.form.querySelector(`.${this.options.errorClass}`);
-    if (firstError) {
-      firstError.scrollIntoView({ behavior: "smooth", block: "center" });
-      firstError.focus();
-    }
-  }
-
   setSubmitState(isSubmitting) {
     if (this.submitButton) {
       this.submitButton.disabled = isSubmitting;
@@ -362,18 +304,15 @@ export class FormManager {
     this.form.reset();
     this.errors = {};
     this.touched.clear();
-    this.clearAllErrors();
     this.hideGeneralError();
   }
 
   setFieldError(fieldName, message) {
     this.errors[fieldName] = message;
-    this.displayFieldError(fieldName);
   }
 
   clearFieldError(fieldName) {
     delete this.errors[fieldName];
-    this.displayFieldError(fieldName);
   }
 
   getErrors() {
