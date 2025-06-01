@@ -4,11 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Добавить объявление - Real Estate</title>
-    <!-- <link rel="stylesheet" href="css/add-listing.css" /> -->
+    <!-- Компилированные стили -->
+    <link rel="stylesheet" href="../../dist/css/main.css" />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Google Fonts - Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <app-header></app-header>
     <app-mobile-menu></app-mobile-menu>
+
+    <!-- Overlay for mobile menu -->
+    <div class="overlay js-overlay"></div>
+
     <main class="page-content">
       <div id="app">
         <div class="add-listing-page">
@@ -21,234 +38,515 @@
               </h1>
               <a
                 href="/my-advertisements.html"
-                class="btn btn-sm btn-outline-secondary"
+                class="brand-button brand-button--solid brand-button--turquoise"
               >
-                <i class="bi bi-arrow-left me-1"></i> К моим объявлениям
+                <i class="bi bi-arrow-left me-2"></i> К моим объявлениям
               </a>
             </div>
 
             <form id="addListingForm" class="card">
               <div class="card-body p-4">
-                <section class="mb-4">
+                <!-- Основная информация -->
+                <section class="forms-section">
                   <h5 class="section-title">Основная информация</h5>
                   <div class="row g-3">
                     <div class="col-md-6">
-                      <label for="propertyType" class="form-label"
-                        >Тип объекта*</label
-                      >
-                      <select class="form-select" id="propertyType" required>
-                        <option value="" selected disabled>Выберите...</option>
-                        <option value="Квартира">Квартира</option>
-                        <option value="Дом">Дом</option>
-                        <option value="Коммерческая">Коммерческая</option>
-                        <option value="Участок">Участок</option>
-                        <option value="Гараж">Гараж</option>
-                      </select>
+                      <div class="form-field">
+                        <label for="propertyType" class="form-label required"
+                          >Тип объекта</label
+                        >
+                        <select
+                          class="form-select form-select-sm"
+                          id="propertyType"
+                          data-select2="true"
+                          required
+                        >
+                          <option value="">Выберите тип недвижимости</option>
+                          <option value="apartment">Квартира</option>
+                          <option value="house">Дом</option>
+                          <option value="commercial">
+                            Коммерческая недвижимость
+                          </option>
+                          <option value="land">Земельный участок</option>
+                          <option value="garage">Гараж</option>
+                        </select>
+                      </div>
                     </div>
                     <div class="col-md-6">
-                      <label for="tradeType" class="form-label"
-                        >Тип сделки*</label
-                      >
-                      <select class="form-select" id="tradeType" required>
-                        <option value="" selected disabled>Выберите...</option>
-                        <option value="Продажа">Продажа</option>
-                        <option value="Аренда">Аренда</option>
-                      </select>
+                      <div class="form-field">
+                        <label for="tradeType" class="form-label required"
+                          >Тип сделки</label
+                        >
+                        <select
+                          class="form-select form-select-sm"
+                          id="tradeType"
+                          required
+                        >
+                          <option value="">Выберите тип сделки</option>
+                          <option value="sale">Продажа</option>
+                          <option value="rent">Аренда</option>
+                        </select>
+                      </div>
                     </div>
                     <div class="col-12">
-                      <label for="propertyName" class="form-label"
-                        >Заголовок объявления</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="propertyName"
-                        placeholder="Например, Уютная 2-комнатная квартира в центре"
-                      />
-                    </div>
-                    <div class="col-md-4">
-                      <label for="source" class="form-label">Источник*</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="source"
-                        value="Ручное добавление"
-                        readonly
-                        required
-                      />
+                      <div class="form-field floating-label">
+                        <input
+                          type="text"
+                          class="form-input form-input-sm"
+                          id="propertyName"
+                          placeholder=" "
+                        />
+                        <label for="propertyName" class="form-label"
+                          >Заголовок объявления</label
+                        >
+                      </div>
                     </div>
                     <div class="col-md-8">
-                      <label for="realtorPhone" class="form-label"
-                        >Телефон для связи</label
-                      >
-                      <input
-                        type="tel"
-                        class="form-control"
-                        id="realtorPhone"
-                        placeholder="+7 (XXX) XXX-XX-XX"
-                      />
+                      <div class="form-field floating-label">
+                        <input
+                          type="tel"
+                          class="form-input form-input-sm"
+                          id="realtorPhone"
+                          placeholder=" "
+                        />
+                        <label for="realtorPhone" class="form-label"
+                          >Телефон для связи</label
+                        >
+                      </div>
                     </div>
                   </div>
                 </section>
 
-                <section class="mb-4">
+                <!-- Местоположение -->
+                <section class="forms-section">
                   <h5 class="section-title">Местоположение</h5>
                   <div class="row g-3">
                     <div class="col-md-6">
-                      <label for="locality" class="form-label"
-                        >Населенный пункт*</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="locality"
-                        placeholder="г. Краснодар"
-                        required
-                      />
+                      <div class="form-field">
+                        <label for="locality" class="form-label required"
+                          >Населенный пункт</label
+                        >
+                        <select
+                          class="form-select form-select-sm"
+                          id="locality"
+                          data-select2="true"
+                          required
+                        >
+                          <option value="">Выберите город</option>
+                          <option value="krasnodar">г. Краснодар</option>
+                          <option value="sochi">г. Сочи</option>
+                          <option value="anapa">г. Анапа</option>
+                          <option value="gelendzhik">г. Геленджик</option>
+                          <option value="armavir">г. Армавир</option>
+                        </select>
+                      </div>
                     </div>
                     <div class="col-md-6">
-                      <label for="district" class="form-label">Район</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="district"
-                        placeholder="Центральный"
-                      />
+                      <div class="form-field">
+                        <label for="district" class="form-label">Район</label>
+                        <select
+                          class="form-select form-select-sm"
+                          id="district"
+                          data-select2="true"
+                        >
+                          <option value="">Выберите район</option>
+                          <option value="center">Центральный</option>
+                          <option value="north">Северный</option>
+                          <option value="south">Южный</option>
+                          <option value="east">Восточный</option>
+                          <option value="west">Западный</option>
+                        </select>
+                      </div>
                     </div>
                     <div class="col-12">
-                      <label for="address" class="form-label">Адрес*</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="address"
-                        placeholder="ул. Красная, д. 100, кв. 55"
-                        required
-                      />
+                      <div class="form-field floating-label">
+                        <input
+                          type="text"
+                          class="form-input form-input-sm"
+                          id="address"
+                          placeholder=" "
+                          required
+                        />
+                        <label for="address" class="form-label required"
+                          >Адрес</label
+                        >
+                      </div>
                     </div>
                   </div>
                 </section>
 
-                <section class="mb-4">
-                  <h5 class="section-title">Характеристики</h5>
+                <!-- Характеристики -->
+                <section class="forms-section">
+                  <h5 class="section-title">Характеристики объекта</h5>
                   <div class="row g-3">
                     <div class="col-md-4">
-                      <label for="propertyArea" class="form-label"
-                        >Площадь объекта (м²)*</label
-                      >
-                      <input
-                        type="number"
-                        class="form-control"
-                        id="propertyArea"
-                        min="0"
-                        step="0.1"
-                        required
-                      />
+                      <div class="form-field floating-label">
+                        <input
+                          type="number"
+                          class="form-input form-input-sm"
+                          id="propertyArea"
+                          min="0"
+                          step="0.1"
+                          placeholder=" "
+                          required
+                        />
+                        <label for="propertyArea" class="form-label required"
+                          >Площадь объекта (м²)</label
+                        >
+                      </div>
                     </div>
                     <div class="col-md-4">
-                      <label for="roomQuantity" class="form-label"
-                        >Кол-во комнат</label
-                      >
-                      <input
-                        type="number"
-                        class="form-control"
-                        id="roomQuantity"
-                        min="0"
-                      />
+                      <div class="form-field floating-label">
+                        <input
+                          type="number"
+                          class="form-input form-input-sm"
+                          id="roomQuantity"
+                          min="0"
+                          placeholder=" "
+                        />
+                        <label for="roomQuantity" class="form-label"
+                          >Количество комнат</label
+                        >
+                      </div>
                       <small class="form-text text-muted"
                         >Для квартир/домов. 0 для студий.</small
                       >
                     </div>
                     <div class="col-md-4">
-                      <label for="landArea" class="form-label"
-                        >Площадь участка (соток)</label
-                      >
-                      <input
-                        type="number"
-                        class="form-control"
-                        id="landArea"
-                        min="0"
-                        step="0.01"
-                      />
+                      <div class="form-field floating-label">
+                        <input
+                          type="number"
+                          class="form-input form-input-sm"
+                          id="landArea"
+                          min="0"
+                          step="0.01"
+                          placeholder=" "
+                        />
+                        <label for="landArea" class="form-label"
+                          >Площадь участка (соток)</label
+                        >
+                      </div>
                       <small class="form-text text-muted"
                         >Для домов/участков.</small
                       >
                     </div>
                     <div class="col-md-6">
-                      <label for="condition" class="form-label"
-                        >Состояние</label
-                      >
-                      <select class="form-select" id="condition">
-                        <option value="" selected>Не выбрано</option>
-                        <option value="Евроремонт">Евроремонт</option>
-                        <option value="Хорошее">Хорошее</option>
-                        <option value="Косметический ремонт">
-                          Косметический ремонт
-                        </option>
-                        <option value="Требует ремонта">Требует ремонта</option>
-                        <option value="Черновая отделка">
-                          Черновая отделка
-                        </option>
-                        <option value="Предчистовая отделка">
-                          Предчистовая отделка
-                        </option>
-                      </select>
+                      <div class="form-field">
+                        <label for="condition" class="form-label"
+                          >Состояние</label
+                        >
+                        <select
+                          class="form-select form-select-sm"
+                          id="condition"
+                        >
+                          <option value="">Выберите состояние</option>
+                          <option value="euro-renovation">Евроремонт</option>
+                          <option value="good">Хорошее</option>
+                          <option value="cosmetic">Косметический ремонт</option>
+                          <option value="needs-repair">Требует ремонта</option>
+                          <option value="rough">Черновая отделка</option>
+                          <option value="pre-finish">
+                            Предчистовая отделка
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-field floating-label">
+                        <input
+                          type="number"
+                          class="form-input form-input-sm"
+                          id="floor"
+                          min="1"
+                          placeholder=" "
+                        />
+                        <label for="floor" class="form-label">Этаж</label>
+                      </div>
                     </div>
                   </div>
                 </section>
 
-                <section class="mb-4">
-                  <h5 class="section-title">Цена и Описание</h5>
+                <!-- Удобства и особенности -->
+                <section class="forms-section">
+                  <h5 class="section-title">Удобства и особенности</h5>
+
+                  <!-- Удобства в квартире -->
+                  <div class="form-check-group">
+                    <div class="form-check-group-label">
+                      Удобства в квартире/доме
+                    </div>
+                    <div class="form-check-items">
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="amenity_ac"
+                        />
+                        <label for="amenity_ac" class="form-check-label">
+                          <span class="form-check-box"></span>
+                          <span>Кондиционер</span>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="amenity_washing"
+                        />
+                        <label for="amenity_washing" class="form-check-label">
+                          <span class="form-check-box"></span>
+                          <span>Стиральная машина</span>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="amenity_dishwasher"
+                        />
+                        <label
+                          for="amenity_dishwasher"
+                          class="form-check-label"
+                        >
+                          <span class="form-check-box"></span>
+                          <span>Посудомоечная машина</span>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="amenity_internet"
+                        />
+                        <label for="amenity_internet" class="form-check-label">
+                          <span class="form-check-box"></span>
+                          <span>Интернет Wi-Fi</span>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="amenity_furniture"
+                        />
+                        <label for="amenity_furniture" class="form-check-label">
+                          <span class="form-check-box"></span>
+                          <span>Мебель</span>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="amenity_balcony"
+                        />
+                        <label for="amenity_balcony" class="form-check-label">
+                          <span class="form-check-box"></span>
+                          <span>Балкон/Лоджия</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Характеристики здания -->
+                  <div class="form-check-group form-check-grid">
+                    <div class="form-check-group-label">
+                      Характеристики здания
+                    </div>
+                    <div class="form-check-items">
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="building_elevator"
+                        />
+                        <label for="building_elevator" class="form-check-label">
+                          <span class="form-check-box"></span>
+                          <span>Лифт</span>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="building_concierge"
+                        />
+                        <label
+                          for="building_concierge"
+                          class="form-check-label"
+                        >
+                          <span class="form-check-box"></span>
+                          <span>Консьерж</span>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="building_parking"
+                        />
+                        <label for="building_parking" class="form-check-label">
+                          <span class="form-check-box"></span>
+                          <span>Парковка</span>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="building_playground"
+                        />
+                        <label
+                          for="building_playground"
+                          class="form-check-label"
+                        >
+                          <span class="form-check-box"></span>
+                          <span>Детская площадка</span>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="building_security"
+                        />
+                        <label for="building_security" class="form-check-label">
+                          <span class="form-check-box"></span>
+                          <span>Охрана</span>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="building_gym"
+                        />
+                        <label for="building_gym" class="form-check-label">
+                          <span class="form-check-box"></span>
+                          <span>Спортзал</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Цена и описание -->
+                <section class="forms-section">
+                  <h5 class="section-title">Цена и описание</h5>
                   <div class="row g-3">
                     <div class="col-md-6">
-                      <label for="price" class="form-label">Цена (₽)*</label>
-                      <input
-                        type="number"
-                        class="form-control"
-                        id="price"
-                        min="0"
-                        required
-                      />
+                      <div class="form-field floating-label">
+                        <input
+                          type="number"
+                          class="form-input form-input-sm"
+                          id="price"
+                          min="0"
+                          placeholder=" "
+                          required
+                        />
+                        <label for="price" class="form-label required"
+                          >Цена (₽)</label
+                        >
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-field">
+                        <label for="priceType" class="form-label"
+                          >Тип цены</label
+                        >
+                        <select
+                          class="form-select form-select-sm"
+                          id="priceType"
+                        >
+                          <option value="total">Общая стоимость</option>
+                          <option value="monthly">За месяц</option>
+                          <option value="daily">За сутки</option>
+                          <option value="per_sqm">За м²</option>
+                        </select>
+                      </div>
                     </div>
                     <div class="col-12">
-                      <label for="cleanDescription" class="form-label"
-                        >Описание</label
-                      >
-                      <textarea
-                        class="form-control"
-                        id="cleanDescription"
-                        rows="5"
-                        placeholder="Добавьте подробное описание объекта: особенности планировки, ремонта, инфраструктура района и т.д."
-                      ></textarea>
+                      <div class="form-field">
+                        <label for="cleanDescription" class="form-label"
+                          >Описание объекта</label
+                        >
+                        <textarea
+                          class="form-input form-input-sm"
+                          id="cleanDescription"
+                          rows="5"
+                          placeholder="Добавьте подробное описание объекта: особенности планировки, ремонта, инфраструктура района и т.д."
+                        ></textarea>
+                      </div>
                     </div>
                   </div>
                 </section>
 
-                <section class="mb-4">
-                  <h5 class="section-title">Фотографии</h5>
-                  <label for="imageUploadInput" class="image-upload-area">
-                    <i class="bi bi-images"></i>
-                    <p>Нажмите или перетащите сюда фотографии</p>
-                    <small class="text-muted"
-                      >Можно загрузить несколько изображений (до 10)</small
-                    >
-                  </label>
-                  <input
-                    type="file"
-                    id="imageUploadInput"
-                    multiple
-                    accept="image/png, image/jpeg, image/webp"
-                  />
-                  <div class="image-previews" id="imagePreviews"></div>
+                <!-- Фотографии -->
+                <section class="forms-section">
+                  <h5 class="section-title">Фотографии объекта</h5>
+                  <div class="form-field">
+                    <label class="form-label">Загрузить изображения</label>
+                    <div class="form-file multiple form-file-sm">
+                      <input
+                        type="file"
+                        class="form-file-input"
+                        id="imageUploadInput"
+                        multiple
+                        accept="image/png,image/jpeg,image/webp"
+                      />
+                      <label for="imageUploadInput" class="form-file-label">
+                        <i class="bi bi-images form-file-icon"></i>
+                        <span class="form-file-text">
+                          <span class="form-file-placeholder">
+                            Выберите изображения или перетащите их сюда
+                          </span>
+                        </span>
+                        <span class="form-file-button">Выбрать файлы</span>
+                      </label>
+                      <div class="form-file-selected" id="imagePreviews">
+                        <!-- Здесь будут показаны выбранные файлы -->
+                      </div>
+                    </div>
+                    <small class="form-text text-muted">
+                      Поддерживаются форматы: JPG, PNG, WEBP. Максимум 10
+                      файлов, до 5 МБ каждый.
+                    </small>
+                  </div>
                 </section>
 
-                <div class="form-actions d-flex justify-content-end gap-2">
-                  <button type="button" class="btn btn-outline-secondary">
-                    Сохранить черновик
+                <!-- Дополнительные параметры -->
+                <section class="forms-section">
+                  <h5 class="section-title">Дополнительные параметры</h5>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="form-field">
+                        <label for="dateAvailable" class="form-label"
+                          >Дата доступности</label
+                        >
+                        <input
+                          type="date"
+                          class="form-input form-input-sm"
+                          id="dateAvailable"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Кнопки действий -->
+                <div class="form-actions d-flex justify-content-end gap-2 mt-4">
+                  <button
+                    type="button"
+                    class="brand-button brand-button--solid brand-button--turquoise"
+                  >
+                    <i class="bi bi-file-earmark me-2"></i>
+                    Сохранить
                   </button>
                   <button
                     type="submit"
-                    class="btn btn-brand-lime-green text-brand-dark-navy fw-500 px-4"
+                    class="brand-button brand-button--solid"
                   >
+                    <i class="bi bi-check-circle me-2"></i>
                     Опубликовать
                   </button>
                 </div>
@@ -258,6 +556,7 @@
         </div>
       </div>
     </main>
+
     <app-footer></app-footer>
   </body>
 </html>
