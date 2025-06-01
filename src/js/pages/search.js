@@ -9,7 +9,7 @@ export const initSearchPage = () => {
   function toggleRoomsVisibility() {
     propertyRooms.classList.toggle(
       "d-none",
-      !["apartment", "house"].includes(propertyType.value)
+      !["apartment"].includes(propertyType.value)
     );
   }
 

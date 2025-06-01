@@ -35,7 +35,7 @@ const addListingSchema = {
   //   validators.custom((value, formData) => {
   //     const propertyType = formData.get("propertyType");
   //     // Для квартир и домов количество комнат обязательно
-  //     if (["apartment", "house"].includes(propertyType)) {
+  //     if (["apartment"].includes(propertyType)) {
   //       return value && parseInt(value) > 0;
   //     }
   //     return true;
@@ -127,7 +127,7 @@ function setupConditionalFields(form) {
 
     // Поле "Количество комнат"
     if (roomQuantityContainer) {
-      if (["apartment", "house"].includes(propertyType)) {
+      if (["apartment"].includes(propertyType)) {
         roomQuantityContainer.style.display = "block";
         if (roomQuantityField) roomQuantityField.required = true;
       } else {

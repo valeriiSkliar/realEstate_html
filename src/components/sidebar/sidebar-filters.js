@@ -152,7 +152,7 @@ $(function () {
     const propertyRooms = document.getElementById("property-rooms");
     
     function toggleRoomsVisibility() {
-      propertyRooms.classList.toggle("d-none", !["apartment", "house"].includes(propertyType.value));
+      propertyRooms.classList.toggle("d-none", !["apartment"].includes(propertyType.value));
     }
   
     if (propertyType && propertyRooms) {
