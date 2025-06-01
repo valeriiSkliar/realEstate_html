@@ -1,26 +1,47 @@
-// Импорт для использования внутри файла
-import { validators } from "./validators";
+// Исправленный forms/index.js
+import { formAdapters } from "./adapters.js";
+import { FormBuilder } from "./FormBuilder.js";
+import { FormManager } from "./FormManager.js";
+import { formHandlers } from "./handlers.js";
+import { schemas } from "./schemas.js";
+import { validators } from "./validators.js";
 
 // Экспорт основных классов
-export { FormBuilder } from "./FormBuilder";
-export { FormManager } from "./FormManager";
+export { FormBuilder, FormManager };
 
 // Экспорт валидаторов и схем
-export { schemas } from "./schemas";
-export { validators } from "./validators";
+export { schemas, validators };
 
 // Экспорт адаптеров и обработчиков
-export { formAdapters } from "./adapters";
-export { formHandlers } from "./handlers";
+export { formAdapters, formHandlers };
 
 // Константы и конфигурация
 export const FORM_CONFIG = {
   DEFAULT_ERROR_CLASS: "is-invalid",
   DEFAULT_VALID_CLASS: "is-valid",
-  DEFAULT_ERROR_MESSAGE_CLASS: "form-feedback is-invalid",
+  DEFAULT_ERROR_MESSAGE_CLASS: "invalid-feedback",
   DEFAULT_SUBMIT_LOADING_TEXT: "Отправка...",
   DEFAULT_VALIDATION_DEBOUNCE: 300,
   DEFAULT_SCROLL_BEHAVIOR: "smooth",
+};
+
+// Быстрое создание FormManager для существующей формы
+export const createForm = (formSelector, schema, options = {}) => {
+  const form =
+    typeof formSelector === "string"
+      ? document.querySelector(formSelector)
+      : formSelector;
+
+  if (!form) {
+    throw new Error(`Form not found: ${formSelector}`);
+  }
+
+  const formOptions = {
+    schema: schema || {},
+    ...options,
+  };
+
+  return new FormManager(form, formOptions);
 };
 
 // Утилитарные функции для форм
@@ -28,34 +49,33 @@ export function setFormLoading(form, isLoading) {
   const submitBtn = form.querySelector('button[type="submit"]');
   if (submitBtn) {
     submitBtn.disabled = isLoading;
-    submitBtn.textContent = isLoading
-      ? FORM_CONFIG.DEFAULT_SUBMIT_LOADING_TEXT
-      : submitBtn.dataset.originalText || "Отправить";
+    if (isLoading) {
+      submitBtn.dataset.originalText = submitBtn.textContent;
+      submitBtn.innerHTML =
+        '<span class="spinner-border spinner-border-sm me-2"></span>Отправка...';
+    } else {
+      submitBtn.textContent = submitBtn.dataset.originalText || "Отправить";
+    }
   }
 }
 
 export function createAndShowToast(message, type = "info") {
   // Простая реализация Toast уведомлений
   const toast = document.createElement("div");
-  toast.className = `toast ${type}`;
+  toast.className = `alert alert-${type} position-fixed`;
+  toast.style.cssText = `
+    top: 20px; 
+    right: 20px; 
+    z-index: 9999; 
+    min-width: 300px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  `;
   toast.textContent = message;
   document.body.appendChild(toast);
 
   setTimeout(() => {
     toast.remove();
   }, 3000);
-}
-
-export function createForm(formElement, options = {}) {
-  // Базовая функция создания формы
-  if (!formElement) return null;
-
-  return {
-    element: formElement,
-    validate: () => formElement.checkValidity(),
-    submit: () => formElement.submit(),
-    reset: () => formElement.reset(),
-  };
 }
 
 // Готовые наборы валидаторов для частых случаев
