@@ -90,22 +90,39 @@
                     </div>
                   </div>
 
+                  <!-- Empty Collection State (hidden by default) -->
+                  <div class="collections-empty-state js-empty-collection" style="display: none;">
+                    <div class="collections-empty-state__icon">
+                      <i class="bi bi-building"></i>
+                    </div>
+                    <h3 class="collections-empty-state__title">В этой коллекции пока нет объектов</h3>
+                    <p class="collections-empty-state__text">Добавьте объекты недвижимости в эту коллекцию</p>
+                    <a href="/search.html" class="btn btn-brand-turquoise">
+                      <i class="bi bi-search"></i> Поиск объектов
+                    </a>
+                  </div>
+
                   <!-- Property Cards -->
                   <div class="row g-3">
                     <div class="col-12">
-                      <property-summary-card
-                        title-text="Студия, 28 м2 | ГМР"
-                        title-href="/property-view-standalone.html"
-                        price-text="₽ 4 900 000"
-                        details-json='[
-                              {"label":"Название комплекса", "value":"ЖК «Стрижи»"},
-                              {"label":"Улица", "value":"Автолюбителей ул."},
-                              {"label":"Состояние", "value":"С ремонтом"}
-                          ]'
-                        is-favorite="true"
-                        phone-number="+7 (918) 254-25-36"
-                        agent-name="Алексей"
-                      ></property-summary-card>
+                      <div class="property-card" data-property-id="prop_1">
+                        <property-summary-card
+                          title-text="Студия, 28 м2 | ГМР"
+                          title-href="/property-view-standalone.html"
+                          price-text="₽ 4 900 000"
+                          details-json='[
+                                {"label":"Название комплекса", "value":"ЖК «Стрижи»"},
+                                {"label":"Улица", "value":"Автолюбителей ул."},
+                                {"label":"Состояние", "value":"С ремонтом"}
+                            ]'
+                          is-favorite="true"
+                          phone-number="+7 (918) 254-25-36"
+                          agent-name="Алексей"
+                        ></property-summary-card>
+                        <button class="btn btn-outline-brand-bright-pink js-remove-property" data-property-id="prop_1">
+                          <i class="bi bi-trash"></i> Удалить из коллекции
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -115,6 +132,49 @@
                       class="btn btn-brand-turquoise text-brand-light-gray js-save-collection"
                     >
                       Сохранить Изменения
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Remove Property Confirmation Modal -->
+            <div
+              class="modal fade"
+              id="removePropertyModal"
+              tabindex="-1"
+              aria-labelledby="removePropertyModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="removePropertyModalLabel">
+                      Удалить объект из коллекции
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>
+                      Вы уверены, что хотите удалить этот объект из коллекции?
+                    </p>
+                    <input type="hidden" id="removePropertyId" />
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-brand-turquoise"
+                      data-bs-dismiss="modal"
+                    >
+                      Отмена
+                    </button>
+                    <button type="button" class="btn btn-brand-bright-pink js-confirm-remove-property">
+                      Удалить
                     </button>
                   </div>
                 </div>
