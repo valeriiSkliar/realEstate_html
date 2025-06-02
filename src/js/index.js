@@ -1,4 +1,4 @@
-// // src/js/index.js - Главный файл для импорта всех скриптов
+// src/js/index.js - Главный файл для импорта всех скриптов
 import "../scss/main.scss";
 import "./bootstrap";
 
@@ -110,6 +110,10 @@ registerCustomElements();
 import "./components/index";
 
 // Импортируем страничные скрипты
+import "./pages/add-listing";
+import "./pages/collections";
+import "./pages/my-advertisements";
 import "./pages/profile";
 import "./pages/property-page";
+import "./pages/search";
 import "./pages/support";

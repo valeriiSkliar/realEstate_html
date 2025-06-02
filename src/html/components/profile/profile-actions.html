@@ -1,0 +1,18 @@
+<!-- Support and Subscriptions -->
+<div class="profile-actions">
+  <a
+    href="{{ supportUrl | default: '/support.html' }}"
+    class="profile-action-link text-brand-turquoise"
+  >
+    {{ supportText | default: 'Write to us' }}
+  </a>
+</div>
+
+<div class="profile-subscriptions">
+  <a
+    href="{{ subscriptionsUrl | default: '/subscriptions.html' }}"
+    class="subscription-link text-brand-turquoise"
+  >
+    {{ subscriptionsText | default: 'Subscriptions' }}
+  </a>
+</div>

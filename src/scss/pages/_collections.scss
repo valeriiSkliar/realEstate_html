@@ -105,6 +105,10 @@
       pointer-events: none;
     }
   }
+  .btn-brand-turquoise {
+    background-color: $turquoise;
+    color: $light-gray;
+  }
 }
 
 // Collections list
@@ -156,6 +160,31 @@
   &__actions {
     display: flex;
     gap: 10px;
+
+    .btn-outline-brand-lime {
+      border: var(--bs-btn-border-width) solid #d1f000;
+      &:hover {
+        background-color: #d1f000 !important;
+      }
+    }
+
+    .favorite-badge {
+      color: $lime-green;
+    }
+
+    .btn-outline-brand-bright-pink {
+      border: var(--bs-btn-border-width) solid #ff3fc0;
+    }
+
+    .btn-outline-brand-turquoise {
+      border: var(--bs-btn-border-width) solid #00c9dd;
+    }
+
+    .btn-outline-brand-turquoise, .btn-outline-brand-bright-pink, .btn-outline-brand-lime {
+      &:hover {
+        color: #fff;
+      }
+    }
 
     @media (max-width: 576px) {
       flex-direction: column;
@@ -247,4 +276,14 @@
 // Collections page specific styles
 .collections-page {
   // Add page specific styles here
+}
+
+
+.btn-brand-turquoise {
+  background-color: $turquoise;
+  color: $light-gray;
+  &:hover {
+    background-color: $turquoise-80;
+    color: $light-gray;
+  }
 }

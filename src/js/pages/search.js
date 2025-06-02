@@ -1,19 +1,29 @@
 // src/js/pages/search.js - Скрипты для страницы поиска
 import "../../scss/pages/_search.scss";
 import { initSearchSortButton, initSidebarFilters } from "../components";
-import { initSearchPage } from "../search";
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Initialize search page
-  if (document.querySelector(".search-page")) {
-    initSearchPage();
+export const initSearchPage = () => {
+  const propertyType = document.querySelector("#property_type_select");
+  const propertyRooms = document.querySelector("#property-rooms");
+
+  function toggleRoomsVisibility() {
+    propertyRooms.classList.toggle(
+      "d-none",
+      !["apartment"].includes(propertyType.value)
+    );
   }
 
-  // Initialize search sort button
+  if (propertyType && propertyRooms) {
+    toggleRoomsVisibility();
+
+    propertyType.addEventListener("change", toggleRoomsVisibility);
+  }
+
   if (document.querySelector("#search-sort-dropdown")) {
     initSearchSortButton();
   }
 
-  // Initialize sidebar filters
   initSidebarFilters();
-});
+};
+
+initSearchPage();

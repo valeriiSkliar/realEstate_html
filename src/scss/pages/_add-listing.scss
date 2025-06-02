@@ -1,7 +1,6 @@
 @use "../brand_color" as *;
 
 .add-listing-page {
-  background-color: $light-gray; // Фон страницы
   padding: 1.5rem 0 3rem 0; // Отступы
   min-height: calc(100vh - 160px); // Примерная минимальная высота
 
@@ -22,50 +21,36 @@
     color: $dark-navy;
   }
 
-  // Стили для меток полей
-  .form-label {
-    font-weight: 500;
-    color: $dark-navy-80;
-    margin-bottom: 0.3rem;
-    font-size: 0.9rem;
-  }
+  // Секции формы
+  .forms-section {
+    margin-bottom: 2.5rem;
 
-  // Кнопки действий формы
-  .form-actions {
-    border-top: 1px solid $light-gray-80; // Разделитель перед кнопками
-    padding-top: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  // Область загрузки изображений
-  .image-upload-area {
-    border: 2px dashed $turquoise;
-    border-radius: 8px;
-    padding: 2rem;
-    text-align: center;
-    background-color: #fff;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: rgba($turquoise, 0.05); // Легкий фон при наведении
+    &:last-child {
+      margin-bottom: 1rem;
     }
 
-    i {
-      font-size: 2.5rem;
-      color: $turquoise;
-      margin-bottom: 0.5rem;
-      display: block; // Иконка на своей строке
+    .section-title {
+      color: var(--brand-dark-navy);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--brand-turquoise);
+      display: inline-block;
     }
+  }
 
-    p {
-      margin-bottom: 0.25rem;
+  // Поля формы
+  .form-field {
+    margin-bottom: 1rem;
+    Стили для меток полей .form-label {
+      font-weight: 500;
       color: $dark-navy-80;
-    }
-    small {
-      color: $dark-navy-50;
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
     }
   }
+
+  // Действия формы
 
   #imageUploadInput {
     display: none; // Скрываем стандартный input type="file"
@@ -115,6 +100,27 @@
 
     &:hover {
       background: $bright-pink;
+    }
+  }
+
+  .form-actions {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color, #dee2e6);
+
+    .brand-button {
+      min-width: 140px;
+    }
+  }
+  .form-actions {
+    flex-direction: column;
+
+    .brand-button {
+      width: 100%;
+      margin-bottom: 0.5rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 }

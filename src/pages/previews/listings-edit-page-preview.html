@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Добавить объявление - Real Estate</title>
+    <title>Редактировать объявление - Real Estate</title>
   </head>
   <body>
     <app-header></app-header>
@@ -27,7 +27,7 @@
               >
             </li>
             <li class="breadcrumb-item">
-              <span class="breadcrumb-text">Добавить объявление</span>
+              <span class="breadcrumb-text">Редактировать объявление</span>
             </li>
           </ol>
         </nav>
@@ -42,9 +42,12 @@
               >
                 <i class="bi bi-arrow-left me-2"></i> К моим объявлениям
               </a>
+              <div class="listing-status">
+                <span class="badge bg-success">Опубликовано</span>
+              </div>
             </div>
 
-            <!-- Форма добавления объявления -->
+            <!-- Форма редактирования объявления -->
             <form id="addListingForm" class="card" novalidate>
               <div class="card-body p-4">
                 <!-- Прогресс валидации -->
@@ -52,6 +55,7 @@
                   <div
                     class="validation-progress-bar"
                     id="validationProgress"
+                    style="width: 100%"
                   ></div>
                 </div>
 
@@ -72,7 +76,7 @@
                           required
                         >
                           <option value="">Выберите тип недвижимости</option>
-                          <option value="apartment">Квартира</option>
+                          <option value="apartment" selected>Квартира</option>
                           <option value="house">Дом</option>
                           <option value="commercial">
                             Коммерческая недвижимость
@@ -95,7 +99,7 @@
                           required
                         >
                           <option value="">Выберите тип сделки</option>
-                          <option value="sale">Продажа</option>
+                          <option value="sale" selected>Продажа</option>
                           <option value="rent">Аренда</option>
                         </select>
                       </div>
@@ -109,6 +113,7 @@
                           id="propertyName"
                           name="propertyName"
                           placeholder=" "
+                          value="Уютная 2-комнатная квартира в центре города"
                           required
                         />
                         <label for="propertyName" class="form-label required">
@@ -136,7 +141,9 @@
                           required
                         >
                           <option value="">Выберите город</option>
-                          <option value="krasnodar">г. Краснодар</option>
+                          <option value="krasnodar" selected>
+                            г. Краснодар
+                          </option>
                           <option value="sochi">г. Сочи</option>
                           <option value="anapa">г. Анапа</option>
                           <option value="gelendzhik">г. Геленджик</option>
@@ -155,7 +162,7 @@
                           data-select2="true"
                         >
                           <option value="">Выберите район</option>
-                          <option value="center">Центральный</option>
+                          <option value="center" selected>Центральный</option>
                           <option value="north">Северный</option>
                           <option value="south">Южный</option>
                           <option value="east">Восточный</option>
@@ -172,6 +179,7 @@
                           id="address"
                           name="address"
                           placeholder=" "
+                          value="ул. Красная, 123"
                           required
                         />
                         <label for="address" class="form-label required"
@@ -196,6 +204,7 @@
                           min="0"
                           step="0.1"
                           placeholder=" "
+                          value="65.5"
                           required
                         />
                         <label for="propertyArea" class="form-label required">
@@ -213,6 +222,7 @@
                           name="floor"
                           min="1"
                           placeholder=" "
+                          value="5"
                         />
                         <label for="floor" class="form-label">Этаж</label>
                       </div>
@@ -229,7 +239,9 @@
                           name="condition"
                         >
                           <option value="">Выберите состояние</option>
-                          <option value="euro-renovation">Евроремонт</option>
+                          <option value="euro-renovation" selected>
+                            Евроремонт
+                          </option>
                           <option value="good">Хорошее</option>
                           <option value="cosmetic">Косметический ремонт</option>
                           <option value="needs-repair">Требует ремонта</option>
@@ -260,6 +272,7 @@
                           class="form-check-input"
                           id="building_elevator"
                           name="building_elevator"
+                          checked
                         />
                         <label for="building_elevator" class="form-check-label">
                           <span class="form-check-box"></span>
@@ -289,6 +302,7 @@
                           class="form-check-input"
                           id="building_parking"
                           name="building_parking"
+                          checked
                         />
                         <label for="building_parking" class="form-check-label">
                           <span class="form-check-box"></span>
@@ -318,6 +332,7 @@
                           class="form-check-input"
                           id="building_security"
                           name="building_security"
+                          checked
                         />
                         <label for="building_security" class="form-check-label">
                           <span class="form-check-box"></span>
@@ -354,6 +369,7 @@
                           name="price"
                           min="0"
                           placeholder=" "
+                          value="4500000"
                           required
                         />
                         <label for="price" class="form-label required"
@@ -373,7 +389,9 @@
                           name="cleanDescription"
                           rows="5"
                           placeholder="Добавьте подробное описание объекта: особенности планировки, ремонта, инфраструктура района и т.д."
-                        ></textarea>
+                        >
+Отличная 2-комнатная квартира в самом центре города. Квартира после качественного евроремонта, со всей необходимой мебелью и техникой. Большие светлые комнаты, просторная кухня-гостиная. В доме есть лифт, охрана и подземная парковка. Рядом парк, школы, детские сады, остановки общественного транспорта. Отличное место для комфортной жизни в центре города.</textarea
+                        >
                       </div>
                     </div>
                   </div>
@@ -403,14 +421,80 @@
                         <i class="bi bi-images form-file-icon"></i>
                         <span class="form-file-text">
                           <span class="form-file-placeholder"
-                            >Выберите несколько изображений</span
+                            >Загружено изображений: 5</span
                           >
                         </span>
-                        <span class="form-file-button">Выбрать файлы</span>
+                        <span class="form-file-button">Добавить файлы</span>
                       </label>
                       <div class="form-file-selected" id="imagePreviews">
-                        <!-- Здесь будут показаны выбранные файлы -->
-                      </div>
+                        <!-- Имитация уже загруженных файлов -->
+                        <!-- <div
+                          class="selected-file d-flex align-items-center mb-2"
+                        >
+                          <div
+                            style="
+                              width: 60px;
+                              height: 60px;
+                              background: #e9ecef;
+                              border-radius: 4px;
+                              margin-right: 10px;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
+                            <i class="bi bi-image text-muted"></i>
+                          </div>
+                          <div>
+                            <div class="fw-bold">apartment_main.jpg</div>
+                            <div class="text-muted small">1.2 MB</div>
+                          </div>
+                        </div>
+                        <div
+                          class="selected-file d-flex align-items-center mb-2"
+                        >
+                          <div
+                            style="
+                              width: 60px;
+                              height: 60px;
+                              background: #e9ecef;
+                              border-radius: 4px;
+                              margin-right: 10px;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
+                            <i class="bi bi-image text-muted"></i>
+                          </div>
+                          <div>
+                            <div class="fw-bold">kitchen.jpg</div>
+                            <div class="text-muted small">985 KB</div>
+                          </div>
+                        </div>
+                        <div
+                          class="selected-file d-flex align-items-center mb-2"
+                        >
+                          <div
+                            style="
+                              width: 60px;
+                              height: 60px;
+                              background: #e9ecef;
+                              border-radius: 4px;
+                              margin-right: 10px;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
+                            <i class="bi bi-image text-muted"></i>
+                          </div>
+                          <div>
+                            <div class="fw-bold">bedroom.jpg</div>
+                            <div class="text-muted small">756 KB</div>
+                          </div>
+                        </div>
+                      </div> -->
                     </div>
                     <small class="form-text text-muted fs-10">
                       Поддерживаются форматы: JPG, PNG, WEBP. Максимум 10
@@ -423,19 +507,27 @@
                 <div class="form-actions d-flex justify-content-end gap-2 mt-4">
                   <button
                     type="button"
+                    class="brand-button brand-button--outline brand-button--danger"
+                    id="unpublishBtn"
+                  >
+                    <i class="bi bi-eye-slash me-2"></i>
+                    В архив
+                  </button>
+                  <!-- <button
+                    type="button"
                     class="brand-button brand-button--solid brand-button--turquoise"
                     id="saveAsDraftBtn"
                   >
                     <i class="bi bi-file-earmark me-2"></i>
-                    Сохранить
-                  </button>
+                    Сохранить как черновик
+                  </button> -->
                   <button
                     type="submit"
                     class="brand-button brand-button--solid"
-                    id="publishBtn"
+                    id="saveChangesBtn"
                   >
                     <i class="bi bi-check-circle me-2"></i>
-                    Опубликовать
+                    Сохранить изменения
                   </button>
                 </div>
               </div>

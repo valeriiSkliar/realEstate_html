@@ -1,4 +1,5 @@
-class FormManager {
+// Исправленный FormManager.js без показа ошибок под полями
+export class FormManager {
   constructor(formElement, options = {}) {
     this.form =
       typeof formElement === "string"
@@ -17,12 +18,10 @@ class FormManager {
       onServerError: null,
       validateOnBlur: true,
       validateOnChange: false,
-      showErrors: true,
       showGeneralError: false,
       generalErrorTimeout: 5000,
       errorClass: "is-invalid",
       validClass: "is-valid",
-      errorMessageClass: "form-feedback is-invalid",
       submitButton: null,
       resetOnSuccess: false,
       scrollToError: true,
@@ -37,10 +36,8 @@ class FormManager {
   }
 
   init() {
-    // Предотвращаем стандартную отправку формы
     this.form.addEventListener("submit", this.handleSubmit.bind(this));
 
-    // Добавляем обработчики для валидации
     if (this.options.validateOnBlur) {
       this.form.addEventListener("blur", this.handleBlur.bind(this), true);
     }
@@ -49,7 +46,6 @@ class FormManager {
       this.form.addEventListener("input", this.handleChange.bind(this), true);
     }
 
-    // Находим кнопку отправки
     this.submitButton = this.options.submitButton
       ? document.querySelector(this.options.submitButton)
       : this.form.querySelector('[type="submit"]');
@@ -64,8 +60,6 @@ class FormManager {
     this.setSubmitState(true);
 
     const formData = new FormData(this.form);
-
-    // Валидируем все поля
     const isValid = await this.validateForm(formData);
 
     if (isValid) {
@@ -75,15 +69,9 @@ class FormManager {
           formData
         );
 
-        // Проверяем, есть ли ошибки валидации с сервера
         if (result && result.errors) {
           this.handleServerErrors(result.errors);
-
-          if (this.options.scrollToError) {
-            this.scrollToFirstError();
-          }
         } else {
-          // Успешная отправка
           if (this.options.onSuccess) {
             this.options.onSuccess(result);
           }
@@ -93,12 +81,9 @@ class FormManager {
           }
         }
       } catch (error) {
-        // Обработка ошибок сети или других критических ошибок
         if (error.validationErrors) {
-          // Если ошибка содержит данные валидации
           this.handleServerErrors(error.validationErrors);
         } else {
-          // Общая ошибка
           console.error("Form submission error:", error);
 
           if (this.options.onError) {
@@ -107,7 +92,6 @@ class FormManager {
             });
           }
 
-          // Показываем общую ошибку, если настроено
           if (this.options.showGeneralError) {
             this.showGeneralError(
               error.message || "Произошла ошибка при отправке формы"
@@ -119,10 +103,6 @@ class FormManager {
       if (this.options.onError) {
         this.options.onError(this.errors);
       }
-
-      if (this.options.scrollToError) {
-        this.scrollToFirstError();
-      }
     }
 
     this.isSubmitting = false;
@@ -130,12 +110,9 @@ class FormManager {
   }
 
   handleServerErrors(serverErrors) {
-    // Очищаем предыдущие ошибки
     this.errors = {};
 
-    // Обрабатываем различные форматы ошибок с сервера
     if (Array.isArray(serverErrors)) {
-      // Формат: [{field: 'email', message: 'Email уже зарегистрирован'}]
       serverErrors.forEach((error) => {
         if (error.field && error.message) {
           this.errors[error.field] = error.message;
@@ -143,8 +120,6 @@ class FormManager {
         }
       });
     } else if (typeof serverErrors === "object") {
-      // Формат: {email: 'Email уже зарегистрирован', phone: 'Неверный формат'}
-      // или: {email: ['Ошибка 1', 'Ошибка 2']}
       Object.entries(serverErrors).forEach(([field, message]) => {
         if (Array.isArray(message)) {
           this.errors[field] = message.join(". ");
@@ -155,12 +130,9 @@ class FormManager {
       });
     }
 
-    // Отображаем ошибки
-    if (this.options.showErrors) {
-      this.displayAllErrors();
-    }
+    // Обновляем состояние валидации всех полей после получения ошибок с сервера
+    this.updateAllFieldsValidationState();
 
-    // Вызываем callback для ошибок
     if (this.options.onServerError) {
       this.options.onServerError(this.errors);
     }
@@ -223,9 +195,13 @@ class FormManager {
 
     await Promise.all(validationPromises);
 
-    if (this.options.showErrors) {
-      this.displayAllErrors();
-    }
+    // Добавляем все поля с ошибками в touched для показа подсветки
+    Object.keys(this.errors).forEach((fieldName) => {
+      this.touched.add(fieldName);
+    });
+
+    // Обновляем состояние валидации всех полей
+    this.updateAllFieldsValidationState();
 
     return Object.keys(this.errors).length === 0;
   }
@@ -239,9 +215,8 @@ class FormManager {
     const formData = new FormData(this.form);
     await this.validateFieldRules(fieldName, value, rules, formData);
 
-    if (this.options.showErrors) {
-      this.displayFieldError(fieldName);
-    }
+    // Обновляем состояние валидации поля
+    this.updateFieldValidationState(fieldName);
 
     return !this.errors[fieldName];
   }
@@ -264,15 +239,88 @@ class FormManager {
     }
   }
 
+  /**
+   * Обновляет CSS классы валидации для конкретного поля
+   */
+  updateFieldValidationState(fieldName) {
+    // Получаем элемент по querySelector, чтобы избежать проблемы с HTMLOptionsCollection
+    let field = this.form.querySelector(`[name="${fieldName}"]`);
+
+    // Fallback к form.elements если querySelector не нашел
+    if (!field) {
+      field = this.form.elements[fieldName];
+    }
+
+    if (!field) return;
+
+    const hasError = this.errors[fieldName];
+    const errorClass = this.options.errorClass || "is-invalid";
+    const validClass = this.options.validClass || "is-valid";
+
+    // Обрабатываем NodeList только для radio/checkbox групп, НЕ для select
+    const isNodeList =
+      field.length !== undefined &&
+      !field.tagName &&
+      typeof field[0] !== "undefined";
+
+    const fields = isNodeList ? Array.from(field) : [field];
+
+    fields.forEach((fieldElement) => {
+      // Проверяем, есть ли Select2 контейнер рядом с полем
+      let select2Container = null;
+      if (fieldElement.tagName === "SELECT" && typeof $ !== "undefined") {
+        const $nextElement = $(fieldElement).next(".select2-container");
+        if ($nextElement.length > 0) {
+          select2Container = $nextElement;
+        }
+      }
+
+      if (select2Container) {
+        // Для Select2 элементов применяем классы к контейнеру
+        select2Container.removeClass(errorClass + " " + validClass);
+
+        if (this.touched.has(fieldName)) {
+          if (hasError) {
+            select2Container.addClass(errorClass);
+          } else if (fieldElement.value && fieldElement.value.trim() !== "") {
+            select2Container.addClass(validClass);
+          }
+        }
+      } else {
+        // Для обычных элементов используем стандартную логику
+        fieldElement.classList.remove(errorClass, validClass);
+
+        if (this.touched.has(fieldName)) {
+          if (hasError) {
+            fieldElement.classList.add(errorClass);
+          } else if (
+            fieldElement.value.trim() !== "" ||
+            fieldElement.type === "checkbox" ||
+            fieldElement.type === "radio"
+          ) {
+            fieldElement.classList.add(validClass);
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Обновляет состояние валидации для всех полей формы
+   */
+  updateAllFieldsValidationState() {
+    for (const fieldName of Object.keys(this.options.schema)) {
+      this.updateFieldValidationState(fieldName);
+    }
+  }
+
   getFieldValue(fieldName, formData) {
     const field = this.form.elements[fieldName];
 
     if (!field) return formData.get(fieldName);
 
-    // Обработка различных типов полей
     if (field.type === "checkbox") {
       if (field.name.endsWith("[]")) {
-        // Multiple checkboxes
         return formData.getAll(fieldName);
       }
       return field.checked ? field.value : null;
@@ -308,85 +356,6 @@ class FormManager {
     return values;
   }
 
-  displayAllErrors() {
-    // Сначала очищаем все ошибки
-    this.clearAllErrors();
-
-    // Отображаем текущие ошибки
-    for (const fieldName in this.errors) {
-      this.displayFieldError(fieldName);
-    }
-  }
-
-  displayFieldError(fieldName) {
-    const field = this.form.elements[fieldName];
-    if (!field) return;
-
-    const fields = field.length ? Array.from(field) : [field];
-
-    fields.forEach((f) => {
-      // Удаляем предыдущие классы
-      f.classList.remove(this.options.errorClass, this.options.validClass);
-
-      if (this.errors[fieldName]) {
-        f.classList.add(this.options.errorClass);
-        this.showErrorMessage(f, this.errors[fieldName]);
-      } else if (this.touched.has(fieldName)) {
-        f.classList.add(this.options.validClass);
-        this.hideErrorMessage(f);
-      }
-    });
-  }
-
-  showErrorMessage(field, message) {
-    let errorElement = this.getErrorElement(field);
-
-    if (!errorElement) {
-      errorElement = document.createElement("div");
-      errorElement.className = this.options.errorMessageClass;
-
-      const parent = field.closest(".form-field") || field.parentElement;
-      parent.appendChild(errorElement);
-    }
-
-    errorElement.textContent = message;
-    errorElement.style.display = "block";
-  }
-
-  hideErrorMessage(field) {
-    const errorElement = this.getErrorElement(field);
-    if (errorElement) {
-      errorElement.style.display = "none";
-    }
-  }
-
-  getErrorElement(field) {
-    const parent = field.closest(".form-field") || field.parentElement;
-    return parent.querySelector(
-      `.${this.options.errorMessageClass.split(" ")[0]}`
-    );
-  }
-
-  clearAllErrors() {
-    const errorElements = this.form.querySelectorAll(
-      `.${this.options.errorMessageClass.split(" ")[0]}`
-    );
-    errorElements.forEach((el) => (el.style.display = "none"));
-
-    const fields = this.form.querySelectorAll(`.${this.options.errorClass}`);
-    fields.forEach((field) => {
-      field.classList.remove(this.options.errorClass);
-    });
-  }
-
-  scrollToFirstError() {
-    const firstError = this.form.querySelector(`.${this.options.errorClass}`);
-    if (firstError) {
-      firstError.scrollIntoView({ behavior: "smooth", block: "center" });
-      firstError.focus();
-    }
-  }
-
   setSubmitState(isSubmitting) {
     if (this.submitButton) {
       this.submitButton.disabled = isSubmitting;
@@ -406,18 +375,15 @@ class FormManager {
     this.form.reset();
     this.errors = {};
     this.touched.clear();
-    this.clearAllErrors();
     this.hideGeneralError();
   }
 
   setFieldError(fieldName, message) {
     this.errors[fieldName] = message;
-    this.displayFieldError(fieldName);
   }
 
   clearFieldError(fieldName) {
     delete this.errors[fieldName];
-    this.displayFieldError(fieldName);
   }
 
   getErrors() {

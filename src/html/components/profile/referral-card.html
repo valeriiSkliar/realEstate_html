@@ -1,0 +1,44 @@
+<!-- Referral Program Card -->
+<div class="info-card">
+  <div class="info-card__header js-card-toggle">
+    <h3 class="info-card__title text-brand-dark-navy">REFERRAL PROGRAM</h3>
+    <i class="bi bi-chevron-down info-card__icon text-brand-turquoise"></i>
+  </div>
+  <div class="info-card__content">
+    <div class="referral-program">
+      <div class="referral-link-box">
+        <p class="referral-label text-brand-dark-navy">Your referral link:</p>
+        <div class="referral-link-container">
+          <input
+            type="text"
+            class="referral-link-input"
+            value="{{ referral.link }}"
+            readonly
+          />
+          <button class="referral-copy-btn js-copy-referral">
+            <i class="bi bi-clipboard text-brand-turquoise"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="referral-stats">
+        <div class="referral-stat-item">
+          <span class="referral-stat-label text-brand-dark-navy">
+            Invited users:
+          </span>
+          <span class="referral-stat-value text-brand-dark-navy">
+            {{ referral.invitedCount }}
+          </span>
+        </div>
+        <div class="referral-stat-item">
+          <span class="referral-stat-label text-brand-dark-navy">
+            Accumulated bonuses:
+          </span>
+          <span class="referral-stat-value text-brand-dark-navy">
+            {{ referral.bonuses }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

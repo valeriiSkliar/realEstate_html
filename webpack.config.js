@@ -42,8 +42,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "public"),
-    filename: "js/[name].[contenthash].js",
-    filename: "js/[name].[contenthash].js",
+    filename: "js/[name].js",
     clean: true,
   },
   resolve: {
@@ -357,6 +356,23 @@ module.exports = {
       //   "index",
       // ],
     }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/listings-edit-page-preview.html",
+      filename: "listings-edit.html",
+      // chunks: [
+      //   "jquery",
+      //   "bootstrap",
+      //   "swiper",
+      //   "select2",
+      //   "vendors",
+      //   "shared",
+      //   "index",
+      // ],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/brand-button-templates.html",
+      filename: "brand-button-templates.html",
+    }),
 
     new HtmlWebpackPlugin({
       template: "./src/pages/previews/forms-examples-preview.html",
@@ -387,7 +403,7 @@ module.exports = {
     }),
 
     new MiniCssExtractPlugin({
-      filename: "css/[name].[contenthash].css",
+      filename: "css/[name].css",
     }),
     new CopyPlugin({
       patterns: [

@@ -27,308 +27,182 @@
     <!-- Main Content Area -->
     <main class="page-content">
       <div id="app">
-
         <div class="collections-edit-page">
-            <div class="container">
-              <div class="page-header">
-                <h1 class="page-title">Edit Collection</h1>
-                <a href="/collections.html" class="btn btn-outline-brand-turquoise">
-                  <i class="bi bi-arrow-left"></i> Back to Collections
-                </a>
-              </div>
-          
-              <!-- Step Indicator -->
-              <div class="step-indicator">
-                <div class="step active" data-step="1">
-                  <div class="step-number">1</div>
-                  <div class="step-label">Collection Info</div>
-                </div>
-                <div class="step-divider"></div>
-                <div class="step" data-step="2">
-                  <div class="step-number">2</div>
-                  <div class="step-label">Search Parameters</div>
-                </div>
-                <div class="step-divider"></div>
-                <div class="step" data-step="3">
-                  <div class="step-number">3</div>
-                  <div class="step-label">Manage Properties</div>
-                </div>
-              </div>
-          
-              <!-- Hidden collection ID field -->
-              <input type="hidden" id="collectionId">
-          
-              <!-- Step 1: Collection Information Form -->
-              <div class="step-content active" id="step1">
-                <div class="card">
-                  <div class="card-body">
-                    <h2 class="card-title">Collection Information</h2>
-                    <form id="collectionInfoForm">
-                      <div class="mb-3">
-                        <label for="collectionName" class="form-label">Collection Name*</label>
-                        <input type="text" class="form-control" id="collectionName" required>
-                        <div class="form-text">Give this collection a name you'll recognize later</div>
-                      </div>
-                      
-                      <div class="mb-3">
-                        <label for="clientName" class="form-label">Client Name*</label>
-                        <input type="text" class="form-control" id="clientName" required>
-                      </div>
-                      
-                      <div class="mb-3">
-                        <label for="clientEmail" class="form-label">Client Email</label>
-                        <input type="email" class="form-control" id="clientEmail">
-                      </div>
-                      
-                      <div class="mb-3">
-                        <label for="clientPhone" class="form-label">Client Phone</label>
-                        <input type="tel" class="form-control" id="clientPhone">
-                      </div>
-                      
-                      <div class="mb-3">
-                        <label for="collectionNotes" class="form-label">Notes</label>
-                        <textarea class="form-control" id="collectionNotes" rows="3"></textarea>
-                      </div>
-                      
-                      <div class="form-actions">
-                        <button type="button" class="btn btn-brand-turquoise text-brand-light-gray js-next-step" data-next="2">
-                          Next <i class="bi bi-arrow-right"></i>
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-          
-              <!-- Step 2: Search Parameters Form -->
-              <div class="step-content" id="step2">
-                <div class="card">
-                  <div class="card-body">
-                    <h2 class="card-title">Search Parameters</h2>
-                    <form id="searchParamsForm">
-                      <div class="row">
-                        <div class="col-md-6 mb-3">
-                          <label for="propertyType" class="form-label">Property Type</label>
-                          <select class="form-select" id="propertyType">
-                            <option value="">Any</option>
-                            <option value="apartment">Apartment</option>
-                            <option value="house">House</option>
-                            <option value="commercial">Commercial</option>
-                            <option value="land">Land</option>
-                          </select>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                          <label for="dealType" class="form-label">Deal Type</label>
-                          <select class="form-select" id="dealType">
-                            <option value="">Any</option>
-                            <option value="sale">For Sale</option>
-                            <option value="rent">For Rent</option>
-                          </select>
-                        </div>
-                      </div>
-                      
-                      <div class="row">
-                        <div class="col-md-6 mb-3">
-                          <label for="location" class="form-label">Location</label>
-                          <input type="text" class="form-control" id="location" placeholder="City, district, area...">
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                          <label for="propertySize" class="form-label">Property Size (m²)</label>
-                          <div class="input-group">
-                            <input type="number" class="form-control" id="propertySizeMin" placeholder="Min">
-                            <span class="input-group-text">-</span>
-                            <input type="number" class="form-control" id="propertySizeMax" placeholder="Max">
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div class="row">
-                        <div class="col-md-6 mb-3">
-                          <label for="priceRange" class="form-label">Price Range</label>
-                          <div class="input-group">
-                            <input type="number" class="form-control" id="priceMin" placeholder="Min">
-                            <span class="input-group-text">-</span>
-                            <input type="number" class="form-control" id="priceMax" placeholder="Max">
-                          </div>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                          <label for="rooms" class="form-label">Bedrooms</label>
-                          <div class="input-group">
-                            <input type="number" class="form-control" id="roomsMin" placeholder="Min">
-                            <span class="input-group-text">-</span>
-                            <input type="number" class="form-control" id="roomsMax" placeholder="Max">
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div class="form-actions">
-                        <button type="button" class="btn btn-outline-brand-turquoise js-prev-step" data-prev="1">
-                          <i class="bi bi-arrow-left"></i> Back
-                        </button>
-                        <button type="button" class="btn btn-brand-turquoise text-brand-light-gray js-next-step" data-next="3">
-                          Next <i class="bi bi-arrow-right"></i>
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-          
-              <!-- Step 3: Manage Properties -->
-              <div class="step-content" id="step3">
-                <div class="card">
-                  <div class="card-body">
-                    <h2 class="card-title">Manage Properties</h2>
-                    
-                    <!-- Current Properties Section -->
-                    <div class="current-properties-section">
-                      <h3 class="section-subtitle">Current Properties in Collection</h3>
-                      
-                      <div class="selection-controls mb-4">
-                        <div class="selection-status">
-                          <span class="current-count">0</span> properties in collection
-                        </div>
-                        <div class="selection-actions">
-                          <button type="button" class="btn btn-outline-brand-turquoise js-search-more">
-                            <i class="bi bi-search"></i> Search More Properties
-                          </button>
-                        </div>
-                      </div>
-                      
-                      <!-- Current properties list -->
-                      <div class="row g-3 js-current-properties">
-                        <!-- Property cards will be populated here dynamically -->
-                      </div>
-                      
-                      <!-- Empty collection message -->
-                      <div class="empty-collection-message js-empty-collection" style="display: none;">
-                        <i class="bi bi-collection"></i>
-                        <p>This collection is empty. Add properties by clicking "Search More Properties".</p>
-                      </div>
-                    </div>
-                    
-                    <!-- Search More Properties Section (shown when "Search More Properties" is clicked) -->
-                    <div class="search-more-section" style="display: none;">
-                      <h3 class="section-subtitle">Add Properties to Collection</h3>
-                      
-                      <!-- Property search form -->
-                      <div class="quick-search-form mb-3">
-                        <div class="input-group">
-                          <input type="text" class="form-control js-quick-search-input" placeholder="Search by location, type...">
-                          <button class="btn btn-brand-turquoise text-brand-light-gray js-quick-search-btn" type="button">
-                            <i class="bi bi-search"></i> Search
-                          </button>
-                        </div>
-                      </div>
-                      
-                      <!-- Search results -->
-                      <div class="property-search-results js-search-results">
-                        <!-- Loading indicator -->
-                        <div class="search-results-loading" style="display: none;">
-                          <div class="spinner-border text-brand-turquoise" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
-                          <p>Searching for properties...</p>
-                        </div>
-                        
-                        <!-- Results container -->
-                        <div class="row g-3 js-results-container">
-                          <!-- Property cards will be populated here dynamically -->
-                        </div>
-                        
-                        <!-- No results message -->
-                        <div class="no-results-message js-no-search-results" style="display: none;">
-                          <i class="bi bi-search"></i>
-                          <p>No properties found matching your criteria. Try adjusting your search parameters.</p>
-                        </div>
-                      </div>
-                      
-                      <!-- Back to collection button -->
-                      <button type="button" class="btn btn-outline-brand-turquoise mt-3 js-back-to-collection">
-                        <i class="bi bi-arrow-left"></i> Back to Collection
-                      </button>
-                    </div>
-                    
-                    <div class="form-actions mt-4">
-                      <button type="button" class="btn btn-outline-brand-turquoise js-prev-step" data-prev="2">
-                        <i class="bi bi-arrow-left"></i> Back
-                      </button>
-                      <button type="button" class="btn btn-brand-turquoise text-brand-light-gray js-save-collection">
-                        <i class="bi bi-save"></i> Save Changes
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div class="container">
+            <div class="page-header">
+              <h1 class="page-title">Редактировать Коллекцию</h1>
+              <a
+                href="/collections.html"
+                class="btn btn-outline-brand-turquoise"
+              >
+                <i class="bi bi-arrow-left"></i> Назад к Коллекциям
+              </a>
             </div>
-            
-            <!-- Success Modal -->
-            <div class="modal fade" id="collectionUpdateSuccessModal" tabindex="-1" aria-labelledby="collectionUpdateSuccessModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="collectionUpdateSuccessModalLabel">Collection Updated</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="text-center mb-3">
-                      <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+
+            <!-- Collection Information Form -->
+            <div class="step-content active" id="step1">
+              <div class="card">
+                <div class="card-body">
+                  <form id="collectionId">
+                    <section class="forms-section">
+                      <h5 class="section-title">Информация о Коллекции</h2>
+                      <div class="row g-3">
+                        <div class="col-12">
+                          <div class="form-field floating-label">
+                            <input type="text" class="form-input form-input-sm" id="collectionName" name="collectionName" required>
+                            <label for="collectionName" class="form-label required">Название Коллекции</label>
+                          </div>
+                        </div>  
+                          <div class="col-12">
+                            <div class="form-field">
+                              <label for="collectionNotes" class="form-label">
+                                Примечания
+                              </label>
+                              <textarea class="form-input form-input-sm" id="collectionNotes" name="collectionNotes" rows="3"></textarea>
+                            </div>
+                          </div>
+                        
+                      </div>
+                    </section>
+                  </form>
+                </div>
+              </div>
+              
+            </div>
+
+            <!-- Properties Section -->
+            <div class="properties-section mt-4">
+              <div class="card">
+                <div class="card-body">
+                  <h2 class="card-title">Объекты в Коллекции</h2>
+
+                  <div class="selection-controls mb-4">
+                    <div class="selection-status">
+                      <span class="current-count">2</span> объектов в коллекции
                     </div>
-                    <p class="text-center">Your collection has been updated successfully!</p>
+                    <div class="selection-actions">
+                      <a
+                        href="/search.html"
+                        class="btn btn-brand-turquoise js-search-more"
+                      >
+                        <i class="bi bi-search"></i> Поиск Объектов
+                      </a>
+                    </div>
                   </div>
-                  <div class="modal-footer">
-                    <a href="/collections.html" class="btn btn-secondary">Go to Collections</a>
-                    <button type="button" class="btn btn-brand-turquoise text-brand-light-gray" data-bs-dismiss="modal">Continue Editing</button>
+
+                  <!-- Empty Collection State (hidden by default) -->
+                  <div class="collections-empty-state js-empty-collection" style="display: none;">
+                    <div class="collections-empty-state__icon">
+                      <i class="bi bi-building"></i>
+                    </div>
+                    <h3 class="collections-empty-state__title">В этой коллекции пока нет объектов</h3>
+                    <p class="collections-empty-state__text">Добавьте объекты недвижимости в эту коллекцию</p>
+                    <a href="/search.html" class="btn btn-brand-turquoise">
+                      <i class="bi bi-search"></i> Поиск объектов
+                    </a>
+                  </div>
+
+                  <!-- Property Cards -->
+                  <div class="row g-3">
+                    <div class="col-12">
+                      <div class="property-card" data-property-id="prop_1">
+                        <property-summary-card
+                          title-text="Студия, 28 м2 | ГМР"
+                          title-href="/property-view-standalone.html"
+                          price-text="₽ 4 900 000"
+                          details-json='[
+                                {"label":"Название комплекса", "value":"ЖК «Стрижи»"},
+                                {"label":"Улица", "value":"Автолюбителей ул."},
+                                {"label":"Состояние", "value":"С ремонтом"}
+                            ]'
+                          is-favorite="true"
+                          phone-number="+7 (918) 254-25-36"
+                          agent-name="Алексей"
+                        ></property-summary-card>
+                        <button class="btn btn-outline-brand-bright-pink js-remove-property" data-property-id="prop_1">
+                          <i class="bi bi-trash"></i> Удалить из коллекции
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-actions mt-4">
+                    <button
+                      type="button"
+                      class="btn btn-brand-turquoise text-brand-light-gray js-save-collection"
+                    >
+                      Сохранить Изменения
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
             
             <!-- Remove Property Confirmation Modal -->
-            <div class="modal fade" id="removePropertyModal" tabindex="-1" aria-labelledby="removePropertyModalLabel" aria-hidden="true">
+            <div
+              class="modal fade"
+              id="removePropertyModal"
+              tabindex="-1"
+              aria-labelledby="removePropertyModalLabel"
+              aria-hidden="true"
+            >
               <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="removePropertyModalLabel">Remove Property</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="removePropertyModalLabel">
+                      Удалить объект из коллекции
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
                   </div>
                   <div class="modal-body">
-                    <p>Are you sure you want to remove this property from the collection?</p>
-                    <input type="hidden" id="removePropertyId">
+                    <p>
+                      Вы уверены, что хотите удалить этот объект из коллекции?
+                    </p>
+                    <input type="hidden" id="removePropertyId" />
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger js-confirm-remove-property">Remove</button>
+                    <button
+                      type="button"
+                      class="btn btn-brand-turquoise"
+                      data-bs-dismiss="modal"
+                    >
+                      Отмена
+                    </button>
+                    <button type="button" class="btn btn-brand-bright-pink js-confirm-remove-property">
+                      Удалить
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
+        </div>
+      </div>
     </main>
 
     <app-footer></app-footer>
 
-
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
-    <!-- Add to Collection Modal -->
+    <!-- Success Modal -->
     <div
       class="modal fade"
-      id="addToCollectionModal"
+      id="collectionUpdateSuccessModal"
       tabindex="-1"
-      aria-labelledby="addToCollectionModalLabel"
+      aria-labelledby="collectionSuccessModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addToCollectionModalLabel">
-              Add to Collection
+            <h5 class="modal-title" id="collectionSuccessModalLabel">
+              Коллекция Обновлена
             </h5>
             <button
               type="button"
@@ -338,65 +212,23 @@
             ></button>
           </div>
           <div class="modal-body">
-            <!-- Hidden input to store property ID -->
-            <input type="hidden" id="collectionPropertyId" />
-
-            <!-- Collections list -->
-            <div class="collections-container">
-              <h6>Select a collection:</h6>
-              <div class="collections-list">
-                <div class="form-check collection-option">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="collectionId"
-                    id="collection-coll_1"
-                    value="coll_1"
-                  />
-                  <label class="form-check-label" for="collection-coll_1">
-                    Modern Apartments Collection
-                  </label>
-                </div>
-                <div class="form-check collection-option">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="collectionId"
-                    id="collection-coll_2"
-                    value="coll_2"
-                  />
-                  <label class="form-check-label" for="collection-coll_2">
-                    Suburban Family Homes
-                  </label>
-                </div>
-                <div class="form-check collection-option">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="collectionId"
-                    id="collection-coll_3"
-                    value="coll_3"
-                  />
-                  <label class="form-check-label" for="collection-coll_3">
-                    City Center Commercial Spaces
-                  </label>
-                </div>
-              </div>
+            <div class="text-center mb-3">
+              <i
+                class="bi bi-check-circle-fill text-success"
+                style="font-size: 4rem"
+              ></i>
             </div>
+            <p class="text-center">Ваша коллекция была успешно обновлена!</p>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-brand-turquoise text-brand-light-gray js-create-collection"
+            <a href="/collections.html" class="btn btn-secondary"
+              >Перейти к Коллекциям</a
             >
-              <i class="bi bi-plus-lg"></i> Create New Collection
-            </button>
-            <button
-              type="button"
-              class="btn btn-brand-lime-green text-brand-dark-navy js-add-to-collection"
+            <a
+              href="/search.html"
+              class="btn btn-primary btn-brand-turquoise text-brand-light-gray js-view-collection"
+              >Перейти к Поиску</a
             >
-              Add to Collection
-            </button>
           </div>
         </div>
       </div>
