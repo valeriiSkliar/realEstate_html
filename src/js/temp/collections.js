@@ -41,7 +41,7 @@ const updateCollectionsView = () => {
   // Show empty state if no collections
   if (!collections || collections.length === 0) {
     if (emptyState) emptyState.style.display = "flex";
-    // if (collectionsControls) collectionsControls.style.display = "none";
+    if (collectionsControls) collectionsControls.style.display = "none";
     if (collectionsList) collectionsList.style.display = "none";
   } else {
     if (emptyState) emptyState.style.display = "none";
@@ -66,6 +66,22 @@ const renderCollections = (collections) => {
 
   // Clear current list
   collectionsList.innerHTML = "";
+  
+  // Check if collections is null or empty
+  if (!collections || collections.length === 0) {
+    const emptyState = document.createElement("div");
+    emptyState.className = "collections-empty-state";
+    emptyState.innerHTML = `
+      <div class="collections-empty-state__icon">
+        <i class="bi bi-folder"></i>
+      </div>
+      <h3 class="collections-empty-state__title">У вас пока нет коллекций</h3>
+      <p class="collections-empty-state__text">Создайте свою первую коллекцию объектов недвижимости</p>
+      <a href="/collections-create.html" class="btn btn-brand-lime">Создать коллекцию</a>
+    `;
+    collectionsList.appendChild(emptyState);
+    return;
+  }
 
   // Sort collections by favorite first, then by updated date
   const sortedCollections = [...collections].sort((a, b) => {
