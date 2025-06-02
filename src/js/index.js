@@ -1,4 +1,4 @@
-// // src/js/index.js - Главный файл для импорта всех скриптов
+// src/js/index.js - Главный файл для импорта всех скриптов
 import "../scss/main.scss";
 import "./bootstrap";
 

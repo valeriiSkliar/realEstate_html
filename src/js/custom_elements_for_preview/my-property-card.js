@@ -5,6 +5,7 @@ export class MyPropertyCard extends HTMLElement {
 
   static get observedAttributes() {
     return [
+      "listing-id",
       "title-text",
       "title-href",
       "price-text",
@@ -246,12 +247,13 @@ export class MyPropertyCard extends HTMLElement {
   }
 
   handleAction(action) {
+    const id = this.getAttribute("listing-id") || "unknown";
+
     this.dispatchEvent(
-      new CustomEvent("action-triggered", {
+      new CustomEvent("listingAction", {
         detail: {
           action,
-          element: this, // 'this' refers to the MyPropertyCard instance
-          status: this.getAttribute("status"),
+          id,
         },
         bubbles: true, // Allows the event to bubble up the DOM tree
         composed: true, // Allows the event to cross Shadow DOM boundaries (though not strictly needed here anymore)
