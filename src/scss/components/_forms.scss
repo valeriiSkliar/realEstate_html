@@ -764,34 +764,135 @@ input[type="week"] {
     }
   }
 
+  // Drag and drop states
+  &.drag-over {
+    .form-file-label {
+      border-color: $turquoise;
+      background-color: $turquoise-10;
+      border-style: solid;
+
+      .form-file-icon {
+        color: $turquoise;
+      }
+
+      .form-file-placeholder {
+        color: $turquoise;
+      }
+    }
+  }
+
   // Multiple file upload
   &.multiple {
     .form-file-selected {
       margin-top: 8px;
+      min-height: 50px;
+      padding: 12px;
+      border: 1px dashed $dark-navy-30;
+      border-radius: 6px;
+      background-color: $light-gray-50;
 
-      .file-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px 12px;
-        background-color: $light-gray;
-        border-radius: 4px;
-        margin-bottom: 4px;
-        font-size: 14px;
+      // Пустое состояние
+      .text-muted {
+        text-align: center;
+        color: $dark-navy-50;
+        font-style: italic;
+        padding: 16px 0;
+      }
 
-        .file-name {
-          color: $dark-navy;
-          flex: 1;
+      // Выбранный файл
+      .selected-file {
+        background-color: white;
+        border: 1px solid $dark-navy-30;
+        border-radius: 6px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        transition: all 0.2s ease-in-out;
+
+        &:last-child {
+          margin-bottom: 0;
         }
 
-        .file-remove {
-          color: $bright-pink;
-          cursor: pointer;
-          font-weight: 700;
+        &:hover {
+          border-color: $turquoise-50;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        // Кнопка удаления файла
+        .btn-outline-danger {
+          padding: 4px 8px;
+          font-size: 12px;
+          border-width: 1px;
+          transition: all 0.2s ease-in-out;
 
           &:hover {
-            color: $bright-pink-80;
+            background-color: $bright-pink;
+            border-color: $bright-pink;
+            color: white;
+            transform: scale(1.05);
           }
+        }
+
+        // Превью изображения
+        img {
+          object-fit: cover;
+          border: 1px solid $dark-navy-20;
+        }
+
+        // Иконка файла
+        .file-icon {
+          font-size: 18px;
+          color: $dark-navy-50;
+        }
+
+        // Информация о файле
+        .fw-bold {
+          font-size: 14px;
+          color: $dark-navy;
+          margin-bottom: 2px;
+        }
+
+        .text-muted.small {
+          font-size: 12px;
+          color: $dark-navy-50;
+        }
+
+        .text-info.small {
+          font-size: 11px;
+          color: $turquoise;
+          font-weight: 500;
+        }
+      }
+
+      // Состояние drag-over
+      &.drag-over {
+        border-color: $turquoise;
+        background-color: $turquoise-10;
+        border-style: solid;
+      }
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background-color: $light-gray;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      font-size: 14px;
+
+      .file-name {
+        color: $dark-navy;
+        flex: 1;
+      }
+
+      .file-remove {
+        color: $bright-pink;
+        cursor: pointer;
+        font-weight: 700;
+
+        &:hover {
+          color: $bright-pink-80;
         }
       }
     }

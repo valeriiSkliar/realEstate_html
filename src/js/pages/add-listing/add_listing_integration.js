@@ -61,7 +61,7 @@ function setupConditionalFields(form) {
 }
 
 /**
- * Исправленная настройка загрузки файлов
+ * Исправленная настройка загрузки файлов с функциональностью удаления
  */
 function setupFileUpload(form) {
   const fileInput = form.querySelector("#imageUploadInput");
@@ -73,6 +73,119 @@ function setupFileUpload(form) {
   if (!fileInput) {
     console.warn("Поле загрузки файлов не найдено");
     return;
+  }
+
+  // Массив для хранения файлов (FileList нельзя изменять напрямую)
+  let selectedFiles = [];
+
+  // Функция для создания нового FileList
+  function createFileList(files) {
+    const dt = new DataTransfer();
+    files.forEach((file) => dt.items.add(file));
+    return dt.files;
+  }
+
+  // Функция для обновления превью файлов
+  function updatePreview() {
+    if (!previewContainer) return;
+
+    previewContainer.innerHTML = "";
+
+    if (selectedFiles.length === 0) {
+      previewContainer.innerHTML =
+        '<div class="text-muted">Файлы не выбраны</div>';
+      // Обновляем текст кнопки
+      const placeholderText = form.querySelector(".form-file-placeholder");
+      if (placeholderText) {
+        placeholderText.textContent = "Выберите несколько изображений";
+      }
+      return;
+    }
+
+    // Создаем превью для каждого файла
+    selectedFiles.forEach((file, index) => {
+      const fileItem = document.createElement("div");
+      fileItem.className =
+        "selected-file d-flex align-items-center mb-2 p-2 border rounded";
+      fileItem.style.position = "relative";
+
+      // Кнопка удаления
+      const deleteBtn = document.createElement("button");
+      deleteBtn.type = "button";
+      deleteBtn.className = "btn btn-sm btn-outline-danger ms-auto";
+      deleteBtn.innerHTML = '<i class="bi bi-x"></i>';
+      deleteBtn.title = "Удалить файл";
+      deleteBtn.style.minWidth = "32px";
+
+      deleteBtn.addEventListener("click", () => {
+        removeFile(index);
+      });
+
+      if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          fileItem.innerHTML = `
+            <img src="${e.target.result}" 
+                 style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
+            <div class="flex-grow-1">
+              <div class="fw-bold">${file.name}</div>
+              <div class="text-muted small">${(file.size / 1024).toFixed(
+                1
+              )} KB</div>
+            </div>
+          `;
+          fileItem.appendChild(deleteBtn);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        fileItem.innerHTML = `
+          <div class="file-icon me-2">📄</div>
+          <div class="flex-grow-1">
+            <div class="fw-bold">${file.name}</div>
+            <div class="text-muted small">${(file.size / 1024).toFixed(
+              1
+            )} KB</div>
+          </div>
+        `;
+        fileItem.appendChild(deleteBtn);
+      }
+
+      previewContainer.appendChild(fileItem);
+    });
+
+    // Обновляем текст кнопки
+    const placeholderText = form.querySelector(".form-file-placeholder");
+    if (placeholderText) {
+      placeholderText.textContent = `Выбрано файлов: ${selectedFiles.length}`;
+    }
+
+    // Обновляем FileList в input
+    fileInput.files = createFileList(selectedFiles);
+  }
+
+  // Функция удаления файла
+  function removeFile(index) {
+    selectedFiles.splice(index, 1);
+    updatePreview();
+    console.log(`Файл удален. Осталось файлов: ${selectedFiles.length}`);
+  }
+
+  // Функция добавления файлов
+  function addFiles(newFiles) {
+    Array.from(newFiles).forEach((file) => {
+      // Проверяем, не добавлен ли уже такой файл
+      const isDuplicate = selectedFiles.some(
+        (existingFile) =>
+          existingFile.name === file.name &&
+          existingFile.size === file.size &&
+          existingFile.lastModified === file.lastModified
+      );
+
+      if (!isDuplicate) {
+        selectedFiles.push(file);
+      }
+    });
+    updatePreview();
   }
 
   // Если нет label, создаем обработчик на кнопку
@@ -88,56 +201,8 @@ function setupFileUpload(form) {
   fileInput.addEventListener("change", (e) => {
     console.log("Files selected:", e.target.files);
 
-    if (!previewContainer) return;
-
-    const files = e.target.files;
-    previewContainer.innerHTML = "";
-
-    if (files.length === 0) {
-      previewContainer.innerHTML =
-        '<div class="text-muted">Файлы не выбраны</div>';
-      return;
-    }
-
-    // Показываем выбранные файлы
-    Array.from(files).forEach((file, index) => {
-      const fileItem = document.createElement("div");
-      fileItem.className = "selected-file d-flex align-items-center mb-2";
-
-      if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          fileItem.innerHTML = `
-            <img src="${e.target.result}" 
-                 style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
-            <div>
-              <div class="fw-bold">${file.name}</div>
-              <div class="text-muted small">${(file.size / 1024).toFixed(
-                1
-              )} KB</div>
-            </div>
-          `;
-        };
-        reader.readAsDataURL(file);
-      } else {
-        fileItem.innerHTML = `
-          <div class="file-icon me-2">📄</div>
-          <div>
-            <div class="fw-bold">${file.name}</div>
-            <div class="text-muted small">${(file.size / 1024).toFixed(
-              1
-            )} KB</div>
-          </div>
-        `;
-      }
-
-      previewContainer.appendChild(fileItem);
-    });
-
-    // Обновляем текст кнопки
-    const placeholderText = form.querySelector(".form-file-placeholder");
-    if (placeholderText) {
-      placeholderText.textContent = `Выбрано файлов: ${files.length}`;
+    if (e.target.files.length > 0) {
+      addFiles(e.target.files);
     }
   });
 
@@ -158,10 +223,14 @@ function setupFileUpload(form) {
       fileArea.classList.remove("drag-over");
 
       const files = e.dataTransfer.files;
-      fileInput.files = files;
-      fileInput.dispatchEvent(new Event("change"));
+      if (files.length > 0) {
+        addFiles(files);
+      }
     });
   }
+
+  // Инициализируем пустой превью
+  updatePreview();
 }
 
 /**
