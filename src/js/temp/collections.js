@@ -112,7 +112,7 @@ const renderCollections = (collections) => {
     // Create HTML for collection item
     collectionItem.innerHTML = `
                 <div class="collection-item__main">
-                ${collection.isFavorite ? '<div class="favorite-badge">Избранная</div>' : ''}
+                  <a href="/collections-edit.html?id=${collection.id}">
                   <h3 class="collection-item__name">
                     ${collection.name}
                   </h3>
@@ -124,29 +124,15 @@ const renderCollections = (collections) => {
                       <i class="bi bi-calendar"></i> Обновлено ${formattedDate}
                     </div>
                   </div>
+                  </a>
                 </div>
                 <div class="collection-item__actions">
-                  <button class="btn btn-icon btn-outline-brand-lime js-toggle-favorite favorite-badge ${
-                    collection.isFavorite ? "is-favorite" : ""
-                  }" data-collection-id="${collection.id}">
-                    <i class="bi ${collection.isFavorite ? 'bi-star-fill' : 'bi-star'}"></i>
-                  </button>
-                      ${
-                        !collection.isFavorite
-                          ? `
                                 <a href="/collections-edit.html?id=${collection.id}" class="btn btn-outline-brand-turquoise">
                                   <i class="bi bi-pencil"></i>
                                 </a>
                                 <button class="btn btn-outline-brand-bright-pink js-delete-collection" data-collection-id="${collection.id}">
                                   <i class="bi bi-trash"></i>
                                 </button>
-                              `
-                          : `
-                                <a href="/collections-edit.html?id=${collection.id}" class="btn btn-outline-brand-turquoise">
-                                  <i class="bi bi-eye"></i>
-                                </a>
-                              `
-                      }
                 </div>`;
 
     collectionsList.appendChild(collectionItem);
