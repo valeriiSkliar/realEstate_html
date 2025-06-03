@@ -604,36 +604,6 @@
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
-    <!-- Скрипты подключаются через webpack -->
-    <script>
-      // Обработчик событий избранного
-      document.addEventListener("favorite-changed", function (event) {
-        const cardTitle = event.detail.element.getAttribute("title-text");
-        const isFavorite = event.detail.isFavorite;
-
-        // Логирование для отладки
-        console.log(
-          `Property "${cardTitle}" ${
-            isFavorite ? "added to" : "removed from"
-          } favorites`
-        );
-      });
-
-      // Демонстрационный код для тестирования телефонных ссылок
-      document.addEventListener("click", function (event) {
-        if (event.target.closest(".property-summary-card__phone-link")) {
-          const phoneLink = event.target.closest(
-            ".property-summary-card__phone-link"
-          );
-          const phoneNumber = phoneLink.textContent.trim();
-          console.log(`Calling ${phoneNumber}`);
-        }
-      });
-
-      // Инициализация после загрузки
-      document.addEventListener("DOMContentLoaded", function () {
-        console.log("Search page with enhanced property cards loaded");
-      });
-    </script>
+    <!-- Скрипты подключаются через webpack (see src/js/index.js and src/js/pages/search-page-logic.js) -->
   </body>
 </html>

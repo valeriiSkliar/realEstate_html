@@ -117,3 +117,5 @@ import "./pages/profile";
 import "./pages/property-page";
 import "./pages/search";
 import "./pages/support";
+import "./pages/search-page-logic";
+import "./pages/property-view-logic";

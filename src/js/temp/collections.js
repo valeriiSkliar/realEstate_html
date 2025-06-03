@@ -92,6 +92,7 @@ const renderCollections = (collections) => {
 
   // Create collection items
   sortedCollections.forEach((collection) => {
+    if (collection.id === 'favorite') return;
     const collectionItem = document.createElement("div");
     collectionItem.className = `collection-item ${collection.isFavorite ? 'is-favorite' : ''}`;
     collectionItem.setAttribute("data-collection-id", collection.id);

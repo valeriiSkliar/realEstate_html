@@ -1,3 +1,5 @@
+import { addPropertyToFavorite } from "../components/collection-selector-popup/collection-selector-popup.js";
+
 export class PropertySummaryCard extends HTMLElement {
   constructor() {
     super();
@@ -36,6 +38,8 @@ export class PropertySummaryCard extends HTMLElement {
   connectedCallback() {
     this.render();
     this.setupEventListeners();
+    
+    // Styles for collection selector popup are now globally managed via SCSS.
   }
 
   setupEventListeners() {
@@ -102,12 +106,29 @@ export class PropertySummaryCard extends HTMLElement {
     // Обновляем атрибут (это НЕ будет вызывать полный re-render благодаря логике в attributeChangedCallback)
     this.setAttribute("is-favorite", newState.toString());
 
+    // Если новое состояние - избранное, добавляем в избранное и показываем попап выбора подборок
+    if (newState) {
+      // Генерируем ID свойства, если его нет
+      const propertyId = this.getAttribute('property-id') || `property_${Date.now()}`;
+      if (!this.getAttribute('property-id')) {
+        this.setAttribute('property-id', propertyId);
+      }
+      
+      // Получаем заголовок свойства для отображения в сообщениях
+      const propertyTitle = this.getAttribute('title-text') || 'Объект недвижимости';
+      
+      // Добавляем свойство в избранное и показываем попап выбора подборок
+      addPropertyToFavorite(propertyId, propertyTitle, true);
+    }
+
     // Создаем кастомное событие для уведомления родительского элемента
     this.dispatchEvent(
       new CustomEvent("favorite-changed", {
         detail: {
           isFavorite: newState,
           element: this,
+          propertyId: this.getAttribute('property-id') || `property_${Date.now()}`,
+          propertyTitle: this.getAttribute('title-text') || 'Объект недвижимости'
         },
         bubbles: true,
       })

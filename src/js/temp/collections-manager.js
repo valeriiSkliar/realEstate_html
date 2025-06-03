@@ -20,7 +20,14 @@ export const getCollections = () => {
  * @param {Array} collections - Array of collection objects
  */
 const saveCollections = (collections) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(collections));
+  console.log('[CollectionsManager] Attempting to save collections:', JSON.parse(JSON.stringify(collections))); // Deep copy for logging
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(collections));
+    console.log('[CollectionsManager] Collections saved successfully.');
+  } catch (e) {
+    console.error('[CollectionsManager] Error saving collections to localStorage:', e);
+    throw e; // Re-throw if we want calling functions to handle it, or handle differently
+  }
 };
 
 /**
@@ -194,35 +201,38 @@ export const addPropertyToCollection = (collectionId, propertyId) => {
  * @returns {boolean} True if the property was removed successfully
  */
 export const removePropertyFromCollection = (collectionId, propertyId) => {
+  console.log(`[CollectionsManager] Attempting to remove property ${propertyId} from collection ${collectionId}`);
   try {
-    console.log(`Removing property ${propertyId} from collection ${collectionId}`);
-
-    // Get current collections
     const collections = getCollections();
+    const collectionIndex = collections.findIndex(c => c.id === collectionId);
 
-    // Find the collection
-    const index = collections.findIndex(c => c.id === collectionId);
-    if (index === -1) {
-      console.error(`Collection ${collectionId} not found`);
+    if (collectionIndex === -1) {
+      console.error(`[CollectionsManager] Collection ${collectionId} not found for removal.`);
       return false;
     }
 
-    // Find and remove the property
-    const propertyIndex = collections[index].properties.indexOf(propertyId);
-    if (propertyIndex === -1) {
-      console.error(`Property ${propertyId} not found in collection ${collectionId}`);
-      return false;
+    const targetCollection = collections[collectionIndex];
+    console.log(`[CollectionsManager] Collection '${targetCollection.name}' (ID: ${collectionId}) properties BEFORE removal of ${propertyId}:`, JSON.parse(JSON.stringify(targetCollection.properties)));
+
+    const propertyIdx = targetCollection.properties.indexOf(propertyId);
+    if (propertyIdx === -1) {
+      console.warn(`[CollectionsManager] Property ${propertyId} not found in collection ${collectionId}. Cannot remove.`);
+      // Depending on desired behavior, you might return true here if the goal is idempotency (property is not there, so it's 'as if' removed)
+      // For now, returning false to indicate no change was made / property wasn't there to be removed.
+      return false; 
     }
 
     // Remove property from collection
-    collections[index].properties.splice(propertyIndex, 1);
-    collections[index].updatedAt = new Date().toISOString();
+    targetCollection.properties.splice(propertyIdx, 1);
+    targetCollection.updatedAt = new Date().toISOString();
+    console.log(`[CollectionsManager] Collection '${targetCollection.name}' (ID: ${collectionId}) properties AFTER removal of ${propertyId} (before save):`, JSON.parse(JSON.stringify(targetCollection.properties)));
 
     // Save updated collections
     saveCollections(collections);
-    return true;
+    console.log(`[CollectionsManager] removePropertyFromCollection returning true for ${propertyId} from ${collectionId}`);
+    return true; // Successfully removed
   } catch (error) {
-    console.error("Error removing property from collection:", error);
+    console.error("[CollectionsManager] Error in removePropertyFromCollection:", error);
     return false;
   }
 };
