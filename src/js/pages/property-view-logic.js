@@ -1,6 +1,5 @@
 import { addPropertyToFavorite, showCollectionSelectorPopup } from "../components/collection-selector-popup/collection-selector-popup.js";
 import { getCollections } from '../temp/collections-manager.js';
-import { createAndShowToast } from '../utils/uiHelpers.js';
 
 // Проверяем наличие избранной коллекции, создаем если нет
 function ensureFavoriteCollection() {
@@ -46,29 +45,33 @@ document.addEventListener("DOMContentLoaded", function () {
   if (favoriteButton) {
     favoriteButton.addEventListener('click', function() {
       const propertyId = this.getAttribute('data-property-id');
+
       const propertyTitleElement = document.querySelector('.property-title');
       const propertyTitle = propertyTitleElement ? propertyTitleElement.textContent : 'Объект недвижимости';
       const heartIcon = this.querySelector('i');
-      const isFavoriteIconSolid = heartIcon.classList.contains('fas');
+      const isFavoriteIconSolid = heartIcon.classList.contains('bi-heart-fill');
 
       if (!isFavoriteIconSolid) { 
-        heartIcon.classList.remove('far');
-        heartIcon.classList.add('fas', 'text-danger');
+        heartIcon.classList.remove('bi-heart');
+        heartIcon.classList.add('bi-heart-fill');
         addPropertyToFavorite(propertyId, propertyTitle, true);
       } else { 
-        heartIcon.classList.remove('fas', 'text-danger');
-        heartIcon.classList.add('far');
+        heartIcon.classList.remove('bi-heart-fill');
+        heartIcon.classList.add('bi-heart');
         // TODO: Implement actual removal from 'Избранное' collection in collections-manager.js
         // This requires a new function, e.g., removePropertyFromFavoriteCollection(propertyId)
-        createAndShowToast(`Объект "${propertyTitle}" удален из избранного (визуально). Логика удаления из коллекции не реализована.`, "info");
       }
     });
   }
 
+  console.log('addToCollectionsButton', addToCollectionsButton);
+  
+
   if (addToCollectionsButton) {
-    addToCollectionsButton.addEventListener('click', function() {
+    addToCollectionsButton.addEventListener('click', function () {
+      console.log('Adding to collections');
       const propertyId = this.getAttribute('data-property-id');
-      const propertyTitleElement = document.querySelector('.property-title');
+      const propertyTitleElement = document.querySelector('.property-detail-header__title');
       const propertyTitle = propertyTitleElement ? propertyTitleElement.textContent : 'Объект недвижимости';
       showCollectionSelectorPopup(propertyId, propertyTitle);
     });
