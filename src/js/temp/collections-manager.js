@@ -4,7 +4,9 @@
  */
 
 // Local storage key for collections
-const STORAGE_KEY = 'realEstateCollections';
+export const STORAGE_KEY = 'realEstateCollections';
+export const favoriteCollectionId = 'favorite';
+
 
 /**
  * Get all collections from localStorage
@@ -19,16 +21,44 @@ export const getCollections = () => {
  * Save collections to localStorage
  * @param {Array} collections - Array of collection objects
  */
-const saveCollections = (collections) => {
-  console.log('[CollectionsManager] Attempting to save collections:', JSON.parse(JSON.stringify(collections))); // Deep copy for logging
+export const saveCollections = (collections) => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(collections));
-    console.log('[CollectionsManager] Collections saved successfully.');
   } catch (e) {
     console.error('[CollectionsManager] Error saving collections to localStorage:', e);
     throw e; // Re-throw if we want calling functions to handle it, or handle differently
   }
 };
+
+
+// Проверяем наличие избранной коллекции, создаем если нет
+export function ensureFavoriteCollection() {
+  let collections = getCollections(); // Get initial list
+  const favoriteCollection = collections.find(c => c.isFavorite);
+
+  if (!favoriteCollection) {
+    const favoriteCollectionData = {
+      name: 'Избранное',
+      notes: 'Автоматически созданная коллекция для избранных объектов',
+      isFavorite: true
+    };
+
+    const newCollection = {
+      id: favoriteCollectionId,
+      name: favoriteCollectionData.name,
+      notes: favoriteCollectionData.notes || '',
+      properties: [],
+      isFavorite: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    collections.push(newCollection); // Add to the existing array
+    saveCollections(collections); // Save updated array
+    return newCollection;
+  }
+  return favoriteCollection;
+}
 
 /**
  * Get collection by ID
@@ -163,8 +193,6 @@ export const toggleCollectionFavorite = (id) => {
  */
 export const addPropertyToCollection = (collectionId, propertyId) => {
   try {
-    console.log(`Adding property ${propertyId} to collection ${collectionId}`);
-
     // Get current collections
     const collections = getCollections();
 
@@ -177,7 +205,6 @@ export const addPropertyToCollection = (collectionId, propertyId) => {
 
     // Check if property already exists in collection
     if (collections[index].properties.includes(propertyId)) {
-      console.log(`Property ${propertyId} already in collection ${collectionId}`);
       return false;
     }
 
@@ -197,27 +224,24 @@ export const addPropertyToCollection = (collectionId, propertyId) => {
 /**
  * Remove a property from a collection
  * @param {string} collectionId - ID of the collection
+ * @default collectionId = 'favorite'
  * @param {string} propertyId - ID of the property to remove
  * @returns {boolean} True if the property was removed successfully
  */
-export const removePropertyFromCollection = (collectionId, propertyId) => {
-  console.log(`[CollectionsManager] Attempting to remove property ${propertyId} from collection ${collectionId}`);
+export const removePropertyFromCollection = (collectionId=favoriteCollectionId, propertyId) => {
   try {
     const collections = getCollections();
     const collectionIndex = collections.findIndex(c => c.id === collectionId);
 
     if (collectionIndex === -1) {
-      console.error(`[CollectionsManager] Collection ${collectionId} not found for removal.`);
       return false;
     }
 
     const targetCollection = collections[collectionIndex];
-    console.log(`[CollectionsManager] Collection '${targetCollection.name}' (ID: ${collectionId}) properties BEFORE removal of ${propertyId}:`, JSON.parse(JSON.stringify(targetCollection.properties)));
 
     const propertyIdx = targetCollection.properties.indexOf(propertyId);
     if (propertyIdx === -1) {
-      console.warn(`[CollectionsManager] Property ${propertyId} not found in collection ${collectionId}. Cannot remove.`);
-      // Depending on desired behavior, you might return true here if the goal is idempotency (property is not there, so it's 'as if' removed)
+      //TODO: Depending on desired behavior, you might return true here if the goal is idempotency (property is not there, so it's 'as if' removed)
       // For now, returning false to indicate no change was made / property wasn't there to be removed.
       return false; 
     }
@@ -225,11 +249,9 @@ export const removePropertyFromCollection = (collectionId, propertyId) => {
     // Remove property from collection
     targetCollection.properties.splice(propertyIdx, 1);
     targetCollection.updatedAt = new Date().toISOString();
-    console.log(`[CollectionsManager] Collection '${targetCollection.name}' (ID: ${collectionId}) properties AFTER removal of ${propertyId} (before save):`, JSON.parse(JSON.stringify(targetCollection.properties)));
 
     // Save updated collections
     saveCollections(collections);
-    console.log(`[CollectionsManager] removePropertyFromCollection returning true for ${propertyId} from ${collectionId}`);
     return true; // Successfully removed
   } catch (error) {
     console.error("[CollectionsManager] Error in removePropertyFromCollection:", error);
@@ -276,8 +298,6 @@ export const getCollectionsWithProperty = (propertyId) => {
  */
 export const addPropertiesToCollection = (collectionId, propertyIds) => {
   try {
-    console.log(`Adding ${propertyIds.length} properties to collection ${collectionId}`);
-
     // Get current collections
     const collections = getCollections();
 

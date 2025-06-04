@@ -1,5 +1,6 @@
-import { addPropertyToFavorite } from "../components/collection-selector-popup/collection-selector-popup.js";
-
+import { addPropertyToFavorite, removeCollectionToast } from "../components/collection-selector-popup/collection-selector-popup.js";
+import { favoriteCollectionId, removePropertyFromCollection } from '../temp/collections-manager.js';
+import { createAndShowToast } from '../utils/uiHelpers';
 export class PropertySummaryCard extends HTMLElement {
   constructor() {
     super();
@@ -107,9 +108,9 @@ export class PropertySummaryCard extends HTMLElement {
     this.setAttribute("is-favorite", newState.toString());
 
     // Если новое состояние - избранное, добавляем в избранное и показываем попап выбора подборок
+    // Генерируем ID свойства, если его нет
+    const propertyId = this.getAttribute('property-id') || `property_${Date.now()}`;
     if (newState) {
-      // Генерируем ID свойства, если его нет
-      const propertyId = this.getAttribute('property-id') || `property_${Date.now()}`;
       if (!this.getAttribute('property-id')) {
         this.setAttribute('property-id', propertyId);
       }
@@ -119,6 +120,13 @@ export class PropertySummaryCard extends HTMLElement {
       
       // Добавляем свойство в избранное и показываем попап выбора подборок
       addPropertyToFavorite(propertyId, propertyTitle, true);
+    } else {
+      removeCollectionToast();
+      const propertyId = this.getAttribute('property-id');
+      const propertyTitle = this.getAttribute('title-text');
+      
+      removePropertyFromCollection(favoriteCollectionId, propertyId);
+      createAndShowToast(`${propertyTitle} удалено из избранного`, 'success');
     }
 
     // Создаем кастомное событие для уведомления родительского элемента

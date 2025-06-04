@@ -12,6 +12,8 @@ import {
   updateCollection // Added for managing 'isFavorite' flag
 } from "../../temp/collections-manager";
 
+import { createAndShowToast } from '../../utils/uiHelpers';
+
 // DOM element IDs and classes
 const POPUP_ID = 'collection-selector-popup';
 const POPUP_CONTAINER_CLASS = 'collection-selector-popup-container';
@@ -31,7 +33,7 @@ let autoRemoveTimerToast = null;
 export const showCollectionSelectorPopup = (propertyId, propertyTitle) => {
   // Remove any existing popup
   removeExistingPopup();
-  
+
   // Get all collections (excluding favorites for the popup display)
   const collections = getCollections().filter(collection => !collection.isFavorite);
   
@@ -163,21 +165,21 @@ export const showCollectionSelectorPopup = (propertyId, propertyTitle) => {
             const newCollection = createCollection({ name: newName }); 
             if (newCollection && newCollection.id) {
               addPropertyToCollection(newCollection.id, propertyId);
-              console.log(`Property ${propertyId} ('${propertyTitle}') added to new collection '${newName}' (ID: ${newCollection.id})`);
-              // createAndShowToast(`Объект "${propertyTitle}" добавлен в новую подборку "${newName}"`, "success");
+
+              createAndShowToast(`Объект "${propertyTitle}" добавлен в новую подборку "${newName}"`, "success");
             } else {
               console.error("Failed to create new collection or new collection has no ID.", newCollection);
-              // createAndShowToast(`Ошибка при создании подборки`, "error");
+              createAndShowToast(`Ошибка при создании подборки`, "error");
             }
           } catch (error) {
             console.error("Error creating collection or adding property:", error);
-            // createAndShowToast(`Ошибка: ${error.message}`, "error");
+            createAndShowToast(`Ошибка: ${error.message}`, "error");
           }
           removeExistingPopup(); 
         } else {
           console.warn("New collection name is empty.");
           if (newCollectionNameInput) newCollectionNameInput.focus();
-          // createAndShowToast("Название подборки не может быть пустым", "error");
+          createAndShowToast("Название подборки не может быть пустым", "error");
         }
       } else {
         saveCollectionSelections(propertyId, propertyTitle);
@@ -246,12 +248,12 @@ const saveCollectionSelections = (propertyId, propertyTitle) => {
   
   // Show success message
   if (addedToAny) {
-    // createAndShowToast(
-    //   addedToFavorite 
-    //     ? `Объект "${propertyTitle}" добавлен в избранное` 
-    //     : `Объект "${propertyTitle}" добавлен в подборку`,
-    //   "success"
-    // );
+    createAndShowToast(
+      addedToFavorite 
+        ? `Объект "${propertyTitle}" добавлен в избранное` 
+        : `Объект "${propertyTitle}" добавлен в подборку`,
+      "success"
+    );
   }
   
   // Close popup
@@ -291,13 +293,14 @@ const removeExistingPopup = () => {
  * Clear the toast timer and remove any existing toast
  * Call this function when user clicks another like button
  */
-export const clearToastTimer = () => {
+export const removeCollectionToast = () => {
   if (autoRemoveTimerToast) {
     clearTimeout(autoRemoveTimerToast);
     autoRemoveTimerToast = null;
   }
   
   const existingToast = document.querySelector('.interactive-toast-bar');
+
   if (existingToast) {
     existingToast.style.opacity = '0';
     existingToast.style.transform = 'translateY(20px)';
@@ -314,7 +317,7 @@ export const clearToastTimer = () => {
  */
 const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
 
-  clearToastTimer();
+  removeCollectionToast();
   // Remove any existing interactive toast first
   const existingToast = document.querySelector('.interactive-toast-bar');
   if (existingToast) {
@@ -364,7 +367,7 @@ const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
       }
       removeExistingPopup();
     }
-  }, 5000);
+  }, 50000);
   
   // Add interaction listeners to the popup
   toastBar.addEventListener('mouseover', markInteraction);
@@ -380,15 +383,15 @@ const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
     }, 300); // Match transition duration
   });
 
-  // Optional: Auto-hide the toast after some time if not clicked
-  // setTimeout(() => {
-  //   if (document.body.contains(toastBar) && toastBar.classList.contains('show')) {
-  //     toastBar.classList.remove('show');
-  //     setTimeout(() => {
-  //       toastBar.remove();
-  //     }, 300);
-  //   }
-  // }, 7000); // Auto-hide after 7 seconds
+  // Optional: Auto-hide the toast after some time
+  setTimeout(() => {
+    if (document.body.contains(toastBar) && toastBar.classList.contains('show')) {
+      toastBar.classList.remove('show');
+      setTimeout(() => {
+        toastBar.remove();
+      }, 300);
+    }
+  }, 7000); // Auto-hide after 7 seconds
 };
 
 /**
@@ -435,8 +438,7 @@ export const addPropertyToFavorite = (propertyId, propertyTitle, showToast = tru
     // Property is in 'Избранное', so remove it
     const removed = removePropertyFromCollection(favoriteCollection.id, propertyId);
     if (removed) {
-      console.log(`Property ${propertyId} ('${propertyTitle}') removed from 'Избранное'`);
-      // createAndShowToast(`Объект "${propertyTitle}" удален из избранного`, "info"); 
+      // createAndShowToast(`Объект "${propertyTitle}" удален из избранного`, "info");
       return { action: 'removed', success: true, isFavorite: false };
     } else {
       console.warn(`Failed to remove property ${propertyId} from 'Избранное' (ID: ${favoriteCollection.id})`);
@@ -446,8 +448,6 @@ export const addPropertyToFavorite = (propertyId, propertyTitle, showToast = tru
     // Property is not in 'Избранное', so add it
     const added = addPropertyToCollection(favoriteCollection.id, propertyId);
     if (added) {
-      console.log(`Property ${propertyId} ('${propertyTitle}') added to 'Избранное'`);
-      // createAndShowToast(`Объект "${propertyTitle}" добавлен в избранное`, "success");
       if (showToast) {
         showInteractiveAddToCollectionToast(propertyId, propertyTitle);
       }
@@ -458,6 +458,3 @@ export const addPropertyToFavorite = (propertyId, propertyTitle, showToast = tru
     }
   }
 };
-// Styles are now managed globally via SCSS (src/scss/components/_collection-selector-popup.scss)
-// and imported into src/scss/main.scss.
-// The initCollectionSelectorPopupStyles function and the redundant export block below have been removed.
