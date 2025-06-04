@@ -17,6 +17,12 @@ const POPUP_ID = 'collection-selector-popup';
 const POPUP_CONTAINER_CLASS = 'collection-selector-popup-container';
 const POPUP_BACKDROP_CLASS = 'collection-selector-popup-backdrop';
 
+// Variable to track if user has interacted with popup
+let userInteracted = false;
+
+// Timer for auto-removal
+let autoRemoveTimerToast = null;
+
 /**
  * Create and show the collection selector popup
  * @param {string} propertyId - ID of the property to add to collection
@@ -282,9 +288,33 @@ const removeExistingPopup = () => {
 };
 
 /**
+ * Clear the toast timer and remove any existing toast
+ * Call this function when user clicks another like button
+ */
+export const clearToastTimer = () => {
+  if (autoRemoveTimerToast) {
+    clearTimeout(autoRemoveTimerToast);
+    autoRemoveTimerToast = null;
+  }
+  
+  const existingToast = document.querySelector('.interactive-toast-bar');
+  if (existingToast) {
+    existingToast.style.opacity = '0';
+    existingToast.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      if (existingToast.parentNode) {
+        existingToast.parentNode.removeChild(existingToast);
+      }
+    }, 305);
+  }
+};
+
+/**
  * Function to show the interactive toast for adding to collections
  */
 const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
+
+  clearToastTimer();
   // Remove any existing interactive toast first
   const existingToast = document.querySelector('.interactive-toast-bar');
   if (existingToast) {
@@ -310,6 +340,36 @@ const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
   setTimeout(() => {
     toastBar.classList.add('show');
   }, 10); // Small delay to ensure transition triggers
+
+  
+  // Function to mark user interaction
+  const markInteraction = () => {
+    userInteracted = true;
+    if (autoRemoveTimerToast) {
+      clearTimeout(autoRemoveTimerToast);
+      autoRemoveTimerToast = null;
+    }
+  };
+  
+  // Set timer for auto-removal if no interaction
+  autoRemoveTimerToast = setTimeout(() => {
+    if (userInteracted === false) {
+      const existingToast = document.querySelector('.interactive-toast-bar');
+      if (existingToast) {
+        existingToast.style.opacity = '0';
+        existingToast.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          existingToast.remove();
+        }, 305);
+      }
+      removeExistingPopup();
+    }
+  }, 5000);
+  
+  // Add interaction listeners to the popup
+  toastBar.addEventListener('mouseover', markInteraction);
+  toastBar.addEventListener('click', markInteraction);
+  toastBar.addEventListener('touchstart', markInteraction);
 
   addButton.addEventListener('click', () => {
     showCollectionSelectorPopup(propertyId, propertyTitle);
