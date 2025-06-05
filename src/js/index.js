@@ -115,7 +115,8 @@ import "./pages/collections";
 import "./pages/my-advertisements";
 import "./pages/profile";
 import "./pages/property-page";
+import "./pages/property-view-logic"; // logic for add to favorite && add to collection
 import "./pages/search";
+import "./pages/search-page-logic"; // logic for add to favorite && add to collection
 import "./pages/support";
-import "./pages/search-page-logic";
-import "./pages/property-view-logic";
+

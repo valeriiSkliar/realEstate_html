@@ -2,8 +2,7 @@ import { createAndShowToast, hideModal, showModal } from "../utils/uiHelpers";
 import {
   deleteCollection,
   favoriteCollectionId,
-  getCollections,
-  toggleCollectionFavorite,
+  getCollections
 } from "./collections-manager";
 
 /**
@@ -17,12 +16,6 @@ export const initCollectionsPage = () => {
 
   // Initialize delete collection functionality
   initDeleteCollection();
-
-  // Initialize search/filter functionality
-  // initCollectionSearch();
-
-    // Initialize favorite collection functionality
-    initFavoriteCollection();
 };
 
 /**
@@ -206,29 +199,5 @@ const initDeleteCollection = () => {
       }
     });
   }
-};
-
-/**
- * Initialize favorite collection functionality
- */
-const initFavoriteCollection = () => {
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('.js-toggle-favorite')) {
-      const button = e.target.closest('.js-toggle-favorite');
-      const collectionId = button.getAttribute('data-collection-id');
-      
-      const updatedCollection = toggleCollectionFavorite(collectionId);
-      
-      if (updatedCollection) {
-        createAndShowToast(
-          updatedCollection.isFavorite ? 
-          "Коллекция отмечена как избранная" : 
-          "Коллекция больше не избранная",
-          "success"
-        );
-        updateCollectionsView();
-      }
-    }
-  });
 };
 
