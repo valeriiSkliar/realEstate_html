@@ -118,5 +118,6 @@ import "./pages/property-page";
 import "./pages/property-view-logic"; // logic for add to favorite && add to collection
 import "./pages/search";
 import "./pages/search-page-logic"; // logic for add to favorite && add to collection
+import "./pages/subscriptions";
 import "./pages/support";
 
