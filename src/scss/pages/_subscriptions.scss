@@ -43,19 +43,36 @@
   }
 }
 
-// Subscription Carousel Container
 .subscription-carousel-container {
+  overflow: hidden; // Скрываем скролл для контейнера карусели
   position: relative;
-  padding: 20px 10px;
+  padding: 20px 15px; // Увеличиваем горизонтальные отступы
   margin-bottom: 40px;
+  overflow: visible; // Позволяем контенту выходить за границы
+
+  .subscription-carousel {
+    overflow: visible; // Убираем обрезание у самого swiper
+    padding: 0 10px; // Дополнительные отступы для карточек
+  }
+
+  .swiper-wrapper {
+    padding-bottom: 10px; // Отступ снизу для теней карточек
+  }
+
+  .swiper-slide {
+    height: auto; // Автоматическая высота
+    display: flex; // Для центрирования содержимого
+    justify-content: center; // Центрируем карточку в слайде
+  }
 
   .swiper-pagination {
     position: relative;
-    margin-top: 20px;
+    margin-top: 30px; // Увеличиваем отступ от карточек
 
     .swiper-pagination-bullet {
       background-color: color.adjust($brand-primary, $alpha: -0.6);
       opacity: 1;
+      margin: 0 6px; // Увеличиваем расстояние между точками
     }
 
     .swiper-pagination-bullet-active {
@@ -67,6 +84,9 @@
   .swiper-button-next,
   .swiper-button-prev {
     color: $turquoise-50;
+    top: 50%; // Центрируем по вертикали относительно карточек
+    transform: translateY(-50%);
+    z-index: 10;
 
     &:after {
       font-size: 20px;
@@ -74,11 +94,69 @@
   }
 
   .subscription-carousel-next {
-    right: 0;
+    right: -5px; // Выносим стрелки за пределы контейнера
   }
 
   .subscription-carousel-prev {
-    left: 0;
+    left: -5px;
+  }
+}
+
+// Обновляем стили карточки для лучшего отображения в слайдере
+.subscription-card {
+  background-color: $brand-background;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  max-width: 350px; // Ограничиваем максимальную ширину карточки
+  width: 100%;
+  margin: 0 auto; // Центрируем карточку
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  &--highlighted {
+    border: 2px solid color.adjust($brand-primary, $alpha: -0.65);
+    transform: scale(1.02);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    .subscription-card__header {
+      background-color: color.adjust($brand-primary, $alpha: -0.95);
+    }
+  }
+
+  // Остальные стили карточки остаются без изменений...
+}
+
+// Media queries для мобильных устройств
+@media (max-width: 768px) {
+  .subscription-carousel-container {
+    padding: 20px 10px; // Уменьшаем отступы на мобильных
+    overflow: hidden;
+
+    .subscription-carousel {
+      padding: 0 5px;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: none; // Скрываем стрелки на мобильных, оставляем только pagination
+    }
+  }
+
+  .subscription-card {
+    max-width: 100%; // На мобильных занимаем всю доступную ширину
   }
 }
 
