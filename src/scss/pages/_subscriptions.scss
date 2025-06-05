@@ -1,3 +1,4 @@
+@use "sass:color";
 @import "../variables";
 
 .subscriptions-page {
@@ -12,20 +13,33 @@
   }
 
   .subscriptions-title {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: $primary;
+    margin-top: 1rem;
+    color: $dark-navy;
     text-align: center;
+    font-family: $font-family-oswald;
   }
 
   .subscriptions-description {
-    color: #666;
-    margin-bottom: 2rem;
+    color: $dark-navy-70;
+    margin-bottom: 1.5rem;
     text-align: center;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    font-size: 0.8rem;
+    font-family: $font-family-comfortaa;
+  }
+}
+
+.subscription-card__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .brand-button {
+    width: 100%;
   }
 }
 
@@ -38,11 +52,21 @@
   .swiper-pagination {
     position: relative;
     margin-top: 20px;
+
+    .swiper-pagination-bullet {
+      background-color: color.adjust($brand-primary, $alpha: -0.6);
+      opacity: 1;
+    }
+
+    .swiper-pagination-bullet-active {
+      background-color: $brand-primary;
+      opacity: 1;
+    }
   }
 
   .swiper-button-next,
   .swiper-button-prev {
-    color: $primary;
+    color: $turquoise-50;
 
     &:after {
       font-size: 20px;
@@ -60,7 +84,7 @@
 
 // Subscription Card Styles
 .subscription-card {
-  background-color: #fff;
+  background-color: $brand-background;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -76,7 +100,7 @@
   }
 
   &--highlighted {
-    border: 2px solid $primary;
+    border: 2px solid color.adjust($brand-primary, $alpha: -0.65);
     transform: scale(1.02);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 
@@ -85,7 +109,7 @@
     }
 
     .subscription-card__header {
-      background-color: lighten($primary, 45%);
+      background-color: color.adjust($brand-primary, $alpha: -0.95);
     }
   }
 
@@ -93,13 +117,15 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: $primary;
+    background-color: $brand-primary;
     color: #fff;
     padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: 0.05em;
     font-weight: 500;
     text-transform: uppercase;
+    font-family: $font-family-oswald;
   }
 
   &__header {
@@ -110,22 +136,26 @@
   }
 
   &__title {
-    font-size: 1.3rem;
+    margin-top: 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
     margin-bottom: 10px;
-    color: #333;
+    font-family: $font-family-oswald;
+    text-transform: uppercase;
+    color: color.adjust($dark-navy, $alpha: -0.5);
   }
 
   &__price {
-    font-size: 2rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    color: $primary;
+    color: color.adjust($dark-navy, $alpha: -0.2);
     margin-bottom: 0;
+    font-family: $font-family-oswald;
 
     span {
       font-size: 1rem;
       font-weight: 400;
-      color: #777;
+      color: color.adjust($dark-navy, $alpha: -0.2);
     }
   }
 
@@ -135,8 +165,9 @@
   }
 
   &__description {
-    font-size: 0.9rem;
-    color: #666;
+    font-size: 0.7em;
+    color: color.adjust($dark-navy, $alpha: -0.2);
+    font-family: $font-family-comfortaa;
     margin-bottom: 20px;
     text-align: center;
   }
@@ -149,20 +180,23 @@
 
   &__feature {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 12px;
-    color: #333;
+    color: color.adjust($dark-navy, $alpha: -0.2);
+    font-family: $font-family-comfortaa;
 
     i {
-      color: #4caf50;
+      color: $brand-primary;
       margin-right: 10px;
-      font-size: 1.1rem;
+      font-size: 1rem;
       flex-shrink: 0;
       margin-top: 2px;
     }
 
     span {
       line-height: 1.4;
+      font-size: 0.9em;
+      font-family: $font-family-oswald;
     }
 
     &--disabled {

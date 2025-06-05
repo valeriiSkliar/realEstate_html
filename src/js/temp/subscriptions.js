@@ -38,11 +38,11 @@ const initSubscriptionCarousel = () => {
     },
 
     // Configure autoplay (optional)
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
+    // autoplay: {
+    //   delay: 5000,
+    //   disableOnInteraction: false,
+    //   pauseOnMouseEnter: true,
+    // },
 
     // Responsive breakpoints
     breakpoints: {

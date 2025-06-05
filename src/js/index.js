@@ -116,4 +116,5 @@ import "./pages/my-advertisements";
 import "./pages/profile";
 import "./pages/property-page";
 import "./pages/search";
+import "./pages/subscriptions";
 import "./pages/support";
