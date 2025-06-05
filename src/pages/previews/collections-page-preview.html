@@ -22,9 +22,25 @@
     <main class="page-content">
       <div id="app">
         <div class="collections-page">
-          <div class="container">
+          <!-- Breadcrumb -->
+          <nav
+            class="breadcrumb"
+            aria-label="Breadcrumb navigation"
+            role="navigation"
+          >
+            <ol class="breadcrumb-list">
+              <li class="breadcrumb-item">
+                <a class="breadcrumb-link" href="/">Главная</a>
+              </li>
+              <li class="breadcrumb-item active-page">
+                <span class="breadcrumb-text">Коллекции</span>
+              </li>
+            </ol>
+          </nav>
+          <!-- End Breadcrumb -->
+          <div class="container mt-3 mb-3">
             <!-- Controls panel -->
-            <div class="collections-controls js-collections-controls">
+            <div class="collections-controls js-collections-controls mt-4">
               <a
                 href="/collections-create.html"
                 class="btn btn-brand-turquoise text-brand-light-gray"
@@ -32,23 +48,29 @@
                 <i class="bi bi-plus-lg"></i> Создать подборку
               </a>
             </div>
-            
+
             <!-- Empty collections state -->
-            <div class="collections-empty-state js-empty-collections" style="display: none;">
+            <div
+              class="collections-empty-state js-empty-collections"
+              style="display: none"
+            >
               <div class="collections-empty-state__icon">
                 <i class="bi bi-folder"></i>
               </div>
-              <h3 class="collections-empty-state__title">У вас пока нет коллекций</h3>
-              <p class="collections-empty-state__text">Создайте свою первую коллекцию объектов недвижимости</p>
+              <h3 class="collections-empty-state__title">
+                У вас пока нет коллекций
+              </h3>
+              <p class="collections-empty-state__text">
+                Создайте свою первую коллекцию объектов недвижимости
+              </p>
 
               <a
-              href="/collections-create.html"
-              class="btn btn-brand-turquoise text-brand-light-gray"
-            >
-              <i class="bi bi-plus-lg"></i> Создать подборку
-            </a>
+                href="/collections-create.html"
+                class="btn btn-brand-turquoise text-brand-light-gray"
+              >
+                <i class="bi bi-plus-lg"></i> Создать подборку
+              </a>
             </div>
-
 
             <div class="collection-item">
               <div class="collection-item__main">
@@ -74,17 +96,17 @@
               <div class="collection-item" data-collection-id="coll_2">
                 <div class="collection-item__main">
                   <a href="/collections-edit.html?id=coll_2">
-                  <h3 class="collection-item__name">
-                    Загородные семейные дома
-                  </h3>
-                  <div class="collection-item__info">
-                    <div class="collection-item__count">
-                      <i class="bi bi-building"></i> 3 объекта
+                    <h3 class="collection-item__name">
+                      Загородные семейные дома
+                    </h3>
+                    <div class="collection-item__info">
+                      <div class="collection-item__count">
+                        <i class="bi bi-building"></i> 3 объекта
+                      </div>
+                      <div class="collection-item__date">
+                        <i class="bi bi-calendar"></i> Обновлено 1 мая 2025
+                      </div>
                     </div>
-                    <div class="collection-item__date">
-                      <i class="bi bi-calendar"></i> Обновлено 1 мая 2025
-                    </div>
-                  </div>
                   </a>
                 </div>
                 <div class="collection-item__actions">
