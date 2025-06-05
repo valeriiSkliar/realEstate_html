@@ -51,16 +51,16 @@ const initSubscriptionCarousel = () => {
         slidesPerView: 1,
         spaceBetween: 10,
       },
-      // Tablet
-      768: {
-        slidesPerView: 2,
-        spaceBetween: 20,
-      },
-      // Desktop
-      1024: {
-        slidesPerView: 3,
-        spaceBetween: 30,
-      },
+      // // Tablet
+      // 768: {
+      //   slidesPerView: 2,
+      //   spaceBetween: 20,
+      // },
+      // // Desktop
+      // 1024: {
+      //   slidesPerView: 3,
+      //   spaceBetween: 30,
+      // },
     },
 
     // Keep slides centered

@@ -2,8 +2,7 @@
 @import "../variables";
 
 .subscriptions-page {
-  padding: 20px 0 40px;
-  background-color: #f5f5f5;
+  // padding: 20px 0 40px;
   min-height: calc(100vh - 60px - 100px); // Adjust for header and footer
 
   .container {
@@ -119,7 +118,7 @@
     top: 10px;
     right: 10px;
     background-color: $brand-primary;
-    color: #fff;
+    color: $brand-dark-section;
     padding: 4px 12px;
     border-radius: 4px;
     font-size: 10px;
