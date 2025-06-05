@@ -1,15 +1,20 @@
-import { hideModal, showModal } from "../utils/uiHelpers";
 import {
+  addPropertyToCollection,
+  favoriteCollectionId,
   getCollectionById,
   removePropertyFromCollection,
   updateCollection,
 } from "./collections-manager";
 
 import {
-  createAndShowToast,
   createForm,
   validators,
 } from "../forms/index.js";
+
+import { createAndShowToast } from '../utils/uiHelpers';
+
+import { removeCollectionToast, showCollectionSelectorPopup } from "../components/collection-selector-popup/collection-selector-popup.js";
+import { ensureFavoriteCollection } from './collections-manager.js';
 
 const collectionsEditSchema = {
   collectionName: [
@@ -50,6 +55,8 @@ const collectionsEditHandler = {
 export const initCollectionsEditPage = () => {
   console.log("Collections edit page initialized");
 
+  ensureFavoriteCollection();
+
   // Get collection ID from URL query parameter
   const urlParams = new URLSearchParams(window.location.search);
   const collectionId = urlParams.get("id");
@@ -65,7 +72,6 @@ export const initCollectionsEditPage = () => {
 
   const saveButton = document.querySelector(".js-save-collection");
   const form = document.getElementById("collectionId");
-console.log(form);
 
   if (saveButton && form) {
     // Initialize form validation
@@ -85,7 +91,13 @@ console.log(form);
   loadCollectionData(collectionId);
 
   // Initialize collection save functionality
-  initSaveCollection(formManager);
+    initSaveCollection(formManager);
+    
+    // Initialize remove property functionality
+    initRemovePropertyButtons();
+
+    // Initialize add to favorite functionality
+    initAddToFavorite();
 };
 
 /**
@@ -109,49 +121,8 @@ function loadCollectionData(collectionId) {
 
   // Populate form fields with collection data
   document.getElementById("collectionName").value = collection.name || "";
-  // document.getElementById("clientName").value = collection.clientName || "";
-  // document.getElementById("clientEmail").value = collection.clientEmail || "";
-  // document.getElementById("clientPhone").value = collection.clientPhone || "";
   document.getElementById("collectionNotes").value =
     collection.description || "";
-
-  // Populate search parameters
-  if (collection.parameters) {
-    const params = collection.parameters;
-
-    if (params.propertyType) {
-      document.getElementById("propertyType").value = params.propertyType;
-    }
-
-    if (params.dealType) {
-      document.getElementById("dealType").value = params.dealType;
-    }
-
-    if (params.location) {
-      document.getElementById("location").value = params.location;
-    }
-
-    if (params.size) {
-      if (params.size.min)
-        document.getElementById("propertySizeMin").value = params.size.min;
-      if (params.size.max)
-        document.getElementById("propertySizeMax").value = params.size.max;
-    }
-
-    if (params.price) {
-      if (params.price.min)
-        document.getElementById("priceMin").value = params.price.min;
-      if (params.price.max)
-        document.getElementById("priceMax").value = params.price.max;
-    }
-
-    if (params.rooms) {
-      if (params.rooms.min)
-        document.getElementById("roomsMin").value = params.rooms.min;
-      if (params.rooms.max)
-        document.getElementById("roomsMax").value = params.rooms.max;
-    }
-  }
 
   // Load current properties
   loadCurrentProperties(collection.properties || []);
@@ -162,8 +133,12 @@ function loadCollectionData(collectionId) {
  * @param {Array} propertyIds - Array of property IDs
  */
 function loadCurrentProperties(propertyIds) {
+  
   const currentPropertiesContainer = document.querySelector(
     ".js-current-properties"
+  );
+  const currentPropertiesSearch = document.querySelector(
+    ".js-current-properties-search"
   );
   const emptyCollectionMessage = document.querySelector(".js-empty-collection");
   const currentCountElement = document.querySelector(".current-count");
@@ -172,15 +147,20 @@ function loadCurrentProperties(propertyIds) {
     currentCountElement.textContent = propertyIds.length;
   }
 
-  if (!currentPropertiesContainer) return;
+  // if (!currentPropertiesContainer) return;
 
   // Clear container
-  currentPropertiesContainer.innerHTML = "";
+  // currentPropertiesContainer.innerHTML = "";
 
   if (propertyIds.length === 0) {
     // Show empty collection message
     if (emptyCollectionMessage) {
+      const title = document.querySelector(".card-title");
+      
       emptyCollectionMessage.style.display = "flex";
+      currentPropertiesContainer.style.display = "none";
+      currentPropertiesSearch.style.display = "none";
+      title.style.display = "none";
     }
     return;
   }
@@ -191,96 +171,76 @@ function loadCurrentProperties(propertyIds) {
   }
 
   // For demo purposes, we'll create sample property cards based on IDs
-  propertyIds.forEach((id) => {
-    // Get sample property data based on ID
-    const property = getSamplePropertyById(id);
+  // propertyIds.forEach((id) => {
+  //   // Get sample property data based on ID
+  //   const property = getSamplePropertyById(id);
 
-    if (property) {
-      const propertyCard = createPropertyCard(property, id);
-      currentPropertiesContainer.appendChild(propertyCard);
-    }
-  });
-
-  // Initialize remove property buttons
-  initRemovePropertyButtons();
+  //   if (property) {
+  //     const propertyCard = createPropertyCard(property, id);
+  //     currentPropertiesContainer.appendChild(propertyCard);
+  //   }
+  // });
+  
+  // Initialize add to collection buttons
+  initAddToCollectionPropertyButtons();
 };
 
 /**
- * Initialize remove property buttons
+ * Initialize add to collection property buttons
  */
-function initRemovePropertyButtons() {
-  const removeButtons = document.querySelectorAll(".js-remove-property");
+function initAddToCollectionPropertyButtons() {
+  const addToCollectionButtons = document.querySelectorAll(".js-add-to-collection");
 
-  removeButtons.forEach((button) => {
+  addToCollectionButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
 
       // Get property ID
       const propertyId = button.getAttribute("data-property-id");
-
+      const propertyTitleElement = document.querySelector('.property-summary-card__title a');
+      const propertyTitle = propertyTitleElement ? propertyTitleElement.textContent : 'Объект недвижимости';
       if (propertyId) {
         // Set property ID in modal
-        document.getElementById("removePropertyId").value = propertyId;
-
-        // Show confirmation modal
-        showModal("removePropertyModal");
+        removeCollectionToast();
+        showCollectionSelectorPopup(propertyId, propertyTitle);
       }
     });
   });
+  };
+  
+  /**
+ * Initialize remove property buttons
+ */
+  function initRemovePropertyButtons() {
+    const removeButtons = document.querySelectorAll(".js-remove-from-collection");
+    const collectionId = document.getElementById("collectionId").value;
+    removeButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-  // Handle confirm remove button
-  const confirmRemoveButton = document.querySelector(
-    ".js-confirm-remove-property"
-  );
-  if (confirmRemoveButton) {
-    confirmRemoveButton.addEventListener("click", () => {
-      const propertyId = document.getElementById("removePropertyId").value;
-      const collectionId = document.getElementById("collectionId").value;
+        // Get collection ID
+        const collectionId = document.getElementById("collectionId").value;
 
-      if (propertyId && collectionId) {
-        // Remove property from collection
-        const success = removePropertyFromCollection(collectionId, propertyId);
+        if (!collectionId) return;
 
-        if (success) {
-          // Remove property card from DOM
-          const propertyCard = document.querySelector(
-            `[data-property-id="${propertyId}"]`
-          );
-          if (propertyCard) {
-            propertyCard.remove();
+        // Get property ID
+        const propertyId = button.getAttribute("data-property-id");
+        
+        if (propertyId) {
+          // Set property ID in modal
+          const res = removePropertyFromCollection(collectionId, propertyId);
+
+          if (res) {
+            createAndShowToast("Объект удален из подборки", "success");
+          } else {
+            createAndShowToast("Не удалось удалить объект из подборки", "error");
           }
-
-          // Update property count
-          const currentCount = document.querySelector(".current-count");
-          if (currentCount) {
-            const count = parseInt(currentCount.textContent) - 1;
-            currentCount.textContent = count;
-
-            // Show empty collection message if no properties left
-            if (count === 0) {
-              const emptyCollectionMessage = document.querySelector(
-                ".js-empty-collection"
-              );
-              if (emptyCollectionMessage) {
-                emptyCollectionMessage.style.display = "flex";
-              }
-            }
-          }
-
-          // Show success message
-          createAndShowToast("Property removed from collection", "success");
-        } else {
-          // Show error message
-          createAndShowToast("Failed to remove property", "error");
         }
-
-        // Hide modal
-        hideModal("removePropertyModal");
-      }
+      });
     });
   }
-};
 
 
 /**
@@ -324,14 +284,80 @@ function initSaveCollection(formManagerProps) {
       const success = updateCollection(collectionId, updatedCollectionData);
 
       if (success) {
-        // Show success modal
-        // showModal("collectionUpdateSuccessModal");
-
+        createAndShowToast("Подборка успешно обновлена", "success");
       } else {
-        // Show error message
-        createAndShowToast("Failed to update collection", "error");
+        createAndShowToast("Не удалось обновить подборку", "error");
       }
     });
   }
 };
 };
+
+function initAddToFavorite() {
+  const addToFavoriteButtons = document.querySelectorAll(".js-add-to-favorite");
+
+
+  // Новый метод для обновления только иконки избранного
+  const updateFavoriteIcon = (button, isFavorite) => {
+
+    if (!button) return;
+
+    // SVG иконки сердечка
+    const heartIconEmpty = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-bright-pink)" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+    `;
+
+    const heartIconFilled = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--brand-bright-pink)" stroke="var(--brand-bright-pink)" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+    `;
+
+    // Обновляем иконку
+    button.innerHTML = isFavorite ? heartIconFilled : heartIconEmpty;
+
+    // Обновляем CSS класс
+    if (isFavorite) {
+      button.classList.add(
+        "property-summary-card__favorite-icon--active"
+      );
+    } else {
+      button.classList.remove(
+        "property-summary-card__favorite-icon--active"
+      );
+    }
+
+    // Обновляем aria-label для доступности
+    button.setAttribute(
+      "aria-label",
+      isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+    );
+  }
+
+
+  addToFavoriteButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const propertyCard = button.closest(".property-card");
+      if (!propertyCard) return;
+      const isFavorite = button.classList.contains("property-summary-card__favorite-icon--active");
+      // Get property ID
+      const propertyId = propertyCard.getAttribute("data-property-id");
+      
+      if (propertyId) {
+        // Set property ID in modal
+        if(isFavorite) {
+          removePropertyFromCollection(favoriteCollectionId, propertyId);
+          updateFavoriteIcon(button, false);
+        } else {
+          addPropertyToCollection(favoriteCollectionId, propertyId);
+          updateFavoriteIcon(button, true)
+        }
+      }
+    });
+  });
+}

@@ -188,10 +188,11 @@ export const toggleCollectionFavorite = (id) => {
 /**
  * Add a property to a collection
  * @param {string} collectionId - ID of the collection
+ * @default collectionId = 'favorite'
  * @param {string} propertyId - ID of the property to add
  * @returns {boolean} True if the property was added successfully
  */
-export const addPropertyToCollection = (collectionId, propertyId) => {
+export const addPropertyToCollection = (collectionId = favoriteCollectionId, propertyId) => {
   try {
     // Get current collections
     const collections = getCollections();
