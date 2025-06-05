@@ -30,7 +30,7 @@ const initSubscriptionCarousel = () => {
       el: ".swiper-pagination",
       clickable: true,
     },
-
+    loop: true,
     // Enable navigation arrows
     navigation: {
       nextEl: ".subscription-carousel-next",

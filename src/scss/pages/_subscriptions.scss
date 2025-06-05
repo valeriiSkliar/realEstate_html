@@ -34,7 +34,8 @@
   }
 }
 
-.subscription-card__footer {
+.subscription-card__footer,
+.current-plan-actions {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -221,7 +222,7 @@
 
 // Subscription Management Styles
 .subscription-management {
-  background-color: #fff;
+  background-color: $brand-background;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -229,61 +230,85 @@
 }
 
 .subscription-section-title {
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 20px;
-  position: relative;
-
-  &:after {
-    content: "";
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background-color: $primary;
-  }
+  margin-bottom: 5px;
+  color: $dark-navy;
+  font-family: $font-family-oswald;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .current-plan-info {
-  padding: 15px 0;
+  padding: 0;
 }
 
 .current-plan-header {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
+  flex-wrap: nowrap;
+  flex-direction: row;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
+  padding: 12px 0;
+  // border-bottom: 1px solid color.adjust($dark-navy, $alpha: -0.9);
 }
 
 .current-plan-title {
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   font-weight: 500;
   margin: 0;
+  letter-spacing: 0.05em;
+  color: color.adjust($dark-navy, $alpha: -0.2);
+  font-family: $font-family-comfortaa;
 
   .current-plan-name {
     font-weight: 600;
-    color: $primary;
+    color: $turquoise;
+    font-family: $font-family-oswald;
+    text-transform: uppercase;
+    margin-bottom: 0;
   }
 }
 
+.current-plan-status {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: $font-family-oswald;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .current-plan-details {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .current-plan-detail {
   display: flex;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 4px 0;
 
   .detail-label {
-    width: 150px;
-    color: #666;
+    color: color.adjust($dark-navy, $alpha: -0.3);
+    font-family: $font-family-comfortaa;
+    font-size: 0.85rem;
   }
 
   .detail-value {
     font-weight: 500;
-    color: #333;
+    color: color.adjust($dark-navy, $alpha: -0.2);
+    font-family: $font-family-oswald;
+    font-size: 0.85rem;
   }
+}
+
+.current-plan-actions {
+  padding-top: 10px;
+  border-top: 1px solid color.adjust($dark-navy, $alpha: -0.9);
 }
 
 // Payment Methods Styles
@@ -385,24 +410,25 @@
     transform: none;
   }
 
-  .current-plan-header {
-    flex-direction: column;
-    align-items: flex-start;
-
-    .current-plan-status {
-      margin-top: 5px;
-    }
-  }
-
   .current-plan-detail {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
 
     .detail-label {
-      width: 100%;
+      font-size: 0.8rem;
+    }
+
+    .detail-value {
+      font-size: 0.8rem;
     }
   }
 
   .payment-provider-selection {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .subscription-section-title {
+    font-size: 0.9rem;
   }
 }
