@@ -1,14 +1,13 @@
-import { showModal } from "../utils/uiHelpers";
-import { createCollection } from "./collections-manager";
 import {
   createAndShowToast,
   createForm,
   validators,
 } from "../forms/index.js";
+import { createCollection } from "./collections-manager";
 
 const collectionsCreateSchema = {
   collectionName: [
-    validators.required("Введите название коллекции"),
+    validators.required("Введите название подборки"),
     validators.minLength(3, "Название должно содержать минимум 3 символа"),
     validators.maxLength(50, "Название не должно превышать 50 символов"),
   ],

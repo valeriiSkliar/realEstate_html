@@ -33,7 +33,7 @@ const updateCollectionsView = () => {
     renderCollections(collections);
   }
   // Show empty state if no collections
-  if (!collections || collections.length === 0) {
+  if (!collections || collections.length === 1) {
     if (emptyState) emptyState.style.display = "flex";
     if (collectionsControls) collectionsControls.style.display = "none";
     if (collectionsList) collectionsList.style.display = "none";

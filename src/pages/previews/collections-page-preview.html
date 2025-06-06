@@ -33,7 +33,7 @@
                 <a class="breadcrumb-link" href="/">Главная</a>
               </li>
               <li class="breadcrumb-item active-page">
-                <span class="breadcrumb-text">Коллекции</span>
+                <span class="breadcrumb-text">Подборки</span>
               </li>
             </ol>
           </nav>
@@ -41,29 +41,6 @@
           <div class="container mt-3 mb-3">
             <!-- Controls panel -->
             <div class="collections-controls js-collections-controls mt-4">
-              <a
-                href="/collections-create.html"
-                class="btn btn-brand-turquoise text-brand-light-gray"
-              >
-                <i class="bi bi-plus-lg"></i> Создать подборку
-              </a>
-            </div>
-
-            <!-- Empty collections state -->
-            <div
-              class="collections-empty-state js-empty-collections"
-              style="display: none"
-            >
-              <div class="collections-empty-state__icon">
-                <i class="bi bi-folder"></i>
-              </div>
-              <h3 class="collections-empty-state__title">
-                У вас пока нет коллекций
-              </h3>
-              <p class="collections-empty-state__text">
-                Создайте свою первую коллекцию объектов недвижимости
-              </p>
-
               <a
                 href="/collections-create.html"
                 class="btn btn-brand-turquoise text-brand-light-gray"
@@ -89,6 +66,29 @@
                 </a>
               </div>
             </div>
+
+                        <!-- Empty collections state -->
+                        <div
+                        class="collections-empty-state js-empty-collections"
+                        style="display: none"
+                      >
+                        <div class="collections-empty-state__icon">
+                          <i class="bi bi-folder"></i>
+                        </div>
+                        <h3 class="collections-empty-state__title">
+                          У вас пока нет подборок
+                        </h3>
+                        <p class="collections-empty-state__text">
+                          Создайте свою первую подборку объектов недвижимости
+                        </p>
+          
+                        <a
+                          href="/collections-create.html"
+                          class="btn btn-brand-turquoise text-brand-light-gray"
+                        >
+                          <i class="bi bi-plus-lg"></i> Создать подборку
+                        </a>
+                      </div>
 
             <!-- Collections list -->
             <div class="collections-list js-collections-list">
@@ -150,7 +150,7 @@
                 </div>
                 <div class="modal-body">
                   <p>
-                    Вы уверены, что хотите удалить эту коллекцию? Это действие
+                    Вы уверены, что хотите удалить эту подборку? Это действие
                     нельзя отменить.
                   </p>
                   <input type="hidden" id="deleteCollectionId" />
@@ -191,7 +191,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="addToCollectionModalLabel">
-              Добавить в коллекцию
+              Добавить в подборку
             </h5>
             <button
               type="button"
@@ -206,7 +206,7 @@
 
             <!-- Collections list -->
             <div class="collections-container">
-              <h6>Выберите коллекцию:</h6>
+              <h6>Выберите подборку:</h6>
               <div class="collections-list">
                 <div class="form-check collection-option">
                   <input
@@ -252,13 +252,13 @@
               type="button"
               class="btn btn-brand-turquoise text-brand-light-gray js-create-collection"
             >
-              <i class="bi bi-plus-lg"></i> Создать новую коллекцию
+              <i class="bi bi-plus-lg"></i> Создать новую подборку
             </button>
             <button
               type="button"
               class="btn btn-brand-lime-green text-brand-dark-navy js-add-to-collection"
             >
-              Добавить в коллекцию
+              Добавить в подборку
             </button>
           </div>
         </div>
