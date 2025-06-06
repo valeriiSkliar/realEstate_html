@@ -28,7 +28,28 @@
     <main class="page-content">
       <div id="app">
         <div class="collections-edit-page">
-          <div class="container">
+            <!-- Breadcrumb -->
+            <nav
+            class="breadcrumb"
+            aria-label="Breadcrumb navigation"
+            role="navigation"
+          >
+            <ol class="breadcrumb-list">
+              <li class="breadcrumb-item">
+                <a class="breadcrumb-link" href="/">Главная</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a class="breadcrumb-link" href="/collections.html"
+                  >Коллекции</a
+                >
+              </li>
+              <li class="breadcrumb-item active-page">
+                <span class="breadcrumb-text">Редактировать Коллекцию</span>
+              </li>
+            </ol>
+          </nav>
+          <!-- End Breadcrumb -->
+          <div class="container mt-3 mb-3">
             <div class="page-header">
               <h1 class="page-title">Редактировать Коллекцию</h1>
               <a
@@ -76,7 +97,7 @@
                 <div class="card-body">
                   <h2 class="card-title">Объекты в Коллекции</h2>
 
-                  <div class="selection-controls mb-4">
+                  <div class="selection-controls mb-4 js-current-properties-search">
                     <div class="selection-status">
                       <span class="current-count">2</span> объектов в коллекции
                     </div>
@@ -102,29 +123,110 @@
                     </a>
                   </div>
 
-                  <!-- Property Cards -->
+                  <div class="js-current-properties">
+                                      <!-- Property Cards -->
                   <div class="row g-3">
+                    <!-- First Property Card -->
                     <div class="col-12">
                       <div class="property-card" data-property-id="prop_1">
-                        <property-summary-card
-                          title-text="Студия, 28 м2 | ГМР"
-                          title-href="/property-view-standalone.html"
-                          price-text="₽ 4 900 000"
-                          details-json='[
-                                {"label":"Название комплекса", "value":"ЖК «Стрижи»"},
-                                {"label":"Улица", "value":"Автолюбителей ул."},
-                                {"label":"Состояние", "value":"С ремонтом"}
-                            ]'
-                          is-favorite="true"
-                          phone-number="+7 (918) 254-25-36"
-                          agent-name="Алексей"
-                        ></property-summary-card>
-                        <button class="btn btn-outline-brand-bright-pink js-remove-property" data-property-id="prop_1">
-                          <i class="bi bi-trash"></i> Удалить из коллекции
-                        </button>
+                        <div class="property-summary-card">
+                          <div class="property-summary-card__favorite-icon js-add-to-favorite" role="button" aria-label="Добавить в избранное" tabindex="0">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-bright-pink)" stroke-width="2">
+                              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                          </div>
+                          
+                          <h3 class="property-summary-card__title text-light-gray-30">
+                              <a href="/property-view-standalone.html">Студия, 28 м2 | ГМР</a>
+                          </h3>
+                          <p class="property-summary-card__price">₽ 4 900 000</p>
+                          <ul class="property-summary-card__details-list">
+                              
+                                  <li class="property-summary-card__detail-item">
+                                      <span class="property-summary-card__detail-label">Название комплекса</span>
+                                      <span class="property-summary-card__detail-value">ЖК «Стрижи»</span>
+                                  </li>
+                              
+                                  <li class="property-summary-card__detail-item">
+                                      <span class="property-summary-card__detail-label">Улица</span>
+                                      <span class="property-summary-card__detail-value">Автолюбителей ул.</span>
+                                  </li>
+                              
+                                  <li class="property-summary-card__detail-item">
+                                      <span class="property-summary-card__detail-label">Состояние</span>
+                                      <span class="property-summary-card__detail-value">С ремонтом</span>
+                                  </li>
+                              
+                          </ul>
+                          
+                              <div class="property-summary-card__phone">
+                              <span class="property-summary-card__phone-label">Агент:</span>
+                                  <span class="property-summary-card__phone-agent-name">Алексей</span>
+                                  <a href="tel:+7 (918) 254-25-36" class="property-summary-card__phone-link">
+                                      📞 +7 (918) 254-25-36
+                                  </a>
+                              </div>
+                          
+                      </div>
+                      <div class="d-flex flex-wrap gap-2 p-2">
+                        <button class="w-100 d-block btn btn-brand-lime-green js-add-to-collection" data-property-id="prop_1">Добавить в подборку</button>
+                        <button class="w-100 d-block btn btn-brand-bright-pink js-remove-from-collection" data-property-id="prop_1">Удалить из подборки</button>
+                      </div>
                       </div>
                     </div>
                   </div>
+                  <!-- Second Property Card -->
+                  <div class="col-12">
+                    <div class="property-card" data-property-id="prop_2">
+                      <div class="property-summary-card">
+                        <div class="property-summary-card__favorite-icon js-add-to-favorite" role="button" aria-label="Добавить в избранное" tabindex="0">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-bright-pink)" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                          </svg>
+                        </div>
+                        
+                        <h3 class="property-summary-card__title text-light-gray-30">
+                            <a href="/property-view-standalone.html">Студия, 28 м2 | ГМР</a>
+                        </h3>
+                        <p class="property-summary-card__price">₽ 4 900 000</p>
+                        <ul class="property-summary-card__details-list">
+                            
+                                <li class="property-summary-card__detail-item">
+                                    <span class="property-summary-card__detail-label">Название комплекса</span>
+                                    <span class="property-summary-card__detail-value">ЖК «Стрижи»</span>
+                                </li>
+                            
+                                <li class="property-summary-card__detail-item">
+                                    <span class="property-summary-card__detail-label">Улица</span>
+                                    <span class="property-summary-card__detail-value">Автолюбителей ул.</span>
+                                </li>
+                            
+                                <li class="property-summary-card__detail-item">
+                                    <span class="property-summary-card__detail-label">Состояние</span>
+                                    <span class="property-summary-card__detail-value">С ремонтом</span>
+                                </li>
+                            
+                        </ul>
+                        
+                            <div class="property-summary-card__phone">
+                            <span class="property-summary-card__phone-label">Агент:</span>
+                                <span class="property-summary-card__phone-agent-name">Алексей</span>
+                                <a href="tel:+7 (918) 254-25-36" class="property-summary-card__phone-link">
+                                    📞 +7 (918) 254-25-36
+                                </a>
+                            </div>
+                        
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 p-2">
+                      <button class="w-100 d-block btn btn-brand-lime-green js-add-to-collection" data-property-id="prop_2">Добавить в подборку</button>
+                      <button class="w-100 d-block btn btn-brand-bright-pink js-remove-from-collection" data-property-id="prop_2">Удалить из подборки</button>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                  <!-- End of Second Property Card -->
+                  </div>
+                </div>
 
                   <div class="form-actions mt-4">
                     <button

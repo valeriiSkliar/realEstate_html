@@ -36,6 +36,8 @@ export class PropertySummaryCard extends HTMLElement {
   connectedCallback() {
     this.render();
     this.setupEventListeners();
+    
+    // Styles for collection selector popup are now globally managed via SCSS.
   }
 
   setupEventListeners() {
@@ -108,6 +110,8 @@ export class PropertySummaryCard extends HTMLElement {
         detail: {
           isFavorite: newState,
           element: this,
+          propertyId: this.getAttribute('property-id') || `property_${Date.now()}`,
+          propertyTitle: this.getAttribute('title-text') || 'Объект недвижимости'
         },
         bubbles: true,
       })

@@ -13,6 +13,10 @@ export const favoriteCollectionId = 'favorite';
  * @returns {Array} Array of collection objects
  */
 export const getCollections = () => {
+  // TODO: Replace localStorage with API call to fetch collections from server
+  // Example: const response = await fetch('/api/collections', { method: 'GET' });
+  // return response.json();
+  
   const collections = localStorage.getItem(STORAGE_KEY);
   return collections ? JSON.parse(collections) : [];
 };
@@ -23,6 +27,13 @@ export const getCollections = () => {
  */
 export const saveCollections = (collections) => {
   try {
+    // TODO: Replace localStorage with API call to sync collections to server
+    // Example: await fetch('/api/collections', { 
+    //   method: 'PUT', 
+    //   body: JSON.stringify(collections),
+    //   headers: { 'Content-Type': 'application/json' }
+    // });
+    
     localStorage.setItem(STORAGE_KEY, JSON.stringify(collections));
   } catch (e) {
     console.error('[CollectionsManager] Error saving collections to localStorage:', e);
@@ -54,6 +65,14 @@ export function ensureFavoriteCollection() {
     };
 
     collections.push(newCollection); // Add to the existing array
+    
+    // TODO: Add API call to create favorite collection on server
+    // Example: await fetch('/api/collections', {
+    //   method: 'POST',
+    //   body: JSON.stringify(newCollection),
+    //   headers: { 'Content-Type': 'application/json' }
+    // });
+    
     saveCollections(collections); // Save updated array
     return newCollection;
   }
@@ -66,6 +85,10 @@ export function ensureFavoriteCollection() {
  * @returns {Object|null} Collection object or null if not found
  */
 export const getCollectionById = (id) => {
+  // TODO: Replace with direct API call to fetch specific collection
+  // Example: const response = await fetch(`/api/collections/${id}`);
+  // return response.ok ? response.json() : null;
+  
   const collections = getCollections();
   return collections.find(collection => collection.id === id) || null;
 };
@@ -91,6 +114,14 @@ export const createCollection = (collectionData) => {
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
+  
+  // TODO: Replace localStorage operations with API call to create collection on server
+  // Example: const response = await fetch('/api/collections', {
+  //   method: 'POST',
+  //   body: JSON.stringify(newCollection),
+  //   headers: { 'Content-Type': 'application/json' }
+  // });
+  // const createdCollection = await response.json();
   
   // Add to collections array
   collections.push(newCollection);
@@ -126,6 +157,13 @@ export const updateCollection = (id, updateData) => {
     updatedAt: new Date().toISOString()
   };
   
+  // TODO: Add API call to update collection on server
+  // Example: await fetch(`/api/collections/${id}`, {
+  //   method: 'PATCH',
+  //   body: JSON.stringify(updateData),
+  //   headers: { 'Content-Type': 'application/json' }
+  // });
+  
   // Save to localStorage
   saveCollections(collections);
   
@@ -151,6 +189,9 @@ export const deleteCollection = (id) => {
   if (filteredCollections.length === collections.length) {
     return false;
   }
+  
+  // TODO: Add API call to delete collection from server
+  // Example: await fetch(`/api/collections/${id}`, { method: 'DELETE' });
   
   saveCollections(filteredCollections);
   return true;
@@ -179,6 +220,13 @@ export const toggleCollectionFavorite = (id) => {
     // Then set this collection as favorite
     targetCollection.isFavorite = true;
   }
+  
+  // TODO: Add API call to update favorite status on server
+  // Example: await fetch(`/api/collections/${id}/favorite`, {
+  //   method: 'PATCH',
+  //   body: JSON.stringify({ isFavorite: targetCollection.isFavorite }),
+  //   headers: { 'Content-Type': 'application/json' }
+  // });
   
   // Save changes
   saveCollections(collections);
@@ -212,6 +260,13 @@ export const addPropertyToCollection = (collectionId = favoriteCollectionId, pro
     // Add property to collection
     collections[index].properties.push(propertyId);
     collections[index].updatedAt = new Date().toISOString();
+
+    // TODO: Add API call to add property to collection on server
+    // Example: await fetch(`/api/collections/${collectionId}/properties`, {
+    //   method: 'POST',
+    //   body: JSON.stringify({ propertyId }),
+    //   headers: { 'Content-Type': 'application/json' }
+    // });
 
     // Save updated collections
     saveCollections(collections);
@@ -251,6 +306,11 @@ export const removePropertyFromCollection = (collectionId=favoriteCollectionId, 
     targetCollection.properties.splice(propertyIdx, 1);
     targetCollection.updatedAt = new Date().toISOString();
 
+    // TODO: Add API call to remove property from collection on server
+    // Example: await fetch(`/api/collections/${collectionId}/properties/${propertyId}`, {
+    //   method: 'DELETE'
+    // });
+
     // Save updated collections
     saveCollections(collections);
     return true; // Successfully removed
@@ -268,6 +328,10 @@ export const removePropertyFromCollection = (collectionId=favoriteCollectionId, 
  */
 export const isPropertyInCollection = (collectionId, propertyId) => {
   try {
+    // TODO: Consider adding direct API call for efficiency
+    // Example: const response = await fetch(`/api/collections/${collectionId}/properties/${propertyId}`);
+    // return response.ok;
+    
     const collection = getCollectionById(collectionId);
     return collection ? collection.properties.includes(propertyId) : false;
   } catch (error) {
@@ -283,6 +347,10 @@ export const isPropertyInCollection = (collectionId, propertyId) => {
  */
 export const getCollectionsWithProperty = (propertyId) => {
   try {
+    // TODO: Add dedicated API endpoint to get collections by property
+    // Example: const response = await fetch(`/api/properties/${propertyId}/collections`);
+    // return response.json();
+    
     const collections = getCollections();
     return collections.filter(c => c.properties.includes(propertyId));
   } catch (error) {
@@ -315,6 +383,13 @@ export const addPropertiesToCollection = (collectionId, propertyIds) => {
     
     collections[index].properties = Array.from(currentProperties);
     collections[index].updatedAt = new Date().toISOString();
+
+    // TODO: Add API call to bulk add properties to collection
+    // Example: await fetch(`/api/collections/${collectionId}/properties/bulk`, {
+    //   method: 'POST',
+    //   body: JSON.stringify({ propertyIds }),
+    //   headers: { 'Content-Type': 'application/json' }
+    // });
 
     // Save updated collections
     saveCollections(collections);

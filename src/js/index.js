@@ -113,11 +113,13 @@ import "./components/index";
 import { initHeader } from "./components/index";
 import { initializeReportForm } from "./components/property-page/report-form";
 import "./pages/add-listing";
-import "./pages/collections";
+import "./pages/collections"; // logic for collections pages
 import "./pages/my-advertisements";
 import "./pages/profile";
 import "./pages/property-page";
+import "./pages/property-view-logic"; // logic for add to favorite && add to collection
 import "./pages/search";
+import "./pages/search-page-logic"; // logic for add to favorite && add to collection
 import "./pages/subscriptions";
 import "./pages/support";
 
