@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Недвижимость - Примеры Форм</title>
     <!-- Компилированные стили -->
-    <link rel="stylesheet" href="../../dist/css/main.css" />
+    <link rel="stylesheet" href="css/index.css" />
     <!-- Bootstrap Icons -->
     <link
       rel="stylesheet"
@@ -761,6 +761,33 @@
                 </div>
               </div>
             </section>
+
+            <!-- Report Ad Form -->
+            <section class="forms-section">
+              <h2 class="section-title">Форма жалобы на объявление</h2>
+              <div id="report-form-container">
+                <form id="reportAdForm" novalidate>
+                  <div class="form-field mb-3">
+                    <label for="reportDescription" class="form-label required"
+                      >Причина жалобы</label
+                    >
+                    <textarea
+                      id="reportDescription"
+                      name="description"
+                      class="form-input"
+                      rows="4"
+                      placeholder="Опишите, что не так с этим объявлением..."
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    class="brand-button brand-button--solid brand-button--turquoise"
+                  >
+                    Отправить жалобу
+                  </button>
+                </form>
+              </div>
+            </section>
           </div>
         </div>
       </div>
@@ -768,73 +795,8 @@
 
     <app-footer></app-footer>
 
-    <!-- JavaScript для инициализации Select2 -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- Инициализация Select2 перенесена в основные скрипты -->
     <script>
-      $(document).ready(function () {
-        // Инициализация всех Select2 элементов
-        $('[data-select2="true"]').each(function () {
-          const $element = $(this);
-          const isMultiple = $element.prop("multiple");
-          const hasValidation =
-            $element.hasClass("is-valid") || $element.hasClass("is-invalid");
-          const sizeClass = $element.hasClass("select2-sm")
-            ? "select2-sm"
-            : $element.hasClass("select2-lg")
-            ? "select2-lg"
-            : "";
-
-          // Базовые настройки Select2
-          const select2Options = {
-            theme: "bootstrap-5",
-            width: "100%",
-            placeholder:
-              $element.find('option[value=""]').text() || "Выберите опцию",
-            allowClear: true,
-            language: {
-              noResults: function () {
-                return "Ничего не найдено";
-              },
-              searching: function () {
-                return "Поиск...";
-              },
-              inputTooShort: function () {
-                return "Введите больше символов";
-              },
-              loadingMore: function () {
-                return "Загрузка...";
-              },
-            },
-          };
-
-          // Инициализация Select2
-          $element.select2(select2Options);
-
-          // Применение классов для размеров и валидации
-          const $container = $element.next(".select2-container");
-
-          if (sizeClass) {
-            $container.addClass(sizeClass);
-          }
-
-          if (hasValidation) {
-            if ($element.hasClass("is-valid")) {
-              $container.addClass("is-valid");
-            }
-            if ($element.hasClass("is-invalid")) {
-              $container.addClass("is-invalid");
-            }
-          }
-        });
-
-        // Демонстрация динамического изменения состояния
-        setTimeout(function () {
-          // Предварительный выбор в multiple select
-          $("#select2Multiple").val(["parking", "elevator"]).trigger("change");
-        }, 500);
-      });
-
       // Обработка file upload
       document.addEventListener("DOMContentLoaded", function () {
         // Обработка одиночных файлов
@@ -913,5 +875,9 @@
           });
       });
     </script>
+
+    <!-- Подключение собранных скриптов -->
+    <!-- <script src="js/vendors.js"></script>
+    <script src="js/index.js"></script> -->
   </body>
 </html>
