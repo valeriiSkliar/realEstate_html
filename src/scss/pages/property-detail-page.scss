@@ -15,6 +15,13 @@
     }
   }
 
+  &__buttons {
+    .brand-button {
+      width: 100% !important;
+      max-width: 300px !important;
+    }
+  }
+
   // Стили для заголовка
   .property-detail-header {
     display: flex;

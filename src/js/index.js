@@ -108,15 +108,10 @@ registerCustomElements();
 
 // components
 import "./components/index";
-import { initializeReportForm } from "./components/report-form.js";
-
-document.addEventListener("DOMContentLoaded", () => {
-  initializeReportForm();
-  // initSelect2();
-});
 
 // Импортируем страничные скрипты
 import { initHeader } from "./components/index";
+import { initializeReportForm } from "./components/property-page/report-form";
 import "./pages/add-listing";
 import "./pages/collections";
 import "./pages/my-advertisements";
@@ -128,4 +123,9 @@ import "./pages/support";
 
 document.addEventListener("DOMContentLoaded", function () {
   initHeader(document.querySelector("body"));
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  initializeReportForm();
+  // initSelect2();
 });
