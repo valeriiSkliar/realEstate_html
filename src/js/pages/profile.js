@@ -1,3 +1,4 @@
+import { initPhotoUploader } from "../components/profile";
 import { copyToClipboard } from "../utils/clipboard";
 import { createAndShowToast } from "../utils/uiHelpers";
 
@@ -10,6 +11,9 @@ export const initProfilePage = () => {
 
   // Initialize referral link copy functionality
   initReferralCopy();
+
+  // Initialize photo uploader
+  initPhotoUploader();
 };
 
 /**
