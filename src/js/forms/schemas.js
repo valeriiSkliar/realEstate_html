@@ -77,6 +77,16 @@ const schemas = {
       validators.maxLength(1000, "Описание не должно превышать 1000 символов"),
     ],
   },
+
+  reportAd: {
+    description: [
+      validators.required("Пожалуйста, опишите причину жалобы."),
+      validators.minLength(
+        10,
+        "Описание должно содержать минимум 10 символов."
+      ),
+    ],
+  },
 };
 
 export { schemas };

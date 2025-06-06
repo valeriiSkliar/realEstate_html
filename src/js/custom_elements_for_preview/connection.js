@@ -15,23 +15,43 @@ import {
 } from "./index";
 
 /**
+ * Проверяет, зарегистрирован ли кастомный элемент
+ * @param {string} tagName - имя тега элемента
+ * @returns {boolean}
+ */
+function isElementDefined(tagName) {
+  return customElements.get(tagName) !== undefined;
+}
+
+/**
+ * Регистрирует кастомный элемент только если он еще не зарегистрирован
+ * @param {string} tagName - имя тега
+ * @param {Function} elementClass - класс элемента
+ */
+function safeDefine(tagName, elementClass) {
+  if (!isElementDefined(tagName)) {
+    customElements.define(tagName, elementClass);
+  }
+}
+
+/**
  * Регистрирует все custom elements
  */
 export function registerCustomElements() {
   // Основные компоненты
-  customElements.define("app-header", AppHeader);
-  customElements.define("app-mobile-menu", AppMobileMenu);
-  customElements.define("app-footer", AppFooter);
-  customElements.define("app-favorite-property", AppFavoriteProperty);
-  customElements.define("app-confirm-modal", AppConfirmModal);
-  customElements.define("app-empty-state", AppEmptyState);
+  safeDefine("app-header", AppHeader);
+  safeDefine("app-mobile-menu", AppMobileMenu);
+  safeDefine("app-footer", AppFooter);
+  safeDefine("app-favorite-property", AppFavoriteProperty);
+  safeDefine("app-confirm-modal", AppConfirmModal);
+  safeDefine("app-empty-state", AppEmptyState);
 
   // Дополнительные компоненты
-  customElements.define("brand-button", BrandButton);
-  customElements.define("custom-breadcrumb", CustomBreadcrumb);
-  customElements.define("my-advertisement-card", MyAdvertisementCard);
-  customElements.define("my-property-card", MyPropertyCard);
-  customElements.define("simple-pagination", SimplePagination);
-  customElements.define("property-list-component", PropertyListComponent);
-  customElements.define("property-summary-card", PropertySummaryCard);
+  safeDefine("brand-button", BrandButton);
+  safeDefine("custom-breadcrumb", CustomBreadcrumb);
+  safeDefine("my-advertisement-card", MyAdvertisementCard);
+  safeDefine("my-property-card", MyPropertyCard);
+  safeDefine("simple-pagination", SimplePagination);
+  safeDefine("property-list-component", PropertyListComponent);
+  safeDefine("property-summary-card", PropertySummaryCard);
 }
