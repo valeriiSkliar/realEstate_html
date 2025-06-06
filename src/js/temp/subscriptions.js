@@ -25,11 +25,18 @@ const initSubscriptionCarousel = () => {
   console.log("[Debug] Initializing Subscription Carousel...");
   const swiper = new Swiper(".subscription-carousel", {
     modules: [Navigation, Pagination, Autoplay],
+
+    // Основные настройки для отображения одной карточки
+    slidesPerView: 1,
+    spaceBetween: 20,
+
     // Enable pagination
     pagination: {
       el: ".swiper-pagination",
       clickable: true,
     },
+
+    loop: true,
 
     // Enable navigation arrows
     navigation: {
@@ -38,44 +45,37 @@ const initSubscriptionCarousel = () => {
     },
 
     // Configure autoplay (optional)
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
+    // autoplay: {
+    //   delay: 5000,
+    //   disableOnInteraction: false,
+    //   pauseOnMouseEnter: true,
+    // },
 
-    // Responsive breakpoints
+    // Responsive breakpoints - везде по одной карточке
     breakpoints: {
       // Mobile
       320: {
         slidesPerView: 1,
-        spaceBetween: 10,
+        spaceBetween: 15,
       },
       // Tablet
       768: {
-        slidesPerView: 2,
+        slidesPerView: 1,
         spaceBetween: 20,
       },
       // Desktop
       1024: {
-        slidesPerView: 3,
-        spaceBetween: 30,
+        slidesPerView: 1,
+        spaceBetween: 25,
       },
     },
 
-    // Keep slides centered
-    centeredSlides: true,
+    // Убираем centeredSlides для корректного позиционирования
+    centeredSlides: false,
     rewind: true,
   });
 
   console.log("[Debug] Swiper instance created:", swiper);
-
-  // // Return to beginning of loop after 3 slides to always show all plans
-  // swiper.on("slideChange", function () {
-  //   if (swiper.realIndex > 2) {
-  //     swiper.slideTo(0, 0);
-  //   }
-  // });
 };
 
 /**

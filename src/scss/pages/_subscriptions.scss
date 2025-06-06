@@ -1,8 +1,8 @@
+@use "sass:color";
 @import "../variables";
 
 .subscriptions-page {
-  padding: 20px 0 40px;
-  background-color: #f5f5f5;
+  // padding: 20px 0 40px;
   min-height: calc(100vh - 60px - 100px); // Adjust for header and footer
 
   .container {
@@ -12,37 +12,81 @@
   }
 
   .subscriptions-title {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: $primary;
+    margin-top: 1rem;
+    color: $dark-navy;
     text-align: center;
+    font-family: $font-family-oswald;
   }
 
   .subscriptions-description {
-    color: #666;
-    margin-bottom: 2rem;
+    color: $dark-navy-70;
+    margin-bottom: 1.5rem;
     text-align: center;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    font-size: 0.8rem;
+    font-family: $font-family-comfortaa;
   }
 }
 
-// Subscription Carousel Container
+.subscription-card__footer,
+.current-plan-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .brand-button {
+    width: 100%;
+  }
+}
+
 .subscription-carousel-container {
+  overflow: hidden; // Скрываем скролл для контейнера карусели
   position: relative;
-  padding: 20px 10px;
+  padding: 20px 15px; // Увеличиваем горизонтальные отступы
   margin-bottom: 40px;
+  overflow: visible; // Позволяем контенту выходить за границы
+
+  .subscription-carousel {
+    overflow: visible; // Убираем обрезание у самого swiper
+    padding: 0 10px; // Дополнительные отступы для карточек
+  }
+
+  .swiper-wrapper {
+    padding-bottom: 10px; // Отступ снизу для теней карточек
+  }
+
+  .swiper-slide {
+    height: auto; // Автоматическая высота
+    display: flex; // Для центрирования содержимого
+    justify-content: center; // Центрируем карточку в слайде
+  }
 
   .swiper-pagination {
     position: relative;
-    margin-top: 20px;
+    margin-top: 30px; // Увеличиваем отступ от карточек
+
+    .swiper-pagination-bullet {
+      background-color: color.adjust($brand-primary, $alpha: -0.6);
+      opacity: 1;
+      margin: 0 6px; // Увеличиваем расстояние между точками
+    }
+
+    .swiper-pagination-bullet-active {
+      background-color: $brand-primary;
+      opacity: 1;
+    }
   }
 
   .swiper-button-next,
   .swiper-button-prev {
-    color: $primary;
+    color: $turquoise-50;
+    top: 50%; // Центрируем по вертикали относительно карточек
+    transform: translateY(-50%);
+    z-index: 10;
 
     &:after {
       font-size: 20px;
@@ -50,17 +94,75 @@
   }
 
   .subscription-carousel-next {
-    right: 0;
+    right: -5px; // Выносим стрелки за пределы контейнера
   }
 
   .subscription-carousel-prev {
-    left: 0;
+    left: -5px;
+  }
+}
+
+// Обновляем стили карточки для лучшего отображения в слайдере
+.subscription-card {
+  background-color: $brand-background;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  max-width: 350px; // Ограничиваем максимальную ширину карточки
+  width: 100%;
+  margin: 0 auto; // Центрируем карточку
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  &--highlighted {
+    border: 2px solid color.adjust($brand-primary, $alpha: -0.65);
+    transform: scale(1.02);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    .subscription-card__header {
+      background-color: color.adjust($brand-primary, $alpha: -0.95);
+    }
+  }
+
+  // Остальные стили карточки остаются без изменений...
+}
+
+// Media queries для мобильных устройств
+@media (max-width: 768px) {
+  .subscription-carousel-container {
+    padding: 20px 10px; // Уменьшаем отступы на мобильных
+    overflow: hidden;
+
+    .subscription-carousel {
+      padding: 0 5px;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: none; // Скрываем стрелки на мобильных, оставляем только pagination
+    }
+  }
+
+  .subscription-card {
+    max-width: 100%; // На мобильных занимаем всю доступную ширину
   }
 }
 
 // Subscription Card Styles
 .subscription-card {
-  background-color: #fff;
+  background-color: $brand-background;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -76,7 +178,7 @@
   }
 
   &--highlighted {
-    border: 2px solid $primary;
+    border: 2px solid color.adjust($brand-primary, $alpha: -0.65);
     transform: scale(1.02);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 
@@ -85,7 +187,7 @@
     }
 
     .subscription-card__header {
-      background-color: lighten($primary, 45%);
+      background-color: color.adjust($brand-primary, $alpha: -0.95);
     }
   }
 
@@ -93,13 +195,15 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: $primary;
-    color: #fff;
+    background-color: $brand-primary;
+    color: $brand-dark-section;
     padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: 0.05em;
     font-weight: 500;
     text-transform: uppercase;
+    font-family: $font-family-oswald;
   }
 
   &__header {
@@ -110,22 +214,26 @@
   }
 
   &__title {
-    font-size: 1.3rem;
+    margin-top: 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
     margin-bottom: 10px;
-    color: #333;
+    font-family: $font-family-oswald;
+    text-transform: uppercase;
+    color: color.adjust($dark-navy, $alpha: -0.5);
   }
 
   &__price {
-    font-size: 2rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    color: $primary;
+    color: color.adjust($dark-navy, $alpha: -0.2);
     margin-bottom: 0;
+    font-family: $font-family-oswald;
 
     span {
       font-size: 1rem;
       font-weight: 400;
-      color: #777;
+      color: color.adjust($dark-navy, $alpha: -0.2);
     }
   }
 
@@ -135,8 +243,9 @@
   }
 
   &__description {
-    font-size: 0.9rem;
-    color: #666;
+    font-size: 0.7em;
+    color: color.adjust($dark-navy, $alpha: -0.2);
+    font-family: $font-family-comfortaa;
     margin-bottom: 20px;
     text-align: center;
   }
@@ -149,20 +258,23 @@
 
   &__feature {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 12px;
-    color: #333;
+    color: color.adjust($dark-navy, $alpha: -0.2);
+    font-family: $font-family-comfortaa;
 
     i {
-      color: #4caf50;
+      color: $brand-primary;
       margin-right: 10px;
-      font-size: 1.1rem;
+      font-size: 1rem;
       flex-shrink: 0;
       margin-top: 2px;
     }
 
     span {
       line-height: 1.4;
+      font-size: 0.9em;
+      font-family: $font-family-oswald;
     }
 
     &--disabled {
@@ -187,7 +299,7 @@
 
 // Subscription Management Styles
 .subscription-management {
-  background-color: #fff;
+  background-color: $brand-background;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -195,61 +307,85 @@
 }
 
 .subscription-section-title {
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 20px;
-  position: relative;
-
-  &:after {
-    content: "";
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background-color: $primary;
-  }
+  margin-bottom: 5px;
+  color: $dark-navy;
+  font-family: $font-family-oswald;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .current-plan-info {
-  padding: 15px 0;
+  padding: 0;
 }
 
 .current-plan-header {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
+  flex-wrap: nowrap;
+  flex-direction: row;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
+  padding: 12px 0;
+  // border-bottom: 1px solid color.adjust($dark-navy, $alpha: -0.9);
 }
 
 .current-plan-title {
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   font-weight: 500;
   margin: 0;
+  letter-spacing: 0.05em;
+  color: color.adjust($dark-navy, $alpha: -0.2);
+  font-family: $font-family-comfortaa;
 
   .current-plan-name {
     font-weight: 600;
-    color: $primary;
+    color: $turquoise;
+    font-family: $font-family-oswald;
+    text-transform: uppercase;
+    margin-bottom: 0;
   }
 }
 
+.current-plan-status {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: $font-family-oswald;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .current-plan-details {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .current-plan-detail {
   display: flex;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 4px 0;
 
   .detail-label {
-    width: 150px;
-    color: #666;
+    color: color.adjust($dark-navy, $alpha: -0.3);
+    font-family: $font-family-comfortaa;
+    font-size: 0.85rem;
   }
 
   .detail-value {
     font-weight: 500;
-    color: #333;
+    color: color.adjust($dark-navy, $alpha: -0.2);
+    font-family: $font-family-oswald;
+    font-size: 0.85rem;
   }
+}
+
+.current-plan-actions {
+  padding-top: 10px;
+  border-top: 1px solid color.adjust($dark-navy, $alpha: -0.9);
 }
 
 // Payment Methods Styles
@@ -351,24 +487,25 @@
     transform: none;
   }
 
-  .current-plan-header {
-    flex-direction: column;
-    align-items: flex-start;
-
-    .current-plan-status {
-      margin-top: 5px;
-    }
-  }
-
   .current-plan-detail {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
 
     .detail-label {
-      width: 100%;
+      font-size: 0.8rem;
+    }
+
+    .detail-value {
+      font-size: 0.8rem;
     }
   }
 
   .payment-provider-selection {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .subscription-section-title {
+    font-size: 0.9rem;
   }
 }

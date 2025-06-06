@@ -110,10 +110,16 @@ registerCustomElements();
 import "./components/index";
 
 // Импортируем страничные скрипты
+import { initHeader } from "./components/index";
 import "./pages/add-listing";
 import "./pages/collections";
 import "./pages/my-advertisements";
 import "./pages/profile";
 import "./pages/property-page";
 import "./pages/search";
+import "./pages/subscriptions";
 import "./pages/support";
+
+document.addEventListener("DOMContentLoaded", function () {
+  initHeader(document.querySelector("body"));
+});
