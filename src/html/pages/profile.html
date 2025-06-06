@@ -31,8 +31,24 @@
 
           <!-- User Profile Header -->
           <div class="profile-header">
-            <div class="profile-avatar">
-              <i class="bi bi-person text-brand-turquoise"></i>
+            <div class="profile-avatar js-avatar-container">
+              <div class="avatar-image-wrapper">
+                <img
+                  class="avatar-image js-avatar-image"
+                  src="/images/default-avatar.png"
+                  alt="Фото профиля"
+                  loading="lazy"
+                />
+              </div>
+              <div class="avatar-upload-overlay js-avatar-upload">
+                <i class="bi bi-camera-fill text-white"></i>
+              </div>
+              <input
+                type="file"
+                class="avatar-upload-input js-avatar-input"
+                accept="image/*"
+                style="display: none"
+              />
             </div>
             <div class="profile-info">
               <div class="profile-name-wrapper">
