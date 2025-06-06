@@ -19,6 +19,9 @@ export function initializeReportForm() {
       resetOnSuccess: true,
     });
 
+    // Сохраняем ссылку на FormManager в элементе формы для внешнего доступа
+    reportFormElement._formManager = reportFormManager;
+
     // Apply bootstrap styles
     // formAdapters.bootstrap.applyStyles(reportFormElement);
   }

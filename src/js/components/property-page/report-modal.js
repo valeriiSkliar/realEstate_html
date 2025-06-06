@@ -81,6 +81,27 @@ export class ReportModal {
 
     // Добавляем модальное окно в конец body
     document.body.insertAdjacentHTML("beforeend", modalHtml);
+
+    // Добавляем обработчики событий модального окна
+    this.bindModalEvents();
+  }
+
+  /**
+   * Привязка обработчиков событий модального окна
+   */
+  bindModalEvents() {
+    const modal = document.getElementById(this.modalId);
+    if (modal) {
+      // Сброс формы при закрытии модального окна
+      modal.addEventListener("hidden.bs.modal", () => {
+        this.resetForm();
+      });
+
+      // Сброс формы при открытии модального окна (для надежности)
+      modal.addEventListener("show.bs.modal", () => {
+        this.resetForm();
+      });
+    }
   }
 
   /**
@@ -153,11 +174,29 @@ export class ReportModal {
     const form = document.getElementById("reportAdForm");
     if (form) {
       form.reset();
-      // Удаляем классы валидации
+
+      // Удаляем классы валидации с полей ввода
       const inputs = form.querySelectorAll(".form-input");
       inputs.forEach((input) => {
         input.classList.remove("is-invalid", "is-valid");
       });
+
+      // Удаляем сообщения об ошибках
+      const errorMessages = form.querySelectorAll(".error-message");
+      errorMessages.forEach((message) => {
+        message.remove();
+      });
+
+      // Удаляем классы валидации с контейнеров полей
+      const formFields = form.querySelectorAll(".form-field");
+      formFields.forEach((field) => {
+        field.classList.remove("error", "valid");
+      });
+
+      // Сбрасываем состояние FormManager, если он существует
+      if (form._formManager) {
+        form._formManager.reset();
+      }
     }
   }
 
