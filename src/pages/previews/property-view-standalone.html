@@ -267,12 +267,17 @@
             </div>
           </div>
           <div
-            class="container-fluid px-0 mt-3 d-flex flex-column justify-content-center align-items-center gap-3"
+            class="property-detail-page__buttons container-fluid px-0 mt-3 d-flex flex-column justify-content-center align-items-center gap-3"
           >
-            <brand-button variant="solid" id="add-to-collections-button" data-property-id="1">Добавить в подборку</brand-button>
-            <brand-button variant="solid" color="turquoise"
-              >Пожаловаться</brand-button
+            <button class="brand-button brand-button--solid" id="add-to-collections-button" data-property-id="1">
+              Добавить в подборку
+            </button>
+            <button
+              class="brand-button brand-button--solid brand-button--turquoise"
+              data-action="report"
             >
+              Пожаловаться
+            </button>
           </div>
         </div>
       </div>
@@ -318,7 +323,7 @@
     <app-footer></app-footer>
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
-    <script>
+    <script type="module">
       document.addEventListener("DOMContentLoaded", function () {
         // Gallery images data
         const galleryImages = [

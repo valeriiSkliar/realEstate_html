@@ -1,7 +1,13 @@
+import { initReportModal } from "../components/property-page/report-modal.js";
+
 document.addEventListener("DOMContentLoaded", function () {
   if (!document.querySelector(".property-detail-page")) {
     return false;
   }
+
+  // Инициализируем модальное окно жалобы
+  initReportModal();
+
   // Gallery images data
   const galleryImages = [
     {
