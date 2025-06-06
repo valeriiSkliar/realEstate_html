@@ -69,9 +69,9 @@ const renderCollections = (collections) => {
       <div class="collections-empty-state__icon">
         <i class="bi bi-folder"></i>
       </div>
-      <h3 class="collections-empty-state__title">У вас пока нет коллекций</h3>
-      <p class="collections-empty-state__text">Создайте свою первую коллекцию объектов недвижимости</p>
-      <a href="/collections-create.html" class="btn btn-brand-lime">Создать коллекцию</a>
+      <h3 class="collections-empty-state__title">У вас пока нет подборок</h3>
+      <p class="collections-empty-state__text">Создайте свою первую подборку объектов недвижимости</p>
+      <a href="/collections-create.html" class="btn btn-brand-lime">Создать подборку</a>
     `;
     collectionsList.appendChild(emptyState);
     return;
