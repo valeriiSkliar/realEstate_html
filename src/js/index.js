@@ -108,6 +108,12 @@ registerCustomElements();
 
 // components
 import "./components/index";
+import { initializeReportForm } from "./components/report-form.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+  initializeReportForm();
+  // initSelect2();
+});
 
 // Импортируем страничные скрипты
 import { initHeader } from "./components/index";
