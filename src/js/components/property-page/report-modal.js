@@ -40,7 +40,7 @@ export class ReportModal {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body">
-              <p class="text-muted mb-3">
+              <p class="modal-body--description text-muted mb-3">
                 Если вы считаете, что это объявление нарушает правила сайта, 
                 пожалуйста, опишите проблему в форме ниже.
               </p>

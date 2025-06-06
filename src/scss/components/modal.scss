@@ -1,0 +1,34 @@
+@use "../variables" as *;
+
+.modal-content {
+  border-radius: 10px;
+  border: none;
+  font-family: $font-family-oswald;
+}
+
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  font-size: 1.1rem;
+  font-family: $font-family-oswald;
+}
+
+.modal-body {
+  &--description {
+    font-size: 0.9rem;
+    line-height: 0.9;
+    font-family: $font-family-oswald;
+  }
+}
+
+.modal-footer {
+  border-top: none;
+  justify-content: center;
+  padding-top: 0;
+
+  .btn {
+    padding: 8px 30px;
+    background-color: $turquoise;
+    color: $light-gray;
+  }
+}
