@@ -1,6 +1,6 @@
-import { addPropertyToFavorite, removeCollectionToast, showCollectionSelectorPopup } from "../components/collection-selector-popup/collection-selector-popup.js";
-import { ensureFavoriteCollection, favoriteCollectionId, removePropertyFromCollection } from '../temp/collections-manager.js';
-import { createAndShowToast } from '../utils/uiHelpers';
+import { ensureFavoriteCollection, favoriteCollectionId, removePropertyFromCollection } from '../components/collections/api/collections-manager.js';
+import { addPropertyToFavorite, removeCollectionToast, showCollectionSelectorPopup } from "../components/collections/collection-selector-popup/collection-selector-popup.js";
+import { createAndShowToast } from '../utils/uiHelpers.js';
 
 
 document.addEventListener("DOMContentLoaded", function () {

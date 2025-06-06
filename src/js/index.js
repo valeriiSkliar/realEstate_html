@@ -111,7 +111,7 @@ import "./components/index";
 
 // Импортируем страничные скрипты
 import "./pages/add-listing";
-import "./pages/collections";
+import "./pages/collections"; // logic for collections pages
 import "./pages/my-advertisements";
 import "./pages/profile";
 import "./pages/property-page";

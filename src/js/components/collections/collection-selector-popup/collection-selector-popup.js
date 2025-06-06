@@ -10,9 +10,9 @@ import {
   isPropertyInCollection,
   removePropertyFromCollection, // Added for removing from favorites
   updateCollection // Added for managing 'isFavorite' flag
-} from "../../temp/collections-manager";
+} from "../api/collections-manager";
 
-import { createAndShowToast } from '../../utils/uiHelpers';
+import { createAndShowToast } from '../../../utils/uiHelpers';
 
 // DOM element IDs and classes
 const POPUP_ID = 'collection-selector-popup';
