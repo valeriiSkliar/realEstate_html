@@ -110,6 +110,7 @@ registerCustomElements();
 import "./components/index";
 
 // Импортируем страничные скрипты
+import { initHeader } from "./components/index";
 import "./pages/add-listing";
 import "./pages/collections"; // logic for collections pages
 import "./pages/my-advertisements";
@@ -121,3 +122,6 @@ import "./pages/search-page-logic"; // logic for add to favorite && add to colle
 import "./pages/subscriptions";
 import "./pages/support";
 
+document.addEventListener("DOMContentLoaded", function () {
+  initHeader(document.querySelector("body"));
+});
