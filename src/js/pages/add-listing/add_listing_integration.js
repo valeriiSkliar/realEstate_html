@@ -1,8 +1,5 @@
-import {
-  createAndShowToast,
-  createForm,
-  validators,
-} from "../../forms/index.js";
+import { createForm, validators } from "../../forms/index.js";
+import { createAndShowToast } from "../../utils/uiHelpers.js";
 
 /**
  * Упрощенная схема валидации

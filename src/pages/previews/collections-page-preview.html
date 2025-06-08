@@ -22,40 +22,38 @@
     <main class="page-content">
       <div id="app">
         <div class="collections-page">
-          <div class="container">
+          <!-- Breadcrumb -->
+          <nav
+            class="breadcrumb"
+            aria-label="Breadcrumb navigation"
+            role="navigation"
+          >
+            <ol class="breadcrumb-list">
+              <li class="breadcrumb-item">
+                <a class="breadcrumb-link" href="/">Главная</a>
+              </li>
+              <li class="breadcrumb-item active-page">
+                <span class="breadcrumb-text">Подборки</span>
+              </li>
+            </ol>
+          </nav>
+          <!-- End Breadcrumb -->
+          <div class="container mt-3 mb-3">
             <!-- Controls panel -->
-            <div class="collections-controls js-collections-controls">
+            <div class="collections-controls js-collections-controls mt-4">
               <a
                 href="/collections-create.html"
-                class="btn btn-brand-turquoise text-brand-light-gray"
+                class="brand-button brand-button--solid"
               >
                 <i class="bi bi-plus-lg"></i> Создать подборку
               </a>
             </div>
-            
-            <!-- Empty collections state -->
-            <div class="collections-empty-state js-empty-collections" style="display: none;">
-              <div class="collections-empty-state__icon">
-                <i class="bi bi-folder"></i>
-              </div>
-              <h3 class="collections-empty-state__title">У вас пока нет коллекций</h3>
-              <p class="collections-empty-state__text">Создайте свою первую коллекцию объектов недвижимости</p>
 
-              <a
-              href="/collections-create.html"
-              class="btn btn-brand-turquoise text-brand-light-gray"
-            >
-              <i class="bi bi-plus-lg"></i> Создать подборку
-            </a>
-            </div>
-
-            <!-- Collections list -->
-            <div class="collections-list js-collections-list">
-              <!-- Collection Item 1 -->
-              <div class="collection-item" data-collection-id="coll_1">
-                <div class="collection-item__main">
+            <div class="collection-item default-collection">
+              <div class="collection-item__main">
+                <a href="/collections-edit.html?id=favorite">
                   <h3 class="collection-item__name">
-                    Подборка современных апартаментов
+                    <i class="bi bi-star-fill"></i> Избранное
                   </h3>
                   <div class="collection-item__info">
                     <div class="collection-item__count">
@@ -65,96 +63,62 @@
                       <i class="bi bi-calendar"></i> Обновлено 2 мая 2025
                     </div>
                   </div>
-                </div>
-                <div class="collection-item__actions">
-                  <button
-                    class="btn btn-icon btn-outline-brand-lime js-toggle-favorite favorite-badge is-favorite"
-                    data-collection-id="coll_1748782435366"
-                    title="Убрать из избранного"
-                  >
-                    <i class="bi bi-star-fill"></i>
-                  </button>
-                  <a
-                    href="/collections-edit.html?id=coll_1748782435366"
-                    class="btn btn-outline-brand-turquoise"
-                  >
-                    <i class="bi bi-eye"></i>
-                  </a>
-                </div>
+                </a>
               </div>
+            </div>
 
-              <!-- Collection Item 2 -->
+            <!-- Empty collections state -->
+            <div
+              class="collections-empty-state js-empty-collections"
+              style="display: none"
+            >
+              <div class="collections-empty-state__icon">
+                <i class="bi bi-folder"></i>
+              </div>
+              <h3 class="collections-empty-state__title">
+                У вас пока нет подборок
+              </h3>
+              <p class="collections-empty-state__text">
+                Создайте свою первую подборку объектов недвижимости
+              </p>
+
+              <a
+                href="/collections-create.html"
+                class="brand-button brand-button--solid"
+              >
+                <i class="bi bi-plus-lg"></i> Создать подборку
+              </a>
+            </div>
+
+            <!-- Collections list -->
+            <div class="collections-list js-collections-list">
+              <!-- Collection Item 1 -->
               <div class="collection-item" data-collection-id="coll_2">
                 <div class="collection-item__main">
-                  <h3 class="collection-item__name">
-                    Загородные семейные дома
-                  </h3>
-                  <div class="collection-item__info">
-                    <div class="collection-item__count">
-                      <i class="bi bi-building"></i> 3 объекта
+                  <a href="/collections-edit.html?id=coll_2">
+                    <h3 class="collection-item__name">
+                      Загородные семейные дома
+                    </h3>
+                    <div class="collection-item__info">
+                      <div class="collection-item__count">
+                        <i class="bi bi-building"></i> 3 объекта
+                      </div>
+                      <div class="collection-item__date">
+                        <i class="bi bi-calendar"></i> Обновлено 1 мая 2025
+                      </div>
                     </div>
-                    <div class="collection-item__date">
-                      <i class="bi bi-calendar"></i> Обновлено 1 мая 2025
-                    </div>
-                  </div>
+                  </a>
                 </div>
                 <div class="collection-item__actions">
-                  <button
-                    class="btn btn-icon btn-outline-brand-lime js-toggle-favorite favorite-badge"
-                    data-collection-id="coll_1748544592189"
-                    title="Сделать избранной"
-                  >
-                    <i class="bi bi-star"></i>
-                  </button>
-
                   <a
-                    href="/collections-edit.html?id=coll_1748544592189"
-                    class="btn btn-outline-brand-turquoise"
+                    href="/collections-edit.html?id=coll_2"
+                    class="brand-button brand-button--outline brand-button--turquoise"
                   >
                     <i class="bi bi-pencil"></i>
                   </a>
                   <button
                     class="btn btn-outline-brand-bright-pink js-delete-collection"
-                    data-collection-id="coll_1748544592189"
-                  >
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Collection Item 3 -->
-              <div class="collection-item" data-collection-id="coll_3">
-                <div class="collection-item__main">
-                  <h3 class="collection-item__name">
-                    Коммерческие помещения в центре города
-                  </h3>
-                  <div class="collection-item__info">
-                    <div class="collection-item__count">
-                      <i class="bi bi-building"></i> 7 объектов
-                    </div>
-                    <div class="collection-item__date">
-                      <i class="bi bi-calendar"></i> Обновлено 28 апреля 2025
-                    </div>
-                  </div>
-                </div>
-                <div class="collection-item__actions">
-                  <button
-                    class="btn btn-icon btn-outline-brand-lime js-toggle-favorite favorite-badge"
-                    data-collection-id="coll_1748544592189"
-                    title="Сделать избранной"
-                  >
-                    <i class="bi bi-star"></i>
-                  </button>
-
-                  <a
-                    href="/collections-edit.html?id=coll_1748544592189"
-                    class="btn btn-outline-brand-turquoise"
-                  >
-                    <i class="bi bi-pencil"></i>
-                  </a>
-                  <button
-                    class="btn btn-outline-brand-bright-pink js-delete-collection"
-                    data-collection-id="coll_1748544592189"
+                    data-collection-id="coll_2"
                   >
                     <i class="bi bi-trash"></i>
                   </button>
@@ -186,7 +150,7 @@
                 </div>
                 <div class="modal-body">
                   <p>
-                    Вы уверены, что хотите удалить эту коллекцию? Это действие
+                    Вы уверены, что хотите удалить эту подборку? Это действие
                     нельзя отменить.
                   </p>
                   <input type="hidden" id="deleteCollectionId" />
@@ -194,12 +158,15 @@
                 <div class="modal-footer">
                   <button
                     type="button"
-                    class="btn btn-brand-turquoise"
+                    class="brand-button brand-button--outline brand-button--turquoise"
                     data-bs-dismiss="modal"
                   >
                     Отмена
                   </button>
-                  <button type="button" class="btn btn-brand-bright-pink">
+                  <button
+                    type="button"
+                    class="brand-button brand-button--solid brand-button--pink"
+                  >
                     Удалить
                   </button>
                 </div>
@@ -227,7 +194,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="addToCollectionModalLabel">
-              Добавить в коллекцию
+              Добавить в подборку
             </h5>
             <button
               type="button"
@@ -242,7 +209,7 @@
 
             <!-- Collections list -->
             <div class="collections-container">
-              <h6>Выберите коллекцию:</h6>
+              <h6>Выберите подборку:</h6>
               <div class="collections-list">
                 <div class="form-check collection-option">
                   <input
@@ -288,13 +255,13 @@
               type="button"
               class="btn btn-brand-turquoise text-brand-light-gray js-create-collection"
             >
-              <i class="bi bi-plus-lg"></i> Создать новую коллекцию
+              <i class="bi bi-plus-lg"></i> Создать новую подборку
             </button>
             <button
               type="button"
               class="btn btn-brand-lime-green text-brand-dark-navy js-add-to-collection"
             >
-              Добавить в коллекцию
+              Добавить в подборку
             </button>
           </div>
         </div>

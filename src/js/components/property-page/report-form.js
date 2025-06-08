@@ -1,4 +1,5 @@
-import { createAndShowToast, FormManager, schemas } from "../../forms/index.js";
+import { FormManager, schemas } from "../../forms/index.js";
+import { createAndShowToast } from "../../utils/uiHelpers.js";
 
 export function initializeReportForm() {
   const reportFormElement = document.getElementById("reportAdForm");

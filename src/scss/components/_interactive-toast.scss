@@ -1,0 +1,64 @@
+// Interactive Toast (Notification Bar for adding to collections)
+
+.interactive-toast-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333; // Dark background like the screenshot
+  color: #fff;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1060; // Above most elements, but potentially below modals if needed
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+
+  &.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  &__message {
+    font-size: 1rem;
+    margin-right: 15px;
+  }
+
+  &__button {
+    background-color: #555; // Darker button like screenshot
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #666;
+    }
+  }
+}
+
+// Responsive adjustments if needed
+@media (max-width: 576px) {
+  .interactive-toast-bar {
+    padding: 12px 15px;
+    flex-direction: column;
+    text-align: center;
+
+    &__message {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+
+    &__button {
+      width: 100%;
+      padding: 12px;
+    }
+  }
+}

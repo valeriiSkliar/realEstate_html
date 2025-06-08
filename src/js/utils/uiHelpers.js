@@ -1,6 +1,5 @@
 // src/js/uiHelpers.js
 import { Modal, Toast } from "bootstrap";
-import $ from "jquery";
 
 /**
  * Показывает модальное окно Bootstrap по его ID.
@@ -52,7 +51,7 @@ export function showToast(toastId, options = {}) {
  * Требует наличия контейнера для тостов в HTML, например:
  * <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
  * @param {string} message - Текст сообщения.
- * @param {'success'|'error'|'warning'|'info'} type - Тип тоста для стилизации (добавьте соответствующие CSS классы).
+ * @param {'success'|'error'|'warning'|'info'|'danger'} type - Тип тоста для стилизации.
  * @param {number} [delay=5000] - Задержка перед автоматическим скрытием.
  */
 export function createAndShowToast(message, type = "info", delay = 5000) {
@@ -62,12 +61,23 @@ export function createAndShowToast(message, type = "info", delay = 5000) {
     return;
   }
 
+  // Нормализация типа для совместимости
+  const normalizedType = type === "error" ? "danger" : type;
+
+  // Иконки для разных типов toast
+  const icons = {
+    success: '<i class="bi bi-check-circle-fill me-2"></i>',
+    danger: '<i class="bi bi-exclamation-triangle-fill me-2"></i>',
+    warning: '<i class="bi bi-exclamation-circle-fill me-2"></i>',
+    info: '<i class="bi bi-info-circle-fill me-2"></i>',
+  };
+
   const toastId = `toast-${Date.now()}`;
   const toastHTML = `
-        <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="${delay}">
+        <div id="${toastId}" class="toast align-items-center text-bg-${normalizedType} border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="${delay}">
             <div class="d-flex">
-                <div class="toast-body">
-                    ${message}
+                <div class="toast-body d-flex align-items-center">
+                    ${icons[normalizedType] || ""}${message}
                 </div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
@@ -76,10 +86,17 @@ export function createAndShowToast(message, type = "info", delay = 5000) {
   toastContainer.insertAdjacentHTML("beforeend", toastHTML);
   const toastElement = document.getElementById(toastId);
   const toastInstance = Toast.getOrCreateInstance(toastElement);
-  toastInstance.show();
 
-  // Удаляем элемент тоста из DOM после его скрытия
+  // Простое удаление после завершения CSS transition
   toastElement.addEventListener("hidden.bs.toast", () => {
-    toastElement.remove();
+    // Небольшая задержка для завершения transition
+    setTimeout(() => {
+      if (toastElement.parentNode) {
+        toastElement.remove();
+      }
+    }, 50);
   });
+
+  // Показываем toast
+  toastInstance.show();
 }

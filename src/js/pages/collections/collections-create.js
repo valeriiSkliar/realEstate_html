@@ -1,9 +1,9 @@
+import { createCollection } from "../../components/collections/api/collections-manager.js";
 import {
-  createAndShowToast,
   createForm,
   validators,
-} from "../forms/index.js";
-import { createCollection } from "./collections-manager";
+} from "../../forms/index.js";
+import { createAndShowToast } from "../../utils/uiHelpers";
 
 const collectionsCreateSchema = {
   collectionName: [

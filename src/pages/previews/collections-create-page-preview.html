@@ -26,11 +26,31 @@
       <div id="app">
 
         <div class="collections-create-page">
-          <div class="container">
+            <!-- Breadcrumb -->
+            <nav
+            class="breadcrumb"
+            aria-label="Breadcrumb navigation"
+            role="navigation"
+          >
+            <ol class="breadcrumb-list">
+              <li class="breadcrumb-item">
+                <a class="breadcrumb-link" href="/">Главная</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a class="breadcrumb-link" href="/collections.html"
+                  >Подборки</a
+                >
+              </li>
+              <li class="breadcrumb-item active-page">
+                <span class="breadcrumb-text">Создать Подборку</span>
+              </li>
+            </ol>
+          </nav>
+          <!-- End Breadcrumb -->
+          <div class="container mt-3 mb-3">
             <div class="page-header">
-              <h1 class="page-title">Создать Коллекцию</h1>
-              <a href="/collections.html" class="btn btn-outline-brand-turquoise">
-                <i class="bi bi-arrow-left"></i> Назад к Коллекциям
+              <a href="/collections.html" class="brand-button brand-button--solid brand-button--turquoise">
+                <i class="bi bi-arrow-left"></i> Назад к Подборкам
               </a>
             </div>
         
@@ -43,14 +63,14 @@
                       <div class="row g-3">
                         <div class="col-12">
                           <div class="form-field floating-label">
-                            <input type="text" class="form-input form-input-sm" id="collectionName" name="collectionName" required>
-                            <label for="collectionName" class="form-label required">Название Коллекции</label>
+                            <input type="text" class="form-input form-input-sm" id="collectionName" name="collectionName" placeholder=" " required>
+                            <label for="collectionName" class="form-label required">Название Подборки</label>
                           </div>
                         </div>  
                           <div class="col-12">
                             <div class="form-field">
                               <label for="collectionNotes" class="form-label">
-                                Примечания
+                                Примечание
                               </label>
                               <textarea class="form-input form-input-sm" id="collectionNotes" name="collectionNotes" rows="3"></textarea>
                             </div>
@@ -60,9 +80,10 @@
                     </section>
                     
                     <div class="form-actions">
-                      <button type="button" class="btn btn-brand-turquoise text-brand-light-gray js-save-collection">
-                        Создать
-                      </button>
+                      <a href="/collections.html" class="brand-button brand-button--solid">
+                        <i class="bi bi-save"></i>
+                        Сохранить
+                      </a>
                     </div>
                   </form>
                 </div>
@@ -75,18 +96,18 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="collectionSuccessModalLabel">Коллекция Создана</h5>
+                  <h5 class="modal-title" id="collectionSuccessModalLabel">Подборка Создана</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <div class="text-center mb-3">
                     <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
                   </div>
-                  <p class="text-center">Ваша коллекция была успешно создана!</p>
+                  <p class="text-center">Ваша подборка была успешно создана!</p>
                 </div>
                 <div class="modal-footer">
-                  <a href="/collections.html" class="btn btn-secondary">Перейти к Коллекциям</a>
-                  <a href="" class="btn btn-brand-turquoise text-brand-light-gray js-view-collection">Просмотр Коллекции</a>
+                  <a href="/collections.html" class="btn btn-secondary">Перейти к Подборкам</a>
+                  <a href="" class="btn btn-brand-turquoise text-brand-light-gray js-view-collection">Просмотр Подборки</a>
                 </div>
               </div>
             </div>

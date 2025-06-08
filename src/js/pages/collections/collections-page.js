@@ -1,9 +1,13 @@
-import { createAndShowToast, hideModal, showModal } from "../utils/uiHelpers";
 import {
   deleteCollection,
   favoriteCollectionId,
   getCollections,
-} from "./collections-manager";
+} from "../../components/collections/api/collections-manager.js";
+import {
+  createAndShowToast,
+  hideModal,
+  showModal,
+} from "../../utils/uiHelpers";
 
 /**
  * Initialize collections page functionality
@@ -33,7 +37,7 @@ const updateCollectionsView = () => {
     renderCollections(collections);
   }
   // Show empty state if no collections
-  if (!collections || collections.length === 0) {
+  if (!collections || collections.length === 1) {
     if (emptyState) emptyState.style.display = "flex";
     if (collectionsControls) collectionsControls.style.display = "none";
     if (collectionsList) collectionsList.style.display = "none";
@@ -127,7 +131,7 @@ const renderCollections = (collections) => {
                                 <a href="/collections-edit.html?id=${collection.id}"  class="brand-button brand-button--outline brand-button--turquoise">
                                   <i class="bi bi-pencil"></i>
                                 </a>
-                                <button class="btn btn-outline-brand-bright-pink js-delete-collection" data-collection-id="${collection.id}">
+                                <button class="brand-button brand-button--outline brand-button--pink js-delete-collection" data-collection-id="${collection.id}">
                                   <i class="bi bi-trash"></i>
                                 </button>
                 </div>`;

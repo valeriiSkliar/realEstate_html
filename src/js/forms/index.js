@@ -58,24 +58,24 @@ export function setFormLoading(form, isLoading) {
   }
 }
 
-export function createAndShowToast(message, type = "info") {
-  // Простая реализация Toast уведомлений
-  const toast = document.createElement("div");
-  toast.className = `alert alert-${type} position-fixed`;
-  toast.style.cssText = `
-    top: 20px; 
-    right: 20px; 
-    z-index: 9999; 
-    min-width: 300px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  `;
-  toast.textContent = message;
-  document.body.appendChild(toast);
+// export function createAndShowToast(message, type = "info") {
+//   // Простая реализация Toast уведомлений
+//   const toast = document.createElement("div");
+//   toast.className = `alert alert-${type} position-fixed`;
+//   toast.style.cssText = `
+//     top: 20px;
+//     right: 20px;
+//     z-index: 9999;
+//     min-width: 300px;
+//     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+//   `;
+//   toast.textContent = message;
+//   document.body.appendChild(toast);
 
-  setTimeout(() => {
-    toast.remove();
-  }, 3000);
-}
+//   setTimeout(() => {
+//     toast.remove();
+//   }, 3000);
+// }
 
 // Готовые наборы валидаторов для частых случаев
 export const COMMON_VALIDATORS = {

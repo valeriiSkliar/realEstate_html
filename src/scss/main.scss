@@ -23,6 +23,8 @@
 
 // Components
 @import "components/header";
+@import "components/collection-selector-popup/collection-selector-popup";
+@import "components/interactive-toast";
 @import "components/mobile_menu";
 @import "components/footer";
 @import "components/toast";
@@ -51,6 +53,7 @@
 @import "pages/home";
 @import "pages/property-detail-page";
 @import "pages/forms-examples";
+@import "pages/404";
 
 // // Global styles
 // body {

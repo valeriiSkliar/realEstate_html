@@ -1,0 +1,129 @@
+/* Collection Selector Popup Styles */
+.collection-selector-popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1050;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.collection-selector-popup-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1051;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.collection-selector-popup {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 350px;
+  max-width: calc(100vw - 40px);
+  overflow: hidden;
+}
+
+.collection-selector-popup__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.collection-selector-popup__title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--brand-dark-navy);
+}
+
+.collection-selector-popup__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+.collection-selector-popup__body {
+  padding: 15px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.collection-selector-popup__empty {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.collection-selector-popup__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.collection-selector-popup__item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.collection-selector-popup__item:hover {
+  background-color: #f8f9fa;
+}
+
+.collection-selector-popup__item-checkbox {
+  margin-right: 10px;
+}
+
+.collection-selector-popup__item-checkbox input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.collection-selector-popup__item-info {
+  flex: 1;
+}
+
+.collection-selector-popup__item-name {
+  font-weight: 500;
+  margin-bottom: 3px;
+  color: var(--brand-dark-navy);
+}
+
+.collection-selector-popup__item-count {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.collection-selector-popup__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 15px;
+  border-top: 1px solid #e9ecef;
+}
+
+@media (max-width: 576px) {
+  .collection-selector-popup-container {
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+  }
+  
+  .collection-selector-popup {
+    width: 100%;
+    max-width: 100%;
+  }
+}

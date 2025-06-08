@@ -1,20 +1,20 @@
 import {
   addPropertyToCollection,
+  ensureFavoriteCollection,
   favoriteCollectionId,
   getCollectionById,
   removePropertyFromCollection,
-  updateCollection,
-} from "./collections-manager";
+  updateCollection
+} from "../../components/collections/api/collections-manager.js";
 
 import {
   createForm,
   validators,
-} from "../forms/index.js";
+} from "../../forms/index.js";
 
-import { createAndShowToast } from '../utils/uiHelpers';
+import { createAndShowToast } from '../../utils/uiHelpers';
 
-import { removeCollectionToast, showCollectionSelectorPopup } from "../components/collection-selector-popup/collection-selector-popup.js";
-import { ensureFavoriteCollection } from './collections-manager.js';
+import { removeCollectionToast, showCollectionSelectorPopup } from "../../components/collections/collection-selector-popup/collection-selector-popup.js";
 
 const collectionsEditSchema = {
   collectionName: [

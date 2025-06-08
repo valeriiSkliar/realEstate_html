@@ -3,10 +3,8 @@
 // Collections Create & Edit Pages
 .collections-create-page,
 .collections-edit-page {
-  padding: 20px 0 40px;
-  background-color: $light-gray;
   min-height: calc(100vh - 60px - 100px); // Adjust for header and footer
-  
+
   .container {
     max-width: 900px;
     margin: 0 auto;
@@ -17,16 +15,12 @@
 // Page Header
 .page-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
-  
-  @media (max-width: 576px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  
+  font-family: $font-family-oswald;
+  font-size: 1.2rem;
+
   .page-title {
     font-size: 1.8rem;
     font-family: $roboto;
@@ -42,14 +36,14 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
-  
+
   .step {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
     width: 33.333%;
-    
+
     &-number {
       width: 40px;
       height: 40px;
@@ -63,27 +57,27 @@
       margin-bottom: 8px;
       transition: all 0.3s ease;
     }
-    
+
     &-label {
       font-size: 0.9rem;
       color: $dark-navy-80;
       text-align: center;
       transition: all 0.3s ease;
     }
-    
+
     &.active {
       .step-number {
         background-color: $turquoise;
         color: white;
       }
-      
+
       .step-label {
         color: $dark-navy;
         font-weight: 500;
       }
     }
   }
-  
+
   .step-divider {
     flex-grow: 1;
     height: 2px;
@@ -96,17 +90,17 @@
 // Step Content
 .step-content {
   display: none;
-  
+
   &.active {
     display: block;
   }
-  
+
   .card {
     border-radius: 10px;
     border: none;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
-    
+
     &-title {
       font-size: 1.4rem;
       font-weight: 600;
@@ -114,16 +108,16 @@
       color: $dark-navy;
     }
   }
-  
+
   .section-subtitle {
     font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 15px;
     color: $dark-navy;
     position: relative;
-    
+
     &:after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: -8px;
       left: 0;
@@ -132,7 +126,7 @@
       background-color: $turquoise;
     }
   }
-  
+
   .form-actions {
     display: flex;
     justify-content: space-between;
@@ -142,11 +136,11 @@
       background-color: $turquoise;
       color: $light-gray;
     }
-    
+
     @media (max-width: 576px) {
       flex-direction: column;
       gap: 10px;
-      
+
       button {
         width: 100%;
       }
@@ -157,18 +151,18 @@
 // Property Results
 .property-results {
   margin-top: 20px;
-  
+
   &-loading {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 50px 0;
-    
+
     .spinner-border {
       margin-bottom: 15px;
     }
-    
+
     p {
       color: $dark-navy-80;
     }
@@ -178,37 +172,33 @@
 // Selection Controls
 .selection-controls {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  gap: 1rem;
   background-color: $light-gray;
   padding: 15px;
   border-radius: 10px;
-  
-  @media (max-width: 576px) {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  
+
   .selection-status {
-    font-weight: 500;
+    font-weight: 400;
     color: $dark-navy;
-    
+    font-family: $font-family-oswald;
+    font-size: 0.7rem;
+
     .selected-count,
     .current-count {
       color: $turquoise;
       font-weight: 600;
+      font-family: $font-family-oswald;
+      font-size: 0.8rem;
+      margin-right: 0.2rem;
     }
   }
-  
+
   .selection-actions {
     display: flex;
     gap: 10px;
-    
-    @media (max-width: 576px) {
-      width: 100%;
-      justify-content: space-between;
-    }
+    margin: auto 0;
   }
 }
 
@@ -220,17 +210,17 @@
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
   }
-  
+
   .card-img-top {
     height: 200px;
     object-fit: cover;
   }
-  
+
   .card-title {
     font-size: 1.1rem;
     font-weight: 600;
@@ -239,32 +229,32 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  
+
   .property-price {
     font-weight: 700;
     font-size: 1.15rem;
     color: $turquoise;
   }
-  
+
   .property-stats {
     color: $dark-navy-50;
     font-size: 0.85rem;
   }
-  
+
   // Checkbox for selection
   .property-checkbox-container {
     position: absolute;
     top: 10px;
     left: 10px;
     z-index: 10;
-    
+
     .property-checkbox {
       width: 20px;
       height: 20px;
       cursor: pointer;
     }
   }
-  
+
   // Remove button (for edit page)
   .property-remove-btn {
     position: absolute;
@@ -282,21 +272,21 @@
     z-index: 10;
     transition: all 0.2s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    
+
     &:hover {
       background-color: $bright-pink;
-      
+
       i {
         color: white;
       }
     }
-    
+
     i {
       font-size: 14px;
       color: $dark-navy-80;
     }
   }
-  
+
   // Add button (for edit page search results)
   .property-add-btn {
     position: absolute;
@@ -314,15 +304,15 @@
     z-index: 10;
     transition: all 0.2s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    
+
     &:hover {
       background-color: $turquoise;
-      
+
       i {
         color: white;
       }
     }
-    
+
     i {
       font-size: 14px;
       color: $dark-navy-80;
@@ -339,13 +329,13 @@
   justify-content: center;
   padding: 30px 20px;
   text-align: center;
-  
+
   i {
     font-size: 3rem;
     color: $light-gray-80;
     margin-bottom: 15px;
   }
-  
+
   p {
     color: $dark-navy-80;
     margin-bottom: 15px;
@@ -360,20 +350,19 @@
       .form-control {
         border-radius: 4px 0 0 4px;
         border: 1px solid $light-gray-80;
-        
+
         &:focus {
           box-shadow: 0 0 0 0.2rem rgba($turquoise, 0.25);
           border-color: $turquoise;
         }
       }
-      
+
       .btn {
         border-radius: 0 4px 4px 0;
       }
     }
   }
 }
-
 
 .form-actions {
   display: flex;

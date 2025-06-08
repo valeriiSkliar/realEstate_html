@@ -1,0 +1,224 @@
+// 404 Error Page Styles
+@use "../brand_color" as *;
+@use "../variables" as vars;
+
+.error-404 {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+
+  &__content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  &__illustration {
+    position: relative;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__number {
+    font-size: 8rem;
+    font-weight: 900;
+    font-family: "Oswald", sans-serif;
+    background: linear-gradient(
+      135deg,
+      $turquoise 0%,
+      $bright-pink 50%,
+      $lime-green 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 20px rgba(0, 201, 221, 0.3);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 5rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 3.5rem;
+    }
+  }
+
+  &__icon {
+    font-size: 4rem;
+    color: $dark-navy-50;
+    opacity: 0.7;
+
+    @media (max-width: 768px) {
+      font-size: 3rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 2.5rem;
+    }
+  }
+
+  &__text {
+    margin-bottom: 3rem;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: vars.$font-family-comfortaa;
+    color: vars.$dark-navy;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__description {
+    font-size: 1.1rem;
+    color: $dark-navy-80;
+    line-height: 1.6;
+    margin-bottom: 0;
+    font-family: vars.$font-family-oswald;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+
+    br {
+      @media (max-width: 480px) {
+        display: none;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  &__btn-home {
+    @include brand-primary-button;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(209, 240, 0, 0.3);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(209, 240, 0, 0.4);
+      text-decoration: none;
+      color: $dark-navy;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 480px) {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+
+  &__btn-search {
+    @include brand-secondary-button;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 201, 221, 0.3);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 201, 221, 0.4);
+      text-decoration: none;
+      color: white;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 480px) {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+
+  &__help {
+    border-top: 1px solid $dark-navy-20;
+    padding-top: 1.5rem;
+  }
+
+  &__help-text {
+    color: $dark-navy-70;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+    font-family: vars.$font-family-oswald;
+  }
+
+  &__help-link {
+    @include brand-accent;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Animation for the illustration
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.error-404__illustration {
+  animation: float 3s ease-in-out infinite;
+}
+
+// Custom focus styles for accessibility
+.error-404__btn-home:focus,
+.error-404__btn-search:focus,
+.error-404__help-link:focus {
+  outline: 2px solid $turquoise;
+  outline-offset: 2px;
+}
