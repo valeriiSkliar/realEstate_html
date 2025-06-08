@@ -58,38 +58,26 @@
 
             <!-- Collection Information Form -->
             <div class="step-content active" id="step1">
-              <div class="card">
-                <div class="card-body">
                   <form id="collectionId">
                     <section class="forms-section">
-                      <div class="row g-3">
-                        <div class="col-12">
                           <div class="form-field floating-label">
                             <input type="text" class="form-input form-input-sm" id="collectionName" name="collectionName" required>
                             <label for="collectionName" class="form-label required">Название Подборки</label>
                           </div>
-                        </div>  
-                          <div class="col-12">
                             <div class="form-field">
                               <label for="collectionNotes" class="form-label">
                                 Примечания
                               </label>
                               <textarea class="form-input form-input-sm" id="collectionNotes" name="collectionNotes" rows="3"></textarea>
                             </div>
-                          </div>
                         
-                      </div>
                     </section>
                   </form>
-                </div>
-              </div>
               
             </div>
 
             <!-- Properties Section -->
             <div class="properties-section mt-4">
-              <div class="card">
-                <div class="card-body">
                   <div class="selection-controls mb-4 js-current-properties-search">
                     <div class="selection-status">
                       <span class="current-count">2</span> объект
@@ -156,12 +144,14 @@
                                       📞 +7 (918) 254-25-36
                                   </a>
                               </div>
-                          
+                          <div class="property-summary-card__footer property-summary-card__footer--actions-right">
+                            <div class="d-flex flex-wrap gap-2 p-2">
+                              <button class="w-100 d-block brand-button brand-button--solid js-add-to-collection" data-property-id="prop_1">Добавить в подборку</button>
+                              <button class="w-100 d-block brand-button brand-button--solid brand-button--pink js-remove-from-collection" data-property-id="prop_1">Удалить из подборки</button>
+                            </div>
+                          </div>
                       </div>
-                      <div class="d-flex flex-wrap gap-2 p-2">
-                        <button class="w-100 d-block btn btn-brand-lime-green js-add-to-collection" data-property-id="prop_1">Добавить в подборку</button>
-                        <button class="w-100 d-block btn btn-brand-bright-pink js-remove-from-collection" data-property-id="prop_1">Удалить из подборки</button>
-                      </div>
+
                       </div>
                     </div>
                   </div>
@@ -206,15 +196,65 @@
                                 </a>
                             </div>
                         
-                    </div>
+                    <div class="property-summary-card__footer property-summary-card__footer--actions-right">
                     <div class="d-flex flex-wrap gap-2 p-2">
-                      <button class="w-100 d-block btn btn-brand-lime-green js-add-to-collection" data-property-id="prop_2">Добавить в подборку</button>
-                      <button class="w-100 d-block btn btn-brand-bright-pink js-remove-from-collection" data-property-id="prop_2">Удалить из подборки</button>
+                      <button class="w-100 d-block brand-button brand-button--solid js-add-to-collection" data-property-id="prop_2">Добавить в подборку</button>
+                      <button class="w-100 d-block brand-button brand-button--solid brand-button--pink js-remove-from-collection" data-property-id="prop_2">Удалить из подборки</button>
                     </div>
                     </div>
                   </div>
-                </div>
+
+                    </div>
+                  </div>
                   <!-- End of Second Property Card -->
+                  <!-- Third Property Card -->
+                  <div class="property-summary-card">
+                    <h3 class="property-summary-card__title text-light-gray-30">
+                        <a href="/property-details/456">2-к. студия, 80 м2 | Центр</a>
+                    </h3>
+                    <p class="property-summary-card__price">₽ 18 500 000</p>
+                    <ul class="property-summary-card__details-list">
+                        
+                            <li class="property-summary-card__detail-item">
+                                <span class="property-summary-card__detail-label">Название комплекса</span>
+                                <span class="property-summary-card__detail-value">ЖК «Престиж»</span>
+                            </li>
+                        
+                            <li class="property-summary-card__detail-item">
+                                <span class="property-summary-card__detail-label">Улица</span>
+                                <span class="property-summary-card__detail-value">Красная ул.</span>
+                            </li>
+                        
+                            <li class="property-summary-card__detail-item">
+                                <span class="property-summary-card__detail-label">Этаж</span>
+                                <span class="property-summary-card__detail-value">1/16</span>
+                            </li>
+                        
+                            <li class="property-summary-card__detail-item">
+                                <span class="property-summary-card__detail-label">Состояние</span>
+                                <span class="property-summary-card__detail-value">Дизайнерский ремонт</span>
+                            </li>
+                        
+                    </ul>
+                    
+                    <div class="property-summary-card__phone">
+                      <span class="property-summary-card__phone-label">Агент:</span>
+                          <span class="property-summary-card__phone-agent-name">Алексей</span>
+                          <a href="tel:+7 (918) 254-25-36" class="property-summary-card__phone-link">
+                              📞 +7 (918) 254-25-36
+                          </a>
+                      </div>
+                    <div class="property-summary-card__footer property-summary-card__footer--actions-right">                        
+                        <div class="d-flex flex-wrap gap-2 p-2">
+                          <button class="w-100 d-block brand-button brand-button--solid js-add-to-collection" data-property-id="prop_3">Добавить в подборку</button>
+                          <button class="w-100 d-block brand-button brand-button--solid brand-button--pink js-remove-from-collection" data-property-id="prop_3">Удалить из подборки</button>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                </div>
+
                   </div>
                 </div>
 
@@ -226,10 +266,17 @@
                       Сохранить Изменения
                     </button>
                   </div>
-                </div>
               </div>
             </div>
-            
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <app-footer></app-footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
             <!-- Remove Property Confirmation Modal -->
             <div
               class="modal fade"
