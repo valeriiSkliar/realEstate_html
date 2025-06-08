@@ -40,10 +40,10 @@ export class AppConfirmModal extends HTMLElement {
               <slot name="modal-content"></slot>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-brand-turquoise text-brand-light-gray" data-bs-dismiss="modal">
+              <button type="button" class="brand-button brand-button--outline brand-button--turquoise" data-bs-dismiss="modal">
                 ${cancelText}
               </button>
-              <button type="button" class="btn ${confirmClass} text-brand-light-gray js-confirm-action">
+              <button type="button" class="brand-button brand-button--solid brand-button--pink js-confirm-action">
                 ${confirmText}
               </button>
             </div>
