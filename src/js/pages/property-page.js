@@ -55,12 +55,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Modal elements
   const imageModal = document.getElementById("imageModal");
-  const modalImage = document.getElementById("modalImage");
-  const modalCounter = document.getElementById("modalCounter");
-  const modalCloseBtn = imageModal.querySelector(".image-modal__close");
-  const modalOverlay = imageModal.querySelector(".image-modal__overlay");
-  const modalPrevBtn = imageModal.querySelector(".image-modal__nav--prev");
-  const modalNextBtn = imageModal.querySelector(".image-modal__nav--next");
+  let modalImage,
+    modalCounter,
+    modalCloseBtn,
+    modalOverlay,
+    modalPrevBtn,
+    modalNextBtn;
+
+  // Инициализируем модальные элементы только если главный контейнер существует
+  if (imageModal) {
+    modalImage = document.getElementById("modalImage");
+    modalCounter = document.getElementById("modalCounter");
+    modalCloseBtn = imageModal.querySelector(".image-modal__close");
+    modalOverlay = imageModal.querySelector(".image-modal__overlay");
+    modalPrevBtn = imageModal.querySelector(".image-modal__nav--prev");
+    modalNextBtn = imageModal.querySelector(".image-modal__nav--next");
+  }
 
   // Function to update main image
   function updateMainImage(index) {
@@ -78,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Modal functions
   function openModal(index) {
-    if (index < 0 || index >= galleryImages.length) return;
+    if (!imageModal || index < 0 || index >= galleryImages.length) return;
 
     currentImageIndex = index;
     modalImage.src = galleryImages[index].src;
@@ -91,13 +101,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function closeModal() {
+    if (!imageModal) return;
+
     imageModal.classList.remove("active");
     imageModal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = ""; // Restore body scroll
   }
 
   function updateModalImage(index) {
-    if (index < 0 || index >= galleryImages.length) return;
+    if (!imageModal || index < 0 || index >= galleryImages.length) return;
 
     currentImageIndex = index;
     modalImage.src = galleryImages[index].src;
@@ -108,44 +120,60 @@ document.addEventListener("DOMContentLoaded", function () {
     updateMainImage(index);
   }
 
-  // Main image click to open modal
-  mainImage.addEventListener("click", () => {
-    openModal(currentImageIndex);
-  });
+  // Main image click to open modal - только если модаль существует
+  if (imageModal) {
+    mainImage.addEventListener("click", () => {
+      openModal(currentImageIndex);
+    });
+  }
 
-  // Modal navigation
-  modalPrevBtn.addEventListener("click", () => {
-    const newIndex =
-      currentImageIndex > 0 ? currentImageIndex - 1 : galleryImages.length - 1;
-    updateModalImage(newIndex);
-  });
+  // Modal navigation - только если элементы существуют
+  if (modalPrevBtn) {
+    modalPrevBtn.addEventListener("click", () => {
+      const newIndex =
+        currentImageIndex > 0
+          ? currentImageIndex - 1
+          : galleryImages.length - 1;
+      updateModalImage(newIndex);
+    });
+  }
 
-  modalNextBtn.addEventListener("click", () => {
-    const newIndex =
-      currentImageIndex < galleryImages.length - 1 ? currentImageIndex + 1 : 0;
-    updateModalImage(newIndex);
-  });
+  if (modalNextBtn) {
+    modalNextBtn.addEventListener("click", () => {
+      const newIndex =
+        currentImageIndex < galleryImages.length - 1
+          ? currentImageIndex + 1
+          : 0;
+      updateModalImage(newIndex);
+    });
+  }
 
   // Modal close handlers
-  modalCloseBtn.addEventListener("click", closeModal);
+  if (modalCloseBtn) {
+    modalCloseBtn.addEventListener("click", closeModal);
+  }
 
   // Improved modal overlay click handler
-  imageModal.addEventListener("click", (e) => {
-    // Close modal if clicked outside the image container
-    if (
-      !e.target.closest(".image-modal__container") ||
-      e.target.classList.contains("image-modal__overlay")
-    ) {
-      console.log("closeModal");
-      closeModal();
-    }
-  });
+  if (imageModal) {
+    imageModal.addEventListener("click", (e) => {
+      // Close modal if clicked outside the image container
+      if (
+        !e.target.closest(".image-modal__container") ||
+        e.target.classList.contains("image-modal__overlay")
+      ) {
+        console.log("closeModal");
+        closeModal();
+      }
+    });
 
-  // Prevent modal from closing when clicking on modal content
-  const modalContainer = imageModal.querySelector(".image-modal__container");
-  modalContainer.addEventListener("click", (e) => {
-    e.stopPropagation();
-  });
+    // Prevent modal from closing when clicking on modal content
+    const modalContainer = imageModal.querySelector(".image-modal__container");
+    if (modalContainer) {
+      modalContainer.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+    }
+  }
 
   // Thumbnail click handlers
   thumbnails.forEach((thumbnail, index) => {
@@ -169,13 +197,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Keyboard navigation
   document.addEventListener("keydown", (e) => {
-    if (imageModal.classList.contains("active")) {
+    if (imageModal && imageModal.classList.contains("active")) {
       // Modal is open
       if (e.key === "Escape") {
         closeModal();
-      } else if (e.key === "ArrowLeft") {
+      } else if (e.key === "ArrowLeft" && modalPrevBtn) {
         modalPrevBtn.click();
-      } else if (e.key === "ArrowRight") {
+      } else if (e.key === "ArrowRight" && modalNextBtn) {
         modalNextBtn.click();
       }
     } else {
@@ -245,32 +273,34 @@ document.addEventListener("DOMContentLoaded", function () {
   let modalTouchEndY = 0;
 
   // Touch events for modal overlay to close on tap outside
-  imageModal.addEventListener(
-    "touchstart",
-    (e) => {
-      modalTouchStartX = e.touches[0].clientX;
-      modalTouchStartY = e.touches[0].clientY;
-    },
-    { passive: true }
-  );
+  if (imageModal) {
+    imageModal.addEventListener(
+      "touchstart",
+      (e) => {
+        modalTouchStartX = e.touches[0].clientX;
+        modalTouchStartY = e.touches[0].clientY;
+      },
+      { passive: true }
+    );
 
-  imageModal.addEventListener(
-    "touchend",
-    (e) => {
-      modalTouchEndX = e.changedTouches[0].clientX;
-      modalTouchEndY = e.changedTouches[0].clientY;
+    imageModal.addEventListener(
+      "touchend",
+      (e) => {
+        modalTouchEndX = e.changedTouches[0].clientX;
+        modalTouchEndY = e.changedTouches[0].clientY;
 
-      // Check if it's a tap (not a swipe)
-      const deltaX = Math.abs(modalTouchEndX - modalTouchStartX);
-      const deltaY = Math.abs(modalTouchEndY - modalTouchStartY);
-      const isTap = deltaX < 10 && deltaY < 10; // Small threshold for tap detection
+        // Check if it's a tap (not a swipe)
+        const deltaX = Math.abs(modalTouchEndX - modalTouchStartX);
+        const deltaY = Math.abs(modalTouchEndY - modalTouchStartY);
+        const isTap = deltaX < 10 && deltaY < 10; // Small threshold for tap detection
 
-      if (isTap && !e.target.closest(".image-modal__container")) {
-        closeModal();
-      }
-    },
-    { passive: true }
-  );
+        if (isTap && !e.target.closest(".image-modal__container")) {
+          closeModal();
+        }
+      },
+      { passive: true }
+    );
+  }
 
   // Favorite button toggle
   const favoriteButton = document.querySelector(
@@ -297,6 +327,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const descriptionContainer = document.getElementById(
       "property-description"
     );
+
+    if (!descriptionContainer) return;
+
     const fullTextContainer = descriptionContainer.querySelector(
       ".description-full-text"
     );
@@ -305,9 +338,12 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     const toggleContainer = document.getElementById("description-toggle");
     const toggleBtn = document.getElementById("description-toggle-btn");
-    const toggleText = toggleBtn.querySelector(".toggle-text");
 
     if (!fullTextContainer || !previewContainer || !toggleBtn) return;
+
+    const toggleText = toggleBtn.querySelector(".toggle-text");
+
+    if (!toggleText) return;
 
     // Получаем полный текст
     const fullText = fullTextContainer.textContent.trim();
