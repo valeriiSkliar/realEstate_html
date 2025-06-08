@@ -401,6 +401,19 @@ module.exports = {
       //   "index",
       // ],
     }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/previews/404-page-preview.html",
+      filename: "404.html",
+      // chunks: [
+      //   "jquery",
+      //   "bootstrap",
+      //   "swiper",
+      //   "select2",
+      //   "vendors",
+      //   "shared",
+      //   "index",
+      // ],
+    }),
 
     new MiniCssExtractPlugin({
       filename: "css/[name].css",
