@@ -1,9 +1,13 @@
 import {
   deleteCollection,
   favoriteCollectionId,
-  getCollections
+  getCollections,
 } from "../../components/collections/api/collections-manager.js";
-import { createAndShowToast, hideModal, showModal } from "../../utils/uiHelpers";
+import {
+  createAndShowToast,
+  hideModal,
+  showModal,
+} from "../../utils/uiHelpers";
 
 /**
  * Initialize collections page functionality
@@ -60,7 +64,7 @@ const renderCollections = (collections) => {
 
   // Clear current list
   collectionsList.innerHTML = "";
-  
+
   // Check if collections is null or empty
   if (!collections || collections.length === 0) {
     const emptyState = document.createElement("div");
@@ -88,7 +92,9 @@ const renderCollections = (collections) => {
   sortedCollections.forEach((collection) => {
     if (collection.id === favoriteCollectionId) return;
     const collectionItem = document.createElement("div");
-    collectionItem.className = `collection-item ${collection.isFavorite ? 'is-favorite' : ''}`;
+    collectionItem.className = `collection-item ${
+      collection.isFavorite ? "is-favorite" : ""
+    }`;
     collectionItem.setAttribute("data-collection-id", collection.id);
 
     // Format date
@@ -122,10 +128,10 @@ const renderCollections = (collections) => {
                   </a>
                 </div>
                 <div class="collection-item__actions">
-                                <a href="/collections-edit.html?id=${collection.id}" class="btn btn-outline-brand-turquoise">
+                                <a href="/collections-edit.html?id=${collection.id}"  class="brand-button brand-button--outline brand-button--turquoise">
                                   <i class="bi bi-pencil"></i>
                                 </a>
-                                <button class="btn btn-outline-brand-bright-pink js-delete-collection" data-collection-id="${collection.id}">
+                                <button class="brand-button brand-button--outline brand-button--pink js-delete-collection" data-collection-id="${collection.id}">
                                   <i class="bi bi-trash"></i>
                                 </button>
                 </div>`;
@@ -200,4 +206,3 @@ const initDeleteCollection = () => {
     });
   }
 };
-
