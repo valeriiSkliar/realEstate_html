@@ -86,10 +86,17 @@ export function createAndShowToast(message, type = "info", delay = 5000) {
   toastContainer.insertAdjacentHTML("beforeend", toastHTML);
   const toastElement = document.getElementById(toastId);
   const toastInstance = Toast.getOrCreateInstance(toastElement);
-  toastInstance.show();
 
-  // Удаляем элемент тоста из DOM после его скрытия
+  // Простое удаление после завершения CSS transition
   toastElement.addEventListener("hidden.bs.toast", () => {
-    toastElement.remove();
+    // Небольшая задержка для завершения transition
+    setTimeout(() => {
+      if (toastElement.parentNode) {
+        toastElement.remove();
+      }
+    }, 50);
   });
+
+  // Показываем toast
+  toastInstance.show();
 }

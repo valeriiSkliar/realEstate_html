@@ -4,26 +4,39 @@
 // Кастомные стили для Bootstrap Toast
 .toast-container {
   z-index: 1080; // Выше чем модальные окна Bootstrap
+  left: 1rem !important;
+  right: 1rem !important;
+  bottom: 1rem !important;
 }
 
 .toast {
   // Базовые стили для всех toast
-  min-width: 300px;
-  max-width: 400px;
+  // min-width: 300px;
+  // max-width: 400px;
   border-radius: 8px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   font-family: inherit;
   font-size: 14px;
   backdrop-filter: blur(10px);
+  min-width: unset;
+  max-width: unset;
+  width: 100%;
 
-  // Анимация появления
-  &.showing {
-    animation: toast-slide-in 0.3s ease-out;
+  // Используем transitions вместо keyframe анимаций для совместимости с Bootstrap
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+
+  // Начальное состояние - скрыт
+  opacity: 0;
+  transform: translateX(0);
+
+  // Состояние показа - Bootstrap добавляет класс .show
+  &.show {
+    opacity: 1;
+    transform: translateX(0);
   }
 
-  &.hiding {
-    animation: toast-slide-out 0.3s ease-in;
-  }
+  // Убираем кастомные анимации - они конфликтуют с Bootstrap
+  // Bootstrap сам управляет классами .showing и .hiding
 
   .toast-body {
     padding: 12px 16px;
@@ -34,6 +47,7 @@
   .btn-close {
     margin: 8px 12px 8px 0;
     opacity: 0.8;
+    transition: opacity 0.2s ease;
 
     &:hover {
       opacity: 1;
@@ -91,43 +105,5 @@
     .btn-close {
       filter: brightness(0) invert(1);
     }
-  }
-}
-
-// Анимации
-@keyframes toast-slide-in {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes toast-slide-out {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-// Адаптивность для мобильных устройств
-@media (max-width: 576px) {
-  .toast-container {
-    left: 1rem !important;
-    right: 1rem !important;
-    bottom: 1rem !important;
-  }
-
-  .toast {
-    min-width: unset;
-    max-width: unset;
-    width: 100%;
   }
 }
