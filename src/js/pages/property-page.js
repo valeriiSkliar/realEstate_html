@@ -53,6 +53,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const prevBtn = document.getElementById("gallery-prev");
   const nextBtn = document.getElementById("gallery-next");
 
+  // Проверяем наличие основных элементов галереи
+  if (!mainImage || thumbnails.length === 0) {
+    console.log("Gallery elements not found, skipping gallery initialization");
+    // Если нет изображений, инициализируем только функциональность описания
+    initDescriptionToggle();
+    return;
+  }
+
   // Modal elements
   const imageModal = document.getElementById("imageModal");
   let modalImage,
