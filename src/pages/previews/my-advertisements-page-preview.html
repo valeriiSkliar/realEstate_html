@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Мои объявления - Real Estate</title>
+    <!-- Компилированные стили -->
+    <!-- <link rel="stylesheet" href="css/index.css" /> -->
   </head>
   <body>
     <app-header></app-header>
@@ -35,22 +37,16 @@
               class="listings-controls d-flex flex-column justify-content-end align-items-end mb-3"
             >
               <div
-                class="d-flex justify-content-between gap-2 align-items-center mb-3 flex-wrap mt-3"
+                class="d-flex w-100 justify-content-between gap-1 align-items-center mb-3 flex-nowrap mt-3"
               >
-                <brand-button
-                  href="/archived-advertisements.html"
-                  variant="solid"
-                  color="turquoise"
+                <button
+                  class="brand-button brand-button--solid brand-button--turquoise w-25"
                 >
-                  Архив
-                </brand-button>
-                <brand-button
-                  href="/listings-create.html"
-                  variant="solid"
-                  color="green"
-                >
-                  Добавить объявление
-                </brand-button>
+                  <a href="/archived-advertisements.html">Архив</a>
+                </button>
+                <button class="brand-button brand-button--solid w-75">
+                  <a href="/listings-create.html">Добавить объявление</a>
+                </button>
               </div>
               <div
                 class="btn-group btn-group-sm my-listings-sort-group"
@@ -62,21 +58,29 @@
                   class="btn btn-outline-brand-turquoise active"
                   title="Сортировать по дате"
                 >
-                  <i class="bi bi-calendar3"></i>
+                  <span data-sort-type="date" class="material-symbols-outlined"
+                    >date_range</span
+                  >
                 </button>
                 <button
                   type="button"
                   class="btn btn-outline-brand-turquoise"
                   title="Сортировать по цене"
                 >
-                  <i class="bi bi-cash"></i>
+                  <span data-sort-type="price" class="material-symbols-outlined"
+                    >currency_ruble</span
+                  >
                 </button>
                 <button
                   type="button"
                   class="btn btn-outline-brand-turquoise"
                   title="Сортировать по статусу"
                 >
-                  <i class="bi bi-tag"></i>
+                  <span
+                    data-sort-type="status"
+                    class="material-symbols-outlined"
+                    >sell</span
+                  >
                 </button>
               </div>
             </div>
@@ -249,9 +253,9 @@
                 </my-property-card>
               </property-list-component>
               <simple-pagination
-                current-page="2"
-                total-pages="5"
-                max-page-links="3"
+                current-page="4"
+                total-pages="10"
+                max-page-links="5"
                 page-href-template="/my-advertisements?p={page_num}"
               >
               </simple-pagination>

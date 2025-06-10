@@ -1,3 +1,5 @@
+import { createAndShowToast } from "../utils/uiHelpers";
+
 document.addEventListener("DOMContentLoaded", function () {
   // Специфическая логика для страницы моих объявлений
   if (
@@ -81,7 +83,7 @@ function handleDeleteListing(id) {
     )
   ) {
     // Показываем загрузку
-    showNotification("Удаление объявления...", "info");
+    createAndShowToast("Удаление объявления...", "info");
 
     // Имитация API запроса
     setTimeout(() => {
@@ -95,13 +97,13 @@ function handleDeleteListing(id) {
         );
         if (listingCard) {
           listingCard.remove();
-          showNotification("Объявление успешно удалено", "success");
+          createAndShowToast("Объявление успешно удалено", "success");
         } else {
-          showNotification("Объявление не найдено", "error");
+          createAndShowToast("Объявление не найдено", "error");
         }
       } catch (error) {
         console.error("Error deleting listing:", error);
-        showNotification("Ошибка при удалении объявления", "error");
+        createAndShowToast("Ошибка при удалении объявления", "error");
       }
     }, 1000);
   }
@@ -112,7 +114,7 @@ function handleDeleteListing(id) {
  */
 function handleArchiveListing(id) {
   if (confirm("Вы уверены, что хотите архивировать это объявление?")) {
-    showNotification("Архивирование объявления...", "info");
+    createAndShowToast("Архивирование объявления...", "info");
 
     setTimeout(() => {
       try {
@@ -125,13 +127,13 @@ function handleArchiveListing(id) {
         );
         if (listingCard) {
           listingCard.setAttribute("status", "archived");
-          showNotification("Объявление перемещено в архив", "success");
+          createAndShowToast("Объявление перемещено в архив", "success");
         } else {
-          showNotification("Объявление не найдено", "error");
+          createAndShowToast("Объявление не найдено", "error");
         }
       } catch (error) {
         console.error("Error archiving listing:", error);
-        showNotification("Ошибка при архивировании объявления", "error");
+        createAndShowToast("Ошибка при архивировании объявления", "error");
       }
     }, 1000);
   }
@@ -144,7 +146,7 @@ function handleRestoreListing(id) {
   if (
     confirm("Вы уверены, что хотите восстановить это объявление из архива?")
   ) {
-    showNotification("Восстановление объявления...", "info");
+    createAndShowToast("Восстановление объявления...", "info");
 
     setTimeout(() => {
       try {
@@ -157,13 +159,13 @@ function handleRestoreListing(id) {
         );
         if (listingCard) {
           listingCard.setAttribute("status", "active");
-          showNotification("Объявление восстановлено", "success");
+          createAndShowToast("Объявление восстановлено", "success");
         } else {
-          showNotification("Объявление не найдено", "error");
+          createAndShowToast("Объявление не найдено", "error");
         }
       } catch (error) {
         console.error("Error restoring listing:", error);
-        showNotification("Ошибка при восстановлении объявления", "error");
+        createAndShowToast("Ошибка при восстановлении объявления", "error");
       }
     }, 1000);
   }
@@ -174,7 +176,7 @@ function handleRestoreListing(id) {
  */
 function handleActivateListing(id) {
   if (confirm("Вы уверены, что хотите активировать этот черновик?")) {
-    showNotification("Активация объявления...", "info");
+    createAndShowToast("Активация объявления...", "info");
 
     setTimeout(() => {
       try {
@@ -187,13 +189,13 @@ function handleActivateListing(id) {
         );
         if (listingCard) {
           listingCard.setAttribute("status", "active");
-          showNotification("Объявление активировано", "success");
+          createAndShowToast("Объявление активировано", "success");
         } else {
-          showNotification("Объявление не найдено", "error");
+          createAndShowToast("Объявление не найдено", "error");
         }
       } catch (error) {
         console.error("Error activating listing:", error);
-        showNotification("Ошибка при активации объявления", "error");
+        createAndShowToast("Ошибка при активации объявления", "error");
       }
     }, 1000);
   }
@@ -214,19 +216,15 @@ function initSortButtons() {
       button.classList.add("active");
 
       // Определяем тип сортировки по иконке
-      const icon = button.querySelector("i");
+      const icon = button.querySelector("span");
       let sortType = "date"; // по умолчанию
 
-      if (icon.classList.contains("bi-calendar3")) {
-        sortType = "date";
-      } else if (icon.classList.contains("bi-cash")) {
-        sortType = "price";
-      } else if (icon.classList.contains("bi-tag")) {
-        sortType = "status";
+      if (icon && icon.dataset.sortType) {
+        sortType = icon.dataset.sortType;
       }
 
       console.log(`Sorting by: ${sortType}`);
-      showNotification(`Сортировка по ${getSortTypeName(sortType)}`, "info");
+      createAndShowToast(`Сортировка по ${getSortTypeName(sortType)}`, "info");
 
       // Здесь можно добавить логику сортировки карточек
       // sortListings(sortType);
