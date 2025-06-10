@@ -29,7 +29,7 @@ export class AppHeader extends HTMLElement {
           <a href="/search.html" class="header__action-btn" aria-label="Search">
             <i class="bi bi-search text-brand-turquoise"></i>
           </a>
-          <a href="/favorites.html" class="header__action-btn" aria-label="Favorites">
+          <a href="/collections.html" class="header__action-btn" aria-label="Favorites">
             <i class="bi bi-heart text-brand-bright-pink"></i>
           </a>
           <button class="header__action-btn js-menu-trigger" aria-label="Menu">
