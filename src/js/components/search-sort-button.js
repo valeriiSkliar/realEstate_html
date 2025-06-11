@@ -43,6 +43,24 @@ const initSearchSortButton = () => {
       updateUrlParams(currentParams);
     });
   });
+
+  const searchForm = document.querySelector(".search-bar-brand");
+  if (searchForm) {
+    searchForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const input = this.querySelector('input[name="search"]');
+      const value = input.value.trim();
+
+      // собираем все текущие GET-параметры
+      const params = Object.fromEntries(
+          new URL(window.location).searchParams.entries()
+      );
+      // обновляем или удаляем параметр search
+      (value) ? params.search = value : delete params.search;
+      // перенаправляем на новый URL
+      updateUrlParams(params);
+    });
+  }
 };
 
 export { initSearchSortButton };
