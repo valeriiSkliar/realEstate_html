@@ -147,9 +147,10 @@ export const initCollectionPage = () => {
         phone: "+7 (918) 254-25-36",
       };
 
-
+      const favCollection = getCollectionById(favoriteCollectionId);
+      const isFavorite = favCollection?.properties.includes(id);
       if (property) {
-        const propertyCard = createPropertyCard(property, id);
+        const propertyCard = createPropertyCard(property, id, isFavorite);
         currentPropertiesContainer.appendChild(propertyCard);
       }
     });
@@ -163,9 +164,10 @@ export const initCollectionPage = () => {
    * @param {Object} property - Property data
    * @param {string} id - Property ID
    * @param {string} collectionId - Current collection ID
+   * @param {boolean} isFavorite - Is property in favorite collection
    * @returns {HTMLElement} Property card element
    */
-  function createPropertyCard(property, id, collectionId) {
+  function createPropertyCard(property, id, isFavorite) {
     const propertyCard = document.createElement("div");
     propertyCard.className = "col-12";
     
@@ -173,16 +175,16 @@ export const initCollectionPage = () => {
       <div class="property-card" data-property-id="${id}">
         <div class="property-summary-card">
           <div
-            class="property-summary-card__favorite-icon js-add-to-favorite"
+            class="property-summary-card__favorite-icon js-add-to-favorite ${isFavorite ? 'property-summary-card__favorite-icon--active' : ''}"
             role="button"
-            aria-label="Добавить в избранное"
+            aria-label="${isFavorite ? 'Добавить в избранное' : 'Удалить из избранного'}"
             tabindex="0"
           >
             <svg
               width="20"
               height="20"
               viewBox="0 0 24 24"
-              fill="none"
+              fill="${isFavorite ? 'var(--brand-bright-pink)' : 'none'}"
               stroke="var(--brand-bright-pink)"
               stroke-width="2"
             >
