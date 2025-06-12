@@ -11,258 +11,192 @@
 
     <!-- Overlay for mobile menu -->
     <div class="overlay js-overlay"></div>
-    <!-- Breadcrumb -->
-    <nav
-      class="breadcrumb"
-      aria-label="Breadcrumb navigation"
-      role="navigation"
-    >
-      <ol class="breadcrumb-list">
-        <li class="breadcrumb-item">
-          <a class="breadcrumb-link" href="/">Главная</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a class="breadcrumb-link" href="/collections.html"
-            >Подборки
-          </a>
-        </li>
-        <li class="breadcrumb-item active-page">
-          <span class="breadcrumb-text">Редактировать Подборку</span>
-        </li>
-      </ol>
-  </nav>
-  <!-- End Breadcrumb -->
+
     <!-- Main Content Area -->
     <main class="page-content">
       <div id="app">
         <div class="collections-edit-page">
-
-          <div class="container mt-3 mb-3">
-            <div class="page-header">
-              <a href="/collections.html" class="brand-button brand-button--solid brand-button--turquoise">
-                <i class="bi bi-arrow-left"></i> Назад к Подборкам
-              </a>
+          <!-- Breadcrumb -->
+          <nav
+            class="breadcrumb"
+            aria-label="Breadcrumb navigation"
+            role="navigation"
+          >
+            <ol class="breadcrumb-list">
+              <li class="breadcrumb-item">
+                <a class="breadcrumb-link" href="/">Главная</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a class="breadcrumb-link" href="/collections.html">
+                  Подборки
+                </a>
+              </li>
+              <li class="breadcrumb-item active-page">
+                <span class="breadcrumb-text">Редактировать Подборку</span>
+              </li>
+            </ol>
+          </nav>
+          <!-- End Breadcrumb -->
+          <div class="container mt-3">
+            <div
+              class="page-header mb-1 d-flex flex-column gap-2 align-items-center"
+            >
+              <div class="js-page-header-actions d-flex justify-content-between w-100 items-center">
+                <a
+                  href="/collections.html"
+                  class="brand-button brand-button--solid brand-button--turquoise"
+                >
+                  <i class="bi bi-arrow-left"></i> Назад к Подборкам
+                </a>
+              </div>
+              <!-- <strong>Название Подборки</strong> -->
             </div>
 
             <!-- Collection Information Form -->
-            <div class="step-content active" id="step1">
-                  <form id="collectionId">
-                    <section class="forms-section">
-                          <div class="form-field floating-label">
-                            <input type="text" class="form-input form-input-sm" id="collectionName" name="collectionName" placeholder=" " required>
-                            <label for="collectionName" class="form-label required">Название Подборки</label>
-                          </div>
-                            <div class="form-field">
-                              <label for="collectionNotes" class="form-label">
-                                Примечания
-                              </label>
-                              <textarea class="form-input form-input-sm" id="collectionNotes" name="collectionNotes" rows="3"></textarea>
-                            </div>
-                        
-                    </section>
-                  </form>
-              
+            <div class="step-content active">
+              <form id="collectionId">
+                <div class="row mb-0">
+                  <div class="collection-name col-12 mt-1 mb-0 h3 form-label">
+                    Название Подборки
+                  </div>
+                </div>
+              </form>
             </div>
 
             <!-- Properties Section -->
-            <div class="properties-section mt-4">
-                  <div class="selection-controls mb-4 js-current-properties-search">
-                    <div class="selection-status">
-                      <span class="current-count">2</span> объект
-                    </div>
-                    <div class="selection-actions">
-                      <a href="/search.html" class="brand-button brand-button--solid brand-button--turquoise">
-                        <i class="bi bi-search"></i> Поиск Объектов
-                      </a>
-                    </div>
-                  </div>
+            <div class="properties-section mt-1">
+              <div
+                class="selection-controls mb-4 p-2 js-current-properties-search"
+              >
+                <div class="selection-status">
+                  <span class="current-count"></span> объект
+                </div>
+                <div class="selection-actions">
+                  <a
+                    href="/search.html"
+                    class="px-2 py-2 brand-button brand-button--solid brand-button--turquoise"
+                  >
+                    <i class="bi bi-search"></i> Поиск Объектов
+                  </a>
+                </div>
+              </div>
 
-                  <!-- Empty Collection State (hidden by default) -->
-                  <div class="collections-empty-state js-empty-collection" style="display: none;">
-                    <div class="collections-empty-state__icon">
-                      <i class="bi bi-building"></i>
-                    </div>
-                    <h3 class="collections-empty-state__title">В этой подборке пока нет объектов</h3>
-                    <p class="collections-empty-state__text">Добавьте объекты недвижимости в эту подборку</p>
-                    <a href="/search.html" class="btn btn-brand-turquoise">
-                      <i class="bi bi-search"></i> Поиск объектов
-                    </a>
-                  </div>
+              <!-- Empty Collection State (hidden by default) -->
+              <div
+                class="collections-empty-state js-empty-collection"
+                style="display: none"
+              >
+                <div class="collections-empty-state__icon">
+                  <i class="bi bi-building"></i>
+                </div>
+                <h3 class="collections-empty-state__title">
+                  В этой подборке пока нет объектов
+                </h3>
+                <p class="collections-empty-state__text">
+                  Добавьте объекты недвижимости в эту подборку
+                </p>
+                <a href="/search.html" class="btn btn-brand-turquoise">
+                  <i class="bi bi-search"></i> Поиск объектов
+                </a>
+              </div>
 
-                  <div class="js-current-properties">
-                                      <!-- Property Cards -->
-                  <div class="row g-3">
-                    <!-- First Property Card -->
-                    <div class="col-12">
-                      <div class="property-card" data-property-id="prop_1">
-                        <div class="property-summary-card">
-                          <div class="property-summary-card__favorite-icon js-add-to-favorite" role="button" aria-label="Добавить в избранное" tabindex="0">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-bright-pink)" stroke-width="2">
-                              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                            </svg>
-                          </div>
-                          
-                          <h3 class="property-summary-card__title text-light-gray-30">
-                              <a href="/property-view-standalone.html">Студия, 28 м2 | ГМР</a>
-                          </h3>
-                          <p class="property-summary-card__price">₽ 4 900 000</p>
-                          <ul class="property-summary-card__details-list">
-                              
-                                  <li class="property-summary-card__detail-item">
-                                      <span class="property-summary-card__detail-label">Название комплекса</span>
-                                      <span class="property-summary-card__detail-value">ЖК «Стрижи»</span>
-                                  </li>
-                              
-                                  <li class="property-summary-card__detail-item">
-                                      <span class="property-summary-card__detail-label">Улица</span>
-                                      <span class="property-summary-card__detail-value">Автолюбителей ул.</span>
-                                  </li>
-                              
-                                  <li class="property-summary-card__detail-item">
-                                      <span class="property-summary-card__detail-label">Состояние</span>
-                                      <span class="property-summary-card__detail-value">С ремонтом</span>
-                                  </li>
-                              
-                          </ul>
-                          
-                              <div class="property-summary-card__phone">
-                              <span class="property-summary-card__phone-label">Агент:</span>
-                                  <span class="property-summary-card__phone-agent-name">Алексей</span>
-                                  <a href="tel:+7 (918) 254-25-36" class="property-summary-card__phone-link">
-                                      📞 +7 (918) 254-25-36
-                                  </a>
-                              </div>
-                          <div class="property-summary-card__footer property-summary-card__footer--actions-right">
-                            <div class="d-flex flex-wrap gap-2 p-2">
-                              <button class="w-100 d-block brand-button brand-button--solid js-add-to-collection" data-property-id="prop_1">Добавить в подборку</button>
-                              <button class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection" data-property-id="prop_1">Удалить из подборки</button>
-                            </div>
-                          </div>
-                      </div>
-
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Second Property Card -->
-                  <div class="col-12">
-                    <div class="property-card" data-property-id="prop_2">
+              <div class="js-current-properties">
+                  <!-- First Property Card -->
+                  <!-- <div class="col-12">
+                    <div class="property-card" data-property-id="prop_1">
                       <div class="property-summary-card">
-                        <div class="property-summary-card__favorite-icon js-add-to-favorite" role="button" aria-label="Добавить в избранное" tabindex="0">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-bright-pink)" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        <div
+                          class="property-summary-card__favorite-icon js-add-to-favorite"
+                          role="button"
+                          aria-label="Добавить в избранное"
+                          tabindex="0"
+                        >
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="var(--brand-bright-pink)"
+                            stroke-width="2"
+                          >
+                            <path
+                              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                            ></path>
                           </svg>
                         </div>
-                        
-                        <h3 class="property-summary-card__title text-light-gray-30">
-                            <a href="/property-view-standalone.html">Студия, 28 м2 | ГМР</a>
+
+                        <h3
+                          class="property-summary-card__title text-light-gray-30"
+                        >
+                          <a href="/property-view-standalone.html"
+                            >Студия, 28 м2 | ГМР</a
+                          >
                         </h3>
                         <p class="property-summary-card__price">₽ 4 900 000</p>
                         <ul class="property-summary-card__details-list">
-                            
-                                <li class="property-summary-card__detail-item">
-                                    <span class="property-summary-card__detail-label">Название комплекса</span>
-                                    <span class="property-summary-card__detail-value">ЖК «Стрижи»</span>
-                                </li>
-                            
-                                <li class="property-summary-card__detail-item">
-                                    <span class="property-summary-card__detail-label">Улица</span>
-                                    <span class="property-summary-card__detail-value">Автолюбителей ул.</span>
-                                </li>
-                            
-                                <li class="property-summary-card__detail-item">
-                                    <span class="property-summary-card__detail-label">Состояние</span>
-                                    <span class="property-summary-card__detail-value">С ремонтом</span>
-                                </li>
-                            
-                        </ul>
-                        
-                            <div class="property-summary-card__phone">
-                            <span class="property-summary-card__phone-label">Агент:</span>
-                                <span class="property-summary-card__phone-agent-name">Алексей</span>
-                                <a href="tel:+7 (918) 254-25-36" class="property-summary-card__phone-link">
-                                    📞 +7 (918) 254-25-36
-                                </a>
-                            </div>
-                        
-                    <div class="property-summary-card__footer property-summary-card__footer--actions-right">
-                    <div class="d-flex flex-wrap gap-2 p-2">
-                      <button class="w-100 d-block brand-button brand-button--solid js-add-to-collection" data-property-id="prop_2">Добавить в подборку</button>
-                      <button class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection" data-property-id="prop_2">Удалить из подборки</button>
-                    </div>
-                    </div>
-                      </div>
-                  </div>
-                    </div>
-                  </div>
-                  <!-- End of Second Property Card -->
-                  <!-- Third Property Card -->
-                  <div class="col-12">
-                    <div class="property-card" data-property-id="prop_3">
-                      <div class="property-summary-card">
-                        <div class="property-summary-card__favorite-icon js-add-to-favorite" role="button" aria-label="Добавить в избранное" tabindex="0">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-bright-pink)" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                          </svg>
-                        </div>
-                        
-                        <h3 class="property-summary-card__title text-light-gray-30">
-                            <a href="/property-details/456">2-к. студия, 80 м2 | Центр</a>
-                        </h3>
-                        <p class="property-summary-card__price">₽ 18 500 000</p>
-                        <ul class="property-summary-card__details-list">
-                            
-                                <li class="property-summary-card__detail-item">
-                                    <span class="property-summary-card__detail-label">Название комплекса</span>
-                                    <span class="property-summary-card__detail-value">ЖК «Престиж»</span>
-                                </li>
-                            
-                                <li class="property-summary-card__detail-item">
-                                    <span class="property-summary-card__detail-label">Улица</span>
-                                    <span class="property-summary-card__detail-value">Красная ул.</span>
-                                </li>
-                            
-                                <li class="property-summary-card__detail-item">
-                                    <span class="property-summary-card__detail-label">Этаж</span>
-                                    <span class="property-summary-card__detail-value">1/16</span>
-                                </li>
-                            
-                                <li class="property-summary-card__detail-item">
-                                    <span class="property-summary-card__detail-label">Состояние</span>
-                                    <span class="property-summary-card__detail-value">Дизайнерский ремонт</span>
-                                </li>
-                            
-                        </ul>
-                        
-                        <div class="property-summary-card__phone">
-                          <span class="property-summary-card__phone-label">Агент:</span>
-                              <span class="property-summary-card__phone-agent-name">Алексей</span>
-                              <a href="tel:+7 (918) 254-25-36" class="property-summary-card__phone-link">
-                                  📞 +7 (918) 254-25-36
-                              </a>
-                        </div>
-                        <div class="property-summary-card__footer property-summary-card__footer--actions-right">                        
-                            <div class="d-flex flex-wrap gap-2 p-2">
-                              <button class="w-100 d-block brand-button brand-button--solid js-add-to-collection" data-property-id="prop_3">Добавить в подборку</button>
-                              <button class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection" data-property-id="prop_3">Удалить из подборки</button>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End of Third Property Card -->
-                  </div>
-                  
-                  </div>
+                          <li class="property-summary-card__detail-item">
+                            <span class="property-summary-card__detail-label"
+                              >Название комплекса</span
+                            >
+                            <span class="property-summary-card__detail-value"
+                              >ЖК «Стрижи»</span
+                            >
+                          </li>
 
-                  <div class="form-actions d-flex justify-content-center mt-4">
-                    <button
-                      type="button"
-                      class="brand-button brand-button--solid"
-                    >
-                      Сохранить Изменения
-                    </button>
-                  </div>
-                </div>
+                          <li class="property-summary-card__detail-item">
+                            <span class="property-summary-card__detail-label"
+                              >Улица</span
+                            >
+                            <span class="property-summary-card__detail-value"
+                              >Автолюбителей ул.</span
+                            >
+                          </li>
+
+                          <li class="property-summary-card__detail-item">
+                            <span class="property-summary-card__detail-label"
+                              >Состояние</span
+                            >
+                            <span class="property-summary-card__detail-value"
+                              >С ремонтом</span
+                            >
+                          </li>
+                        </ul>
+
+                        <div class="property-summary-card__phone">
+                          <span class="property-summary-card__phone-label"
+                            >Агент:</span
+                          >
+                          <span class="property-summary-card__phone-agent-name"
+                            >Алексей</span
+                          >
+                          <a
+                            href="tel:+7 (918) 254-25-36"
+                            class="property-summary-card__phone-link"
+                          >
+                            📞 +7 (918) 254-25-36
+                          </a>
+                        </div>
+                        <div
+                          class="property-summary-card__footer property-summary-card__footer--actions-right"
+                        >
+                          <div class="d-flex flex-wrap gap-2 p-2 w-100">
+                            <button
+                              class="w-100 d-block brand-button brand-button--solid js-add-to-collection"
+                              data-property-id="prop_1"
+                            >
+                              Добавить в подборку
+                            </button>
+                            <button
+                              class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection"
+                              data-property-id="prop_1"
+                            >
+                              Удалить из подборки
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
               </div>
             </div>
           </div>
@@ -274,62 +208,19 @@
 
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
-            <!-- Remove Property Confirmation Modal -->
-            <div
-              class="modal fade"
-              id="removePropertyModal"
-              tabindex="-1"
-              aria-labelledby="removePropertyModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="removePropertyModalLabel">
-                      Удалить объект из подборки
-                    </h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <p>
-                      Вы уверены, что хотите удалить этот объект из подборки?
-                    </p>
-                    <input type="hidden" id="removePropertyId" />
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-brand-turquoise"
-                      data-bs-dismiss="modal"
-                    >
-                      Отмена
-                    </button>
-                    <button type="button" class="btn btn-brand-bright-pink js-confirm-remove-property">
-                      Удалить
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-    <!-- Success Modal -->
+    <!-- Remove Property Confirmation Modal -->
     <div
       class="modal fade"
-      id="collectionUpdateSuccessModal"
+      id="removePropertyModal"
       tabindex="-1"
-      aria-labelledby="collectionSuccessModalLabel"
+      aria-labelledby="removePropertyModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="collectionSuccessModalLabel">
-              Подборка Обновлена
+            <h5 class="modal-title" id="removePropertyModalLabel">
+              Удалить объект из подборки
             </h5>
             <button
               type="button"
@@ -339,17 +230,23 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div class="text-center mb-3">
-              <i
-                class="bi bi-check-circle-fill text-success"
-                style="font-size: 4rem"
-              ></i>
-            </div>
-            <p class="text-center">Ваша подборка была успешно обновлена!</p>
+            <p>Вы уверены, что хотите удалить этот объект из подборки?</p>
+            <input type="hidden" id="removePropertyId" />
           </div>
           <div class="modal-footer">
-            <a href="/collections.html" class="btn btn-secondary">Перейти к Подборкам</a>
-            <a href="/search.html" class="btn btn-primary btn-brand-turquoise text-brand-light-gray js-view-collection">Перейти к Поиску</a>
+            <button
+              type="button"
+              class="btn btn-brand-turquoise"
+              data-bs-dismiss="modal"
+            >
+              Отмена
+            </button>
+            <button
+              type="button"
+              class="btn btn-brand-bright-pink js-confirm-remove-property"
+            >
+              Удалить
+            </button>
           </div>
         </div>
       </div>
