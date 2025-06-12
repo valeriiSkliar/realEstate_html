@@ -133,3 +133,114 @@ body {
     font-size: 14px;
   }
 }
+
+.text-brand-light-gray-10 {
+  color: $light-gray-10 !important;
+}
+
+.text-brand-light-gray-20 {
+  color: $light-gray-20 !important;
+}
+
+.text-brand-light-gray-30 {
+  color: $light-gray-30 !important;
+}
+
+.text-brand-light-gray-50 {
+  color: $light-gray-50 !important;
+}
+
+.text-brand-light-gray-80 {
+  color: $light-gray-80 !important;
+}
+
+.text-brand-dark-navy-10 {
+  color: $dark-navy-10 !important;
+}
+
+.text-brand-dark-navy-20 {
+  color: $dark-navy-20 !important;
+}
+
+.text-brand-dark-navy-30 {
+  color: $dark-navy-30 !important;
+}
+
+.text-brand-dark-navy-50 {
+  color: $dark-navy-50 !important;
+}
+
+.text-brand-dark-navy-80 {
+  color: $dark-navy-80 !important;
+}
+
+// Truncate utility classes
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-truncate-2 {
+  padding: 0 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-truncate-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-truncate-5 {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Truncate with specific widths
+.text-truncate-sm {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-truncate-md {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-truncate-lg {
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-truncate-xl {
+  max-width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
