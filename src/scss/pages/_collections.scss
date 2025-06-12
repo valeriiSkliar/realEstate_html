@@ -68,7 +68,12 @@
 
 // Collections list
 .collections-list {
-  margin-top: 30px;
+  background-color: #f5f6f4;
+  border: 1px solid rgba(245, 246, 244, 0.8);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 -10px;
+  min-height: 50vh;
 }
 
 .collection-item.default-collection {
