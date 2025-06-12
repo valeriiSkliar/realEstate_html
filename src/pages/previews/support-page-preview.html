@@ -19,10 +19,23 @@
   </head>
   <body>
     <app-header></app-header>
-    <app-mobile-menu></app-mobile-menu>
 
-    <!-- Overlay for mobile menu -->
-    <div class="overlay js-overlay"></div>
+    <!-- Breadcrumb -->
+    <nav
+      class="breadcrumb"
+      aria-label="Breadcrumb navigation"
+      role="navigation"
+    >
+      <ol class="breadcrumb-list">
+        <li class="breadcrumb-item">
+          <a class="breadcrumb-link" href="/">Главная</a>
+        </li>
+        <li class="breadcrumb-item active-page">
+          <span class="breadcrumb-text">Связаться с поддержкой</span>
+        </li>
+      </ol>
+    </nav>
+    <!-- End Breadcrumb -->
 
     <!-- Main Content Area -->
     <main class="page-content">
@@ -147,6 +160,53 @@
               data-bs-dismiss="modal"
             >
               Закрыть
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fail request Modal -->
+
+    <div
+      class="modal fade"
+      id="supportFailRequestModal"
+      tabindex="-1"
+      aria-labelledby="supportFailModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="supportFailModalLabel">
+              Ошибка отправки
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Закрыть"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center mb-3">
+              <i
+                class="bi bi-x-circle-fill text-danger"
+                style="font-size: 4rem"
+              ></i>
+            </div>
+            <p class="text-center">
+              Произошла ошибка при отправке сообщения. Пожалуйста, проверьте
+              подключение к интернету и попробуйте еще раз.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Попробовать снова
             </button>
           </div>
         </div>
