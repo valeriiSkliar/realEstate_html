@@ -29,7 +29,7 @@ const updateCollectionsView = () => {
   const collections = getCollections();
   const emptyState = document.querySelector(".js-empty-collections");
   const collectionsControls = document.querySelector(
-    ".js-collections-controls"
+    ".js-collections-controls",
   );
   const collectionsList = document.querySelector(".js-collections-list");
   if (collectionsList) {
@@ -90,20 +90,30 @@ const renderCollections = (collections) => {
 
   // Create collection items
   sortedCollections.forEach((collection) => {
-    if (collection.id === favoriteCollectionId) return;
+    // Format date
+    const updatedDate = new Date(collection.updatedAt);
+    const formattedDate = updatedDate.toLocaleDateString("ru-RU", {
+      month: "short",
+      day: "numeric",
+    });
+
+    // Update favorite collection
+    if (collection.id === favoriteCollectionId) {
+      const favoriteCollection = document.getElementById("favorite");
+      const count = favoriteCollection.querySelector(".collection-item__count");
+      count.innerHTML = `<i class="bi bi-building"></i> ${collection.properties.length} объектов`;
+      const date = favoriteCollection.querySelector(".collection-item__date");
+      date.innerHTML = `<i class="bi bi-calendar"></i> Обновлено ${formattedDate}`;
+      // Return to prevent creating new collection item
+      return;
+    }
+
+    // Create collection item
     const collectionItem = document.createElement("div");
     collectionItem.className = `collection-item ${
       collection.isFavorite ? "is-favorite" : ""
     }`;
     collectionItem.setAttribute("data-collection-id", collection.id);
-
-    // Format date
-    const updatedDate = new Date(collection.updatedAt);
-    const formattedDate = updatedDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
 
     // Calculate property count
     const propertyCount = collection.properties
