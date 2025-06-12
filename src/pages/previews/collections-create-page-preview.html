@@ -44,8 +44,8 @@
             </div>
 
             <!-- Step 1: Client Information Form -->
-            <div class="step-content active" id="step1">
-              <form id="clientInfoForm">
+            <div class="step-content active">
+              <form id="collectionsCreateForm">
                 <section class="forms-section">
                   <div class="row g-3">
                     <div class="col-12">
@@ -53,25 +53,25 @@
                         <input
                           type="text"
                           class="form-input form-input-sm"
-                          id="collectionName"
-                          name="collectionName"
+                          id="name"
+                          name="name"
                           placeholder=" "
                           required
                         />
-                        <label for="collectionName" class="form-label required"
+                        <label for="name" class="form-label required"
                           >Название Подборки</label
                         >
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="form-field">
-                        <label for="collectionNotes" class="form-label">
+                        <label for="notes" class="form-label">
                           Примечание
                         </label>
                         <textarea
                           class="form-input form-input-sm"
-                          id="collectionNotes"
-                          name="collectionNotes"
+                          id="notes"
+                          name="notes"
                           rows="3"
                         ></textarea>
                       </div>
@@ -80,13 +80,13 @@
                 </section>
 
                 <div class="form-actions">
-                  <a
-                    href="/collections.html"
-                    class="brand-button brand-button--solid"
+                  <button
+                    type="submit"
+                    class="js-save-collection brand-button brand-button--solid"
                   >
                     <i class="bi bi-save"></i>
                     Сохранить
-                  </a>
+                  </button>
                 </div>
               </form>
             </div>
