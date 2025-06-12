@@ -27,6 +27,12 @@ export class AppMobileMenu extends HTMLElement {
               <span class="text-light-gray-30">Мои объявления</span>
             </a>
           </li>
+          <li class="mobile-menu__item">
+            <a href="/collections.html" class="mobile-menu__link">
+              <span class="text-light-gray-30">Мои подборки</span>
+            </a>
+          </li>
+          <li class="mobile-menu__item"></li>
         </ul>
         
         <div class="mobile-menu__app-description">

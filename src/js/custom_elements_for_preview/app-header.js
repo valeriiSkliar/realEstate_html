@@ -64,6 +64,26 @@ export class AppHeader extends HTMLElement {
               <span class="text-light-gray-30">Мои объявления</span>
             </a>
           </li>
+          <li class="mobile-menu__item">
+            <a href="/collections.html" class="mobile-menu__link">
+              <span class="text-light-gray-30">Мои подборки</span>
+            </a>
+          </li>
+          <li class="mobile-menu__item">
+            <a href="/profile.html" class="mobile-menu__link">
+              <span class="text-light-gray-30">Профиль</span>
+            </a>
+          </li>
+          <li class="mobile-menu__item">
+            <a href="/support.html" class="mobile-menu__link">
+              <span class="text-light-gray-30">Поддержка</span>
+            </a>
+          </li>
+          <li class="mobile-menu__item">
+            <a href="/subscriptions.html" class="mobile-menu__link">
+              <span class="text-light-gray-30">Подписки</span>
+            </a>
+          </li>
         </ul>
         
         <div class="mobile-menu__app-description">
