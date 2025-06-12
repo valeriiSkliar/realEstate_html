@@ -1,0 +1,87 @@
+<!-- Success Modal -->
+<div
+  class="modal fade"
+  id="collectionUpdateSuccessModal"
+  tabindex="-1"
+  aria-labelledby="collectionSuccessModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="collectionSuccessModalLabel">
+          Подборка Обновлена
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-3">
+          <i
+            class="bi bi-check-circle-fill text-success"
+            style="font-size: 4rem"
+          ></i>
+        </div>
+        <p class="text-center">Ваша подборка была успешно обновлена!</p>
+      </div>
+      <div class="modal-footer">
+        <a href="/collections.html" class="btn btn-secondary"
+          >Перейти к Подборкам</a
+        >
+        <a
+          href="/search.html"
+          class="btn btn-primary btn-brand-turquoise text-brand-light-gray js-view-collection"
+          >Перейти к Поиску</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Remove Property Confirmation Modal -->
+<div
+  class="modal fade"
+  id="removePropertyModal"
+  tabindex="-1"
+  aria-labelledby="removePropertyModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="removePropertyModalLabel">
+          Удалить объект из подборки
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Вы уверены, что хотите удалить этот объект из подборки?</p>
+        <input type="hidden" id="removePropertyId" />
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-brand-turquoise"
+          data-bs-dismiss="modal"
+        >
+          Отмена
+        </button>
+        <button
+          type="button"
+          class="btn btn-brand-bright-pink js-confirm-remove-property"
+        >
+          Удалить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
