@@ -1,62 +1,73 @@
 import { Dropdown } from "bootstrap";
-import $ from "jquery";
 
-// JavaScript to initialize Bootstrap dropdowns and handle state
-const initSearchSortButton = () => {
-  // Initialize all dropdowns on the page
-  var dropdownElementList = [].slice.call(
-    document.querySelectorAll(".dropdown-toggle")
-  );
-  var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-    return new Dropdown(dropdownToggleEl);
+export function updateUrlParams(params, { force = false } = {}) {
+  const url = new URL(window.location.href);
+
+  if (force) {
+    url.search = "";
+  }
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === null || value === undefined || value === "") {
+      url.searchParams.delete(key);
+    } else if (Array.isArray(value)) {
+      url.searchParams.delete(key);
+      value.forEach(v => url.searchParams.append(key, v));
+    } else {
+      url.searchParams.set(key, value);
+    }
   });
 
-  // Optional: Handle sort selection and update button/icon accordingly
+  window.location.href = url.toString();
+}
+
+const initSearchSortButton = () => {
+  // Инициализируем все dropdown'ы Bootstrap
+  const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
+  dropdownToggles.forEach((el) => new Dropdown(el));
+
   const sortDropdown = document.getElementById("search-sort-dropdown");
-  if (sortDropdown) {
-    const sortItems = sortDropdown.querySelectorAll(".dropdown-item");
-    const sortButtonIcon = sortDropdown.querySelector(".sort-icon");
+  if (!sortDropdown) return;
 
-    sortItems.forEach((item) => {
-      item.addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent default link behavior
+  const sortItems = sortDropdown.querySelectorAll(".dropdown-item");
 
-        // Remove active class from all items
-        sortItems.forEach((i) => i.classList.remove("active"));
-        // Add active class to the clicked item
-        this.classList.add("active");
+  sortItems.forEach((item) => {
+    item.addEventListener("click", function (event) {
+      event.preventDefault();
+      // сбрасываем/включаем active
+      sortItems.forEach((i) => i.classList.remove("active"));
+      this.classList.add("active");
 
-        const sortType = this.dataset.sort;
-        const sortDirection = this.dataset.direction;
+      const sortKey = this.dataset.sort;
+      const sortDir = this.dataset.direction;
 
-        console.log("Sorting by:", sortType, "Direction:", sortDirection);
+      // Читаем все текущие GET-параметры (включая фильтры)
+      const currentParams = Object.fromEntries(
+          new URL(window.location).searchParams.entries()
+      );
+      // Перезаписываем только сортировку
+      currentParams.sort_key = sortKey;
+      currentParams.sort_direction = sortDir;
+      // Перенаправляем на новый URL
+      updateUrlParams(currentParams);
+    });
+  });
 
-        // Example: Update icon based on direction (optional)
-        // You might want a more sophisticated way to manage the icon state
-        if (sortButtonIcon) {
-          if (sortDirection === "asc") {
-            // Update SVG or class for ascending icon
-            // e.g., sortButtonIcon.innerHTML = '<path d="m3 8 4-4 4 4"/><path d="M7 4v16"/>';
-            // For the provided icon, you might need two SVGs or manipulate paths
-            console.log("Set to ASC icon");
-          } else {
-            // Update SVG or class for descending icon
-            // e.g., sortButtonIcon.innerHTML =  '<path d="m3 16 4 4 4-4"/><path d="M7 20V4"/>';
-            console.log("Set to DESC icon");
-          }
-        }
+  const searchForm = document.querySelector(".search-bar-brand");
+  if (searchForm) {
+    searchForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const input = this.querySelector('input[name="search"]');
+      const value = input.value.trim();
 
-        // Close the dropdown manually if needed, though Bootstrap usually handles this
-        var dropdownInstance = bootstrap.Dropdown.getInstance(
-          sortDropdown.querySelector(".dropdown-toggle")
-        );
-        if (dropdownInstance) {
-          dropdownInstance.hide();
-        }
-
-        // Here you would typically trigger the actual sorting function
-        // with the selected sortType and sortDirection
-      });
+      // собираем все текущие GET-параметры
+      const params = Object.fromEntries(
+          new URL(window.location).searchParams.entries()
+      );
+      // обновляем или удаляем параметр search
+      (value) ? params.search = value : delete params.search;
+      // перенаправляем на новый URL
+      updateUrlParams(params);
     });
   }
 };
