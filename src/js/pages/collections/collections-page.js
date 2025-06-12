@@ -113,7 +113,7 @@ const renderCollections = (collections) => {
     // Create HTML for collection item
     collectionItem.innerHTML = `
                 <div class="collection-item__main">
-                  <a href="/collections-edit.html?id=${collection.id}">
+                  <a href="/collection.html?id=${collection.id}">
                   <h3 class="collection-item__name">
                     ${collection.name}
                   </h3>

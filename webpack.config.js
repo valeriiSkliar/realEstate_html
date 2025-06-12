@@ -302,6 +302,20 @@ module.exports = {
       // ],
     }),
     new HtmlWebpackPlugin({
+      template: "./src/pages/previews/collection-page-preview.html",
+      filename: "collection.html",
+      // chunks: [
+      //   "jquery",
+      //   "bootstrap",
+      //   "swiper",
+      //   "select2",
+      //   "vendors",
+      //   "shared",
+      //   "index",
+      //   "collections",
+      // ],
+    }),
+    new HtmlWebpackPlugin({
       template: "./src/pages/previews/collections-create-page-preview.html",
       filename: "collections-create.html",
       // chunks: [
