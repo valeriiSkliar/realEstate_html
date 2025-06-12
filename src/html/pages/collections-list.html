@@ -4,6 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Real Estate - My Collections</title>
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Google Fonts - Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <app-header></app-header>
@@ -23,8 +35,8 @@
         </li>
         <li class="breadcrumb-item">
           <a class="breadcrumb-link" href="/collections.html"
-            >Подборки
-          </a>
+            >Подборки</a
+          >
         </li>
         <li class="breadcrumb-item active-page">
           <span class="breadcrumb-text">Редактировать Подборку</span>
@@ -190,69 +202,61 @@
                       <button class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection" data-property-id="prop_2">Удалить из подборки</button>
                     </div>
                     </div>
-                      </div>
                   </div>
+
                     </div>
                   </div>
                   <!-- End of Second Property Card -->
                   <!-- Third Property Card -->
-                  <div class="col-12">
-                    <div class="property-card" data-property-id="prop_3">
-                      <div class="property-summary-card">
-                        <div class="property-summary-card__favorite-icon js-add-to-favorite" role="button" aria-label="Добавить в избранное" tabindex="0">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-bright-pink)" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                          </svg>
-                        </div>
+                  <div class="property-summary-card">
+                    <h3 class="property-summary-card__title text-light-gray-30">
+                        <a href="/property-details/456">2-к. студия, 80 м2 | Центр</a>
+                    </h3>
+                    <p class="property-summary-card__price">₽ 18 500 000</p>
+                    <ul class="property-summary-card__details-list">
                         
-                        <h3 class="property-summary-card__title text-light-gray-30">
-                            <a href="/property-details/456">2-к. студия, 80 м2 | Центр</a>
-                        </h3>
-                        <p class="property-summary-card__price">₽ 18 500 000</p>
-                        <ul class="property-summary-card__details-list">
-                            
-                                <li class="property-summary-card__detail-item">
-                                    <span class="property-summary-card__detail-label">Название комплекса</span>
-                                    <span class="property-summary-card__detail-value">ЖК «Престиж»</span>
-                                </li>
-                            
-                                <li class="property-summary-card__detail-item">
-                                    <span class="property-summary-card__detail-label">Улица</span>
-                                    <span class="property-summary-card__detail-value">Красная ул.</span>
-                                </li>
-                            
-                                <li class="property-summary-card__detail-item">
-                                    <span class="property-summary-card__detail-label">Этаж</span>
-                                    <span class="property-summary-card__detail-value">1/16</span>
-                                </li>
-                            
-                                <li class="property-summary-card__detail-item">
-                                    <span class="property-summary-card__detail-label">Состояние</span>
-                                    <span class="property-summary-card__detail-value">Дизайнерский ремонт</span>
-                                </li>
-                            
-                        </ul>
+                            <li class="property-summary-card__detail-item">
+                                <span class="property-summary-card__detail-label">Название комплекса</span>
+                                <span class="property-summary-card__detail-value">ЖК «Престиж»</span>
+                            </li>
                         
-                        <div class="property-summary-card__phone">
-                          <span class="property-summary-card__phone-label">Агент:</span>
-                              <span class="property-summary-card__phone-agent-name">Алексей</span>
-                              <a href="tel:+7 (918) 254-25-36" class="property-summary-card__phone-link">
-                                  📞 +7 (918) 254-25-36
-                              </a>
-                        </div>
-                        <div class="property-summary-card__footer property-summary-card__footer--actions-right">                        
-                            <div class="d-flex flex-wrap gap-2 p-2">
-                              <button class="w-100 d-block brand-button brand-button--solid js-add-to-collection" data-property-id="prop_3">Добавить в подборку</button>
-                              <button class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection" data-property-id="prop_3">Удалить из подборки</button>
-                            </div>
-                        </div>
+                            <li class="property-summary-card__detail-item">
+                                <span class="property-summary-card__detail-label">Улица</span>
+                                <span class="property-summary-card__detail-value">Красная ул.</span>
+                            </li>
+                        
+                            <li class="property-summary-card__detail-item">
+                                <span class="property-summary-card__detail-label">Этаж</span>
+                                <span class="property-summary-card__detail-value">1/16</span>
+                            </li>
+                        
+                            <li class="property-summary-card__detail-item">
+                                <span class="property-summary-card__detail-label">Состояние</span>
+                                <span class="property-summary-card__detail-value">Дизайнерский ремонт</span>
+                            </li>
+                        
+                    </ul>
+                    
+                    <div class="property-summary-card__phone">
+                      <span class="property-summary-card__phone-label">Агент:</span>
+                          <span class="property-summary-card__phone-agent-name">Алексей</span>
+                          <a href="tel:+7 (918) 254-25-36" class="property-summary-card__phone-link">
+                              📞 +7 (918) 254-25-36
+                          </a>
                       </div>
+                    <div class="property-summary-card__footer property-summary-card__footer--actions-right">                        
+                        <div class="d-flex flex-wrap gap-2 p-2">
+                          <button class="w-100 d-block brand-button brand-button--solid js-add-to-collection" data-property-id="prop_3">Добавить в подборку</button>
+                          <button class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection" data-property-id="prop_3">Удалить из подборки</button>
+                        </div>
+                        
+                        
                     </div>
+                </div>
+                </div>
+
                   </div>
-                  <!-- End of Third Property Card -->
-                  </div>
-                  
-                  </div>
+                </div>
 
                   <div class="form-actions d-flex justify-content-center mt-4">
                     <button
@@ -262,7 +266,6 @@
                       Сохранить Изменения
                     </button>
                   </div>
-                </div>
               </div>
             </div>
           </div>
@@ -316,6 +319,14 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
     <!-- Success Modal -->
     <div
@@ -348,8 +359,14 @@
             <p class="text-center">Ваша подборка была успешно обновлена!</p>
           </div>
           <div class="modal-footer">
-            <a href="/collections.html" class="btn btn-secondary">Перейти к Подборкам</a>
-            <a href="/search.html" class="btn btn-primary btn-brand-turquoise text-brand-light-gray js-view-collection">Перейти к Поиску</a>
+            <a href="/collections.html" class="btn btn-secondary"
+              >Перейти к Подборкам</a
+            >
+            <a
+              href="/search.html"
+              class="btn btn-primary btn-brand-turquoise text-brand-light-gray js-view-collection"
+              >Перейти к Поиску</a
+            >
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 .add-listing-page {
   padding: 1.5rem 0 3rem 0; // Отступы
-  min-height: calc(100vh - 160px); // Примерная минимальная высота
+  min-height: calc(100vh - 83px - 100px); // Примерная минимальная высота
 
   .card {
     border: none; // Убираем стандартную границу Bootstrap

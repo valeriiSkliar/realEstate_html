@@ -29,7 +29,7 @@ export class AppHeader extends HTMLElement {
           <a href="/search.html" class="header__action-btn" aria-label="Search">
             <i class="bi bi-search text-brand-turquoise"></i>
           </a>
-          <a href="/favorites.html" class="header__action-btn" aria-label="Favorites">
+          <a href="/collections.html" class="header__action-btn" aria-label="Favorites">
             <i class="bi bi-heart text-brand-bright-pink"></i>
           </a>
           <button class="header__action-btn js-menu-trigger" aria-label="Menu">
@@ -62,6 +62,26 @@ export class AppHeader extends HTMLElement {
           <li class="mobile-menu__item">
             <a href="/my-advertisements.html" class="mobile-menu__link">
               <span class="text-light-gray-30">Мои объявления</span>
+            </a>
+          </li>
+          <li class="mobile-menu__item">
+            <a href="/collections.html" class="mobile-menu__link">
+              <span class="text-light-gray-30">Мои подборки</span>
+            </a>
+          </li>
+          <li class="mobile-menu__item">
+            <a href="/profile.html" class="mobile-menu__link">
+              <span class="text-light-gray-30">Профиль</span>
+            </a>
+          </li>
+          <li class="mobile-menu__item">
+            <a href="/support.html" class="mobile-menu__link">
+              <span class="text-light-gray-30">Поддержка</span>
+            </a>
+          </li>
+          <li class="mobile-menu__item">
+            <a href="/subscriptions.html" class="mobile-menu__link">
+              <span class="text-light-gray-30">Подписки</span>
             </a>
           </li>
         </ul>

@@ -15,44 +15,88 @@
   }
 
   .listings-controls {
+    brand-button {
+      &.brand-button--turquoise {
+        min-width: 150px;
+        width: 100%;
+      }
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     .my-listings-sort-group {
+      // Переопределяем Bootstrap стили для полной ширины
+      display: flex !important;
+      width: 100%;
+
       .btn {
         min-width: 60px;
+        width: 100%;
         height: 40px;
         flex: 1;
-        border: none;
-        background-color: transparent;
-        color: brand.$dark-navy;
-        transition: all 0.2s ease;
+        background-color: transparent !important;
+        color: brand.$turquoise !important;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        span {
+          transition: all 0.3s ease;
+          color: brand.$turquoise;
+          font-size: 1.2em;
+        }
 
         &:hover,
         &:focus {
-          background-color: rgba(brand.$dark-navy, 0.1);
-          color: brand.$dark-navy;
-          border: none;
-          box-shadow: none;
+          background-color: rgba(brand.$turquoise, 0.1) !important;
+          color: brand.$turquoise !important;
+          border-color: brand.$turquoise !important;
+          box-shadow: none !important;
         }
 
         &.active {
-          background-color: brand.$dark-navy;
-          color: brand.$light-gray;
-          border: none;
+          background-color: brand.$turquoise !important;
+          color: white !important;
+          border-color: brand.$turquoise !important;
+
+          span {
+            color: white;
+          }
 
           &:hover {
-            background-color: darken(brand.$dark-navy, 5%);
+            background-color: darken(brand.$turquoise, 10%) !important;
           }
         }
 
         &:focus {
-          box-shadow: none;
-          outline: none;
+          box-shadow: none !important;
+          outline: none !important;
         }
 
-        i {
-          font-size: 1.2em;
+        // Обеспечиваем правильное отображение первой и последней кнопки
+        &:first-child {
+          border-top-left-radius: 0.375rem;
+          border-bottom-left-radius: 0.375rem;
+          border-right: none !important;
+        }
+
+        &:last-child {
+          border-top-right-radius: 0.375rem;
+          border-bottom-right-radius: 0.375rem;
+          border-left: none !important;
+        }
+
+        &:not(:first-child):not(:last-child) {
+          border-radius: 0;
+          border-left: none !important;
+          border-right: none !important;
         }
       }
     }
+
     .small.text-brand-dark-navy-50 {
       color: brand.$dark-navy-50;
     }

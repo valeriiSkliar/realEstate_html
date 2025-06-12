@@ -156,9 +156,11 @@
           color: vars.$brand-dark-section; //  #00c9dd;
         }
 
-        svg {
-          width: 20px;
-          height: 20px;
+        svg,
+        .sort-icon,
+        .filter-icon {
+          width: 25px;
+          height: 25px;
         }
 
         &.active {

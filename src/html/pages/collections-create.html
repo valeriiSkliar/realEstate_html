@@ -4,10 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Real Estate - My Collections</title>
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
   </head>
   <body>
+    <!-- Header Component -->
     <app-header></app-header>
+
+  
     <app-mobile-menu></app-mobile-menu>
+        
+
     <!-- Overlay for mobile menu -->
     <div class="overlay js-overlay"></div>
     <!-- Breadcrumb -->
@@ -21,28 +31,30 @@
           <a class="breadcrumb-link" href="/">Главная</a>
         </li>
         <li class="breadcrumb-item">
-          <a class="breadcrumb-link" href="/collections.html">Подборки</a>
+          <a class="breadcrumb-link" href="/collections.html"
+            >Подборки</a
+          >
         </li>
         <li class="breadcrumb-item active-page">
           <span class="breadcrumb-text">Создать Подборку</span>
         </li>
       </ol>
-    </nav>
-    <!-- End Breadcrumb -->
+  </nav>
+  <!-- End Breadcrumb -->
     <!-- Main Content Area -->
     <main class="page-content">
       <div id="app">
+
         <div class="collections-create-page">
+
+
           <div class="container mt-3 mb-3">
             <div class="page-header">
-              <a
-                href="/collections.html"
-                class="brand-button brand-button--solid brand-button--turquoise"
-              >
+              <a href="/collections.html" class="brand-button brand-button--solid brand-button--turquoise">
                 <i class="bi bi-arrow-left"></i> Назад к Подборкам
               </a>
             </div>
-
+        
             <!-- Step 1: Client Information Form -->
             <div class="step-content active" id="step1">
               <form id="clientInfoForm">
@@ -50,96 +62,61 @@
                   <div class="row g-3">
                     <div class="col-12">
                       <div class="form-field floating-label">
-                        <input
-                          type="text"
-                          class="form-input form-input-sm"
-                          id="collectionName"
-                          name="collectionName"
-                          placeholder=" "
-                          required
-                        />
-                        <label for="collectionName" class="form-label required"
-                          >Название Подборки</label
-                        >
+                        <input type="text" class="form-input form-input-sm" id="collectionName" name="collectionName" placeholder=" " required>
+                        <label for="collectionName" class="form-label required">Название Подборки</label>
                       </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-field">
-                        <label for="collectionNotes" class="form-label">
-                          Примечание
-                        </label>
-                        <textarea
-                          class="form-input form-input-sm"
-                          id="collectionNotes"
-                          name="collectionNotes"
-                          rows="3"
-                        ></textarea>
+                    </div>  
+                      <div class="col-12">
+                        <div class="form-field">
+                          <label for="collectionNotes" class="form-label">
+                            Примечание
+                          </label>
+                          <textarea class="form-input form-input-sm" id="collectionNotes" name="collectionNotes" rows="3"></textarea>
+                        </div>
                       </div>
-                    </div>
+                    
                   </div>
                 </section>
-
+                
                 <div class="form-actions">
-                  <a
-                    href="/collections.html"
-                    class="brand-button brand-button--solid"
-                  >
+                  <a href="/collections.html" class="brand-button brand-button--solid">
                     <i class="bi bi-save"></i>
                     Сохранить
                   </a>
                 </div>
               </form>
+
             </div>
           </div>
-
+          
           <!-- Success Modal -->
-          <div
-            class="modal fade"
-            id="collectionSuccessModal"
-            tabindex="-1"
-            aria-labelledby="collectionSuccessModalLabel"
-            aria-hidden="true"
-          >
+          <div class="modal fade" id="collectionSuccessModal" tabindex="-1" aria-labelledby="collectionSuccessModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="collectionSuccessModalLabel">
-                    Подборка Создана
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
+                  <h5 class="modal-title" id="collectionSuccessModalLabel">Подборка Создана</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <div class="text-center mb-3">
-                    <i
-                      class="bi bi-check-circle-fill text-success"
-                      style="font-size: 4rem"
-                    ></i>
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
                   </div>
                   <p class="text-center">Ваша подборка была успешно создана!</p>
                 </div>
                 <div class="modal-footer">
-                  <a href="/collections.html" class="btn btn-secondary"
-                    >Перейти к Подборкам
-                  </a>
-                  <a
-                    href=""
-                    class="btn btn-brand-turquoise text-brand-light-gray js-view-collection"
-                    >Просмотр Подборки
-                  </a>
+                  <a href="/collections.html" class="btn btn-secondary">Перейти к Подборкам</a>
+                  <a href="" class="btn btn-brand-turquoise text-brand-light-gray js-view-collection">Просмотр Подборки</a>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        
+
       </div>
     </main>
 
     <app-footer></app-footer>
+
 
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
