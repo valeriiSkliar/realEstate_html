@@ -12,7 +12,7 @@ import {
   updateCollection, // Added for managing 'isFavorite' flag
 } from "../api/collections-manager";
 
-import { createAndShowToast } from "../../../utils/uiHelpers";
+import { clearAllToasts, createAndShowToast } from "../../../utils/uiHelpers";
 
 // DOM element IDs and classes
 const POPUP_ID = "collection-selector-popup";
@@ -33,6 +33,7 @@ let autoRemoveTimerToast = null;
 export const showCollectionSelectorPopup = (propertyId, propertyTitle) => {
   // Remove any existing popup
   removeExistingPopup();
+  clearAllToasts();
 
   // Get all collections (excluding favorites for the popup display)
   const collections = getCollections().filter(
@@ -373,6 +374,7 @@ export const removeCollectionToast = () => {
  * Function to show the interactive toast for adding to collections
  */
 const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
+  clearAllToasts();
   removeCollectionToast();
   // Remove any existing interactive toast first
   const existingToast = document.querySelector(".interactive-toast-bar");
