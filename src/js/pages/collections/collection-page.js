@@ -79,7 +79,7 @@ export const initCollectionPage = () => {
       collectionNotesElement.innerHTML = `
         <div class="form-field mb-1">
           <p
-            class="js-collection-notes collection-notes d-inline-block col-12 form-input text-brand-dark-navy-50 form-input text-truncate-4 border-0 mb-0 p-0"
+            class="js-collection-notes d-inline-block col-12 form-input text-brand-dark-navy-50 form-input-sm text-truncate-4 border-0 mb-0 p-0"
           >
             ${collection.notes}
           </p>
@@ -147,10 +147,9 @@ export const initCollectionPage = () => {
         phone: "+7 (918) 254-25-36",
       };
 
-      const favCollection = getCollectionById(favoriteCollectionId);
-      const isFavorite = favCollection?.properties.includes(id);
+
       if (property) {
-        const propertyCard = createPropertyCard(property, id, isFavorite);
+        const propertyCard = createPropertyCard(property, id);
         currentPropertiesContainer.appendChild(propertyCard);
       }
     });
@@ -164,10 +163,9 @@ export const initCollectionPage = () => {
    * @param {Object} property - Property data
    * @param {string} id - Property ID
    * @param {string} collectionId - Current collection ID
-   * @param {boolean} isFavorite - Is property in favorite collection
    * @returns {HTMLElement} Property card element
    */
-  function createPropertyCard(property, id, isFavorite) {
+  function createPropertyCard(property, id, collectionId) {
     const propertyCard = document.createElement("div");
     propertyCard.className = "col-12";
     
@@ -175,16 +173,16 @@ export const initCollectionPage = () => {
       <div class="property-card" data-property-id="${id}">
         <div class="property-summary-card">
           <div
-            class="property-summary-card__favorite-icon js-add-to-favorite ${isFavorite ? 'property-summary-card__favorite-icon--active' : ''}"
+            class="property-summary-card__favorite-icon js-add-to-favorite"
             role="button"
-            aria-label="${isFavorite ? 'Добавить в избранное' : 'Удалить из избранного'}"
+            aria-label="Добавить в избранное"
             tabindex="0"
           >
             <svg
               width="20"
               height="20"
               viewBox="0 0 24 24"
-              fill="${isFavorite ? 'var(--brand-bright-pink)' : 'none'}"
+              fill="none"
               stroke="var(--brand-bright-pink)"
               stroke-width="2"
             >
