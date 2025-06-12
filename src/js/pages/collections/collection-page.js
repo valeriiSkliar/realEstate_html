@@ -79,7 +79,7 @@ export const initCollectionPage = () => {
       collectionNotesElement.innerHTML = `
         <div class="form-field mb-1">
           <p
-            class="js-collection-notes d-inline-block col-12 form-input text-brand-dark-navy-50 form-input-sm text-truncate-4 border-0 mb-0 p-0"
+            class="js-collection-notes collection-notes d-inline-block col-12 form-input text-brand-dark-navy-50 form-input text-truncate-4 border-0 mb-0 p-0"
           >
             ${collection.notes}
           </p>
