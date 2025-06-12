@@ -16,7 +16,6 @@ const initSidebarFilters = () => {
       const formData = new FormData(this);
       const params = {};
       formData.forEach((value, key) => {
-        if (value !== null && value !== "") {
           if (params[key]) {
             params[key] = Array.isArray(params[key])
                 ? [...params[key], value]
@@ -24,7 +23,6 @@ const initSidebarFilters = () => {
           } else {
             params[key] = value;
           }
-        }
       });
 
       // Текущая сортировка из URL, если есть
