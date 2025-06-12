@@ -145,21 +145,27 @@ const initPlanUpgrade = () => {
     confirmUpgradeButton.addEventListener("click", () => {
       const planName = document.getElementById("upgradePlanName").textContent;
       console.log(`[Debug] Confirming upgrade to plan: ${planName}`);
-      // TODO: send the request to the server
-      // to process the subscription upgrade
       try {
         // TODO: send the request to the server
         // to process the subscription upgrade
         if (Math.random() < 0.5) {
           throw new Error("Test error");
         }
+
+        // Показываем успех только если нет ошибки
+        createAndShowToast("Подписка успешно обновлена!", "success");
       } catch (error) {
         console.error("[Debug] Error upgrading subscription", error);
-        // TODO: show fail request toast
         createAndShowToast("Произошла ошибка при обновлении подписки", "error");
-      }
 
-      createAndShowToast("Подписка успешно обновлена!", "success");
+        // Hide modal and return early on error
+        const modal = document.getElementById("upgradePlanModal");
+        const closeButton = modal.querySelector('[data-bs-dismiss="modal"]');
+        if (closeButton) {
+          closeButton.click();
+        }
+        return;
+      }
 
       // Hide modal - используем кнопку закрытия вместо bootstrap API
       const modal = document.getElementById("upgradePlanModal");
@@ -186,14 +192,22 @@ const initPlanUpgrade = () => {
         const buttonPlan = button.getAttribute("data-plan");
 
         if (buttonPlan && buttonPlan.toLowerCase() === planName.toLowerCase()) {
-          // Change button to "Current Plan"
-          button.textContent = "Текущий план";
+          // Change button to "Current Plan" - сохраняем стили
+          if (button.tagName.toLowerCase() === "brand-button") {
+            button.innerHTML = "Текущий план";
+          } else {
+            button.textContent = "Текущий план";
+          }
           button.disabled = true;
           button.classList.add("js-current-plan");
           button.classList.remove("js-upgrade-plan");
         } else {
-          // Reset other buttons
-          button.textContent = "Обновить";
+          // Reset other buttons - сохраняем стили
+          if (button.tagName.toLowerCase() === "brand-button") {
+            button.innerHTML = "Обновить";
+          } else {
+            button.textContent = "Обновить";
+          }
           button.disabled = false;
         }
       });
@@ -238,7 +252,12 @@ const initPlanUpgrade = () => {
           );
 
         upgradeButtons.forEach((button) => {
-          button.textContent = "Обновить";
+          // Сохраняем стили при изменении текста
+          if (button.tagName.toLowerCase() === "brand-button") {
+            button.innerHTML = "Обновить";
+          } else {
+            button.textContent = "Обновить";
+          }
           button.disabled = false;
           button.classList.add("js-upgrade-plan");
           button.classList.remove("js-current-plan");
@@ -246,7 +265,12 @@ const initPlanUpgrade = () => {
 
         // Устанавливаем кнопку бесплатного плана как текущую
         if (freeCardButton) {
-          freeCardButton.textContent = "Текущий план";
+          // Сохраняем стили при изменении текста
+          if (freeCardButton.tagName.toLowerCase() === "brand-button") {
+            freeCardButton.innerHTML = "Текущий план";
+          } else {
+            freeCardButton.textContent = "Текущий план";
+          }
           freeCardButton.disabled = true;
           freeCardButton.classList.remove("js-upgrade-plan");
           freeCardButton.classList.add("js-current-plan");
