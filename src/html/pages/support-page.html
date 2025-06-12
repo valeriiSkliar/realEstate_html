@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Недвижимость - Поддержка</title>
+  </head>
+  <body>
+    <app-header></app-header>
+
+    <!-- Breadcrumb -->
+    <nav
+      class="breadcrumb"
+      aria-label="Breadcrumb navigation"
+      role="navigation"
+    >
+      <ol class="breadcrumb-list">
+        <li class="breadcrumb-item">
+          <a class="breadcrumb-link" href="/">Главная</a>
+        </li>
+        <li class="breadcrumb-item active-page">
+          <span class="breadcrumb-text">Связаться с поддержкой</span>
+        </li>
+      </ol>
+    </nav>
+    <!-- End Breadcrumb -->
+
+    <!-- Main Content Area -->
+    <main class="page-content">
+      <div id="app">
+        <div class="support-page">
+          <div class="container">
+            <h1 class="support-title">Связаться с поддержкой</h1>
+            <p class="support-description">
+              Если у вас есть какие-либо вопросы или проблемы, пожалуйста,
+              заполните форму ниже, и наша служба поддержки свяжется с вами как
+              можно скорее.
+            </p>
+
+            <form id="supportForm" class="support-form forms-section">
+              <div class="form-field floating-label">
+                <input
+                  type="text"
+                  class="form-input"
+                  id="supportName"
+                  placeholder=" "
+                  required
+                />
+                <label for="supportName" class="form-label required"
+                  >Ваше имя</label
+                >
+              </div>
+
+              <div class="form-field floating-label">
+                <input
+                  type="email"
+                  class="form-input"
+                  id="supportEmail"
+                  placeholder=" "
+                  required
+                />
+                <label for="supportEmail" class="form-label required"
+                  >Адрес электронной почты</label
+                >
+              </div>
+
+              <div class="mb-3 form-field">
+                <!-- <label for="supportSubject" class="form-label"
+                  >Выберите тему</label
+                > -->
+                <select class="form-select" id="supportSubject" required>
+                  <option value="" selected disabled>Выберите тему</option>
+                  <option value="general">Общий вопрос</option>
+                  <option value="technical">Техническая проблема</option>
+                  <option value="billing">Оплата/Подписка</option>
+                  <option value="feedback">Обратная связь</option>
+                  <option value="other">Другое</option>
+                </select>
+              </div>
+
+              <div class="mb-3 form-field floating-label">
+                <!-- <label for="supportMessage" class="form-label"
+                  >Ваше сообщение</label
+                > -->
+                <textarea
+                  placeholder="Ваше сообщение..."
+                  class="form-input"
+                  id="supportMessage"
+                  rows="5"
+                  required
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-brand-turquoise text-brand-light-gray w-100 support-submit"
+              >
+                Отправить сообщение
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <app-footer></app-footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <!-- Success Modal -->
+    <div
+      class="modal fade"
+      id="supportSuccessModal"
+      tabindex="-1"
+      aria-labelledby="supportSuccessModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="supportSuccessModalLabel">
+              Сообщение отправлено
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Закрыть"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center mb-3">
+              <i
+                class="bi bi-check-circle-fill text-success"
+                style="font-size: 4rem"
+              ></i>
+            </div>
+            <p class="text-center">
+              Ваше сообщение успешно отправлено. Наша служба поддержки свяжется
+              с вами как можно скорее.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Закрыть
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fail request Modal -->
+
+    <div
+      class="modal fade"
+      id="supportFailRequestModal"
+      tabindex="-1"
+      aria-labelledby="supportFailModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="supportFailModalLabel">
+              Ошибка отправки
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Закрыть"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center mb-3">
+              <i
+                class="bi bi-x-circle-fill text-danger"
+                style="font-size: 4rem"
+              ></i>
+            </div>
+            <p class="text-center">
+              Произошла ошибка при отправке сообщения. Пожалуйста, проверьте
+              подключение к интернету и попробуйте еще раз.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Попробовать снова
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
