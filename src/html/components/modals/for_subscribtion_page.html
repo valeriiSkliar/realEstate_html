@@ -1,0 +1,74 @@
+<!-- Upgrade Plan Confirmation Modal -->
+<div
+  class="modal fade"
+  id="upgradePlanModal"
+  tabindex="-1"
+  aria-labelledby="upgradePlanModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="upgradePlanModalLabel">
+          Подтвердите обновление подписки
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Закрыть"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p class="">
+          Вы собираетесь обновить план до
+          <span id="upgradePlanName" class="text-brand-turquoise"
+            >Специалист</span
+          >
+          за
+          <span id="upgradePlanPrice" class="text-brand-turquoise">990₽</span
+          >/месяц.
+        </p>
+        <p class="">
+          Ваша подписка будет обновлена немедленно, и с вас будет снята
+          пропорциональная сумма за оставшуюся часть текущего расчетного
+          периода.
+        </p>
+
+        <div class="payment-summary">
+          <h6 class="payment-summary-title">Сводка оплаты</h6>
+          <div class="payment-summary-item">
+            <span class="summary-item-label">Подписка:</span>
+            <span class="summary-item-value" id="summaryPlanName">
+              План Специалист
+            </span>
+          </div>
+          <div class="payment-summary-item">
+            <span class="summary-item-label">Сумма:</span>
+            <span class="summary-item-value" id="summaryAmount">
+              990₽/месяц
+            </span>
+          </div>
+          <div class="payment-summary-item">
+            <span class="summary-item-label">Способ оплаты:</span>
+            <span class="summary-item-value" id="summaryPaymentMethod">
+              Банковская карта
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <brand-button
+          variant="outline"
+          color="turquoise"
+          data-bs-dismiss="modal"
+        >
+          Отменить
+        </brand-button>
+        <brand-button variant="solid" color="green" class="js-confirm-upgrade">
+          Подтвердить обновление
+        </brand-button>
+      </div>
+    </div>
+  </div>
+</div>

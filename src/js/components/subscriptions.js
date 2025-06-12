@@ -90,12 +90,12 @@ const initPlanUpgrade = () => {
   // Plan details for modal
   const planDetails = {
     specialist: {
-      name: "Specialist",
-      price: "$19.99",
+      name: "Специалист",
+      price: "990₽",
     },
     expert: {
-      name: "Expert",
-      price: "$39.99",
+      name: "Эксперт",
+      price: "1990₽",
     },
   };
 
@@ -145,30 +145,39 @@ const initPlanUpgrade = () => {
     confirmUpgradeButton.addEventListener("click", () => {
       const planName = document.getElementById("upgradePlanName").textContent;
       console.log(`[Debug] Confirming upgrade to plan: ${planName}`);
-      // In a real application, here you would send the request to the server
+      // TODO: send the request to the server
       // to process the subscription upgrade
+      try {
+        // TODO: send the request to the server
+        // to process the subscription upgrade
+        if (Math.random() < 0.5) {
+          throw new Error("Test error");
+        }
+      } catch (error) {
+        console.error("[Debug] Error upgrading subscription", error);
+        // TODO: show fail request toast
+        createAndShowToast("Произошла ошибка при обновлении подписки", "error");
+      }
 
-      // For demo purposes, we'll just show a success toast
-      createAndShowToast(
-        "Your subscription has been successfully upgraded!",
-        "success"
-      );
+      createAndShowToast("Подписка успешно обновлена!", "success");
 
-      // Hide modal using Bootstrap's API
+      // Hide modal - используем кнопку закрытия вместо bootstrap API
       const modal = document.getElementById("upgradePlanModal");
-      const bootstrapModal = bootstrap.Modal.getInstance(modal);
-      if (bootstrapModal) {
-        bootstrapModal.hide();
+      const closeButton = modal.querySelector('[data-bs-dismiss="modal"]');
+      if (closeButton) {
+        closeButton.click();
       }
 
       // Update current plan info (for demo)
-      document.querySelector(".current-plan-name").textContent = planName;
-      const nextBillingDate = getNextBillingDate();
-      console.log(`[Debug] Setting next billing date to: ${nextBillingDate}`);
-      document.querySelector(".detail-value").textContent = nextBillingDate;
-      document.querySelectorAll(".detail-value")[1].textContent =
-        document.getElementById("summaryPaymentMethod").textContent;
-      document.querySelector(".js-cancel-subscription").disabled = false;
+      const currentPlanNameEl = document.querySelector(".current-plan-name");
+      if (currentPlanNameEl) {
+        currentPlanNameEl.textContent = planName;
+      }
+
+      const cancelButton = document.querySelector(".js-cancel-subscription");
+      if (cancelButton) {
+        cancelButton.disabled = false;
+      }
 
       // Enable the current plan button on the newly selected plan
       // and disable the upgrade button
@@ -176,20 +185,15 @@ const initPlanUpgrade = () => {
       upgradeButtons.forEach((button) => {
         const buttonPlan = button.getAttribute("data-plan");
 
-        if (buttonPlan.toLowerCase() === planName.toLowerCase()) {
-          // Find the parent card
-          const card = button.closest(".subscription-card");
-
+        if (buttonPlan && buttonPlan.toLowerCase() === planName.toLowerCase()) {
           // Change button to "Current Plan"
-          button.textContent = "Current Plan";
+          button.textContent = "Текущий план";
           button.disabled = true;
-          button.classList.remove("btn-primary");
-          button.classList.add("btn-outline-primary");
           button.classList.add("js-current-plan");
           button.classList.remove("js-upgrade-plan");
         } else {
           // Reset other buttons
-          button.textContent = "Upgrade";
+          button.textContent = "Обновить";
           button.disabled = false;
         }
       });
@@ -205,44 +209,48 @@ const initPlanUpgrade = () => {
       console.log("[Debug] Cancel subscription button clicked.");
       if (
         confirm(
+          // send a request to the server
           "Are you sure you want to cancel your subscription? This action cannot be undone."
         )
       ) {
-        console.log("[Debug] Subscription cancellation confirmed.");
-        // In a real application, you would send a request to the server
-        // For demo purposes, we'll just show a success toast
-        createAndShowToast("Your subscription has been canceled.", "success");
+        try {
+          // send a request to the server
+          console.log("[Debug] Subscription cancellation confirmed.");
+          // For demo purposes, we'll just show a success toast
+          createAndShowToast("Your subscription has been canceled.", "success");
+        } catch (error) {
+          console.error("[Debug] Error canceling subscription", error);
+          // TODO: show fail request toast
+          createAndShowToast("Произошла ошибка при отмене подписки", "error");
+        }
 
         // Reset current plan to Free
-        document.querySelector(".current-plan-name").textContent = "Free";
-        document.querySelector(".detail-value").textContent = "-";
-        document.querySelectorAll(".detail-value")[1].textContent = "-";
+        document.querySelector(".current-plan-name").textContent = "Бесплатный";
+
         cancelSubscriptionButton.disabled = true;
 
-        // Reset buttons
-        document
-          .querySelectorAll(".subscription-card__button")
-          .forEach((button) => {
-            const isFreeButton =
-              button
-                .closest(".subscription-card")
-                .querySelector(".subscription-card__title").textContent ===
-              "Free";
+        // Reset buttons - исправляем селекторы для brand-button
+        const upgradeButtons = document.querySelectorAll(".js-upgrade-plan");
+        const freeCardButton =
+          document.querySelector('[data-plan="free"]') ||
+          document.querySelector(
+            ".subscription-card:first-child .brand-button"
+          );
 
-            if (isFreeButton) {
-              button.textContent = "Current Plan";
-              button.disabled = true;
-              button.classList.remove("btn-primary");
-              button.classList.add("btn-outline-primary");
-            } else {
-              button.textContent = "Upgrade";
-              button.disabled = false;
-              button.classList.add("btn-primary");
-              button.classList.remove("btn-outline-primary");
-              button.classList.add("js-upgrade-plan");
-              button.classList.remove("js-current-plan");
-            }
-          });
+        upgradeButtons.forEach((button) => {
+          button.textContent = "Обновить";
+          button.disabled = false;
+          button.classList.add("js-upgrade-plan");
+          button.classList.remove("js-current-plan");
+        });
+
+        // Устанавливаем кнопку бесплатного плана как текущую
+        if (freeCardButton) {
+          freeCardButton.textContent = "Текущий план";
+          freeCardButton.disabled = true;
+          freeCardButton.classList.remove("js-upgrade-plan");
+          freeCardButton.classList.add("js-current-plan");
+        }
       }
     });
   }
