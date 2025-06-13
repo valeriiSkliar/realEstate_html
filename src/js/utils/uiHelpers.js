@@ -100,3 +100,22 @@ export function createAndShowToast(message, type = "info", delay = 5000) {
   // Показываем toast
   toastInstance.show();
 }
+
+export function clearAllToasts() {
+  const toastContainer = document.querySelector(".toast-container");
+  if (toastContainer) {
+    toastContainer.style.transition = "opacity 0.3s ease-in-out, transform 0.3s ease-in-out";
+    toastContainer.style.opacity = "1";
+    toastContainer.style.transform = "translateY(0)";
+    toastContainer.style.opacity = "0";
+    toastContainer.style.transform = "translateY(20px)";
+  }
+
+  setTimeout(() => {
+    if (toastContainer) {
+      toastContainer.innerHTML = "";
+      toastContainer.style.opacity = "1";
+      toastContainer.style.transform = "translateY(0)";
+    }
+  }, 300);
+}

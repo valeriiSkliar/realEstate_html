@@ -1,13 +1,13 @@
 import {
-  deleteCollection,
-  favoriteCollectionId,
-  getCollections,
-} from "../../components/collections/api/collections-manager.js";
-import {
   createAndShowToast,
   hideModal,
   showModal,
 } from "../../utils/uiHelpers";
+import {
+  deleteCollection,
+  favoriteCollectionId,
+  getCollections,
+} from "./components/api/collections-manager.js";
 
 /**
  * Initialize collections page functionality

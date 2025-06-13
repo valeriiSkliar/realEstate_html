@@ -2,7 +2,7 @@ import {
   ensureFavoriteCollection,
   getCollectionById,
   updateCollection
-} from "../../components/collections/api/collections-manager.js";
+} from "./components/api/collections-manager.js";
 
 import { createForm, validators } from "../../forms/index.js";
 

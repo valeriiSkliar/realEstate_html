@@ -10,18 +10,6 @@
     margin: 0 auto;
     padding: 0 15px;
   }
-
-  .collections-title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: $dark-navy;
-  }
-
-  .collections-description {
-    color: $dark-navy-80;
-    margin-bottom: 1.5rem;
-  }
 }
 
 // Empty state
@@ -62,19 +50,6 @@
       color: $turquoise-50;
     }
   }
-
-  .empty-state-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: $dark-navy;
-  }
-
-  .empty-state-description {
-    color: $dark-navy-80;
-    margin-bottom: 20px;
-    max-width: 400px;
-  }
 }
 
 // Controls panel
@@ -89,46 +64,16 @@
     align-items: stretch;
     gap: 10px;
   }
-
-  .search-box {
-    position: relative;
-    max-width: 300px;
-    margin-left: auto;
-
-    @media (max-width: 768px) {
-      max-width: 100%;
-      margin-left: 0;
-    }
-
-    .form-control {
-      padding-right: 40px;
-      border-radius: 20px;
-      border: 1px solid $light-gray-80;
-
-      &:focus {
-        box-shadow: 0 0 0 0.2rem rgba($turquoise, 0.25);
-        border-color: $turquoise;
-      }
-    }
-
-    .search-icon {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: $dark-navy-50;
-      pointer-events: none;
-    }
-  }
-  .btn-brand-turquoise {
-    background-color: $turquoise;
-    color: $light-gray;
-  }
 }
 
 // Collections list
 .collections-list {
-  margin-top: 30px;
+  background-color: #f5f6f4;
+  border: 1px solid rgba(245, 246, 244, 0.8);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 -10px;
+  min-height: 50vh;
 }
 
 .collection-item.default-collection {
@@ -210,17 +155,6 @@
       border: none;
     }
 
-    .btn-outline-brand-lime {
-      border: var(--bs-btn-border-width) solid #d1f000;
-      &:hover {
-        background-color: #d1f000 !important;
-      }
-    }
-
-    .favorite-badge {
-      color: $lime-green;
-    }
-
     .btn-outline-brand-bright-pink {
       border: var(--bs-btn-border-width) solid #ff3fc0;
     }
@@ -230,8 +164,7 @@
     }
 
     .btn-outline-brand-turquoise,
-    .btn-outline-brand-bright-pink,
-    .btn-outline-brand-lime {
+    .btn-outline-brand-bright-pink {
       &:hover {
         color: #fff;
       }
@@ -241,38 +174,6 @@
       flex-direction: column;
       gap: 5px;
     }
-  }
-}
-
-// Collection Button (similar to Favorite Button but with collection icon)
-.collection-btn {
-  position: absolute;
-  top: 50px; // Position below favorite button
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-
-  &:hover {
-    transform: scale(1.1);
-    background-color: $turquoise;
-
-    i {
-      color: white;
-    }
-  }
-
-  i {
-    font-size: 16px;
-    color: $dark-navy-80;
   }
 }
 
@@ -307,26 +208,9 @@
     }
   }
 
-  .no-collections-message {
-    text-align: center;
-    padding: 20px;
-    color: $dark-navy-50;
-
-    i {
-      font-size: 2rem;
-      margin-bottom: 10px;
-      display: block;
-    }
-  }
-
   .modal-footer {
     justify-content: space-between;
   }
-}
-
-// Collections page specific styles
-.collections-page {
-  // Add page specific styles here
 }
 
 .btn-brand-turquoise {
@@ -345,4 +229,14 @@
     background-color: $bright-pink-80;
     color: $light-gray;
   }
+}
+
+
+.collection-name {
+  display: block;
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #252736;
+  line-height: 1.4;
 }
