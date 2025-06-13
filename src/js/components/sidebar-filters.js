@@ -48,18 +48,6 @@ const initSidebarFilters = () => {
       $("#complex-select").val(null).trigger("change");
       $("#rooms-number-select").val(null).trigger("change");
       console.log("Filters cleared");
-
-      const urlParams = new URL(window.location).searchParams;
-      const sk = urlParams.get("sort_key");
-      const sd = urlParams.get("sort_direction");
-      const params = {};
-      if (sk) params.sort_key = sk;
-      if (sd) params.sort_direction = sd;
-
-      updateUrlParams(
-          params,
-          { force: true }
-      );
     });
   }
 
