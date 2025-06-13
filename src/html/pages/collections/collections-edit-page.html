@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real Estate - My Collections</title>
+  </head>
+  <body>
+    <app-header></app-header>
+    <app-mobile-menu></app-mobile-menu>
+
+    <!-- Overlay for mobile menu -->
+    <div class="overlay js-overlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="page-content">
+      <div id="app">
+        <div class="collections-edit-page">
+          <!-- Breadcrumb -->
+          <nav
+            class="breadcrumb"
+            aria-label="Breadcrumb navigation"
+            role="navigation"
+          >
+            <ol class="breadcrumb-list">
+              <li class="breadcrumb-item">
+                <a class="breadcrumb-link" href="/">Главная</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a class="breadcrumb-link" href="/collections.html">
+                  Подборки
+                </a>
+              </li>
+              <li class="breadcrumb-item active-page">
+                <span class="breadcrumb-text">Редактировать Подборку</span>
+              </li>
+            </ol>
+          </nav>
+          <!-- End Breadcrumb -->
+          <div class="container mt-3">
+            <div
+              class="page-header mb-4 d-flex flex-column gap-2 align-items-start"
+            >
+              <h1 class="page-title text-start w-100">
+                Редактировать Подборку
+              </h1>
+              <a
+                href="/collections.html"
+                class="d-block flex-shrink-0 brand-button brand-button--solid brand-button--turquoise"
+              >
+                <i class="bi bi-arrow-left"></i> Назад к Подборкам
+              </a>
+            </div>
+          </div>
+
+          <!-- Collection Information Form -->
+          <div class="step-content active mt-3">
+            <form id="collectionId">
+              <section class="forms-section">
+                <div class="form-field floating-label">
+                  <input
+                    type="text"
+                    class="form-input form-input-sm"
+                    id="name"
+                    name="name"
+                    placeholder=" "
+                    required
+                  />
+                  <label for="name" class="form-label required"
+                    >Название Подборки</label
+                  >
+                </div>
+                <div class="form-field">
+                  <label for="notes" class="form-label">
+                    Примечания
+                  </label>
+                  <textarea
+                    class="form-input form-input-sm"
+                    id="notes"
+                    name="notes"
+                    rows="3"
+                  ></textarea>
+                </div>
+              </section>
+              <div class="form-actions d-flex justify-content-center mt-4">
+                <button
+                  type="submit"
+                  id="saveCollectionChanges"
+                  class="brand-button brand-button--solid"
+                >
+                  Сохранить Изменения
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <app-footer></app-footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+  </body>
+</html>
