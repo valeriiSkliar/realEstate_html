@@ -44,12 +44,27 @@ const initSidebarFilters = () => {
     resetFormButton.addEventListener("click", function (e) {
       e.preventDefault();
       sidebarFilterForm.reset();
-      $("#district-select").val(null).trigger("change");
-      $("#complex-select").val(null).trigger("change");
-      $("#rooms-number-select").val(null).trigger("change");
 
-      document.querySelector('[name="price_min"]').value = '';
-      document.querySelector('[name="price_max"]').value = '';
+      sidebarFilterForm
+          .querySelectorAll('input:not([type=checkbox]):not([type=radio]), textarea')
+          .forEach(el => el.value = '');
+
+      sidebarFilterForm
+          .querySelectorAll('input[type=checkbox], input[type=radio]')
+          .forEach(el => el.checked = false);
+
+      sidebarFilterForm
+          .querySelectorAll('select')
+          .forEach(el => $(el).val(null).trigger('change'));
+
+      const sellRadio = sidebarFilterForm.querySelector('input[name="deal_type"][value="sale"]');
+      if (sellRadio) sellRadio.checked = true;
+
+      const propSelect = sidebarFilterForm.querySelector('select[name="property_type"]');
+      if (propSelect) {
+        $(propSelect).val('apartment').trigger('change');
+      }
+
       console.log("Filters cleared");
     });
   }
