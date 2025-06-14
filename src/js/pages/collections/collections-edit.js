@@ -1,15 +1,12 @@
 import {
   ensureFavoriteCollection,
   getCollectionById,
-  updateCollection
+  updateCollection,
 } from "../../components/collections/api/collections-manager.js";
 
 import { createForm, validators } from "../../forms/index.js";
 
-import {
-  createAndShowToast
-} from "../../utils/uiHelpers";
-
+import { createAndShowToast } from "../../utils/uiHelpers";
 
 const collectionsEditSchema = {
   name: [
@@ -23,20 +20,16 @@ const collectionsEditHandler = {
   async onSubmit(data, formData) {
     console.log("📝 Отправка формы...", data);
     console.log("📝 Отправка формы...", formData);
-    // const form = document.getElementById("collectionId");
-    // form.name.disabled = true;
-    // form.notes.disabled = true;
-    // form.saveCollectionChanges.disabled = true;
-    
-      // Get collection ID
-      const collectionId = document.getElementById("collectionId").value;
 
-      if (!collectionId) {
-        createAndShowToast("Не удалось обновить подборку", "error");
-        return;
-      }
+    // Get collection ID
+    const collectionId = document.getElementById("collectionId").value;
+
+    if (!collectionId) {
+      createAndShowToast("Не удалось обновить подборку", "error");
+      return;
+    }
+
     return new Promise((resolve, reject) => {
-        
       setTimeout(() => {
         // Update collection
         try {
@@ -48,9 +41,9 @@ const collectionsEditHandler = {
           });
         }
       }, 1000);
-      
     });
   },
+
   onSuccess(collection) {
     console.log("🎉 Успех!", collection);
     createAndShowToast("Коллекция успешно обновлена!", "success");
@@ -117,7 +110,6 @@ export const initCollectionsEditPage = () => {
   // Load collection data
   loadCollectionData(collectionId);
 
-
   /**
    * Load collection data
    * @param {string} collectionId - ID of the collection to load
@@ -132,8 +124,7 @@ export const initCollectionsEditPage = () => {
       return;
     }
 
-     form[0].value = collection.name;
+    form[0].value = collection.name;
     form[1].value = collection.notes;
-    
   }
 };
