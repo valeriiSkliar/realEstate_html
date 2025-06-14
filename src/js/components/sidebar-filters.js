@@ -29,8 +29,10 @@ const initSidebarFilters = () => {
       const urlParams = new URL(window.location).searchParams;
       const sk = urlParams.get("sort_key");
       const sd = urlParams.get("sort_direction");
+      const sch = urlParams.get("search");
       if (sk) params.sort_key = sk;
       if (sd) params.sort_direction = sd;
+      if (sch) params.search = sch;
 
       // Скрываем sidebar
       const offcanvasInstance = Offcanvas.getInstance(offcanvasEl);

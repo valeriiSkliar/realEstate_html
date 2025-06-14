@@ -1,24 +1,16 @@
 import { Dropdown } from "bootstrap";
+import URLSearchBuilder from "../utils/URLSearchBuilder";
 
 export function updateUrlParams(params, { force = false } = {}) {
-  const url = new URL(window.location.href);
-
   if (force) {
+    const url = new URL(window.location.href);
     url.search = "";
+    window.location.href = url.toString();
   }
+  const urlBuilder = new URLSearchBuilder();
+  const newUrl = urlBuilder.buildURL(params);
 
-  Object.entries(params).forEach(([key, value]) => {
-    if (value === null || value === undefined || value === "") {
-      url.searchParams.delete(key);
-    } else if (Array.isArray(value)) {
-      url.searchParams.delete(key);
-      value.forEach(v => url.searchParams.append(key, v));
-    } else {
-      url.searchParams.set(key, value);
-    }
-  });
-
-  window.location.href = url.toString();
+  window.location.href = newUrl.toString();
 }
 
 const initSearchSortButton = () => {
