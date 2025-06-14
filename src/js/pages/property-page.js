@@ -8,58 +8,113 @@ document.addEventListener("DOMContentLoaded", function () {
   // Инициализируем модальное окно жалобы
   initReportModal();
 
-  // Gallery images data
-  const galleryImages = [
-    {
-      src: "images/property_view_example/1.jpg",
-      thumb: "images/property_view_example/1.jpg",
-      alt: "Изображение 1",
-    },
-    {
-      src: "images/property_view_example/2.jpg",
-      thumb: "images/property_view_example/2.jpg",
-      alt: "Изображение 2",
-    },
-    {
-      src: "images/property_view_example/3.jpg",
-      thumb: "images/property_view_example/3.jpg",
-      alt: "Изображение 3",
-    },
-    {
-      src: "images/property_view_example/4.jpg",
-      thumb: "images/property_view_example/4.jpg",
-      alt: "Изображение 4",
-    },
-    {
-      src: "images/property_view_example/5.jpg",
-      thumb: "images/property_view_example/5.jpg",
-      alt: "Изображение 5",
-    },
-    {
-      src: "images/property_view_example/6.jpg",
-      thumb: "images/property_view_example/6.jpg",
-      alt: "Изображение 5",
-    },
-    {
-      src: "images/property_view_example/7.jpg",
-      thumb: "images/property_view_example/7.jpg",
-      alt: "Изображение 5",
-    },
-  ];
+  // Функция сбора изображений из DOM
+  function collectImagesFromDOM() {
+    const images = [];
+
+    // Собираем изображения из thumbnails
+    const thumbnailItems = document.querySelectorAll(
+      ".thumbnail-item img, .gallery-thumbnails img"
+    );
+    thumbnailItems.forEach((img, index) => {
+      images.push({
+        src: img.dataset.fullSrc || img.dataset.largeSrc || img.src, // Поддерживаем разные атрибуты
+        thumb: img.src,
+        alt: img.alt || `Изображение ${index + 1}`,
+      });
+    });
+
+    // Если нет thumbnails, собираем из галереи изображений
+    if (images.length === 0) {
+      const galleryImages = document.querySelectorAll(
+        ".property-gallery img, .image-gallery img"
+      );
+      galleryImages.forEach((img, index) => {
+        images.push({
+          src: img.dataset.fullSrc || img.dataset.largeSrc || img.src,
+          thumb: img.src,
+          alt: img.alt || `Изображение ${index + 1}`,
+        });
+      });
+    }
+
+    // Если все еще нет изображений, пробуем собрать из основного изображения
+    if (images.length === 0) {
+      const mainImage = document.getElementById("main-gallery-image");
+      if (mainImage) {
+        images.push({
+          src:
+            mainImage.dataset.fullSrc ||
+            mainImage.dataset.largeSrc ||
+            mainImage.src,
+          thumb: mainImage.src,
+          alt: mainImage.alt || "Основное изображение",
+        });
+      }
+    }
+
+    return images;
+  }
+
+  // Собираем изображения с сервера
+  const galleryImages = collectImagesFromDOM();
 
   let currentImageIndex = 0;
   const mainImage = document.getElementById("main-gallery-image");
-  const thumbnails = document.querySelectorAll(".thumbnail-item");
+  let thumbnails = document.querySelectorAll(".thumbnail-item");
   const prevBtn = document.getElementById("gallery-prev");
   const nextBtn = document.getElementById("gallery-next");
 
-  // Проверяем наличие основных элементов галереи
-  if (!mainImage || thumbnails.length === 0) {
-    console.log("Gallery elements not found, skipping gallery initialization");
+  // Инициализируем thumbnails из собранных данных, если их нет
+  function initializeThumbnails() {
+    const thumbnailContainer = document.querySelector(".thumbnail-gallery");
+    if (
+      thumbnailContainer &&
+      thumbnails.length === 0 &&
+      galleryImages.length > 1
+    ) {
+      galleryImages.forEach((image, index) => {
+        const thumbnailItem = document.createElement("div");
+        thumbnailItem.className = "thumbnail-item";
+        if (index === 0) thumbnailItem.classList.add("active");
+
+        const thumbnailImg = document.createElement("img");
+        thumbnailImg.src = image.thumb;
+        thumbnailImg.alt = image.alt;
+        thumbnailImg.loading = "lazy";
+
+        thumbnailItem.appendChild(thumbnailImg);
+        thumbnailContainer.appendChild(thumbnailItem);
+      });
+
+      // Обновляем коллекцию thumbnails
+      thumbnails = document.querySelectorAll(".thumbnail-item");
+    }
+  }
+
+  // Инициализируем thumbnails если нужно
+  initializeThumbnails();
+
+  // Проверяем наличие изображений и основных элементов галереи
+  if (galleryImages.length === 0 || !mainImage) {
+    console.log(
+      "No gallery images found or main image element missing, skipping gallery initialization"
+    );
     // Если нет изображений, инициализируем только функциональность описания
     initDescriptionToggle();
     return;
   }
+
+  // Устанавливаем первое изображение как основное
+  function initializeMainImage() {
+    if (galleryImages.length > 0) {
+      mainImage.src = galleryImages[0].src;
+      mainImage.alt = galleryImages[0].alt;
+    }
+  }
+
+  // Инициализируем основное изображение
+  initializeMainImage();
 
   // Modal elements
   const imageModal = document.getElementById("imageModal");
@@ -88,8 +143,9 @@ document.addEventListener("DOMContentLoaded", function () {
     mainImage.src = galleryImages[index].src;
     mainImage.alt = galleryImages[index].alt;
 
-    // Update active thumbnail
-    thumbnails.forEach((thumb, i) => {
+    // Update active thumbnail - обновляем для динамических элементов
+    const currentThumbnails = document.querySelectorAll(".thumbnail-item");
+    currentThumbnails.forEach((thumb, i) => {
       thumb.classList.toggle("active", i === index);
     });
   }
@@ -183,12 +239,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Thumbnail click handlers
-  thumbnails.forEach((thumbnail, index) => {
-    thumbnail.addEventListener("click", () => {
-      updateMainImage(index);
+  // Thumbnail click handlers - используем делегирование событий для динамических элементов
+  const thumbnailContainer = document.querySelector(".thumbnail-gallery");
+  if (thumbnailContainer) {
+    thumbnailContainer.addEventListener("click", (e) => {
+      const thumbnailItem = e.target.closest(".thumbnail-item");
+      if (thumbnailItem) {
+        const thumbnailItems = Array.from(
+          thumbnailContainer.querySelectorAll(".thumbnail-item")
+        );
+        const index = thumbnailItems.indexOf(thumbnailItem);
+        if (index !== -1) {
+          updateMainImage(index);
+        }
+      }
     });
-  });
+  }
 
   // Navigation buttons
   prevBtn.addEventListener("click", () => {
