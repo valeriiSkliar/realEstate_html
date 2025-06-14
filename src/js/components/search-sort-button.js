@@ -2,15 +2,12 @@ import { Dropdown } from "bootstrap";
 import URLSearchBuilder from "../utils/URLSearchBuilder";
 
 export function updateUrlParams(params, { force = false } = {}) {
-  if (force) {
-    const url = new URL(window.location.href);
-    url.search = "";
-    window.location.href = url.toString();
-  }
   const urlBuilder = new URLSearchBuilder();
-  const newUrl = urlBuilder.buildURL(params);
-
-  window.location.href = newUrl.toString();
+  if (force) {
+    window.location.href = urlBuilder.reset();
+    return;
+  }
+  window.location.href = urlBuilder.buildURL(params);
 }
 
 const initSearchSortButton = () => {

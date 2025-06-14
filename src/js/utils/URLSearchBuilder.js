@@ -93,9 +93,11 @@ export default class URLSearchBuilder {
 
   /**
    * Reset to original URL
+   * @returns {string} - Original URL string
    */
   reset() {
     this.url = new URL(window.location.href);
+    return this.url.toString();
   }
 
   /**
