@@ -13,7 +13,7 @@ const initSidebarFilters = () => {
     sidebarFilterForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const formData = new FormData(this);
+      const formData = new FormData(e.target);
       const params = {};
       formData.forEach((value, key) => {
           if (params[key]) {
