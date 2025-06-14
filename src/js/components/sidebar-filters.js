@@ -47,6 +47,9 @@ const initSidebarFilters = () => {
       $("#district-select").val(null).trigger("change");
       $("#complex-select").val(null).trigger("change");
       $("#rooms-number-select").val(null).trigger("change");
+
+      document.querySelector('[name="price_min"]').value = '';
+      document.querySelector('[name="price_max"]').value = '';
       console.log("Filters cleared");
     });
   }
