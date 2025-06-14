@@ -1,18 +1,14 @@
 import {
   ensureFavoriteCollection,
   getCollectionById,
-  updateCollection
+  updateCollection,
 } from "../../components/collections/api/collections-manager.js";
 
 import { createForm, validators } from "../../forms/index.js";
 
-import {
-  createAndShowToast
-} from "../../utils/uiHelpers";
-
+import { createAndShowToast } from "../../utils/uiHelpers";
 
 const collectionsEditSchema = {
-  name: [
   name: [
     validators.required("Введите название подборки"),
     validators.minLength(3, "Название должно содержать минимум 3 символа"),
@@ -24,20 +20,16 @@ const collectionsEditHandler = {
   async onSubmit(data, formData) {
     console.log("📝 Отправка формы...", data);
     console.log("📝 Отправка формы...", formData);
-    // const form = document.getElementById("collectionId");
-    // form.name.disabled = true;
-    // form.notes.disabled = true;
-    // form.saveCollectionChanges.disabled = true;
-    
-      // Get collection ID
-      const collectionId = document.getElementById("collectionId").value;
 
-      if (!collectionId) {
-        createAndShowToast("Не удалось обновить подборку", "error");
-        return;
-      }
+    // Get collection ID
+    const collectionId = document.getElementById("collectionId").value;
+
+    if (!collectionId) {
+      createAndShowToast("Не удалось обновить подборку", "error");
+      return;
+    }
+
     return new Promise((resolve, reject) => {
-        
       setTimeout(() => {
         // Update collection
         try {
@@ -49,47 +41,12 @@ const collectionsEditHandler = {
           });
         }
       }, 1000);
-      
     });
   },
-  onSuccess(collection) {
-    console.log("🎉 Успех!", collection);
-    console.log("📝 Отправка формы...", formData);
-    // const form = document.getElementById("collectionId");
-    // form.name.disabled = true;
-    // form.notes.disabled = true;
-    // form.saveCollectionChanges.disabled = true;
-    
-      // Get collection ID
-      const collectionId = document.getElementById("collectionId").value;
 
-      if (!collectionId) {
-        createAndShowToast("Не удалось обновить подборку", "error");
-        return;
-      }
-    return new Promise((resolve, reject) => {
-        
-      setTimeout(() => {
-        // Update collection
-        try {
-          const collection = updateCollection(collectionId, data);
-          resolve(collection);
-        } catch (error) {
-          reject({
-            name: "Не удалось обновить подборку",
-          });
-        }
-      }, 1000);
-      
-    });
-  },
   onSuccess(collection) {
     console.log("🎉 Успех!", collection);
     createAndShowToast("Коллекция успешно обновлена!", "success");
-
-    setTimeout(() => {
-      window.location.href = "/collection.html?id=" + collection.id;
-    }, 500);
 
     setTimeout(() => {
       window.location.href = "/collection.html?id=" + collection.id;
@@ -98,14 +55,6 @@ const collectionsEditHandler = {
 
   onError(errors) {
     console.log("⚠️ Ошибки валидации:", errors);
-    const firstErrorField = Object.keys(errors)[0];
-    if (firstErrorField) {
-      const field = document.querySelector(`[name="${firstErrorField}"]`);
-      if (field) {
-        field.focus();
-        field.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    }
     const firstErrorField = Object.keys(errors)[0];
     if (firstErrorField) {
       const field = document.querySelector(`[name="${firstErrorField}"]`);
@@ -161,7 +110,6 @@ export const initCollectionsEditPage = () => {
   // Load collection data
   loadCollectionData(collectionId);
 
-
   /**
    * Load collection data
    * @param {string} collectionId - ID of the collection to load
@@ -176,8 +124,7 @@ export const initCollectionsEditPage = () => {
       return;
     }
 
-     form[0].value = collection.name;
+    form[0].value = collection.name;
     form[1].value = collection.notes;
-    
   }
 };
