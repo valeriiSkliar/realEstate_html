@@ -45,21 +45,52 @@ export class PropertySummaryCard extends HTMLElement {
       ".property-summary-card__favorite-icon"
     );
     if (favoriteIcon) {
-      // Удаляем старые обработчики перед добавлением новых
       favoriteIcon.removeEventListener("click", this.boundToggleFavorite);
       favoriteIcon.removeEventListener("keydown", this.boundKeydownHandler);
 
-      // Создаем bound функции для возможности их удаления
-      this.boundToggleFavorite = this.toggleFavorite.bind(this);
+      this.boundToggleFavorite = (event) => {
+        if (event) event.stopPropagation(); 
+        this.toggleFavorite(event);
+      };
       this.boundKeydownHandler = (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
+          event.stopPropagation(); 
           this.toggleFavorite(event);
         }
       };
 
       favoriteIcon.addEventListener("click", this.boundToggleFavorite);
       favoriteIcon.addEventListener("keydown", this.boundKeydownHandler);
+    }
+
+    const card = this.querySelector('.property-summary-card');
+    if (card) {
+      card.style.cursor = 'pointer';
+      card.removeEventListener('click', this.boundCardClick);
+      this.boundCardClick = (event) => {
+        if (
+          event.target.closest('.property-summary-card__favorite-icon') ||
+          event.target.closest('.property-summary-card__phone-link')
+        ) {
+          return;
+        }
+        if (event.target.closest('a')) {
+          return;
+        }
+        const href = this.getAttribute('title-href');
+        if (href) {
+          window.location.href = href;
+        }
+      };
+      card.addEventListener('click', this.boundCardClick);
+    }
+
+    const phoneLink = this.querySelector('.property-summary-card__phone-link');
+    if (phoneLink) {
+      phoneLink.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
     }
   }
 
