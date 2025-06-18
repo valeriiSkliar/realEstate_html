@@ -13,7 +13,7 @@ const initSidebarFilters = () => {
     sidebarFilterForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const formData = new FormData(this);
+      const formData = new FormData(e.target);
       const params = {};
       formData.forEach((value, key) => {
           if (params[key]) {
@@ -29,8 +29,10 @@ const initSidebarFilters = () => {
       const urlParams = new URL(window.location).searchParams;
       const sk = urlParams.get("sort_key");
       const sd = urlParams.get("sort_direction");
+      const sch = urlParams.get("search");
       if (sk) params.sort_key = sk;
       if (sd) params.sort_direction = sd;
+      if (sch) params.search = sch;
 
       // Скрываем sidebar
       const offcanvasInstance = Offcanvas.getInstance(offcanvasEl);
@@ -44,22 +46,28 @@ const initSidebarFilters = () => {
     resetFormButton.addEventListener("click", function (e) {
       e.preventDefault();
       sidebarFilterForm.reset();
-      $("#district-select").val(null).trigger("change");
-      $("#complex-select").val(null).trigger("change");
-      $("#rooms-number-select").val(null).trigger("change");
+
+      sidebarFilterForm
+          .querySelectorAll('input:not([type=checkbox]):not([type=radio]), textarea')
+          .forEach(el => el.value = '');
+
+      sidebarFilterForm
+          .querySelectorAll('input[type=checkbox], input[type=radio]')
+          .forEach(el => el.checked = false);
+
+      sidebarFilterForm
+          .querySelectorAll('select')
+          .forEach(el => $(el).val(null).trigger('change'));
+
+      const sellRadio = sidebarFilterForm.querySelector('input[name="deal_type"][value="sale"]');
+      if (sellRadio) sellRadio.checked = true;
+
+      const propSelect = sidebarFilterForm.querySelector('select[name="property_type"]');
+      if (propSelect) {
+        $(propSelect).val('apartment').trigger('change');
+      }
+
       console.log("Filters cleared");
-
-      const urlParams = new URL(window.location).searchParams;
-      const sk = urlParams.get("sort_key");
-      const sd = urlParams.get("sort_direction");
-      const params = {};
-      if (sk) params.sort_key = sk;
-      if (sd) params.sort_direction = sd;
-
-      updateUrlParams(
-          params,
-          { force: true }
-      );
     });
   }
 
