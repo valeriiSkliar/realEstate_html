@@ -376,26 +376,6 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 
-  // Favorite button toggle
-  const favoriteButton = document.querySelector(
-    ".property-detail-header__favorite-btn"
-  );
-  if (favoriteButton) {
-    favoriteButton.addEventListener("click", function () {
-      const icon = this.querySelector("i");
-      icon.classList.toggle("bi-heart");
-      icon.classList.toggle("bi-heart-fill");
-      // Дополнительно можно менять title
-      if (icon.classList.contains("bi-heart-fill")) {
-        this.title = "Удалить из избранного";
-        this.setAttribute("aria-label", "Удалить из избранного");
-      } else {
-        this.title = "Добавить в избранное";
-        this.setAttribute("aria-label", "Добавить в избранное");
-      }
-    });
-  }
-
   // Description read more functionality
   function initDescriptionToggle() {
     const descriptionContainer = document.getElementById(
@@ -559,4 +539,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Инициализируем функциональность описания
   initDescriptionToggle();
+
+  // Favorite button toggle
+  const favoriteButton = document.querySelector(
+    ".property-detail-header__favorite-btn"
+  );
+  if (favoriteButton) {
+    favoriteButton.addEventListener("click", function () {
+      const icon = this.querySelector("i");
+      icon.classList.toggle("bi-heart");
+      icon.classList.toggle("bi-heart-fill");
+      // Дополнительно можно менять title
+      if (icon.classList.contains("bi-heart-fill")) {
+        this.title = "Удалить из избранного";
+        this.setAttribute("aria-label", "Удалить из избранного");
+      } else {
+        this.title = "Добавить в избранное";
+        this.setAttribute("aria-label", "Добавить в избранное");
+      }
+    });
+  }
 });
