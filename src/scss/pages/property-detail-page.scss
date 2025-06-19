@@ -326,7 +326,8 @@
       font-family: vars.$font-family-sans-serif;
       font-style: normal;
       color: color.adjust(brand.$brand-background, $lightness: -50%);
-      margin-bottom: 15px;
+      white-space: pre-line;
+      word-wrap: break-word;
 
       @media (max-width: 768px) {
         font-size: 14px;
@@ -335,10 +336,21 @@
 
       p {
         margin: 0 0 10px 0;
+        line-height: 0.8;
 
         &:last-child {
           margin-bottom: 0;
         }
+      }
+
+      // Контейнер для полного текста
+      .description-full-text {
+        display: none;
+      }
+
+      // Контейнер для превью
+      .description-preview {
+        display: block;
       }
 
       &--collapsed {
