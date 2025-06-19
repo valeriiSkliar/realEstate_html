@@ -401,9 +401,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const descriptionContainer = document.getElementById(
       "property-description"
     );
-
-    if (!descriptionContainer) return;
-
     const fullTextContainer = descriptionContainer.querySelector(
       ".description-full-text"
     );
@@ -412,65 +409,125 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     const toggleContainer = document.getElementById("description-toggle");
     const toggleBtn = document.getElementById("description-toggle-btn");
+    const toggleText = toggleBtn.querySelector(".toggle-text");
 
     if (!fullTextContainer || !previewContainer || !toggleBtn) return;
 
-    const toggleText = toggleBtn.querySelector(".toggle-text");
-
-    if (!toggleText) return;
-
-    // Получаем полный текст
+    // Получаем полный текст без HTML тегов
     const fullText = fullTextContainer.textContent.trim();
     const maxLength = 250; // Максимальная длина для превью
     let isExpanded = false;
 
-    // Если текст короткий, скрываем кнопку
+    // Убираем изначальную видимость полного текста
+    fullTextContainer.style.display = "none";
+
+    // Если текст короткий, скрываем кнопку и показываем весь текст
     if (fullText.length <= maxLength) {
       previewContainer.innerHTML = fullTextContainer.innerHTML;
-      toggleContainer.classList.add(
-        "property-characteristics__description-more--hidden"
-      );
+      previewContainer.style.display = "block";
+      toggleContainer.style.display = "none";
       return;
     }
 
-    // Создаем обрезанный текст для превью
+    // Создаем обрезанный текст для превью с сохранением форматирования
     function createPreviewText() {
-      const truncatedText = fullText.substring(0, maxLength);
-      const lastSpaceIndex = truncatedText.lastIndexOf(" ");
-      const previewText = truncatedText.substring(0, lastSpaceIndex) + "...";
-
-      // Сохраняем HTML структуру
+      // Создаем временный контейнер для работы с HTML
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = fullTextContainer.innerHTML;
-      const textContent = tempDiv.textContent || tempDiv.innerText;
 
-      if (textContent.length > maxLength) {
-        // Находим позицию обрезки в HTML
-        let charCount = 0;
-        let truncatedHTML = "";
-        const walker = document.createTreeWalker(
-          tempDiv,
-          NodeFilter.SHOW_TEXT,
-          null,
-          false
-        );
-
-        let node;
-        while ((node = walker.nextNode())) {
-          const nodeText = node.textContent;
-          if (charCount + nodeText.length > lastSpaceIndex) {
-            const remainingChars = lastSpaceIndex - charCount;
-            if (remainingChars > 0) {
-              node.textContent = nodeText.substring(0, remainingChars) + "...";
-            } else {
-              node.textContent = "";
+      // Функция для получения только текстового содержимого и подсчета символов
+      function getTextLength(element) {
+        let textLength = 0;
+        function traverse(node) {
+          if (node.nodeType === Node.TEXT_NODE) {
+            textLength += node.textContent.length;
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            // Для <br> добавляем символ переноса строки при подсчете
+            if (node.tagName === "BR") {
+              textLength += 1;
             }
-            break;
+            for (let child of node.childNodes) {
+              traverse(child);
+            }
           }
-          charCount += nodeText.length;
+        }
+        traverse(element);
+        return textLength;
+      }
+
+      // Функция для обрезки HTML до определенного количества символов
+      function truncateHTML(element, maxChars) {
+        let charCount = 0;
+        let lastGoodNode = null;
+        let lastGoodOffset = 0;
+
+        function traverse(node) {
+          if (charCount >= maxChars) return false;
+
+          if (node.nodeType === Node.TEXT_NODE) {
+            const nodeLength = node.textContent.length;
+            if (charCount + nodeLength <= maxChars) {
+              charCount += nodeLength;
+              lastGoodNode = node;
+              lastGoodOffset = nodeLength;
+              return true;
+            } else {
+              // Находим последний пробел перед лимитом
+              const remainingChars = maxChars - charCount;
+              const partialText = node.textContent.substring(0, remainingChars);
+              const lastSpaceIndex = partialText.lastIndexOf(" ");
+
+              if (lastSpaceIndex > 0) {
+                node.textContent = partialText.substring(0, lastSpaceIndex);
+                charCount += lastSpaceIndex;
+                lastGoodNode = node;
+                lastGoodOffset = lastSpaceIndex;
+              }
+              return false;
+            }
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            if (node.tagName === "BR") {
+              if (charCount + 1 <= maxChars) {
+                charCount += 1;
+                return true;
+              } else {
+                return false;
+              }
+            }
+
+            for (let i = 0; i < node.childNodes.length; i++) {
+              if (!traverse(node.childNodes[i])) {
+                // Удаляем все следующие узлы
+                while (node.childNodes.length > i + 1) {
+                  node.removeChild(node.lastChild);
+                }
+                break;
+              }
+            }
+            return charCount < maxChars;
+          }
+          return true;
         }
 
-        previewContainer.innerHTML = tempDiv.innerHTML;
+        traverse(element);
+
+        // Добавляем многоточие к последнему текстовому узлу
+        if (
+          lastGoodNode &&
+          lastGoodNode.nodeType === Node.TEXT_NODE &&
+          charCount >= maxChars - 3
+        ) {
+          lastGoodNode.textContent = lastGoodNode.textContent.trimEnd() + "...";
+        }
+
+        return element;
+      }
+
+      // Проверяем, нужно ли обрезать
+      const fullTextLength = getTextLength(tempDiv);
+      if (fullTextLength > maxLength) {
+        const truncated = truncateHTML(tempDiv, maxLength - 3); // -3 для многоточия
+        previewContainer.innerHTML = truncated.innerHTML;
       } else {
         previewContainer.innerHTML = fullTextContainer.innerHTML;
       }
@@ -478,6 +535,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Инициализация
     createPreviewText();
+    previewContainer.style.display = "block";
 
     // Обработчик клика по кнопке
     toggleBtn.addEventListener("click", function () {

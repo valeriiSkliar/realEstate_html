@@ -327,6 +327,8 @@
       font-style: normal;
       color: color.adjust(brand.$brand-background, $lightness: -50%);
       margin-bottom: 15px;
+      white-space: pre-line; // Сохраняем переносы строк
+      word-wrap: break-word; // Переносим длинные слова
 
       @media (max-width: 768px) {
         font-size: 14px;
@@ -335,10 +337,21 @@
 
       p {
         margin: 0 0 10px 0;
+        line-height: 0.8;
 
         &:last-child {
           margin-bottom: 0;
         }
+      }
+
+      // Контейнер для полного текста
+      .description-full-text {
+        display: none; // По умолчанию скрыт
+      }
+
+      // Контейнер для превью
+      .description-preview {
+        display: block; // По умолчанию показан
       }
 
       &--collapsed {

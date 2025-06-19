@@ -230,23 +230,43 @@
               >
                 <div class="description-full-text" style="display: none">
                   <p>
-                    Продается прекрасная студия в современном жилом комплексе
-                    "Фонтаны" в микрорайоне Черемушки. Квартира расположена на
-                    10 этаже нового дома с современной планировкой и
-                    качественной отделкой. Общая площадь составляет 65,6
-                    квадратных метров, что идеально подходит для комфортного
-                    проживания одного человека или молодой пары. Квартира
-                    полностью готова к проживанию - выполнен качественный ремонт
-                    с использованием современных материалов. Установлены
-                    пластиковые окна, натяжные потолки, ламинат и керамическая
-                    плитка. Кухня оборудована встроенной техникой и мебелью.
-                    Санузел совмещенный с современной сантехникой и душевой
-                    кабиной. Жилой комплекс располагает развитой
-                    инфраструктурой: детская площадка, парковка, консьерж,
-                    видеонаблюдение. В шаговой доступности находятся магазины,
-                    школы, детские сады, медицинские учреждения и остановки
-                    общественного транспорта. Отличное транспортное сообщение с
-                    центром города.
+                    Район Молодежный<br />
+                    ● 2-я Целиноградская 38/1<br />
+                    ▸1 к.кв. 6/6 Кирпич<br />
+                    Площадь: 37м<br />
+                    *Цена: 3 200 000₽*<br />
+                    Ремонт в процессе<br />
+                    Обрем: нет. Разб: 1700<br />
+                    💰Ваши сверху можно любые<br />
+                    Связь: 89385151639 Валерий<br />
+                    (Код: анеф)<br />
+                    Фото тут: disk.yandex.ru/d/c_kwDqdSy251yw<br />
+                    ---<br />
+                    Район Молодежный<br />
+                    ● 2-я Целиноградская 38/1<br />
+                    ▸1 к.кв. 6/6 Кирпич<br />
+                    Площадь: 43/18/11м<br />
+                    *Цена: 2 900 000₽*<br />
+                    Предчистовая отделка<br />
+                    Планировка на две стороны<br />
+                    Обрем: нет. Разб: 1000<br />
+                    💰Ваши сверху можно до 50<br />
+                    Связь: 89385151639 Валерий<br />
+                    (Код: ексе)<br />
+                    Фото тут: disk.yandex.ru/d/_y0pCcac1Vk3jg<br />
+                    ---<br />
+                    Район Молодежный<br />
+                    ● 2-я Целиноградская 38/3<br />
+                    ▸ 1 к. кв, 4/6 Кирпич<br />
+                    Площадь: 44<br />
+                    *Цена: 3 950 000 ₽*<br />
+                    Ремонт новый<br />
+                    Обрем: нет. Разб: нет<br />
+                    💰Ваши сверху можно до 150<br />
+                    Связь: 89385151639 Валерий<br />
+                    (Код: сеху)<br />
+                    Фото нет<br />
+                    ---
                   </p>
                 </div>
                 <div class="description-preview"></div>
@@ -269,7 +289,11 @@
           <div
             class="property-detail-page__buttons container-fluid px-0 mt-3 d-flex flex-column justify-content-center align-items-center gap-3"
           >
-            <button class="brand-button brand-button--solid" id="add-to-collections-button" data-property-id="1">
+            <button
+              class="brand-button brand-button--solid"
+              id="add-to-collections-button"
+              data-property-id="1"
+            >
               Добавить в подборку
             </button>
             <button
@@ -625,108 +649,6 @@
             }
           });
         }
-
-        // Description read more functionality
-        function initDescriptionToggle() {
-          const descriptionContainer = document.getElementById(
-            "property-description"
-          );
-          const fullTextContainer = descriptionContainer.querySelector(
-            ".description-full-text"
-          );
-          const previewContainer = descriptionContainer.querySelector(
-            ".description-preview"
-          );
-          const toggleContainer = document.getElementById("description-toggle");
-          const toggleBtn = document.getElementById("description-toggle-btn");
-          const toggleText = toggleBtn.querySelector(".toggle-text");
-
-          if (!fullTextContainer || !previewContainer || !toggleBtn) return;
-
-          // Получаем полный текст
-          const fullText = fullTextContainer.textContent.trim();
-          const maxLength = 250; // Максимальная длина для превью
-          let isExpanded = false;
-
-          // Если текст короткий, скрываем кнопку
-          if (fullText.length <= maxLength) {
-            previewContainer.innerHTML = fullTextContainer.innerHTML;
-            toggleContainer.classList.add(
-              "property-characteristics__description-more--hidden"
-            );
-            return;
-          }
-
-          // Создаем обрезанный текст для превью
-          function createPreviewText() {
-            const truncatedText = fullText.substring(0, maxLength);
-            const lastSpaceIndex = truncatedText.lastIndexOf(" ");
-            const previewText =
-              truncatedText.substring(0, lastSpaceIndex) + "...";
-
-            // Сохраняем HTML структуру
-            const tempDiv = document.createElement("div");
-            tempDiv.innerHTML = fullTextContainer.innerHTML;
-            const textContent = tempDiv.textContent || tempDiv.innerText;
-
-            if (textContent.length > maxLength) {
-              // Находим позицию обрезки в HTML
-              let charCount = 0;
-              let truncatedHTML = "";
-              const walker = document.createTreeWalker(
-                tempDiv,
-                NodeFilter.SHOW_TEXT,
-                null,
-                false
-              );
-
-              let node;
-              while ((node = walker.nextNode())) {
-                const nodeText = node.textContent;
-                if (charCount + nodeText.length > lastSpaceIndex) {
-                  const remainingChars = lastSpaceIndex - charCount;
-                  if (remainingChars > 0) {
-                    node.textContent =
-                      nodeText.substring(0, remainingChars) + "...";
-                  } else {
-                    node.textContent = "";
-                  }
-                  break;
-                }
-                charCount += nodeText.length;
-              }
-
-              previewContainer.innerHTML = tempDiv.innerHTML;
-            } else {
-              previewContainer.innerHTML = fullTextContainer.innerHTML;
-            }
-          }
-
-          // Инициализация
-          createPreviewText();
-
-          // Обработчик клика по кнопке
-          toggleBtn.addEventListener("click", function () {
-            isExpanded = !isExpanded;
-
-            if (isExpanded) {
-              // Показываем полный текст
-              previewContainer.style.display = "none";
-              fullTextContainer.style.display = "block";
-              toggleText.textContent = "Скрыть";
-              toggleBtn.classList.add("expanded");
-            } else {
-              // Показываем превью
-              fullTextContainer.style.display = "none";
-              previewContainer.style.display = "block";
-              toggleText.textContent = "Читать далее";
-              toggleBtn.classList.remove("expanded");
-            }
-          });
-        }
-
-        // Инициализируем функциональность описания
-        initDescriptionToggle();
       });
     </script>
   </body>
