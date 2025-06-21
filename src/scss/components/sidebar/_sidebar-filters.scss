@@ -187,11 +187,11 @@
 
 /* Select2 custom styles with Brand Colors */
 .select2-container--bootstrap-5 .select2-selection {
-  border-color: var(--sidebar-input-border);
-  background-color: #fff;
-  color: var(--brand-dark-navy);
-  min-height: calc(1.5em + 1rem + 2px); /* Match Bootstrap input height */
-  padding: 0.5rem 0.75rem;
+  // border-color: var(--sidebar-input-border);
+  // background-color: #fff;
+  // color: var(--brand-dark-navy);
+  min-height: 39px !important; // Important to override the default
+  padding: 6px 12px !important;
 }
 .select2-container--bootstrap-5.select2-container--focus .select2-selection,
 .select2-container--bootstrap-5.select2-container--open .select2-selection {
