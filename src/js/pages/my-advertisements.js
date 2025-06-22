@@ -28,7 +28,7 @@ function initMyAdvertisementsHandlers() {
  * Обработчик основных действий с объявлениями
  */
 function handleListingAction(event) {
-  const { action, id, archiveHref, deleteHref } = event.detail;
+  const { action, id, archiveHref, deleteHref, restoreHref } = event.detail;
   console.log(`Listing action: ${action} for ID: ${id}`);
 
   switch (action) {
@@ -42,7 +42,7 @@ function handleListingAction(event) {
       handleArchiveListing(id, archiveHref);
       break;
     case "restore":
-      handleRestoreListing(id);
+      handleRestoreListing(id, restoreHref);
       break;
     case "activate":
       handleActivateListing(id);
@@ -104,12 +104,15 @@ function handleArchiveListing(id, archiveHref) {
 /**
  * Восстановление объявления из архива
  */
-function handleRestoreListing(id) {
+function handleRestoreListing(id, restoreHref) {
   if (
     confirm("Вы уверены, что хотите восстановить это объявление из архива?")
   ) {
     // Здесь можно добавить логику восстановления или перенаправление
+    window.location.href = restoreHref;
     console.log(`Restore listing ${id}`);
+  } else {
+    console.warn("Restore href not provided for listing:", id);
   }
 }
 

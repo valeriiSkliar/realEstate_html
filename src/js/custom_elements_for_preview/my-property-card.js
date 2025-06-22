@@ -1,6 +1,7 @@
 export class MyPropertyCard extends HTMLElement {
   constructor() {
     super(); // No Shadow DOM attachment
+    this.boundCardClick = null; // Добавляем для управления обработчиком клика
   }
 
   static get observedAttributes() {
@@ -28,6 +29,43 @@ export class MyPropertyCard extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.setupEventListeners(); // Добавляем настройку обработчиков событий
+  }
+
+  // Добавляем метод для настройки обработчиков событий
+  setupEventListeners() {
+    const card = this.querySelector(".property-summary-card");
+    if (card) {
+      card.style.cursor = "pointer";
+      card.removeEventListener("click", this.boundCardClick);
+      this.boundCardClick = (event) => {
+        // Исключаем клики по кнопкам действий
+        if (event.target.closest(".property-summary-card__action-btn")) {
+          return;
+        }
+        // Исключаем клики по ссылкам на телефон
+        if (event.target.closest(".property-summary-card__phone-link")) {
+          return;
+        }
+        // Исключаем клики по другим ссылкам
+        if (event.target.closest("a")) {
+          return;
+        }
+        const href = this.getAttribute("title-href");
+        if (href) {
+          window.location.href = href;
+        }
+      };
+      card.addEventListener("click", this.boundCardClick);
+    }
+
+    // Добавляем обработчик для ссылки на телефон, чтобы предотвратить всплытие
+    const phoneLink = this.querySelector(".property-summary-card__phone-link");
+    if (phoneLink) {
+      phoneLink.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+    }
   }
 
   render() {
@@ -233,6 +271,9 @@ export class MyPropertyCard extends HTMLElement {
     if (showActions) {
       this.setupActionListeners();
     }
+
+    // Переустанавливаем обработчики событий после рендеринга
+    this.setupEventListeners();
   }
 
   setupActionListeners() {
@@ -246,6 +287,7 @@ export class MyPropertyCard extends HTMLElement {
       // But if you were to incrementally update the DOM, this would be important.
       button.addEventListener("click", (event) => {
         event.preventDefault(); // Предотвращаем стандартное поведение
+        event.stopPropagation(); // Предотвращаем всплытие события к карточке
         const action = event.currentTarget.dataset.action;
         this.handleAction(action);
       });
