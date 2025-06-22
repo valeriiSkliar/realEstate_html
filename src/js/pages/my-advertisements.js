@@ -140,18 +140,10 @@ function initSortButtons() {
       // Добавляем активный класс к нажатой кнопке
       button.classList.add("active");
 
-      // Определяем тип сортировки по иконке
-      const icon = button.querySelector("span");
-      let sortType = "date"; // по умолчанию
-
-      if (icon && icon.dataset.sortType) {
-        sortType = icon.dataset.sortType;
+      const href = button.dataset.href;
+      if (href) {
+        window.location.href = href;
       }
-
-      console.log(`Sorting by: ${sortType}`);
-
-      // Здесь можно добавить логику сортировки карточек
-      // sortListings(sortType);
     });
   });
 }
