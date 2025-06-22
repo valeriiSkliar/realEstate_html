@@ -14,6 +14,9 @@ export class MyPropertyCard extends HTMLElement {
       "actions-position",
       "show-actions",
       "phone-number", // Added phone-number here as it's used in render
+      "archive-href", // Добавляем ссылку для архивирования
+      "delete-href", // Добавляем ссылку для удаления
+      "restore-href", // Добавляем ссылку для восстановления
     ];
   }
 
@@ -36,7 +39,9 @@ export class MyPropertyCard extends HTMLElement {
     const status = this.getAttribute("status") || "Активно";
     const actionsPosition = this.getAttribute("actions-position") || "right";
     const showActions = this.getAttribute("show-actions") !== "false"; // More robust boolean check
-
+    const archiveHref = this.getAttribute("archive-href") || "";
+    const deleteHref = this.getAttribute("delete-href") || "";
+    const restoreHref = this.getAttribute("restore-href") || "";
     let details = [];
     try {
       details = JSON.parse(detailsJson);
@@ -240,6 +245,7 @@ export class MyPropertyCard extends HTMLElement {
       // However, since we are re-writing innerHTML, old nodes are discarded.
       // But if you were to incrementally update the DOM, this would be important.
       button.addEventListener("click", (event) => {
+        event.preventDefault(); // Предотвращаем стандартное поведение
         const action = event.currentTarget.dataset.action;
         this.handleAction(action);
       });
@@ -248,15 +254,21 @@ export class MyPropertyCard extends HTMLElement {
 
   handleAction(action) {
     const id = this.getAttribute("listing-id") || "unknown";
-
+    const archiveHref = this.getAttribute("archive-href") || "";
+    const deleteHref = this.getAttribute("delete-href") || "";
+    const restoreHref = this.getAttribute("restore-href") || "";
+    // Генерируем событие с дополнительными данными
     this.dispatchEvent(
       new CustomEvent("listingAction", {
         detail: {
           action,
           id,
+          archiveHref,
+          deleteHref,
+          restoreHref,
         },
-        bubbles: true, // Allows the event to bubble up the DOM tree
-        composed: true, // Allows the event to cross Shadow DOM boundaries (though not strictly needed here anymore)
+        bubbles: true,
+        composed: true,
       })
     );
   }
