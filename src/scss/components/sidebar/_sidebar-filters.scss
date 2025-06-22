@@ -52,16 +52,24 @@
 }
 
 .btn-clear-filters {
+  padding: 0.5rem 1rem;
   margin-right: 20px;
   border: 0;
-  padding: 0;
-  background: transparent;
+  // padding: 0;
+  // background: transparent;
   color: var(--brand-dark-navy);
   font-weight: 500;
   font-size: 0.9rem;
-}
-.btn-clear-filters:hover {
-  color: var(--brand-dark-navy-80);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    color: var(--brand-dark-navy-80);
+    transform: scale(1.05);
+  }
 }
 
 .offcanvas-body {
