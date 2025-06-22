@@ -104,6 +104,9 @@
                     ]'
                   status="Активно"
                   show-actions="true"
+                  archive-href="/api/listings/456/archive"
+                  delete-href="/api/listings/456/delete"
+                  restore-href="/api/listings/456/restore"
                 >
                 </my-property-card>
 
@@ -120,6 +123,9 @@
                   ]'
                   status="Черновик"
                   show-actions="true"
+                  archive-href="/api/listings/457/archive"
+                  delete-href="/api/listings/457/delete"
+                  restore-href="/api/listings/457/restore"
                 >
                 </my-property-card>
 
@@ -138,6 +144,9 @@
                   ]'
                   status="Активно"
                   show-actions="true"
+                  archive-href="/api/listings/458/archive"
+                  delete-href="/api/listings/458/delete"
+                  restore-href="/api/listings/458/restore"
                 >
                 </my-property-card>
 
@@ -146,6 +155,9 @@
                   title-text="Студия, 28 м2 | Центр"
                   title-href="/property-details/459"
                   price-text="₽ 6 200 000"
+                  archive-href="/api/listings/459/archive"
+                  delete-href="/api/listings/459/delete"
+                  restore-href="/api/listings/459/restore"
                   details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Компакт»"},
                       {"label":"Улица", "value":"Ленина ул."},
@@ -163,6 +175,9 @@
                   title-text="4-к. квартира, 150 м2 | Бизнес-класс"
                   title-href="/property-details/460"
                   price-text="₽ 32 000 000"
+                  archive-href="/api/listings/460/archive"
+                  delete-href="/api/listings/460/delete"
+                  restore-href="/api/listings/460/restore"
                   details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Панорама»"},
                       {"label":"Улица", "value":"Морская ул."},
@@ -179,6 +194,9 @@
                   title-text="2-к. квартира, 65 м2 | Новостройка"
                   title-href="/property-details/461"
                   price-text="₽ 12 300 000"
+                  archive-href="/api/listings/461/archive"
+                  delete-href="/api/listings/461/delete"
+                  restore-href="/api/listings/461/restore"
                   details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Современник»"},
                       {"label":"Улица", "value":"Строительная ул."},
@@ -195,6 +213,9 @@
                   title-text="Таунхаус, 180 м2 | Загородный"
                   title-href="/property-details/462"
                   price-text="₽ 28 500 000 (Продано)"
+                  archive-href="/api/listings/462/archive"
+                  delete-href="/api/listings/462/delete"
+                  restore-href="/api/listings/462/restore"
                   details-json='[
                       {"label":"Название комплекса", "value":"КП «Зеленый Берег»"},
                       {"label":"Улица", "value":"Дачная ул."},
@@ -213,6 +234,9 @@
                   title-text="1-к. квартира, 38 м2 | Спальный район"
                   title-href="/property-details/463"
                   price-text="₽ 7 800 000"
+                  archive-href="/api/listings/463/archive"
+                  delete-href="/api/listings/463/delete"
+                  restore-href="/api/listings/463/restore"
                   details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Уютный»"},
                       {"label":"Улица", "value":"Рабочая ул."},
@@ -229,6 +253,9 @@
                   title-text="3-к. квартира, 95 м2 | Центр"
                   title-href="/property-details/464"
                   price-text="₽ 22 100 000"
+                  archive-href="/api/listings/464/archive"
+                  delete-href="/api/listings/464/delete"
+                  restore-href="/api/listings/464/restore"
                   details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Центральный»"},
                       {"label":"Улица", "value":"Театральная ул."},
@@ -245,6 +272,9 @@
                   title-text="Студия, 32 м2 | Новостройка"
                   title-href="/property-details/465"
                   price-text="₽ 8 900 000"
+                  archive-href="/api/listings/465/archive"
+                  delete-href="/api/listings/465/delete"
+                  restore-href="/api/listings/465/restore"
                   details-json='[
                       {"label":"Название комплекса", "value":"ЖК «Молодежный»"},
                       {"label":"Улица", "value":"Студенческая ул."},
@@ -271,44 +301,31 @@
     <app-footer></app-footer>
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
-    <app-confirm-modal
-      modal-id="archiveListingModal"
-      title="Архивировать объявление"
-      message="Вы уверены, что хотите архивировать это объявление?"
-      confirm-text="Архивировать"
-      confirm-class="btn-brand-turquoise"
-    >
-      <input type="hidden" id="archiveListingId" />
-    </app-confirm-modal>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-    <app-confirm-modal
-      modal-id="deleteListingModal"
-      title="Удалить объявление"
-      message="Вы уверены, что хотите удалить это объявление? Это действие нельзя отменить."
-      confirm-text="Удалить"
-      confirm-class="btn-brand-bright-pink"
-    >
-      <input type="hidden" id="deleteListingId" />
-    </app-confirm-modal>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <app-confirm-modal
-      modal-id="restoreListingModal"
-      title="Восстановить объявление"
-      message="Вы уверены, что хотите восстановить это объявление из архива?"
-      confirm-text="Восстановить"
-      confirm-class="btn-brand-lime-green"
-    >
-      <input type="hidden" id="restoreListingId" />
-    </app-confirm-modal>
+    <!-- Custom Elements Scripts -->
+    <script type="module">
+      import { AppHeader } from "/src/js/custom_elements_for_preview/app-header.js";
+      import { AppFooter } from "/src/js/custom_elements_for_preview/app-footer.js";
+      import { MyPropertyCard } from "/src/js/custom_elements_for_preview/my-property-card.js";
+      import { PropertyListComponent } from "/src/js/custom_elements_for_preview/property-list-component.js";
+      import { SimplePagination } from "/src/js/custom_elements_for_preview/pagination.js";
 
-    <app-confirm-modal
-      modal-id="activateListingModal"
-      title="Активировать объявление"
-      message="Вы уверены, что хотите активировать этот черновик?"
-      confirm-text="Активировать"
-      confirm-class="btn-brand-lime-green"
-    >
-      <input type="hidden" id="activateListingId" />
-    </app-confirm-modal>
+      customElements.define("app-header", AppHeader);
+      customElements.define("app-footer", AppFooter);
+      customElements.define("my-property-card", MyPropertyCard);
+      customElements.define("property-list-component", PropertyListComponent);
+      customElements.define("simple-pagination", SimplePagination);
+    </script>
+
+    <!-- Page Logic -->
+    <script type="module" src="/src/js/pages/my-advertisements.js"></script>
   </body>
 </html>

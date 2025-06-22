@@ -98,6 +98,52 @@ const initSidebarFilters = () => {
       $(window).trigger("resize.select2");
     });
   }
+
+      // Toggle rooms visibility based on property type
+  const propertyType = document.getElementById("property_type_select");
+  const propertyRooms = document.getElementById("property-rooms");
+  
+  function toggleRoomsVisibility() {
+    propertyRooms.classList.toggle("d-none", !["apartment"].includes(propertyType.value));
+  }
+
+  if (propertyType && propertyRooms) {
+    // Initial visibility check
+    toggleRoomsVisibility();
+    
+    // Listen for changes
+    propertyType.addEventListener("change", toggleRoomsVisibility);
+    
+  }
+
+  // Toggle square units according to property type
+  const areaFilter = document.getElementById("area-filter");
+  const landAreaFilter = document.getElementById("land-area-filter");
+  const landTypes = ["other", "land"];
+  function toggleAreaUnits() {
+    if (landTypes.includes(propertyType.value)) {
+      // hide area filter
+      areaFilter.classList.add("d-none");
+      // Reset area filter
+      areaFilter.querySelector("input[name='area_min']").value = "";
+      areaFilter.querySelector("input[name='area_max']").value = "";
+      // show land area filter
+      landAreaFilter.classList.remove("d-none");
+    } else {
+      // Reset land area filter and hide it
+      landAreaFilter.classList.add("d-none");
+      landAreaFilter.querySelector("input[name='land_area_min']").value = "";
+      landAreaFilter.querySelector("input[name='land_area_max']").value = "";
+
+      // show area filter
+      areaFilter.classList.remove("d-none");
+    }
+  }
+
+  if (propertyType && areaFilter && landAreaFilter) {
+    toggleAreaUnits();
+    propertyType.addEventListener("change", toggleAreaUnits);
+  }
 };
 
 export { initSidebarFilters };

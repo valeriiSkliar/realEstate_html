@@ -1,5 +1,3 @@
-import { createAndShowToast } from "../utils/uiHelpers";
-
 document.addEventListener("DOMContentLoaded", function () {
   // Специфическая логика для страницы моих объявлений
   if (
@@ -30,7 +28,7 @@ function initMyAdvertisementsHandlers() {
  * Обработчик основных действий с объявлениями
  */
 function handleListingAction(event) {
-  const { action, id } = event.detail;
+  const { action, id, archiveHref, deleteHref, restoreHref } = event.detail;
   console.log(`Listing action: ${action} for ID: ${id}`);
 
   switch (action) {
@@ -38,13 +36,13 @@ function handleListingAction(event) {
       handleEditListing(id);
       break;
     case "delete":
-      handleDeleteListing(id);
+      handleDeleteListing(id, deleteHref);
       break;
     case "archive":
-      handleArchiveListing(id);
+      handleArchiveListing(id, archiveHref);
       break;
     case "restore":
-      handleRestoreListing(id);
+      handleRestoreListing(id, restoreHref);
       break;
     case "activate":
       handleActivateListing(id);
@@ -76,98 +74,45 @@ function handleViewListing(id) {
 /**
  * Удаление объявления
  */
-function handleDeleteListing(id) {
-  if (
-    confirm(
-      "Вы уверены, что хотите удалить это объявление? Действие нельзя отменить."
-    )
-  ) {
-    // Показываем загрузку
-    createAndShowToast("Удаление объявления...", "info");
-
-    // Имитация API запроса
-    setTimeout(() => {
-      try {
-        // Здесь будет реальный API запрос
-        // await deleteListingAPI(id);
-
-        // Удаляем карточку из DOM
-        const listingCard = document.querySelector(
-          `my-property-card[listing-id="${id}"]`
-        );
-        if (listingCard) {
-          listingCard.remove();
-          createAndShowToast("Объявление успешно удалено", "success");
-        } else {
-          createAndShowToast("Объявление не найдено", "error");
-        }
-      } catch (error) {
-        console.error("Error deleting listing:", error);
-        createAndShowToast("Ошибка при удалении объявления", "error");
-      }
-    }, 1000);
+function handleDeleteListing(id, deleteHref) {
+  if (deleteHref) {
+    if (
+      confirm(
+        "Вы уверены, что хотите удалить это объявление? Это действие нельзя отменить."
+      )
+    ) {
+      window.location.href = deleteHref;
+    }
+  } else {
+    console.warn("Delete href not provided for listing:", id);
   }
 }
 
 /**
  * Архивирование объявления
  */
-function handleArchiveListing(id) {
-  if (confirm("Вы уверены, что хотите архивировать это объявление?")) {
-    createAndShowToast("Архивирование объявления...", "info");
-
-    setTimeout(() => {
-      try {
-        // Здесь будет реальный API запрос
-        // await archiveListingAPI(id);
-
-        // Обновляем статус карточки
-        const listingCard = document.querySelector(
-          `my-property-card[listing-id="${id}"]`
-        );
-        if (listingCard) {
-          listingCard.setAttribute("status", "archived");
-          createAndShowToast("Объявление перемещено в архив", "success");
-        } else {
-          createAndShowToast("Объявление не найдено", "error");
-        }
-      } catch (error) {
-        console.error("Error archiving listing:", error);
-        createAndShowToast("Ошибка при архивировании объявления", "error");
-      }
-    }, 1000);
+function handleArchiveListing(id, archiveHref) {
+  if (archiveHref) {
+    if (confirm("Вы уверены, что хотите архивировать это объявление?")) {
+      window.location.href = archiveHref;
+    }
+  } else {
+    console.warn("Archive href not provided for listing:", id);
   }
 }
 
 /**
  * Восстановление объявления из архива
  */
-function handleRestoreListing(id) {
+function handleRestoreListing(id, restoreHref) {
   if (
     confirm("Вы уверены, что хотите восстановить это объявление из архива?")
   ) {
-    createAndShowToast("Восстановление объявления...", "info");
-
-    setTimeout(() => {
-      try {
-        // Здесь будет реальный API запрос
-        // await restoreListingAPI(id);
-
-        // Обновляем статус карточки
-        const listingCard = document.querySelector(
-          `my-property-card[listing-id="${id}"]`
-        );
-        if (listingCard) {
-          listingCard.setAttribute("status", "active");
-          createAndShowToast("Объявление восстановлено", "success");
-        } else {
-          createAndShowToast("Объявление не найдено", "error");
-        }
-      } catch (error) {
-        console.error("Error restoring listing:", error);
-        createAndShowToast("Ошибка при восстановлении объявления", "error");
-      }
-    }, 1000);
+    // Здесь можно добавить логику восстановления или перенаправление
+    window.location.href = restoreHref;
+    console.log(`Restore listing ${id}`);
+  } else {
+    console.warn("Restore href not provided for listing:", id);
   }
 }
 
@@ -176,28 +121,8 @@ function handleRestoreListing(id) {
  */
 function handleActivateListing(id) {
   if (confirm("Вы уверены, что хотите активировать этот черновик?")) {
-    createAndShowToast("Активация объявления...", "info");
-
-    setTimeout(() => {
-      try {
-        // Здесь будет реальный API запрос
-        // await activateListingAPI(id);
-
-        // Обновляем статус карточки
-        const listingCard = document.querySelector(
-          `my-property-card[listing-id="${id}"]`
-        );
-        if (listingCard) {
-          listingCard.setAttribute("status", "active");
-          createAndShowToast("Объявление активировано", "success");
-        } else {
-          createAndShowToast("Объявление не найдено", "error");
-        }
-      } catch (error) {
-        console.error("Error activating listing:", error);
-        createAndShowToast("Ошибка при активации объявления", "error");
-      }
-    }, 1000);
+    // Здесь можно добавить логику активации или перенаправление
+    console.log(`Activate listing ${id}`);
   }
 }
 
@@ -224,7 +149,6 @@ function initSortButtons() {
       }
 
       console.log(`Sorting by: ${sortType}`);
-      createAndShowToast(`Сортировка по ${getSortTypeName(sortType)}`, "info");
 
       // Здесь можно добавить логику сортировки карточек
       // sortListings(sortType);
@@ -242,63 +166,4 @@ function getSortTypeName(sortType) {
     status: "статусу",
   };
   return names[sortType] || "дате";
-}
-
-/**
- * Показ уведомлений пользователю
- */
-function showNotification(message, type = "info") {
-  // Создаем контейнер для уведомлений если его нет
-  let toastContainer = document.querySelector(".toast-container");
-  if (!toastContainer) {
-    toastContainer = document.createElement("div");
-    toastContainer.className =
-      "toast-container position-fixed bottom-0 end-0 p-3";
-    document.body.appendChild(toastContainer);
-  }
-
-  // Создаем уведомление
-  const toast = document.createElement("div");
-  toast.className = `toast align-items-center text-bg-${getBootstrapColor(
-    type
-  )} border-0`;
-  toast.setAttribute("role", "alert");
-  toast.setAttribute("aria-live", "assertive");
-  toast.setAttribute("aria-atomic", "true");
-
-  toast.innerHTML = `
-    <div class="d-flex">
-      <div class="toast-body">
-        ${message}
-      </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-  `;
-
-  toastContainer.appendChild(toast);
-
-  // Инициализируем и показываем toast
-  const bsToast = new bootstrap.Toast(toast, {
-    autohide: true,
-    delay: 3000,
-  });
-  bsToast.show();
-
-  // Удаляем toast после скрытия
-  toast.addEventListener("hidden.bs.toast", () => {
-    toast.remove();
-  });
-}
-
-/**
- * Преобразование типа уведомления в Bootstrap цвет
- */
-function getBootstrapColor(type) {
-  const colors = {
-    success: "success",
-    error: "danger",
-    warning: "warning",
-    info: "info",
-  };
-  return colors[type] || "info";
 }
