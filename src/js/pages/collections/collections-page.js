@@ -12,11 +12,11 @@ import {
 /**
  * Initialize collections page functionality
  */
-export const initCollectionsPage = () => {
+export const initCollectionsPage = async () => {
   console.log("Collections page initialized");
 
   // Check if we have collections and show/hide empty state
-  updateCollectionsView();
+  await updateCollectionsView();
 
   // Initialize delete collection functionality
   initDeleteCollection();
@@ -25,8 +25,8 @@ export const initCollectionsPage = () => {
 /**
  * Update the collections view based on current collections
  */
-const updateCollectionsView = () => {
-  const collections = getCollections();
+const updateCollectionsView = async () => {
+  const collections = await getCollections();
   const emptyState = document.querySelector(".js-empty-collections");
   const collectionsControls = document.querySelector(
     ".js-collections-controls",
@@ -110,9 +110,7 @@ const renderCollections = (collections) => {
 
     // Create collection item
     const collectionItem = document.createElement("div");
-    collectionItem.className = `collection-item ${
-      collection.isFavorite ? "is-favorite" : ""
-    }`;
+    collectionItem.className = 'collection-item';
     collectionItem.setAttribute("data-collection-id", collection.id);
 
     // Calculate property count
@@ -185,11 +183,11 @@ const initDeleteButtons = () => {
 /**
  * Initialize delete collection functionality
  */
-const initDeleteCollection = () => {
+const initDeleteCollection = async () => {
   const confirmDeleteButton = document.querySelector(".js-confirm-delete");
 
   if (confirmDeleteButton) {
-    confirmDeleteButton.addEventListener("click", () => {
+    confirmDeleteButton.addEventListener("click", async () => {
       // Get collection ID from hidden input
       const collectionId = document.getElementById("deleteCollectionId").value;
 
@@ -197,14 +195,14 @@ const initDeleteCollection = () => {
         console.log(`Deleting collection ${collectionId}`);
 
         // Delete collection
-        const success = deleteCollection(collectionId);
+        const success = await deleteCollection(collectionId);
 
         if (success) {
           // Show success message
           createAndShowToast("Коллекция успешно удалена", "success");
 
           // Update view
-          updateCollectionsView();
+          await updateCollectionsView();
         } else {
           // Show error message
           createAndShowToast("Не удалось удалить коллекцию", "error");
