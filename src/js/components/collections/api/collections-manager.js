@@ -11,6 +11,35 @@ import { createAndShowToast } from "../../../utils/uiHelpers";
 export const STORAGE_KEY = 'realEstateCollections';
 export const favoriteCollectionId = 'favorite';
 
+const API_PATHS = {
+  getAllCollections: '/api/collections',
+  /**
+   * Generate API path for a specific collection
+   * @param {string} id - Collection ID
+   * @returns {string} API path for the collection
+   */
+  getCollectionById: (id) => `/api/collections/${id}`,
+  /**
+   * Generate API path for addPropertyToCollection
+   * @param {string} id - Collection ID
+   * @returns {string} API path for collection properties
+   */
+  addPropertyToCollection: (id) => `/api/collections/${id}/properties`,
+  /**
+   * Generate API path for a specific property within a collection
+   * @param {string} collectionId - Collection ID
+   * @param {string} propertyId - Property ID
+   * @returns {string} API path for the specific property in collection
+   */
+  removePropertyFromCollection: (collectionId, propertyId) => `/api/collections/${collectionId}/properties/${propertyId}`,
+  /**
+   * Generate API path to get all collections containing a specific property
+   * @param {string} propertyId - Property ID
+   * @returns {string} API path for property's collections
+   */
+  getCollectionsWithProperty: (propertyId) => `/api/properties/${propertyId}/collections`
+};
+
 
 
   async function fetcher(url, options = {}) {
@@ -47,7 +76,7 @@ export const favoriteCollectionId = 'favorite';
  * @returns Array of collection objects
  */
 export const getCollections = async () => {
-  return fetcher('/api/collections');
+  return fetcher(API_PATHS.getAllCollections);
 };
 
 
@@ -57,7 +86,7 @@ export const getCollections = async () => {
  * @returns {Object|null} Collection object or null if not found
  */
 export const getCollectionById = async (id) => {
-  return fetcher(`/api/collections/${id}`);
+  return fetcher(API_PATHS.getCollectionById(id));
 };
 
 /**
@@ -76,7 +105,7 @@ export const createCollection = async (collectionData) => {
     updatedAt: new Date().toISOString()
   };
   
-  return fetcher('/api/collections', {
+  return fetcher(API_PATHS.getAllCollections, {
     method: 'POST',
     body: JSON.stringify(newCollection)
   });
@@ -90,7 +119,7 @@ export const createCollection = async (collectionData) => {
  */
 export const updateCollection = async (id, updateData) => {
 
-  return fetcher(`/api/collections/${id}`, {
+  return fetcher(API_PATHS.getCollectionById(id), {
     method: 'PATCH',
     body: JSON.stringify(updateData)
   });
@@ -102,7 +131,7 @@ export const updateCollection = async (id, updateData) => {
  * @returns {boolean} Success status
  */
 export const deleteCollection = async (id) => {
-  return fetcher(`/api/collections/${id}`, {
+  return fetcher(API_PATHS.getCollectionById(id), {
     method: 'DELETE'
   });
 };
@@ -115,7 +144,7 @@ export const deleteCollection = async (id) => {
  * @returns {boolean} True if the property was added successfully
  */
 export const addPropertyToCollection = async (collectionId = favoriteCollectionId, propertyId) => {
-    return fetcher(`/api/collections/${collectionId}/properties`, {
+    return fetcher(API_PATHS.addPropertyToCollection(collectionId), {
       method: 'POST',
       body: JSON.stringify({ propertyId })
     });
@@ -129,7 +158,7 @@ export const addPropertyToCollection = async (collectionId = favoriteCollectionI
  * @returns {boolean} True if the property was removed successfully
  */
 export const removePropertyFromCollection = async (collectionId=favoriteCollectionId, propertyId) => {
-    return fetcher(`/api/collections/${collectionId}/properties/${propertyId}`, {
+    return fetcher(API_PATHS.removePropertyFromCollection(collectionId, propertyId), {
       method: 'DELETE'
     });
 };
@@ -140,5 +169,5 @@ export const removePropertyFromCollection = async (collectionId=favoriteCollecti
  * @returns {Array} Array of collection objects containing the property
  */
 export const getCollectionsWithProperty = async (propertyId) => {
-    return fetcher(`/api/properties/${propertyId}/collections`);
+    return fetcher(API_PATHS.getCollectionsWithProperty(propertyId));
 };
