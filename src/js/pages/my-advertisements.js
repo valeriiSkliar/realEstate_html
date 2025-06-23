@@ -28,12 +28,13 @@ function initMyAdvertisementsHandlers() {
  * Обработчик основных действий с объявлениями
  */
 function handleListingAction(event) {
-  const { action, id, archiveHref, deleteHref, restoreHref } = event.detail;
+  const { action, id, archiveHref, deleteHref, restoreHref, editHref } =
+    event.detail;
   console.log(`Listing action: ${action} for ID: ${id}`);
 
   switch (action) {
     case "edit":
-      handleEditListing(id);
+      handleEditListing(id, editHref);
       break;
     case "delete":
       handleDeleteListing(id, deleteHref);
@@ -58,9 +59,9 @@ function handleListingAction(event) {
 /**
  * Переход к редактированию объявления
  */
-function handleEditListing(id) {
+function handleEditListing(id, editHref) {
   // Переход на страницу редактирования
-  window.location.href = `/listings-edit.html?id=${id}`;
+  window.location.href = editHref;
 }
 
 /**
