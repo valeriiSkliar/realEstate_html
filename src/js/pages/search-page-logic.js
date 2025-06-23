@@ -1,7 +1,6 @@
 import {
-  ensureFavoriteCollection,
   favoriteCollectionId,
-  removePropertyFromCollection,
+  removePropertyFromCollection
 } from "../components/collections/api/collections-manager";
 import {
   addPropertyToFavorite,
@@ -11,16 +10,14 @@ import { createAndShowToast } from "../utils/uiHelpers";
 
 // Инициализация после загрузки
 document.addEventListener("DOMContentLoaded", function () {
-  // Убеждаемся, что коллекция избранного существует при загрузке страницы
-  ensureFavoriteCollection();
 
   const propertyCards = document.querySelectorAll("property-summary-card");
 
   propertyCards.forEach((card) => {
-    card.addEventListener("favorite-changed", (e) => {
+    card.addEventListener("favorite-changed", async (e) => {
       if (e.detail.isFavorite) {
         // Добавляем свойство в избранное и показываем попап выбора подборок
-        addPropertyToFavorite(
+        await addPropertyToFavorite(
           e.detail.propertyId,
           e.detail.propertyTitle,
           true,
@@ -29,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Удаляем тост если он есть
         removeCollectionToast();
         // Удаляем свойство из избранного
-        removePropertyFromCollection(favoriteCollectionId, e.detail.propertyId);
+        await removePropertyFromCollection(favoriteCollectionId, e.detail.propertyId);
         // Показываем тост
         createAndShowToast(
           `${e.detail.propertyTitle} удалено из избранного`,

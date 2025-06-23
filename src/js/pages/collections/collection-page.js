@@ -1,9 +1,8 @@
 import {
   addPropertyToCollection,
-  ensureFavoriteCollection,
   favoriteCollectionId,
   getCollectionById,
-  removePropertyFromCollection,
+  removePropertyFromCollection
 } from "../../components/collections/api/collections-manager.js";
 
 
@@ -23,8 +22,6 @@ import {
  */
 export const initCollectionPage = () => {
   console.log("Collection page initialized");
-
-  ensureFavoriteCollection();
 
   // Get collection ID from URL query parameter
   const urlParams = new URLSearchParams(window.location.search);

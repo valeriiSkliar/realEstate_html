@@ -1,7 +1,6 @@
 import {
-  ensureFavoriteCollection,
   getCollectionById,
-  updateCollection,
+  updateCollection
 } from "../../components/collections/api/collections-manager.js";
 
 import { createForm, validators } from "../../forms/index.js";
@@ -30,10 +29,13 @@ const collectionsEditHandler = {
     }
 
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
+      setTimeout(async () => {
         // Update collection
         try {
-          const collection = updateCollection(collectionId, data);
+          reject({
+            name: "Не удалось обновить подборку",
+          });
+          const collection = await updateCollection(collectionId, data);
           resolve(collection);
         } catch (error) {
           reject({
@@ -78,8 +80,6 @@ const collectionsEditHandler = {
 export const initCollectionsEditPage = () => {
   console.log("Collections edit page initialized");
 
-  ensureFavoriteCollection();
-
   // Get collection ID from URL query parameter
   const urlParams = new URLSearchParams(window.location.search);
   const collectionId = urlParams.get("id");
@@ -114,8 +114,8 @@ export const initCollectionsEditPage = () => {
    * Load collection data
    * @param {string} collectionId - ID of the collection to load
    */
-  function loadCollectionData(collectionId) {
-    const collection = getCollectionById(collectionId);
+  async function loadCollectionData(collectionId) {
+    const collection = await getCollectionById(collectionId);
 
     if (!collection) {
       // Collection not found, redirect to collections page

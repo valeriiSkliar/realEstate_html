@@ -80,6 +80,7 @@ export class MyPropertyCard extends HTMLElement {
     const archiveHref = this.getAttribute("archive-href") || "";
     const deleteHref = this.getAttribute("delete-href") || "";
     const restoreHref = this.getAttribute("restore-href") || "";
+    const editHref = this.getAttribute("edit-href") || "";
     let details = [];
     try {
       details = JSON.parse(detailsJson);
@@ -299,6 +300,7 @@ export class MyPropertyCard extends HTMLElement {
     const archiveHref = this.getAttribute("archive-href") || "";
     const deleteHref = this.getAttribute("delete-href") || "";
     const restoreHref = this.getAttribute("restore-href") || "";
+    const editHref = this.getAttribute("edit-href") || "";
     // Генерируем событие с дополнительными данными
     this.dispatchEvent(
       new CustomEvent("listingAction", {
@@ -308,6 +310,7 @@ export class MyPropertyCard extends HTMLElement {
           archiveHref,
           deleteHref,
           restoreHref,
+          editHref,
         },
         bubbles: true,
         composed: true,

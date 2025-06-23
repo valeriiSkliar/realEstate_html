@@ -5,11 +5,9 @@
 import {
   addPropertyToCollection,
   createCollection,
+  favoriteCollectionId,
   getCollections,
-  getCollectionsWithProperty,
-  isPropertyInCollection,
-  removePropertyFromCollection, // Added for removing from favorites
-  updateCollection, // Added for managing 'isFavorite' flag
+  getCollectionsWithProperty
 } from "../api/collections-manager";
 
 import { clearAllToasts, createAndShowToast } from "../../../utils/uiHelpers";
@@ -30,20 +28,33 @@ let autoRemoveTimerToast = null;
  * @param {string} propertyId - ID of the property to add to collection
  * @param {string} propertyTitle - Title of the property (for display in toast)
  */
-export const showCollectionSelectorPopup = (propertyId, propertyTitle) => {
+export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => {
   // Remove any existing popup
   removeExistingPopup();
   clearAllToasts();
 
   // Get all collections (excluding favorites for the popup display)
-  const collections = getCollections().filter(
+  let collections = await getCollections();
+  // Get collections that already contain this property
+  let collectionsWithProperty = await getCollectionsWithProperty(propertyId)
+    
+
+    if (!collections || !collectionsWithProperty) {
+      createAndShowToast("Не удалось загрузить коллекции", "error");
+      return;
+    }
+    
+    
+  // Filter out favorite collections
+  collections = collections.filter(
     (collection) => !collection.isFavorite
   );
 
-  // Get collections that already contain this property
-  const collectionsWithProperty = getCollectionsWithProperty(propertyId).filter(
+  // Filter out favorite collections
+  collectionsWithProperty = collectionsWithProperty.filter(
     (collection) => !collection.isFavorite
   );
+
   const collectionsWithPropertyIds = collectionsWithProperty.map((c) => c.id);
 
   // Create popup container
@@ -269,7 +280,7 @@ export const showCollectionSelectorPopup = (propertyId, propertyTitle) => {
  * @param {string} propertyId - ID of the property
  * @param {string} propertyTitle - Title of the property for toast message
  */
-const saveCollectionSelections = (propertyId, propertyTitle) => {
+const saveCollectionSelections = async (propertyId, propertyTitle) => {
   const popup = document.getElementById(POPUP_ID);
   if (!popup) return;
 
@@ -277,18 +288,19 @@ const saveCollectionSelections = (propertyId, propertyTitle) => {
   let addedToAny = false;
   let addedToFavorite = false;
 
-  checkboxes.forEach((checkbox) => {
-    const collectionId = checkbox.id.replace("collection-", "");
-    const collection = getCollections().find((c) => c.id === collectionId);
+  const collectionsWithProperty = await getCollectionsWithProperty(propertyId);
 
+  checkboxes.forEach(async (checkbox) => {
+    const collectionId = checkbox.id.replace("collection-", "");
+    const collection = collectionsWithProperty.find((c) => c.id === collectionId);
     if (!collection) return;
 
-    const wasInCollection = isPropertyInCollection(collectionId, propertyId);
+    const wasInCollection = collection.properties.find((p) => p.id === propertyId);
     const shouldBeInCollection = checkbox.checked;
 
     if (shouldBeInCollection && !wasInCollection) {
       // Add to collection
-      addPropertyToCollection(collectionId, propertyId);
+      await addPropertyToCollection(collectionId, propertyId);
       addedToAny = true;
 
       if (collection.isFavorite) {
@@ -301,6 +313,7 @@ const saveCollectionSelections = (propertyId, propertyTitle) => {
     ) {
       // Remove from collection (but not from favorite)
       // This is handled in a separate function
+      // await removePropertyFromCollection(collectionId, propertyId);
     }
   });
 
@@ -461,87 +474,13 @@ const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
  * @param {boolean} showPopup - Whether to show the collection selector popup
  * @returns {object} - Detailed status of the operation
  */
-export const addPropertyToFavorite = (
+export const addPropertyToFavorite = async (
   propertyId,
   propertyTitle,
   showToast = true
 ) => {
-  let allCollections = getCollections();
-  let favoriteCollection = allCollections.find((c) => c.isFavorite);
-
-  // Ensure 'Избранное' collection exists and is properly flagged
-  if (!favoriteCollection) {
-    favoriteCollection = allCollections.find((c) => c.name === "Избранное");
-    if (favoriteCollection) {
-      if (!favoriteCollection.isFavorite) {
-        const updated = updateCollection(favoriteCollection.id, {
-          isFavorite: true,
-        });
-        if (updated) favoriteCollection.isFavorite = true;
-        else
-          console.warn(
-            `Could not update 'Избранное' (ID: ${favoriteCollection.id}) to set isFavorite=true`
-          );
-      }
-    } else {
-      favoriteCollection = createCollection({
-        name: "Избранное",
-        notes: "Автоматически созданная подборка для избранных объектов",
-      });
-      if (favoriteCollection && favoriteCollection.id) {
-        const updated = updateCollection(favoriteCollection.id, {
-          isFavorite: true,
-        });
-        if (updated) favoriteCollection.isFavorite = true;
-        else
-          console.warn(
-            `Could not update newly created 'Избранное' (ID: ${favoriteCollection.id}) to set isFavorite=true`
-          );
-      } else {
-        console.error("Failed to create 'Избранное' collection.");
-        return {
-          action: "error",
-          success: false,
-          isFavorite: false,
-          message: "Failed to create favorite collection.",
-        };
-      }
-    }
-  }
-
-  if (!favoriteCollection || !favoriteCollection.id) {
-    console.error("'Избранное' collection ID is missing after setup.");
-    return {
-      action: "error",
-      success: false,
-      isFavorite: false,
-      message: "Favorite collection ID missing.",
-    };
-  }
-
-  const isAlreadyFavorite = isPropertyInCollection(
-    favoriteCollection.id,
-    propertyId
-  );
-
-  if (isAlreadyFavorite) {
-    // Property is in 'Избранное', so remove it
-    const removed = removePropertyFromCollection(
-      favoriteCollection.id,
-      propertyId
-    );
-    if (removed) {
-      // createAndShowToast(`Объект "${propertyTitle}" удален из избранного`, "info");
-      return { action: "removed", success: true, isFavorite: false };
-    } else {
-      console.warn(
-        `Failed to remove property ${propertyId} from 'Избранное' (ID: ${favoriteCollection.id})`
-      );
-      return { action: "remove_failed", success: false, isFavorite: true }; // Still favorite as removal failed
-    }
-  } else {
     // Property is not in 'Избранное', so add it
-    const added = addPropertyToCollection(favoriteCollection.id, propertyId);
+    const added = await addPropertyToCollection(favoriteCollectionId, propertyId);
     if (added) {
       if (showToast) {
         showInteractiveAddToCollectionToast(propertyId, propertyTitle);
@@ -549,9 +488,8 @@ export const addPropertyToFavorite = (
       return { action: "added", success: true, isFavorite: true };
     } else {
       console.warn(
-        `Failed to add property ${propertyId} to 'Избранное' (ID: ${favoriteCollection.id})`
+        `Failed to add property ${propertyId} to 'Избранное' (ID: ${favoriteCollectionId})`
       );
       return { action: "add_failed", success: false, isFavorite: false };
     }
-  }
 };
