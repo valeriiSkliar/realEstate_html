@@ -219,18 +219,36 @@ export class MyPropertyCard extends HTMLElement {
                   ? `
                   <div class="property-summary-card__actions">
                       ${actions
-                        .map(
-                          (action) => `
+                        .map((action) => {
+                          let actionHref = "";
+                          switch (action) {
+                            case "edit":
+                              actionHref = editHref;
+                              break;
+                            case "archive":
+                              actionHref = archiveHref;
+                              break;
+                            case "delete":
+                              actionHref = deleteHref;
+                              break;
+                            case "restore":
+                              actionHref = restoreHref;
+                              break;
+                            default:
+                              actionHref = "";
+                          }
+                          return `
                           <button 
                               class="property-summary-card__action-btn property-summary-card__action-btn--${action}"
                               data-action="${action}"
+                              data-${action}-href="${actionHref}"
                               aria-label="${getActionLabel(action)}"
                               title="${getActionLabel(action)}"
                           >
                               ${getActionIcon(action)}
                           </button>
-                      `
-                        )
+                      `;
+                        })
                         .join("")}
                   </div>
               `
@@ -248,18 +266,36 @@ export class MyPropertyCard extends HTMLElement {
                   ? `
                   <div class="property-summary-card__actions">
                       ${actions
-                        .map(
-                          (action) => `
+                        .map((action) => {
+                          let actionHref = "";
+                          switch (action) {
+                            case "edit":
+                              actionHref = editHref;
+                              break;
+                            case "archive":
+                              actionHref = archiveHref;
+                              break;
+                            case "delete":
+                              actionHref = deleteHref;
+                              break;
+                            case "restore":
+                              actionHref = restoreHref;
+                              break;
+                            default:
+                              actionHref = "";
+                          }
+                          return `
                           <button 
                               class="property-summary-card__action-btn property-summary-card__action-btn--${action}"
+                              data-${action}-href="${actionHref}"
                               data-action="${action}"
                               aria-label="${getActionLabel(action)}"
                               title="${getActionLabel(action)}"
                           >
                               ${getActionIcon(action)}
                           </button>
-                      `
-                        )
+                      `;
+                        })
                         .join("")}
                   </div>
               `
