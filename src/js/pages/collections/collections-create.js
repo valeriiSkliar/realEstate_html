@@ -18,48 +18,14 @@ const collectionsCreateSchema = {
  */
 const collectionsCreateHandler = {
   async onSubmit(data, formData) {
-    try {
-      console.log("📝 Отправка формы...", data);
-
-
-      // Имитируем отправку на сервер
-      return new Promise((resolve) => {
-
       // Create collection
-      const collectionId = createCollection(data);
+      await createCollection(data);
 
-      if (collectionId) {
-        // Set view collection link
-        const viewCollectionLink = document.querySelector(
-          ".js-view-collection"
-        );
-        if (viewCollectionLink) {
-          viewCollectionLink.href = `/collections-edit.html?id=${collectionId}`;
-        }
-
-      } else {
-        // Show error message
-        createAndShowToast("Failed to create collection", "error");
-      }
-
-        setTimeout(() => {
-          console.log("✅ Форма успешно отправлена");
-          resolve({ success: true, listingId: 123 });
-        }, 1000);
-      });
-    } catch (error) {
-      console.error("❌ Ошибка отправки:", error);
-      throw error;
-    }
   },
 
   onSuccess(result) {
     console.log("🎉 Успех!", result);
     createAndShowToast("Объявление успешно создано!", "success");
-
-    setTimeout(() => {
-      window.location.href = "/collections.html";
-    }, 500);
   },
 
   onError(errors) {
@@ -102,64 +68,6 @@ function initSaveCollection() {
       validateOnChange: false,
       scrollToError: true,
     });
-
-    // saveButton.addEventListener("click", async (e) => {
-    //   formManager.handleSubmit(e);
-    //   const isValid = formManager.isValid();
-    //   if (!isValid) return;
-
-    //   // Get selected properties
-    //   const selectedProperties = [];
-    //   document
-    //     .querySelectorAll(".property-checkbox:checked")
-    //     .forEach((checkbox) => {
-    //       selectedProperties.push(checkbox.getAttribute("data-property-id"));
-    //     });
-
-    //   // Add pending property if exists
-    //   const clientInfoForm = document.getElementById("clientInfoForm");
-    //   const pendingPropertyId = clientInfoForm?.getAttribute(
-    //     "data-pending-property-id"
-    //   );
-
-    //   if (
-    //     pendingPropertyId &&
-    //     !selectedProperties.includes(pendingPropertyId)
-    //   ) {
-    //     selectedProperties.push(pendingPropertyId);
-    //   }
-
-    //   // Get form data
-    //   const collectionName = document.getElementById("collectionName")?.value.trim() || "";
-      
-    //   // Get other collection data
-    //   const collectionNotes =
-    //     document.getElementById("collectionNotes")?.value.trim() || "";
-
-
-    //   // Create collection object
-    //   const collectionData = {
-    //     name: collectionName,
-    //     description: collectionNotes,
-    //   };
-
-    //   // Create collection
-    //   const collectionId = createCollection(collectionData);
-
-    //   if (collectionId) {
-    //     // Set view collection link
-    //     const viewCollectionLink = document.querySelector(
-    //       ".js-view-collection"
-    //     );
-    //     if (viewCollectionLink) {
-    //       viewCollectionLink.href = `/collections-edit.html?id=${collectionId}`;
-    //     }
-
-    //   } else {
-    //     // Show error message
-    //     createAndShowToast("Failed to create collection", "error");
-    //   }
-    // });
   }
 };
 
