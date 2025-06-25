@@ -148,8 +148,9 @@ const handleMockRequest = (url, options = {}) => {
   const method = options.method || 'GET';
   const collections = getMockCollectionsFromStorage();
   
+  const createCollection = url.match(/^\/api\/collections\/create$/);
   // Handle get all collections
-  if (url === API_PATHS.getAllCollections) {
+  if (url === createCollection) {
     if (method === 'GET') {
       return collections;
     } else if (method === 'POST') {
