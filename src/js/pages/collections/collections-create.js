@@ -18,7 +18,7 @@ const collectionsCreateSchema = {
  */
 const collectionsCreateHandler = {
   async onSubmit(data) {
-    const apiUrl = API_PATHS.createCollection || document.querySelector(".js-save-collection").getAttribute("data-api-url");
+    const apiUrl = document.querySelector(".js-save-collection").getAttribute("data-api-url");
 
     if (!apiUrl) {
       console.error("No apiUrl");
@@ -33,6 +33,7 @@ const collectionsCreateHandler = {
       
       return collection;
     } catch (error) {
+      console.log("error", error);
       throw new Error("Не удалось создать подборку");
     }
   },
