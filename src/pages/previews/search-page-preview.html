@@ -5,6 +5,40 @@
     <meta name="csrf-token" content="csrf-token" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Недвижимость</title>
+    <script>
+      var API_PATHS = {
+        createCollection: "/api/collections/create",
+        /**
+         * Generate API path for addPropertyToCollection
+         * @param {string} id - Collection ID
+         * @returns {string} API path for collection properties
+         */
+        addPropertyToCollection: (collectionId, propertyId) =>
+          `/api/collections/${collectionId}/properties/${propertyId}`,
+        /**
+         * Generate API path for a specific property within a collection
+         * @param {string} collectionId - Collection ID
+         * @param {string} propertyId - Property ID
+         * @returns {string} API path for the specific property in collection
+         */
+        removePropertyFromCollection: (collectionId, propertyId) =>
+          `/api/collections/${collectionId}/properties/${propertyId}`,
+        /**
+         * Generate API path to bulk update property collections
+         * @param {string} propertyId - Property ID
+         * @returns {string} API path for bulk updating property's collections
+         */
+        updatePropertyCollections: (propertyId) =>
+          `/api/properties/${propertyId}/collections`,
+        /**
+         * Generate API path to get collection selector HTML markup
+         * @param {string} propertyId - Property ID
+         * @returns {string} API path for getting collection selector markup
+         */
+        getCollectionSelectorMarkup: (propertyId) =>
+          `/api/properties/${propertyId}/collection-selector-markup`,
+      };
+    </script>
   </head>
   <style>
     /* Select2 custom styles */
@@ -627,10 +661,6 @@
 
     <div class="collection-selector-popup-backdrop"></div>
     <div class="collection-selector-popup-container" id="collection-selector-popup"
-    data-api-url-create-collection="/api/collections"
-    data-api-url-add-property-to-collection="/api/collections/properties"
-    data-api-url-remove-property-from-collection="/api/collections/properties"
-    data-api-url-get-collections-with-property="/api/properties/properties/collections"
     >
       <div class="collection-selector-popup">
         <div class="collection-selector-popup__header">

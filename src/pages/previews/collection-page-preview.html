@@ -6,6 +6,40 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Real Estate - My Collections</title>
+    <script>
+      var API_PATHS = {
+        createCollection: "/api/collections/create",
+        /**
+         * Generate API path for addPropertyToCollection
+         * @param {string} id - Collection ID
+         * @returns {string} API path for collection properties
+         */
+        addPropertyToCollection: (collectionId, propertyId) =>
+          `/api/collections/${collectionId}/properties/${propertyId}`,
+        /**
+         * Generate API path for a specific property within a collection
+         * @param {string} collectionId - Collection ID
+         * @param {string} propertyId - Property ID
+         * @returns {string} API path for the specific property in collection
+         */
+        removePropertyFromCollection: (collectionId, propertyId) =>
+          `/api/collections/${collectionId}/properties/${propertyId}`,
+        /**
+         * Generate API path to bulk update property collections
+         * @param {string} propertyId - Property ID
+         * @returns {string} API path for bulk updating property's collections
+         */
+        updatePropertyCollections: (propertyId) =>
+          `/api/properties/${propertyId}/collections`,
+        /**
+         * Generate API path to get collection selector HTML markup
+         * @param {string} propertyId - Property ID
+         * @returns {string} API path for getting collection selector markup
+         */
+        getCollectionSelectorMarkup: (propertyId) =>
+          `/api/properties/${propertyId}/collection-selector-markup`,
+      };
+    </script>
   </head>
   <body>
     <app-header></app-header>
@@ -43,16 +77,21 @@
             <div
               class="page-header mb-1 d-flex flex-column gap-2 align-items-center"
             >
-              <div class="js-page-header-actions d-flex justify-content-between w-100 items-center">
+              <div
+                class="js-page-header-actions d-flex justify-content-between w-100 items-center"
+              >
                 <a
                   href="/collections.html"
                   class="brand-button brand-button--solid brand-button--turquoise"
                 >
                   <i class="bi bi-arrow-left"></i> Назад к Подборкам
                 </a>
-                  <a href="/collections-edit.html?id=coll_2" class="collection-item__actions justify-content-center items-center gap-0 d-flex brand-button h-100 brand-button--solid brand-button--lime-green text-brand-dark-navy">
-                    <i class="bi bi-pencil"></i>
-                  </a>
+                <a
+                  href="/collections-edit.html?id=coll_2"
+                  class="collection-item__actions justify-content-center items-center gap-0 d-flex brand-button h-100 brand-button--solid brand-button--lime-green text-brand-dark-navy"
+                >
+                  <i class="bi bi-pencil"></i>
+                </a>
               </div>
               <!-- <strong>Название Подборки</strong> -->
             </div>
@@ -61,8 +100,7 @@
             <div class="step-content active">
               <form id="collectionId">
                 <div class="row mb-0">
-                  <div class="collection-name col-12 mt-2 mb-0">
-                  </div>
+                  <div class="collection-name col-12 mt-2 mb-0"></div>
                 </div>
               </form>
             </div>
@@ -73,7 +111,8 @@
                 class="selection-controls mb-4 p-2 js-current-properties-search"
               >
                 <div class="selection-status">
-                  <span class="current-count">2</span> <span class="js-current-count-text">объекта</span>
+                  <span class="current-count">2</span>
+                  <span class="js-current-count-text">объекта</span>
                 </div>
                 <div class="selection-actions">
                   <a
@@ -105,197 +144,197 @@
               </div>
 
               <div class="js-current-properties">
-                  <!-- First Property Card -->
-                  <div class="col-12">
-                    <div class="property-card" data-property-id="prop_1">
-                      <div class="property-summary-card">
-                        <div
-                          class="property-summary-card__favorite-icon js-add-to-favorite"
-                          role="button"
-                          aria-label="Добавить в избранное"
-                          tabindex="0"
+                <!-- First Property Card -->
+                <div class="col-12">
+                  <div class="property-card" data-property-id="prop_1">
+                    <div class="property-summary-card">
+                      <div
+                        class="property-summary-card__favorite-icon js-add-to-favorite"
+                        role="button"
+                        aria-label="Добавить в избранное"
+                        tabindex="0"
+                      >
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="var(--brand-bright-pink)"
+                          stroke-width="2"
                         >
-                          <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="var(--brand-bright-pink)"
-                            stroke-width="2"
-                          >
-                            <path
-                              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                            ></path>
-                          </svg>
-                        </div>
+                          <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                          ></path>
+                        </svg>
+                      </div>
 
-                        <h3
-                          class="property-summary-card__title text-light-gray-30"
+                      <h3
+                        class="property-summary-card__title text-light-gray-30"
+                      >
+                        <a href="/property-view-standalone.html"
+                          >Студия, 28 м2 | ГМР</a
                         >
-                          <a href="/property-view-standalone.html"
-                            >Студия, 28 м2 | ГМР</a
+                      </h3>
+                      <p class="property-summary-card__price">₽ 4 900 000</p>
+                      <ul class="property-summary-card__details-list">
+                        <li class="property-summary-card__detail-item">
+                          <span class="property-summary-card__detail-label"
+                            >Название комплекса</span
                           >
-                        </h3>
-                        <p class="property-summary-card__price">₽ 4 900 000</p>
-                        <ul class="property-summary-card__details-list">
-                          <li class="property-summary-card__detail-item">
-                            <span class="property-summary-card__detail-label"
-                              >Название комплекса</span
-                            >
-                            <span class="property-summary-card__detail-value"
-                              >ЖК «Стрижи»</span
-                            >
-                          </li>
+                          <span class="property-summary-card__detail-value"
+                            >ЖК «Стрижи»</span
+                          >
+                        </li>
 
-                          <li class="property-summary-card__detail-item">
-                            <span class="property-summary-card__detail-label"
-                              >Улица</span
-                            >
-                            <span class="property-summary-card__detail-value"
-                              >Автолюбителей ул.</span
-                            >
-                          </li>
+                        <li class="property-summary-card__detail-item">
+                          <span class="property-summary-card__detail-label"
+                            >Улица</span
+                          >
+                          <span class="property-summary-card__detail-value"
+                            >Автолюбителей ул.</span
+                          >
+                        </li>
 
-                          <li class="property-summary-card__detail-item">
-                            <span class="property-summary-card__detail-label"
-                              >Состояние</span
-                            >
-                            <span class="property-summary-card__detail-value"
-                              >С ремонтом</span
-                            >
-                          </li>
-                        </ul>
+                        <li class="property-summary-card__detail-item">
+                          <span class="property-summary-card__detail-label"
+                            >Состояние</span
+                          >
+                          <span class="property-summary-card__detail-value"
+                            >С ремонтом</span
+                          >
+                        </li>
+                      </ul>
 
-                        <div class="property-summary-card__phone">
-                          <span class="property-summary-card__phone-label"
-                            >Агент:</span
-                          >
-                          <span class="property-summary-card__phone-agent-name"
-                            >Алексей</span
-                          >
-                          <a
-                            href="tel:+7 (918) 254-25-36"
-                            class="property-summary-card__phone-link"
-                          >
-                            📞 +7 (918) 254-25-36
-                          </a>
-                        </div>
-                        <div
-                          class="property-summary-card__footer property-summary-card__footer--actions-right"
+                      <div class="property-summary-card__phone">
+                        <span class="property-summary-card__phone-label"
+                          >Агент:</span
                         >
-                          <div class="d-flex flex-wrap gap-2 p-2 w-100">
-                            <button
-                              class="w-100 d-block brand-button brand-button--solid js-add-to-collection"
-                              data-property-id="prop_1"
-                            >
-                              Добавить в подборку
-                            </button>
-                            <button
-                              class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection"
-                              data-property-id="prop_1"
-                            >
-                              Удалить из подборки
-                            </button>
-                          </div>
+                        <span class="property-summary-card__phone-agent-name"
+                          >Алексей</span
+                        >
+                        <a
+                          href="tel:+7 (918) 254-25-36"
+                          class="property-summary-card__phone-link"
+                        >
+                          📞 +7 (918) 254-25-36
+                        </a>
+                      </div>
+                      <div
+                        class="property-summary-card__footer property-summary-card__footer--actions-right"
+                      >
+                        <div class="d-flex flex-wrap gap-2 p-2 w-100">
+                          <button
+                            class="w-100 d-block brand-button brand-button--solid js-add-to-collection"
+                            data-property-id="prop_1"
+                          >
+                            Добавить в подборку
+                          </button>
+                          <button
+                            class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection"
+                            data-property-id="prop_1"
+                          >
+                            Удалить из подборки
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-12">
-                    <div class="property-card" data-property-id="prop_2">
-                      <div class="property-summary-card">
-                        <div
-                          class="property-summary-card__favorite-icon js-add-to-favorite"
-                          role="button"
-                          aria-label="Добавить в избранное"
-                          tabindex="0"
+                </div>
+                <div class="col-12">
+                  <div class="property-card" data-property-id="prop_2">
+                    <div class="property-summary-card">
+                      <div
+                        class="property-summary-card__favorite-icon js-add-to-favorite"
+                        role="button"
+                        aria-label="Добавить в избранное"
+                        tabindex="0"
+                      >
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="var(--brand-bright-pink)"
+                          stroke-width="2"
                         >
-                          <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="var(--brand-bright-pink)"
-                            stroke-width="2"
-                          >
-                            <path
-                              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                            ></path>
-                          </svg>
-                        </div>
+                          <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                          ></path>
+                        </svg>
+                      </div>
 
-                        <h3
-                          class="property-summary-card__title text-light-gray-30"
+                      <h3
+                        class="property-summary-card__title text-light-gray-30"
+                      >
+                        <a href="/property-view-standalone.html"
+                          >Студия, 28 м2 | ГМР</a
                         >
-                          <a href="/property-view-standalone.html"
-                            >Студия, 28 м2 | ГМР</a
+                      </h3>
+                      <p class="property-summary-card__price">₽ 4 900 000</p>
+                      <ul class="property-summary-card__details-list">
+                        <li class="property-summary-card__detail-item">
+                          <span class="property-summary-card__detail-label"
+                            >Название комплекса</span
                           >
-                        </h3>
-                        <p class="property-summary-card__price">₽ 4 900 000</p>
-                        <ul class="property-summary-card__details-list">
-                          <li class="property-summary-card__detail-item">
-                            <span class="property-summary-card__detail-label"
-                              >Название комплекса</span
-                            >
-                            <span class="property-summary-card__detail-value"
-                              >ЖК «Стрижи»</span
-                            >
-                          </li>
+                          <span class="property-summary-card__detail-value"
+                            >ЖК «Стрижи»</span
+                          >
+                        </li>
 
-                          <li class="property-summary-card__detail-item">
-                            <span class="property-summary-card__detail-label"
-                              >Улица</span
-                            >
-                            <span class="property-summary-card__detail-value"
-                              >Автолюбителей ул.</span
-                            >
-                          </li>
+                        <li class="property-summary-card__detail-item">
+                          <span class="property-summary-card__detail-label"
+                            >Улица</span
+                          >
+                          <span class="property-summary-card__detail-value"
+                            >Автолюбителей ул.</span
+                          >
+                        </li>
 
-                          <li class="property-summary-card__detail-item">
-                            <span class="property-summary-card__detail-label"
-                              >Состояние</span
-                            >
-                            <span class="property-summary-card__detail-value"
-                              >С ремонтом</span
-                            >
-                          </li>
-                        </ul>
+                        <li class="property-summary-card__detail-item">
+                          <span class="property-summary-card__detail-label"
+                            >Состояние</span
+                          >
+                          <span class="property-summary-card__detail-value"
+                            >С ремонтом</span
+                          >
+                        </li>
+                      </ul>
 
-                        <div class="property-summary-card__phone">
-                          <span class="property-summary-card__phone-label"
-                            >Агент:</span
-                          >
-                          <span class="property-summary-card__phone-agent-name"
-                            >Алексей</span
-                          >
-                          <a
-                            href="tel:+7 (918) 254-25-36"
-                            class="property-summary-card__phone-link"
-                          >
-                            📞 +7 (918) 254-25-36
-                          </a>
-                        </div>
-                        <div
-                          class="property-summary-card__footer property-summary-card__footer--actions-right"
+                      <div class="property-summary-card__phone">
+                        <span class="property-summary-card__phone-label"
+                          >Агент:</span
                         >
-                          <div class="d-flex flex-wrap gap-2 p-2 w-100">
-                            <button
-                              class="w-100 d-block brand-button brand-button--solid js-add-to-collection"
-                              data-property-id="prop_2"
-                            >
-                              Добавить в подборку
-                            </button>
-                            <button
-                              class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection"
-                              data-property-id="prop_2"
-                            >
-                              Удалить из подборки
-                            </button>
-                          </div>
+                        <span class="property-summary-card__phone-agent-name"
+                          >Алексей</span
+                        >
+                        <a
+                          href="tel:+7 (918) 254-25-36"
+                          class="property-summary-card__phone-link"
+                        >
+                          📞 +7 (918) 254-25-36
+                        </a>
+                      </div>
+                      <div
+                        class="property-summary-card__footer property-summary-card__footer--actions-right"
+                      >
+                        <div class="d-flex flex-wrap gap-2 p-2 w-100">
+                          <button
+                            class="w-100 d-block brand-button brand-button--solid js-add-to-collection"
+                            data-property-id="prop_2"
+                          >
+                            Добавить в подборку
+                          </button>
+                          <button
+                            class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection"
+                            data-property-id="prop_2"
+                          >
+                            Удалить из подборки
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
               </div>
             </div>
           </div>
@@ -305,13 +344,10 @@
 
     <app-footer></app-footer>
 
-
     <div class="collection-selector-popup-backdrop"></div>
-    <div class="collection-selector-popup-container" id="collection-selector-popup"
-    data-api-url-create-collection="/api/collections"
-    data-api-url-add-property-to-collection="/api/collections/properties"
-    data-api-url-remove-property-from-collection="/api/collections/properties"
-    data-api-url-get-collections-with-property="/api/properties/properties/collections"
+    <div
+      class="collection-selector-popup-container"
+      id="collection-selector-popup"
     >
       <div class="collection-selector-popup">
         <div class="collection-selector-popup__header">
@@ -322,23 +358,46 @@
         </div>
         <div class="collection-selector-popup__body">
           <div class="collection-selector-popup__list-container">
-                <div class="collection-selector-popup__empty">
-                <p>У вас пока нет подборок.</p>
-              </div>
-              <div class="collection-selector-popup__list">
-              </div>
+            <div class="collection-selector-popup__empty">
+              <p>У вас пока нет подборок.</p>
+            </div>
+            <div class="collection-selector-popup__list"></div>
           </div>
-          <div class="collection-selector-popup__create-new-container" style="display: none;">
+          <div
+            class="collection-selector-popup__create-new-container"
+            style="display: none"
+          >
             <div class="form-group mb-3">
-              <label for="newCollectionNameInput" class="form-label visually-hidden">Название новой подборки</label>
-              <input type="text" class="form-control" id="newCollectionNameInput" placeholder="Название новой подборки">
+              <label
+                for="newCollectionNameInput"
+                class="form-label visually-hidden"
+                >Название новой подборки</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="newCollectionNameInput"
+                placeholder="Название новой подборки"
+              />
             </div>
           </div>
         </div>
         <div class="collection-selector-popup__footer">
-          <button class="btn btn-outline-secondary collection-selector-popup__create-new-btn">Создать новую</button>
-          <button class="btn btn-outline-brand-turquoise collection-selector-popup__cancel-btn">Отмена</button>
-          <button class="btn btn-brand-lime collection-selector-popup__save-btn">Готово</button>
+          <button
+            class="btn btn-outline-secondary collection-selector-popup__create-new-btn"
+          >
+            Создать новую
+          </button>
+          <button
+            class="btn btn-outline-brand-turquoise collection-selector-popup__cancel-btn"
+          >
+            Отмена
+          </button>
+          <button
+            class="btn btn-brand-lime collection-selector-popup__save-btn"
+          >
+            Готово
+          </button>
         </div>
       </div>
     </div>
