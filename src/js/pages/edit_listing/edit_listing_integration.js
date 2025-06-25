@@ -367,12 +367,9 @@ const editListingHandler = {
   async onSubmit(data, formData) {
     console.log("📝 Сохранение изменений...", data);
 
-    // Имитация отправки на сервер
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log("✅ Изменения успешно сохранены");
-        resolve({ success: true, listingId: mockListingData.id });
-      }, 1500);
+    return fetcher('', {
+      method: "POST",
+      body: JSON.stringify(data),
     });
   },
 
@@ -385,7 +382,7 @@ const editListingHandler = {
     console.log("⚠️ Ошибки валидации:", errors);
 
     // Находим первое поле с ошибкой и фокусируемся на нем
-    const firstErrorField = Object.keys(errors)[0];
+    const firstErrorField = Object.keys(errors.errors)[0];
     if (firstErrorField) {
       const field = document.querySelector(`[name="${firstErrorField}"]`);
       if (field) {
