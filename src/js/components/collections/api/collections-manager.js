@@ -79,11 +79,17 @@ const API_PATHS = {
    */
   removePropertyFromCollection: (collectionId, propertyId) => `/api/collections/${collectionId}/properties/${propertyId}`,
   /**
-   * Generate API path to get all collections containing a specific property
+   * Generate API path to bulk update property collections
    * @param {string} propertyId - Property ID
-   * @returns {string} API path for property's collections
+   * @returns {string} API path for bulk updating property's collections
    */
-  getCollectionsWithProperty: (propertyId) => `/api/properties/${propertyId}/collections`
+  updatePropertyCollections: (propertyId) => `/api/properties/${propertyId}/collections`,
+  /**
+   * Generate API path to get collection selector HTML markup
+   * @param {string} propertyId - Property ID
+   * @returns {string} API path for getting collection selector markup
+   */
+  getCollectionSelectorMarkup: (propertyId) => `/api/properties/${propertyId}/collection-selector-markup`
 };
 
 // Flag to enable/disable mock mode
@@ -115,7 +121,9 @@ async function fetcher(url, options = {}) {
         'Content-Type': 'application/json',
         ...(csrfToken && { 'X-CSRF-Token': csrfToken }),
         ...options.headers
-      }
+      },
+      // Include signal if provided for abort functionality
+      ...(options.signal && { signal: options.signal })
     });
     
     if (!response.ok) {
@@ -123,8 +131,13 @@ async function fetcher(url, options = {}) {
       throw new Error(error.message ?? 'Ошибка при запросе к серверу');
     }
     
-    return response.json(); 
+    return response.json();
   } catch (error) {
+    // Handle abort error specifically
+    if (error.name === 'AbortError') {
+      throw error; // Re-throw abort errors to be handled by caller
+    }
+    
     // If USE_MOCK_DATA is enabled, return mock data instead of showing error
     if (USE_MOCK_DATA) {
       console.warn("API request failed, using mock data for:", url);
@@ -228,6 +241,121 @@ const handleMockRequest = (url, options = {}) => {
     );
   }
   
+  // Handle bulk update property collections (PUT /api/properties/{propertyId}/collections)
+  if (collectionsWithPropertyMatch && method === 'PUT') {
+    const [, propertyId] = collectionsWithPropertyMatch;
+    const { collections: collectionStates } = JSON.parse(options.body);
+    
+    let updatedCount = 0;
+    
+    for (const state of collectionStates) {
+      const { collectionId, shouldInclude } = state;
+      const collectionIndex = collections.findIndex(c => c.id === collectionId);
+      
+      if (collectionIndex !== -1) {
+        const collection = collections[collectionIndex];
+        const hasProperty = collection.properties.includes(propertyId);
+        
+        if (shouldInclude && !hasProperty) {
+          // Add property to collection
+          collection.properties.push(propertyId);
+          collection.updatedAt = new Date().toISOString();
+          updatedCount++;
+        } else if (!shouldInclude && hasProperty) {
+          // Remove property from collection
+          const propertyIndex = collection.properties.indexOf(propertyId);
+          collection.properties.splice(propertyIndex, 1);
+          collection.updatedAt = new Date().toISOString();
+          updatedCount++;
+        }
+      }
+    }
+    
+    saveMockCollectionsToStorage(collections);
+    return { 
+      success: true, 
+      updatedCount,
+      message: `Property updated in ${updatedCount} collections`
+    };
+  }
+  
+  // Handle add property to multiple collections (POST /api/properties/{propertyId}/add-to-collections)
+  const addToCollectionsMatch = url.match(/^\/api\/properties\/([^\/]+)\/add-to-collections$/);
+  if (addToCollectionsMatch && method === 'POST') {
+    const [, propertyId] = addToCollectionsMatch;
+    const { collectionIds } = JSON.parse(options.body);
+    
+    let addedCount = 0;
+    
+    for (const collectionId of collectionIds) {
+      const collectionIndex = collections.findIndex(c => c.id === collectionId);
+      
+      if (collectionIndex !== -1) {
+        const collection = collections[collectionIndex];
+        if (!collection.properties.includes(propertyId)) {
+          collection.properties.push(propertyId);
+          collection.updatedAt = new Date().toISOString();
+          addedCount++;
+        }
+      }
+    }
+    
+    saveMockCollectionsToStorage(collections);
+    return { 
+      success: true, 
+      addedCount,
+      message: `Property added to ${addedCount} collections`
+    };
+  }
+  
+  // Handle get collection selector markup (GET /api/properties/{propertyId}/collection-selector-markup)
+  const markupMatch = url.match(/^\/api\/properties\/([^\/]+)\/collection-selector-markup$/);
+  if (markupMatch && method === 'GET') {
+    const [, propertyId] = markupMatch;
+    
+    // Filter out favorite collections
+    const nonFavoriteCollections = collections.filter(c => !c.isFavorite);
+    
+    if (nonFavoriteCollections.length === 0) {
+      return {
+        html: `
+          <div class="collection-selector-popup__empty">
+            <p>У вас пока нет подборок.</p>
+          </div>
+        `
+      };
+    }
+    
+    // Generate HTML markup with current states
+    const html = `
+      <div class="collection-selector-popup__list">
+        ${nonFavoriteCollections
+          .map(collection => {
+            const isChecked = collection.properties.includes(propertyId);
+            return `
+              <div class="collection-selector-popup__item" data-collection-id="${collection.id}">
+                <div class="collection-selector-popup__item-checkbox">
+                  <input type="checkbox" id="collection-${collection.id}"${isChecked ? ' checked' : ''}>
+                  <label for="collection-${collection.id}"></label>
+                </div>
+                <div class="collection-selector-popup__item-info">
+                  <div class="collection-selector-popup__item-name">
+                    ${collection.name}
+                  </div>
+                  <div class="collection-selector-popup__item-count">
+                    <i class="bi bi-building"></i> ${collection.properties ? collection.properties.length : 0} объектов
+                  </div>
+                </div>
+              </div>
+            `;
+          })
+          .join('')}
+      </div>
+    `;
+    
+    return { html };
+  }
+  
   console.warn(`Mock handler: Unhandled request ${method} ${url}`);
   return null;
 };
@@ -254,14 +382,16 @@ export const getCollectionById = async (id) => {
  * Create new collection
  * @param {string} url - Collection API URL
  * @param {Object} collectionData - Collection data
+ * @param {AbortSignal} signal - Optional AbortSignal for cancellation
  * @returns {Object} Created collection object
  */
-export const createCollection = async (url, collectionData) => {
+export const createCollection = async (url, collectionData, signal = null) => {
   // Create new collection object
   
   return fetcher(url, {
     method: 'POST',
-    body: JSON.stringify(collectionData)
+    body: JSON.stringify(collectionData),
+    ...(signal && { signal })
   });
 };
 
@@ -295,11 +425,13 @@ export const deleteCollection = async (url) => {
  * @param {string} collectionId - ID of the collection
  * @default collectionId = 'favorite'
  * @param {string} propertyId - ID of the property to add
+ * @param {AbortSignal} signal - Optional AbortSignal for cancellation
  * @returns {boolean} True if the property was added successfully
  */
-export const addPropertyToCollection = async (collectionId = favoriteCollectionId, propertyId) => {
+export const addPropertyToCollection = async (collectionId = favoriteCollectionId, propertyId, signal = null) => {
     return fetcher(API_PATHS.addPropertyToCollection(collectionId, propertyId), {
       method: 'POST',
+      ...(signal && { signal })
     });
 };
 
@@ -323,4 +455,31 @@ export const removePropertyFromCollection = async (collectionId=favoriteCollecti
  */
 export const getCollectionsWithProperty = async (propertyId) => {
     return fetcher(API_PATHS.getCollectionsWithProperty(propertyId));
+};
+
+/**
+ * Bulk update property collections
+ * @param {string} propertyId - ID of the property
+ * @param {Array} collectionStates - Array of {collectionId, shouldInclude} objects
+ * @param {AbortSignal} signal - Optional AbortSignal for cancellation
+ * @returns {Object} Result of the bulk update operation
+ */
+export const updatePropertyCollections = async (propertyId, collectionStates, signal = null) => {
+    return fetcher(API_PATHS.updatePropertyCollections(propertyId), {
+        method: 'PUT',
+        body: JSON.stringify({ collections: collectionStates }),
+        ...(signal && { signal })
+    });
+};
+/**
+ * Get collection selector HTML markup with current states
+ * @param {string} propertyId - ID of the property
+ * @returns {string} HTML markup for collection selector
+ */
+export const getCollectionSelectorMarkup = async (propertyId) => {
+  const response = await fetcher(API_PATHS.getCollectionSelectorMarkup(propertyId));
+  if (response.errors) {
+    throw new Error("Ошибка при запросе к серверу");
+  }
+    return response.html || response; // Handle both {html: "..."} and direct string responses
 };
