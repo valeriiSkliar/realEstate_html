@@ -11,6 +11,8 @@ import {
   showModal,
 } from "../../utils/uiHelpers";
 
+import { getObjectPlural } from "../../utils/pluralization";
+
 import {
   removeCollectionToast,
   removeExistingPopup,
@@ -86,9 +88,11 @@ export const initCollectionPage = () => {
 
     // Update property count
     const currentCount = document.querySelector(".current-count");
+    const currentCountText = document.querySelector(".js-current-count-text");
     if (currentCount) {
       const count = parseInt(currentCount.textContent) - 1;
       currentCount.textContent = count;
+      currentCountText.textContent = getObjectPlural(count);
 
       // Show empty collection message if no properties left
       if (count === 0) {

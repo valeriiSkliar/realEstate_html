@@ -1,5 +1,3 @@
-
-
 /**
  * Collections manager component
  * Encapsulates logic for managing collections functionality
@@ -72,7 +70,7 @@ const API_PATHS = {
    * @param {string} id - Collection ID
    * @returns {string} API path for collection properties
    */
-  addPropertyToCollection: (id) => `/api/collections/${id}/properties`,
+  addPropertyToCollection: (collectionId, propertyId) => `/api/collections/${collectionId}/properties/${propertyId}`,
   /**
    * Generate API path for a specific property within a collection
    * @param {string} collectionId - Collection ID
@@ -145,7 +143,7 @@ const handleMockRequest = (url, options = {}) => {
   const method = options.method || 'GET';
   const collections = getMockCollectionsFromStorage();
   
-  // Handle different API endpoints
+  // Handle get all collections
   if (url === API_PATHS.getAllCollections) {
     if (method === 'GET') {
       return collections;
@@ -162,9 +160,10 @@ const handleMockRequest = (url, options = {}) => {
     }
   }
   
-  // Handle collection by ID
-  if (url.startsWith('/api/collections/') && !url.includes('/properties')) {
-    const collectionId = url.split('/')[3];
+  // Handle collection by ID operations
+  const collectionByIdMatch = url.match(/^\/api\/collections\/([^\/]+)$/);
+  if (collectionByIdMatch) {
+    const collectionId = collectionByIdMatch[1];
     const collectionIndex = collections.findIndex(c => c.id === collectionId);
     
     if (method === 'GET') {
@@ -185,10 +184,10 @@ const handleMockRequest = (url, options = {}) => {
     }
   }
   
-  // Handle add property to collection
-  if (url.includes('/properties') && method === 'POST') {
-    const collectionId = url.split('/')[3];
-    const { propertyId } = JSON.parse(options.body);
+  // Handle add property to collection (POST /api/collections/{collectionId}/properties/{propertyId})
+  const addPropertyMatch = url.match(/^\/api\/collections\/([^\/]+)\/properties\/([^\/]+)$/);
+  if (addPropertyMatch && method === 'POST') {
+    const [, collectionId, propertyId] = addPropertyMatch;
     const collectionIndex = collections.findIndex(c => c.id === collectionId);
     
     if (collectionIndex !== -1) {
@@ -199,13 +198,13 @@ const handleMockRequest = (url, options = {}) => {
       }
       return { success: true };
     }
+    return { error: 'Collection not found' };
   }
   
-  // Handle remove property from collection
-  if (url.includes('/properties/') && method === 'DELETE') {
-    const pathParts = url.split('/');
-    const collectionId = pathParts[3];
-    const propertyId = pathParts[5];
+  // Handle remove property from collection (DELETE /api/collections/{collectionId}/properties/{propertyId})
+  const removePropertyMatch = url.match(/^\/api\/collections\/([^\/]+)\/properties\/([^\/]+)$/);
+  if (removePropertyMatch && method === 'DELETE') {
+    const [, collectionId, propertyId] = removePropertyMatch;
     const collectionIndex = collections.findIndex(c => c.id === collectionId);
     
     if (collectionIndex !== -1) {
@@ -217,16 +216,19 @@ const handleMockRequest = (url, options = {}) => {
       }
       return { success: true };
     }
+    return { error: 'Collection not found' };
   }
   
-  // Handle get collections with property
-  if (url.startsWith('/api/properties/') && url.endsWith('/collections')) {
-    const propertyId = url.split('/')[3];
+  // Handle get collections with property (GET /api/properties/{propertyId}/collections)
+  const collectionsWithPropertyMatch = url.match(/^\/api\/properties\/([^\/]+)\/collections$/);
+  if (collectionsWithPropertyMatch && method === 'GET') {
+    const [, propertyId] = collectionsWithPropertyMatch;
     return collections.filter(collection => 
       collection.properties.includes(propertyId)
     );
   }
   
+  console.warn(`Mock handler: Unhandled request ${method} ${url}`);
   return null;
 };
 
@@ -296,9 +298,8 @@ export const deleteCollection = async (url) => {
  * @returns {boolean} True if the property was added successfully
  */
 export const addPropertyToCollection = async (collectionId = favoriteCollectionId, propertyId) => {
-    return fetcher(API_PATHS.addPropertyToCollection(collectionId), {
+    return fetcher(API_PATHS.addPropertyToCollection(collectionId, propertyId), {
       method: 'POST',
-      body: JSON.stringify({ propertyId })
     });
 };
 

@@ -67,6 +67,18 @@
   padding: 20px 0;
 }
 
+.collection-selector-popup__loading {
+  text-align: center;
+  padding: 30px 0;
+  color: #6c757d;
+}
+
+.collection-selector-popup__error {
+  text-align: center;
+  padding: 30px 0;
+  color: #6c757d;
+}
+
 .collection-selector-popup__list {
   display: flex;
   flex-direction: column;

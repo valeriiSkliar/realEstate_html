@@ -48,7 +48,9 @@ const switchPopupMode = (isCreateMode, elements) => {
     if (listContainer) listContainer.style.display = "none";
     if (createNewContainer) createNewContainer.style.display = "block";
     if (createNewBtn) createNewBtn.style.display = "none";
-    if (saveBtn) saveBtn.textContent = "Сохранить и добавить";
+    if (saveBtn && !saveBtn.disabled) {
+      saveBtn.textContent = "Сохранить и добавить";
+    }
     if (collectionNameInput) {
       collectionNameInput.value = ""; // Clear previous input
       // collectionNameInput.focus();
@@ -58,7 +60,9 @@ const switchPopupMode = (isCreateMode, elements) => {
     if (listContainer) listContainer.style.display = "block";
     if (createNewContainer) createNewContainer.style.display = "none";
     if (createNewBtn) createNewBtn.style.display = "inline-block";
-    if (saveBtn) saveBtn.textContent = "Готово";
+    if (saveBtn && !saveBtn.disabled) {
+      saveBtn.textContent = "Готово";
+    }
   }
 };
 
@@ -88,80 +92,16 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
   const createNewContainer = popupContainer.querySelector(".collection-selector-popup__create-new-container");
   const newCollectionNameInput = popupContainer.querySelector("#newCollectionNameInput");
 
-
-    // Get all collections (excluding favorites for the popup display)
-    let collections = await getCollections();
-    // Get collections that already contain this property
-    let collectionsWithProperty = await getCollectionsWithProperty(propertyId)
-      
-  
-      if (!collections || !collectionsWithProperty) {
-        createAndShowToast("Не удалось загрузить коллекции", "error");
-        return;
-      }
-      
-      console.log("collections", collections);
-    // Filter out favorite collections
-    collections = collections.filter(
-      (collection) => !collection.isFavorite
-    );
-  
-    // Filter out favorite collections
-    collectionsWithProperty = collectionsWithProperty.filter(
-      (collection) => !collection.isFavorite
-    );
-  
-    const collectionsWithPropertyIds = collectionsWithProperty.map((c) => c.id);
-
-  // Update list content
-  if (collections.length === 0) {
-    if (emptyContainer) emptyContainer.style.display = "block";
-    if (listElement) listElement.style.display = "none";
-  } else {
-    if (emptyContainer) emptyContainer.style.display = "none";
-    if (listElement) {
-      listElement.style.display = "block";
-      listElement.innerHTML = collections
-        .map(
-          (collection) => `
-            <div class="collection-selector-popup__item" data-collection-id="${
-              collection.id
-            }">
-              <div class="collection-selector-popup__item-checkbox">
-                <input type="checkbox" id="collection-${collection.id}" 
-                  ${
-                    collectionsWithPropertyIds.includes(collection.id)
-                      ? "checked"
-                      : ""
-                  }
-                  ${
-                    collection.isFavorite &&
-                    collectionsWithPropertyIds.includes(collection.id)
-                      ? "disabled"
-                      : ""
-                  }
-                >
-                <label for="collection-${collection.id}"></label>
-              </div>
-              <div class="collection-selector-popup__item-info">
-                <div class="collection-selector-popup__item-name">
-                  ${
-                    collection.isFavorite
-                      ? '<i class="bi bi-star-fill"></i> '
-                      : ""
-                  }${collection.name}
-                </div>
-                <div class="collection-selector-popup__item-count">
-                  <i class="bi bi-building"></i> ${
-                    collection.properties ? collection.properties.length : 0
-                  } объектов
-                </div>
-              </div>
-            </div>
-          `
-        )
-        .join("");
-    }
+  // Show loading state immediately
+  if (listContainer) {
+    listContainer.innerHTML = `
+      <div class="collection-selector-popup__loading text-center py-4">
+        <div class="spinner-border text-brand-turquoise mb-3" role="status">
+          <span class="visually-hidden">Загрузка...</span>
+        </div>
+        <p class="mb-0 text-muted">Загружаем подборки...</p>
+      </div>
+    `;
   }
 
   // Reset create new container
@@ -175,8 +115,14 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
   const saveBtn = popupContainer.querySelector(".collection-selector-popup__save-btn");
 
   // Reset button states
-  if (createNewBtn) createNewBtn.style.display = "inline-block";
-  if (saveBtn) saveBtn.textContent = "Готово";
+  if (createNewBtn) {
+    createNewBtn.style.display = "inline-block";
+    createNewBtn.disabled = true; // Disable during loading
+  }
+  if (saveBtn) {
+    saveBtn.innerHTML = 'Готово';
+    saveBtn.disabled = true; // Disable during loading
+  }
 
   // Remove existing event listeners by cloning elements
   const cloneAndReplace = (element) => {
@@ -193,6 +139,15 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
   const newCancelBtn = cloneAndReplace(cancelBtn);
   const newSaveBtn = cloneAndReplace(saveBtn);
   const newBackdrop = cloneAndReplace(backdrop);
+
+  // Ensure the new buttons are also disabled initially
+  if (newCreateNewBtn) {
+    newCreateNewBtn.disabled = true;
+  }
+  if (newSaveBtn) {
+    newSaveBtn.innerHTML = 'Готово';
+    newSaveBtn.disabled = true;
+  }
 
   let isCreateMode = false;
 
@@ -260,7 +215,7 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
           try {
             const newCollection = createCollection(apiUrlCreateCollection, { name: newName, properties: [propertyId] });
             if (newCollection && newCollection.id) {
-              addPropertyToCollection(apiUrlAddPropertyToCollection, newCollection.id, propertyId);
+              addPropertyToCollection(newCollection.id, propertyId);
 
               createAndShowToast(
                 `Объект "${propertyTitle}" добавлен в новую подборку "${newName}"`,
@@ -292,24 +247,7 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
     });
   }
 
-  // Add event listeners for collection items
-  const collectionItems = popupContainer.querySelectorAll(
-    ".collection-selector-popup__item"
-  );
-  collectionItems.forEach((item) => {
-    item.addEventListener("click", (e) => {
-      // Don't toggle if clicking on the checkbox itself
-      if (e.target.tagName === "INPUT") return;
-
-      const checkbox = item.querySelector('input[type="checkbox"]');
-      // Don't toggle if checkbox is disabled (favorite collection)
-      if (checkbox && checkbox.disabled) return;
-
-      if (checkbox) checkbox.checked = !checkbox.checked;
-    });
-  });
-
-  // Show popup with animation
+  // Show popup with animation immediately
   popupContainer.style.display = "block";
   backdrop.style.display = "block";
   
@@ -318,6 +256,128 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
     popupContainer.style.opacity = "1";
     popupContainer.style.transform = "translateY(0)";
   }, 10);
+
+  // Load data asynchronously after showing the popup
+  try {
+    // Get all collections (excluding favorites for the popup display)
+    let collections = await getCollections();
+    // Get collections that already contain this property
+    let collectionsWithProperty = await getCollectionsWithProperty(propertyId);
+    
+    if (!collections || !collectionsWithProperty) {
+      throw new Error("Не удалось загрузить коллекции");
+    }
+    
+    console.log("collections", collections);
+    // Filter out favorite collections
+    collections = collections.filter(
+      (collection) => !collection.isFavorite
+    );
+  
+    // Filter out favorite collections
+    collectionsWithProperty = collectionsWithProperty.filter(
+      (collection) => !collection.isFavorite
+    );
+  
+    const collectionsWithPropertyIds = collectionsWithProperty.map((c) => c.id);
+
+    // Update list content after loading
+    if (collections.length === 0) {
+      if (listContainer) {
+        listContainer.innerHTML = `
+          <div class="collection-selector-popup__empty">
+            <p>У вас пока нет подборок.</p>
+          </div>
+        `;
+      }
+    } else {
+      if (listContainer) {
+        listContainer.innerHTML = `
+          <div class="collection-selector-popup__list">
+            ${collections
+              .map(
+                (collection) => `
+                  <div class="collection-selector-popup__item" data-collection-id="${
+                    collection.id
+                  }">
+                    <div class="collection-selector-popup__item-checkbox">
+                      <input type="checkbox" id="collection-${collection.id}" 
+                        ${
+                          collectionsWithPropertyIds.includes(collection.id)
+                            ? "checked"
+                            : ""
+                        }
+                        ${
+                          collection.isFavorite &&
+                          collectionsWithPropertyIds.includes(collection.id)
+                            ? "disabled"
+                            : ""
+                        }
+                      >
+                      <label for="collection-${collection.id}"></label>
+                    </div>
+                    <div class="collection-selector-popup__item-info">
+                      <div class="collection-selector-popup__item-name">
+                        ${
+                          collection.isFavorite
+                            ? '<i class="bi bi-star-fill"></i> '
+                            : ""
+                        }${collection.name}
+                      </div>
+                      <div class="collection-selector-popup__item-count">
+                        <i class="bi bi-building"></i> ${
+                          collection.properties ? collection.properties.length : 0
+                        } объектов
+                      </div>
+                    </div>
+                  </div>
+                `
+              )
+              .join("")}
+          </div>
+        `;
+      }
+    }
+
+         // Add event listeners for collection items after they're loaded
+     const collectionItems = popupContainer.querySelectorAll(
+       ".collection-selector-popup__item"
+     );
+     collectionItems.forEach((item) => {
+       item.addEventListener("click", (e) => {
+         // Don't toggle if clicking on the checkbox itself
+         if (e.target.tagName === "INPUT") return;
+
+         const checkbox = item.querySelector('input[type="checkbox"]');
+         // Don't toggle if checkbox is disabled (favorite collection)
+         if (checkbox && checkbox.disabled) return;
+
+         if (checkbox) checkbox.checked = !checkbox.checked;
+       });
+     });
+
+     // Re-enable buttons after successful loading
+     if (newCreateNewBtn) {
+       newCreateNewBtn.disabled = false;
+     }
+     if (newSaveBtn) {
+       newSaveBtn.disabled = false;
+       newSaveBtn.textContent = "Готово";
+     }
+
+      } catch (error) {
+     console.error("Error loading collections:", error);
+     
+     // Show error state in the popup
+     if (listContainer) {
+       listContainer.innerHTML = `
+         <div class="collection-selector-popup__error text-center py-4">
+           <i class="bi bi-exclamation-triangle text-warning mb-3" style="font-size: 2rem;"></i>
+           <p class="mb-2 text-muted">Не удалось загрузить подборки</p>
+         </div>
+       `;
+     }
+   }
 };
 
 /**
@@ -358,8 +418,6 @@ const saveCollectionSelections = async (propertyId, propertyTitle) => {
       return c.id === collectionId && c.properties.find((pId) => pId === propertyId);
     });
     const shouldBeInCollection = checkbox.checked;
-
-    console.log("collection", collectionsWithProperty);
 
     if (shouldBeInCollection && !wasInCollection) {
       // Add to collection
@@ -588,11 +646,13 @@ export const addPropertyToFavorite = async (
   showToast = true
 ) => {
   await removeExistingPopup();
-    // Property is not in 'Избранное', so add it
+  // Property is not in 'Избранное', so add it
     const added = await addPropertyToCollection(favoriteCollectionId, propertyId);
     if (added) {
       if (showToast) {
         showInteractiveAddToCollectionToast(propertyId, propertyTitle);
+      }else{
+        createAndShowToast(`${propertyTitle} добавлено в избранное`, 'success');
       }
       return { action: "added", success: true, isFavorite: true };
     } else {
