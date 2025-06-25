@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   propertyCards.forEach((card) => {
     card.addEventListener("favorite-changed", async (e) => {
-      console.log("favorite-changed", e.detail);
       if (e.detail.isFavorite) {
         // Добавляем свойство в избранное и показываем попап выбора подборок
         await addPropertyToFavorite(
