@@ -1,5 +1,4 @@
 import {
-  getCollectionById,
   updateCollection
 } from "../../components/collections/api/collections-manager.js";
 
@@ -17,41 +16,32 @@ const collectionsEditSchema = {
 
 const collectionsEditHandler = {
   async onSubmit(data, formData) {
-    console.log("📝 Отправка формы...", data);
-    console.log("📝 Отправка формы...", formData);
+    const apiUrl = document.querySelector("#saveCollectionChanges").getAttribute("data-api-url");
 
-    // Get collection ID
-    const collectionId = document.getElementById("collectionId").value;
-
-    if (!collectionId) {
-      createAndShowToast("Не удалось обновить подборку", "error");
-      return;
+    if (!apiUrl) {
+      console.error("No apiUrl");
+      return {
+        errors: "Не удалось обновить подборку"
+      };
     }
 
-    return new Promise((resolve, reject) => {
-      setTimeout(async () => {
         // Update collection
         try {
-          reject({
-            name: "Не удалось обновить подборку",
-          });
-          const collection = await updateCollection(collectionId, data);
-          resolve(collection);
+          const collection = await updateCollection(apiUrl, data);
+          return collection;
         } catch (error) {
-          reject({
-            name: "Не удалось обновить подборку",
-          });
+          throw new Error("Не удалось обновить подборку");
         }
-      }, 1000);
-    });
   },
 
   onSuccess(collection) {
-    console.log("🎉 Успех!", collection);
     createAndShowToast("Коллекция успешно обновлена!", "success");
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const collectionId = urlParams.get("id");
+
     setTimeout(() => {
-      window.location.href = "/collection.html?id=" + collection.id;
+      window.location.href = "/collection.html?id=" + collectionId;
     }, 500);
   },
 
@@ -80,17 +70,18 @@ const collectionsEditHandler = {
 export const initCollectionsEditPage = () => {
   console.log("Collections edit page initialized");
 
+  const form = document.querySelector("#collectionId");
+  
   // Get collection ID from URL query parameter
   const urlParams = new URLSearchParams(window.location.search);
   const collectionId = urlParams.get("id");
+  
 
   if (!collectionId) {
     // No collection ID provided, redirect to collections page
     window.location.href = "/collections.html";
     return;
   }
-
-  const form = document.querySelector("#collectionId");
 
   const formManager = createForm(form, collectionsEditSchema, {
     onSubmit: collectionsEditHandler.onSubmit.bind(collectionsEditHandler),
@@ -104,27 +95,4 @@ export const initCollectionsEditPage = () => {
 
   formManager.init();
 
-  // Store collection ID in hidden field
-  document.getElementById("collectionId").value = collectionId;
-
-  // Load collection data
-  loadCollectionData(collectionId);
-
-  /**
-   * Load collection data
-   * @param {string} collectionId - ID of the collection to load
-   */
-  async function loadCollectionData(collectionId) {
-    const collection = await getCollectionById(collectionId);
-
-    if (!collection) {
-      // Collection not found, redirect to collections page
-      createAndShowToast("Collection not found", "error");
-      window.location.href = "/collections.html";
-      return;
-    }
-
-    form[0].value = collection.name;
-    form[1].value = collection.notes;
-  }
 };

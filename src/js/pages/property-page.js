@@ -1,4 +1,8 @@
+import { favoriteCollectionId, removePropertyFromCollection } from '../components/collections/api/collections-manager.js';
+import { addPropertyToFavorite, removeCollectionToast, showCollectionSelectorPopup } from "../components/collections/collection-selector-popup/collection-selector-popup.js";
 import { initReportModal } from "../components/property-page/report-modal.js";
+import { createAndShowToast } from '../utils/uiHelpers.js';
+
 
 document.addEventListener("DOMContentLoaded", function () {
   if (!document.querySelector(".property-detail-page")) {
@@ -541,22 +545,47 @@ document.addEventListener("DOMContentLoaded", function () {
   initDescriptionToggle();
 
   // Favorite button toggle
-  const favoriteButton = document.querySelector(
-    ".property-detail-header__favorite-btn"
-  );
-  if (favoriteButton) {
-    favoriteButton.addEventListener("click", function () {
-      const icon = this.querySelector("i");
-      icon.classList.toggle("bi-heart");
-      icon.classList.toggle("bi-heart-fill");
-      // Дополнительно можно менять title
-      if (icon.classList.contains("bi-heart-fill")) {
-        this.title = "Удалить из избранного";
-        this.setAttribute("aria-label", "Удалить из избранного");
-      } else {
-        this.title = "Добавить в избранное";
-        this.setAttribute("aria-label", "Добавить в избранное");
+
+  const favoriteButton = document.getElementById('favorite-button');
+  const addToCollectionsButton = document.getElementById('add-to-collections-button');
+
+    favoriteButton?.addEventListener('click', async function(e) {
+      const propertyId = this.getAttribute('data-property-id');
+
+      const propertyTitleElement = document.querySelector('.property-title');
+      const propertyTitle = propertyTitleElement ? propertyTitleElement.textContent : 'Объект недвижимости';
+
+
+      const heartIcon = this.querySelector('i');
+      const isFavoriteIconSolid = heartIcon.classList.contains('bi-heart-fill');
+      
+      try{
+      if (!isFavoriteIconSolid) { 
+        await addPropertyToFavorite(propertyId, propertyTitle, false);
+        heartIcon.classList.remove('bi-heart');
+        heartIcon.classList.add('bi-heart-fill');
+      } else { 
+        await removePropertyFromCollection(favoriteCollectionId, propertyId);
+        heartIcon.classList.remove('bi-heart-fill');
+        heartIcon.classList.add('bi-heart');
+
+        removeCollectionToast();
+        createAndShowToast(`${propertyTitle} удалено из избранного`, 'success');
       }
+    }catch(error){
+        console.error(error);
+        createAndShowToast(`${propertyTitle} не удалось добавить в избранное`, 'error');
+    }
     });
-  }
+
+  
+  
+  addToCollectionsButton?.addEventListener('click', function () {
+      removeCollectionToast();
+      const propertyId = this.getAttribute('data-property-id');
+      const propertyTitleElement = document.querySelector('.property-detail-header__title');
+      const propertyTitle = propertyTitleElement ? propertyTitleElement.textContent : 'Объект недвижимости';
+      showCollectionSelectorPopup(propertyId, propertyTitle);
+    });
+
 });

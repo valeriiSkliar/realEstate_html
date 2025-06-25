@@ -3,7 +3,7 @@ import {
   createForm,
   validators,
 } from "../../forms/index.js";
-import { createAndShowToast } from "../../utils/uiHelpers";
+import { createAndShowToast, showModal } from "../../utils/uiHelpers";
 
 const collectionsCreateSchema = {
   name: [
@@ -17,14 +17,30 @@ const collectionsCreateSchema = {
  * Обработчик для формы добавления объявления
  */
 const collectionsCreateHandler = {
-  async onSubmit(data, formData) {
-      // Create collection
-      await createCollection(data);
+  async onSubmit(data) {
+    const apiUrl = API_PATHS.createCollection || document.querySelector(".js-save-collection").getAttribute("data-api-url");
 
+    if (!apiUrl) {
+      console.error("No apiUrl");
+      return {
+        errors: "Не удалось создать подборку"
+      };
+    }
+    // Create collection
+    try {
+      const collection = await createCollection(apiUrl, data);
+      console.log("collection", collection);
+      
+      return collection;
+    } catch (error) {
+      throw new Error("Не удалось создать подборку");
+    }
   },
 
   onSuccess(result) {
     console.log("🎉 Успех!", result);
+            // Show success modal
+            showModal("collectionSuccessModal");
     createAndShowToast("Объявление успешно создано!", "success");
   },
 

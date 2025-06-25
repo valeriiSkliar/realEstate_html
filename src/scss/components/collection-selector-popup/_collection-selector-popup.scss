@@ -8,6 +8,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1050;
   opacity: 0;
+  display: none;
   transition: opacity 0.3s ease;
 }
 
@@ -17,6 +18,7 @@
   right: 20px;
   z-index: 1051;
   opacity: 0;
+  display: none;
   transform: translateY(20px);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -63,6 +65,18 @@
 .collection-selector-popup__empty {
   text-align: center;
   padding: 20px 0;
+}
+
+.collection-selector-popup__loading {
+  text-align: center;
+  padding: 30px 0;
+  color: #6c757d;
+}
+
+.collection-selector-popup__error {
+  text-align: center;
+  padding: 30px 0;
+  color: #6c757d;
 }
 
 .collection-selector-popup__list {
