@@ -625,6 +625,38 @@
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
+    <div class="collection-selector-popup-backdrop"></div>
+    <div class="collection-selector-popup-container" id="collection-selector-popup">
+      <div class="collection-selector-popup">
+        <div class="collection-selector-popup__header">
+          <h5 class="collection-selector-popup__title">Добавить в подборку</h5>
+          <button class="collection-selector-popup__close" aria-label="Закрыть">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="collection-selector-popup__body">
+          <div class="collection-selector-popup__list-container">
+                <div class="collection-selector-popup__empty">
+                <p>У вас пока нет подборок.</p>
+              </div>
+              <div class="collection-selector-popup__list">
+              </div>
+          </div>
+          <div class="collection-selector-popup__create-new-container" style="display: none;">
+            <div class="form-group mb-3">
+              <label for="newCollectionNameInput" class="form-label visually-hidden">Название новой подборки</label>
+              <input type="text" class="form-control" id="newCollectionNameInput" placeholder="Название новой подборки">
+            </div>
+          </div>
+        </div>
+        <div class="collection-selector-popup__footer">
+          <button class="btn btn-outline-secondary collection-selector-popup__create-new-btn">Создать новую</button>
+          <button class="btn btn-outline-brand-turquoise collection-selector-popup__cancel-btn">Отмена</button>
+          <button class="btn btn-brand-lime collection-selector-popup__save-btn">Готово</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Скрипты подключаются через webpack (see src/js/index.js and src/js/pages/search-page-logic.js) -->
   </body>
 </html>

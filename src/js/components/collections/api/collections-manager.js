@@ -1,4 +1,3 @@
-import { createAndShowToast } from "../../../utils/uiHelpers";
 
 
 /**
@@ -10,6 +9,55 @@ import { createAndShowToast } from "../../../utils/uiHelpers";
 // Local storage key for collections
 export const STORAGE_KEY = 'realEstateCollections';
 export const favoriteCollectionId = 'favorite';
+
+// Mock data for development/fallback
+const MOCK_COLLECTIONS = [
+  {
+    "id": "favorite",
+    "name": "Избранное",
+    "notes": "Автоматически созданная коллекция для избранных объектов",
+    "properties": ["property_1750692508023"],
+    "isFavorite": true,
+    "createdAt": "2025-06-23T15:17:57.905Z",
+    "updatedAt": "2025-06-23T15:28:28.024Z"
+  },
+  {
+    "id": "coll_2",
+    "name": "ddddd",
+    "notes": "",
+    "properties": ["1"],
+    "isFavorite": false,
+    "createdAt": "2025-06-23T15:18:13.609Z",
+    "updatedAt": "2025-06-23T15:18:13.610Z"
+  },
+  {
+    "id": "coll_1750691937265",
+    "name": "fffff",
+    "notes": "",
+    "properties": ["1"],
+    "isFavorite": false,
+    "createdAt": "2025-06-23T15:18:57.265Z",
+    "updatedAt": "2025-06-23T15:18:57.265Z"
+  },
+  {
+    "id": "coll_1750692558200",
+    "name": "fdgdfgdfgdf",
+    "notes": "",
+    "properties": ["property_1750692508023"],
+    "isFavorite": false,
+    "createdAt": "2025-06-23T15:29:18.200Z",
+    "updatedAt": "2025-06-23T15:29:18.200Z"
+  },
+  {
+    "id": "coll_1750692589219",
+    "name": "цйцуйу",
+    "notes": "",
+    "properties": ["1", "2"],
+    "isFavorite": false,
+    "createdAt": "2025-06-23T15:29:49.219Z",
+    "updatedAt": "2025-06-23T15:29:49.220Z"
+  }
+];
 
 const API_PATHS = {
   getAllCollections: '/api/collections',
@@ -40,36 +88,147 @@ const API_PATHS = {
   getCollectionsWithProperty: (propertyId) => `/api/properties/${propertyId}/collections`
 };
 
+// Flag to enable/disable mock mode
+const USE_MOCK_DATA = true;
 
+// Helper function to get mock collections from localStorage or use default
+const getMockCollectionsFromStorage = () => {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored ? JSON.parse(stored) : [...MOCK_COLLECTIONS];
+};
 
-  async function fetcher(url, options = {}) {
-    const csrfToken = document
-    .querySelector('meta[name="csrf-token"]')
-      .getAttribute('content');
-    try {
-      const response = await fetch(url, {
-        ...options,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken
-        }
-      });
-      
-      if (!response.ok) {
-        const error = await response.json();
-        console.error(error);
-        throw new Error(error.message);
+// Helper function to save mock collections to localStorage
+const saveMockCollectionsToStorage = (collections) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(collections));
+};
+
+// Helper function to generate unique ID
+const generateId = () => `coll_${Date.now()}`;
+
+async function fetcher(url, options = {}) {
+  const csrfToken = document
+  .querySelector('meta[name="csrf-token"]')
+    ?.getAttribute('content');
+  
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(csrfToken && { 'X-CSRF-Token': csrfToken }),
+        ...options.headers
       }
-      
-      return response.json(); 
-    } catch (error) {
-      console.error("Error in fetcher:", error);
-      createAndShowToast('Ошибка при запросе к серверу', "error");
-      throw error;
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message ?? 'Ошибка при запросе к серверу');
+    }
+    
+    return response.json(); 
+  } catch (error) {
+    // If USE_MOCK_DATA is enabled, return mock data instead of showing error
+    // if (USE_MOCK_DATA) {
+    //   console.warn("API request failed, using mock data for:", url);
+    //   return handleMockRequest(url, options);
+    // }
+    console.error("Error in fetcher collections-manager.js:", error);
+    return {
+      errors: error.message ?? "Ошибка при запросе к серверу"
+    };
+
+  }
+}
+
+// Mock request handler
+const handleMockRequest = (url, options = {}) => {
+  const method = options.method || 'GET';
+  const collections = getMockCollectionsFromStorage();
+  
+  // Handle different API endpoints
+  if (url === API_PATHS.getAllCollections) {
+    if (method === 'GET') {
+      return collections;
+    } else if (method === 'POST') {
+      const newCollection = {
+        id: generateId(),
+        ...JSON.parse(options.body),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      collections.push(newCollection);
+      saveMockCollectionsToStorage(collections);
+      return newCollection;
     }
   }
-
-
+  
+  // Handle collection by ID
+  if (url.startsWith('/api/collections/') && !url.includes('/properties')) {
+    const collectionId = url.split('/')[3];
+    const collectionIndex = collections.findIndex(c => c.id === collectionId);
+    
+    if (method === 'GET') {
+      return collections.find(c => c.id === collectionId) || null;
+    } else if (method === 'PATCH' && collectionIndex !== -1) {
+      const updateData = JSON.parse(options.body);
+      collections[collectionIndex] = {
+        ...collections[collectionIndex],
+        ...updateData,
+        updatedAt: new Date().toISOString()
+      };
+      saveMockCollectionsToStorage(collections);
+      return collections[collectionIndex];
+    } else if (method === 'DELETE' && collectionIndex !== -1) {
+      collections.splice(collectionIndex, 1);
+      saveMockCollectionsToStorage(collections);
+      return { success: true };
+    }
+  }
+  
+  // Handle add property to collection
+  if (url.includes('/properties') && method === 'POST') {
+    const collectionId = url.split('/')[3];
+    const { propertyId } = JSON.parse(options.body);
+    const collectionIndex = collections.findIndex(c => c.id === collectionId);
+    
+    if (collectionIndex !== -1) {
+      if (!collections[collectionIndex].properties.includes(propertyId)) {
+        collections[collectionIndex].properties.push(propertyId);
+        collections[collectionIndex].updatedAt = new Date().toISOString();
+        saveMockCollectionsToStorage(collections);
+      }
+      return { success: true };
+    }
+  }
+  
+  // Handle remove property from collection
+  if (url.includes('/properties/') && method === 'DELETE') {
+    const pathParts = url.split('/');
+    const collectionId = pathParts[3];
+    const propertyId = pathParts[5];
+    const collectionIndex = collections.findIndex(c => c.id === collectionId);
+    
+    if (collectionIndex !== -1) {
+      const propertyIndex = collections[collectionIndex].properties.indexOf(propertyId);
+      if (propertyIndex !== -1) {
+        collections[collectionIndex].properties.splice(propertyIndex, 1);
+        collections[collectionIndex].updatedAt = new Date().toISOString();
+        saveMockCollectionsToStorage(collections);
+      }
+      return { success: true };
+    }
+  }
+  
+  // Handle get collections with property
+  if (url.startsWith('/api/properties/') && url.endsWith('/collections')) {
+    const propertyId = url.split('/')[3];
+    return collections.filter(collection => 
+      collection.properties.includes(propertyId)
+    );
+  }
+  
+  return null;
+};
 
 /**
  * Get all collections from localStorage
@@ -91,35 +250,28 @@ export const getCollectionById = async (id) => {
 
 /**
  * Create new collection
+ * @param {string} url - Collection API URL
  * @param {Object} collectionData - Collection data
  * @returns {Object} Created collection object
  */
-export const createCollection = async (collectionData) => {
+export const createCollection = async (url, collectionData) => {
   // Create new collection object
-  const newCollection = {
-    name: collectionData.name,
-    notes: collectionData.notes || '',
-    properties: [],
-    isFavorite: false, // Initialize as non-favorite
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  };
   
-  return fetcher(API_PATHS.getAllCollections, {
+  return fetcher(url, {
     method: 'POST',
-    body: JSON.stringify(newCollection)
+    body: JSON.stringify(collectionData)
   });
 };
 
 /**
  * Update existing collection
- * @param {string} id - Collection ID
+ * @param {string} url - Collection API URL
  * @param {Object} updateData - Data to update
  * @returns {Object|null} Updated collection object or null if not found
  */
-export const updateCollection = async (id, updateData) => {
+export const updateCollection = async (url, updateData) => {
 
-  return fetcher(API_PATHS.getCollectionById(id), {
+  return fetcher(url, {
     method: 'PATCH',
     body: JSON.stringify(updateData)
   });
@@ -127,11 +279,11 @@ export const updateCollection = async (id, updateData) => {
 
 /**
  * Delete collection
- * @param {string} id - Collection ID
+ * @param {string} url - Collection API URL
  * @returns {boolean} Success status
  */
-export const deleteCollection = async (id) => {
-  return fetcher(API_PATHS.getCollectionById(id), {
+export const deleteCollection = async (url) => {
+  return fetcher(url, {
     method: 'DELETE'
   });
 };

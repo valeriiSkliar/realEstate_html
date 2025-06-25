@@ -29,8 +29,7 @@ let autoRemoveTimerToast = null;
  * @param {string} propertyTitle - Title of the property (for display in toast)
  */
 export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => {
-  // Remove any existing popup
-  removeExistingPopup();
+  // Clear any existing toasts
   clearAllToasts();
 
   // Get all collections (excluding favorites for the popup display)
@@ -57,120 +56,102 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
 
   const collectionsWithPropertyIds = collectionsWithProperty.map((c) => c.id);
 
-  // Create popup container
-  const popupContainer = document.createElement("div");
-  popupContainer.className = POPUP_CONTAINER_CLASS;
-  popupContainer.id = POPUP_ID;
+  // Find existing popup elements
+  const popupContainer = document.getElementById(POPUP_ID);
+  const backdrop = document.querySelector(`.${POPUP_BACKDROP_CLASS}`);
+  
+  if (!popupContainer || !backdrop) {
+    console.error("Popup elements not found in DOM");
+    return;
+  }
 
-  // Create backdrop
-  const backdrop = document.createElement("div");
-  backdrop.className = POPUP_BACKDROP_CLASS;
-  backdrop.addEventListener("click", removeExistingPopup);
+  // Get popup content elements
+  const listContainer = popupContainer.querySelector(".collection-selector-popup__list-container");
+  const emptyContainer = popupContainer.querySelector(".collection-selector-popup__empty");
+  const listElement = popupContainer.querySelector(".collection-selector-popup__list");
+  const createNewContainer = popupContainer.querySelector(".collection-selector-popup__create-new-container");
+  const newCollectionNameInput = popupContainer.querySelector("#newCollectionNameInput");
 
-  // Create popup content
-  popupContainer.innerHTML = `
-    <div class="collection-selector-popup">
-      <div class="collection-selector-popup__header">
-        <h5 class="collection-selector-popup__title">Добавить в подборку</h5>
-        <button class="collection-selector-popup__close" aria-label="Закрыть">
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>
-      <div class="collection-selector-popup__body">
-        <div class="collection-selector-popup__list-container">
-          ${
-            collections.length === 0
-              ? `<div class="collection-selector-popup__empty">
-              <p>У вас пока нет подборок.</p>
-            </div>`
-              : `<div class="collection-selector-popup__list">
-              ${collections
-                .map(
-                  (collection) => `
-                <div class="collection-selector-popup__item" data-collection-id="${
-                  collection.id
-                }">
-                  <div class="collection-selector-popup__item-checkbox">
-                    <input type="checkbox" id="collection-${collection.id}" 
-                      ${
-                        collectionsWithPropertyIds.includes(collection.id)
-                          ? "checked"
-                          : ""
-                      }
-                      ${
-                        collection.isFavorite &&
-                        collectionsWithPropertyIds.includes(collection.id)
-                          ? "disabled"
-                          : ""
-                      }
-                    >
-                    <label for="collection-${collection.id}"></label>
-                  </div>
-                  <div class="collection-selector-popup__item-info">
-                    <div class="collection-selector-popup__item-name">
-                      ${
-                        collection.isFavorite
-                          ? '<i class="bi bi-star-fill"></i> '
-                          : ""
-                      }${collection.name}
-                    </div>
-                    <div class="collection-selector-popup__item-count">
-                      <i class="bi bi-building"></i> ${
-                        collection.properties ? collection.properties.length : 0
-                      } объектов
-                    </div>
-                  </div>
+  // Update list content
+  if (collections.length === 0) {
+    if (emptyContainer) emptyContainer.style.display = "block";
+    if (listElement) listElement.style.display = "none";
+  } else {
+    if (emptyContainer) emptyContainer.style.display = "none";
+    if (listElement) {
+      listElement.style.display = "block";
+      listElement.innerHTML = collections
+        .map(
+          (collection) => `
+            <div class="collection-selector-popup__item" data-collection-id="${
+              collection.id
+            }">
+              <div class="collection-selector-popup__item-checkbox">
+                <input type="checkbox" id="collection-${collection.id}" 
+                  ${
+                    collectionsWithPropertyIds.includes(collection.id)
+                      ? "checked"
+                      : ""
+                  }
+                  ${
+                    collection.isFavorite &&
+                    collectionsWithPropertyIds.includes(collection.id)
+                      ? "disabled"
+                      : ""
+                  }
+                >
+                <label for="collection-${collection.id}"></label>
+              </div>
+              <div class="collection-selector-popup__item-info">
+                <div class="collection-selector-popup__item-name">
+                  ${
+                    collection.isFavorite
+                      ? '<i class="bi bi-star-fill"></i> '
+                      : ""
+                  }${collection.name}
                 </div>
-              `
-                )
-                .join("")}
-            </div>`
-          }
-        </div>
-        <div class="collection-selector-popup__create-new-container" style="display: none;">
-          <div class="form-group mb-3">
-            <label for="newCollectionNameInput" class="form-label visually-hidden">Название новой подборки</label>
-            <input type="text" class="form-control" id="newCollectionNameInput" placeholder="Название новой подборки">
-          </div>
-        </div>
-      </div>
-      <div class="collection-selector-popup__footer">
-        <button class="btn btn-outline-secondary collection-selector-popup__create-new-btn">Создать новую</button>
-        <button class="btn btn-outline-brand-turquoise collection-selector-popup__cancel-btn">Отмена</button>
-        <button class="btn btn-brand-lime collection-selector-popup__save-btn">Готово</button> 
-      </div>
-    </div>
-  `;
+                <div class="collection-selector-popup__item-count">
+                  <i class="bi bi-building"></i> ${
+                    collection.properties ? collection.properties.length : 0
+                  } объектов
+                </div>
+              </div>
+            </div>
+          `
+        )
+        .join("");
+    }
+  }
 
-  // Append popup and backdrop to body
-  document.body.appendChild(backdrop);
-  document.body.appendChild(popupContainer);
+  // Reset create new container
+  if (createNewContainer) createNewContainer.style.display = "none";
+  if (newCollectionNameInput) newCollectionNameInput.value = "";
 
-  // Add event listeners
-  const closeBtn = popupContainer.querySelector(
-    ".collection-selector-popup__close"
-  );
-  closeBtn.addEventListener("click", removeExistingPopup);
+  // Get control elements
+  const closeBtn = popupContainer.querySelector(".collection-selector-popup__close");
+  const createNewBtn = popupContainer.querySelector(".collection-selector-popup__create-new-btn");
+  const cancelBtn = popupContainer.querySelector(".collection-selector-popup__cancel-btn");
+  const saveBtn = popupContainer.querySelector(".collection-selector-popup__save-btn");
 
-  const createNewBtn = popupContainer.querySelector(
-    ".collection-selector-popup__create-new-btn"
-  );
-  const listContainer = popupContainer.querySelector(
-    ".collection-selector-popup__list-container"
-  );
-  const createNewContainer = popupContainer.querySelector(
-    ".collection-selector-popup__create-new-container"
-  );
-  const newCollectionNameInput = popupContainer.querySelector(
-    "#newCollectionNameInput"
-  );
+  // Reset button states
+  if (createNewBtn) createNewBtn.style.display = "inline-block";
+  if (saveBtn) saveBtn.textContent = "Готово";
 
-  const cancelBtn = popupContainer.querySelector(
-    ".collection-selector-popup__cancel-btn"
-  );
-  const saveBtn = popupContainer.querySelector(
-    ".collection-selector-popup__save-btn"
-  );
+  // Remove existing event listeners by cloning elements
+  const cloneAndReplace = (element) => {
+    if (element) {
+      const newElement = element.cloneNode(true);
+      element.parentNode.replaceChild(newElement, element);
+      return newElement;
+    }
+    return null;
+  };
+
+  const newCloseBtn = cloneAndReplace(closeBtn);
+  const newCreateNewBtn = cloneAndReplace(createNewBtn);
+  const newCancelBtn = cloneAndReplace(cancelBtn);
+  const newSaveBtn = cloneAndReplace(saveBtn);
+  const newBackdrop = cloneAndReplace(backdrop);
 
   let isCreateMode = false;
 
@@ -178,8 +159,8 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
     isCreateMode = true;
     if (listContainer) listContainer.style.display = "none";
     if (createNewContainer) createNewContainer.style.display = "block";
-    if (createNewBtn) createNewBtn.style.display = "none";
-    if (saveBtn) saveBtn.textContent = "Сохранить и добавить";
+    if (newCreateNewBtn) newCreateNewBtn.style.display = "none";
+    if (newSaveBtn) newSaveBtn.textContent = "Сохранить и добавить";
     if (newCollectionNameInput) {
       newCollectionNameInput.value = ""; // Clear previous input
       // newCollectionNameInput.focus();
@@ -190,16 +171,25 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
     isCreateMode = false;
     if (listContainer) listContainer.style.display = "block";
     if (createNewContainer) createNewContainer.style.display = "none";
-    if (createNewBtn) createNewBtn.style.display = "inline-block";
-    if (saveBtn) saveBtn.textContent = "Готово";
+    if (newCreateNewBtn) newCreateNewBtn.style.display = "inline-block";
+    if (newSaveBtn) newSaveBtn.textContent = "Готово";
   };
 
-  if (createNewBtn) {
-    createNewBtn.addEventListener("click", switchToCreateMode);
+  // Add event listeners
+  if (newCloseBtn) {
+    newCloseBtn.addEventListener("click", removeExistingPopup);
   }
 
-  if (cancelBtn) {
-    cancelBtn.addEventListener("click", () => {
+  if (newBackdrop) {
+    newBackdrop.addEventListener("click", removeExistingPopup);
+  }
+
+  if (newCreateNewBtn) {
+    newCreateNewBtn.addEventListener("click", switchToCreateMode);
+  }
+
+  if (newCancelBtn) {
+    newCancelBtn.addEventListener("click", () => {
       if (isCreateMode) {
         switchToViewMode();
       } else {
@@ -208,8 +198,8 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
     });
   }
 
-  if (saveBtn) {
-    saveBtn.addEventListener("click", () => {
+  if (newSaveBtn) {
+    newSaveBtn.addEventListener("click", () => {
       if (isCreateMode) {
         const newName = newCollectionNameInput
           ? newCollectionNameInput.value.trim()
@@ -261,13 +251,16 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
 
       const checkbox = item.querySelector('input[type="checkbox"]');
       // Don't toggle if checkbox is disabled (favorite collection)
-      if (checkbox.disabled) return;
+      if (checkbox && checkbox.disabled) return;
 
-      checkbox.checked = !checkbox.checked;
+      if (checkbox) checkbox.checked = !checkbox.checked;
     });
   });
 
   // Show popup with animation
+  popupContainer.style.display = "block";
+  backdrop.style.display = "block";
+  
   setTimeout(() => {
     backdrop.style.opacity = "1";
     popupContainer.style.opacity = "1";
@@ -288,14 +281,21 @@ const saveCollectionSelections = async (propertyId, propertyTitle) => {
   let addedToAny = false;
   let addedToFavorite = false;
 
+  // Get all collections and collections with property to compare states
+  const allCollections = await getCollections();
   const collectionsWithProperty = await getCollectionsWithProperty(propertyId);
+
+  if (!allCollections || !collectionsWithProperty) {
+    createAndShowToast("Не удалось сохранить изменения", "error");
+    return;
+  }
 
   checkboxes.forEach(async (checkbox) => {
     const collectionId = checkbox.id.replace("collection-", "");
-    const collection = collectionsWithProperty.find((c) => c.id === collectionId);
+    const collection = allCollections.find((c) => c.id === collectionId);
     if (!collection) return;
 
-    const wasInCollection = collection.properties.find((p) => p.id === propertyId);
+    const wasInCollection = collectionsWithProperty.find((c) => c.id === collectionId && c.properties.find((p) => p.id === propertyId));
     const shouldBeInCollection = checkbox.checked;
 
     if (shouldBeInCollection && !wasInCollection) {
@@ -343,9 +343,17 @@ const removeExistingPopup = () => {
     existingPopup.style.transform = "translateY(20px)";
 
     setTimeout(() => {
-      if (existingPopup.parentNode) {
-        existingPopup.parentNode.removeChild(existingPopup);
-      }
+      existingPopup.style.display = "none";
+      // Reset popup content
+      const listElement = existingPopup.querySelector(".collection-selector-popup__list");
+      const emptyContainer = existingPopup.querySelector(".collection-selector-popup__empty");
+      const createNewContainer = existingPopup.querySelector(".collection-selector-popup__create-new-container");
+      const newCollectionNameInput = existingPopup.querySelector("#newCollectionNameInput");
+      
+      if (listElement) listElement.innerHTML = "";
+      if (emptyContainer) emptyContainer.style.display = "block";
+      if (createNewContainer) createNewContainer.style.display = "none";
+      if (newCollectionNameInput) newCollectionNameInput.value = "";
     }, 300);
   }
 
@@ -353,9 +361,7 @@ const removeExistingPopup = () => {
     existingBackdrop.style.opacity = "0";
 
     setTimeout(() => {
-      if (existingBackdrop.parentNode) {
-        existingBackdrop.parentNode.removeChild(existingBackdrop);
-      }
+      existingBackdrop.style.display = "none";
     }, 300);
   }
 };
