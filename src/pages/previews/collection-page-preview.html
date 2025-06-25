@@ -50,6 +50,11 @@
                 >
                   <i class="bi bi-arrow-left"></i> Назад к Подборкам
                 </a>
+                <div class="js-edit-collection collection-item__actions justify-content-center items-center gap-0 d-flex brand-button h-100 brand-button--solid brand-button--lime-green">
+                  <a href="/collections-edit.html?id=coll_2" class="text-brand-dark-navy">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                </div>
               </div>
               <!-- <strong>Название Подборки</strong> -->
             </div>
@@ -198,6 +203,101 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-12">
+                    <div class="property-card" data-property-id="prop_2">
+                      <div class="property-summary-card">
+                        <div
+                          class="property-summary-card__favorite-icon js-add-to-favorite"
+                          role="button"
+                          aria-label="Добавить в избранное"
+                          tabindex="0"
+                        >
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="var(--brand-bright-pink)"
+                            stroke-width="2"
+                          >
+                            <path
+                              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                            ></path>
+                          </svg>
+                        </div>
+
+                        <h3
+                          class="property-summary-card__title text-light-gray-30"
+                        >
+                          <a href="/property-view-standalone.html"
+                            >Студия, 28 м2 | ГМР</a
+                          >
+                        </h3>
+                        <p class="property-summary-card__price">₽ 4 900 000</p>
+                        <ul class="property-summary-card__details-list">
+                          <li class="property-summary-card__detail-item">
+                            <span class="property-summary-card__detail-label"
+                              >Название комплекса</span
+                            >
+                            <span class="property-summary-card__detail-value"
+                              >ЖК «Стрижи»</span
+                            >
+                          </li>
+
+                          <li class="property-summary-card__detail-item">
+                            <span class="property-summary-card__detail-label"
+                              >Улица</span
+                            >
+                            <span class="property-summary-card__detail-value"
+                              >Автолюбителей ул.</span
+                            >
+                          </li>
+
+                          <li class="property-summary-card__detail-item">
+                            <span class="property-summary-card__detail-label"
+                              >Состояние</span
+                            >
+                            <span class="property-summary-card__detail-value"
+                              >С ремонтом</span
+                            >
+                          </li>
+                        </ul>
+
+                        <div class="property-summary-card__phone">
+                          <span class="property-summary-card__phone-label"
+                            >Агент:</span
+                          >
+                          <span class="property-summary-card__phone-agent-name"
+                            >Алексей</span
+                          >
+                          <a
+                            href="tel:+7 (918) 254-25-36"
+                            class="property-summary-card__phone-link"
+                          >
+                            📞 +7 (918) 254-25-36
+                          </a>
+                        </div>
+                        <div
+                          class="property-summary-card__footer property-summary-card__footer--actions-right"
+                        >
+                          <div class="d-flex flex-wrap gap-2 p-2 w-100">
+                            <button
+                              class="w-100 d-block brand-button brand-button--solid js-add-to-collection"
+                              data-property-id="prop_2"
+                            >
+                              Добавить в подборку
+                            </button>
+                            <button
+                              class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection"
+                              data-property-id="prop_2"
+                            >
+                              Удалить из подборки
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
               </div>
             </div>
           </div>
@@ -209,7 +309,12 @@
 
 
     <div class="collection-selector-popup-backdrop"></div>
-    <div class="collection-selector-popup-container" id="collection-selector-popup">
+    <div class="collection-selector-popup-container" id="collection-selector-popup"
+    data-api-url-create-collection="/api/collections"
+    data-api-url-add-property-to-collection="/api/collections/properties"
+    data-api-url-remove-property-from-collection="/api/collections/properties"
+    data-api-url-get-collections-with-property="/api/properties/properties/collections"
+    >
       <div class="collection-selector-popup">
         <div class="collection-selector-popup__header">
           <h5 class="collection-selector-popup__title">Добавить в подборку</h5>

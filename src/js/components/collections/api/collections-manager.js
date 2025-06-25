@@ -128,10 +128,10 @@ async function fetcher(url, options = {}) {
     return response.json(); 
   } catch (error) {
     // If USE_MOCK_DATA is enabled, return mock data instead of showing error
-    // if (USE_MOCK_DATA) {
-    //   console.warn("API request failed, using mock data for:", url);
-    //   return handleMockRequest(url, options);
-    // }
+    if (USE_MOCK_DATA) {
+      console.warn("API request failed, using mock data for:", url);
+      return handleMockRequest(url, options);
+    }
     console.error("Error in fetcher collections-manager.js:", error);
     return {
       errors: error.message ?? "Ошибка при запросе к серверу"

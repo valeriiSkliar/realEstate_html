@@ -626,7 +626,12 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
     <div class="collection-selector-popup-backdrop"></div>
-    <div class="collection-selector-popup-container" id="collection-selector-popup">
+    <div class="collection-selector-popup-container" id="collection-selector-popup"
+    data-api-url-create-collection="/api/collections"
+    data-api-url-add-property-to-collection="/api/collections/properties"
+    data-api-url-remove-property-from-collection="/api/collections/properties"
+    data-api-url-get-collections-with-property="/api/properties/properties/collections"
+    >
       <div class="collection-selector-popup">
         <div class="collection-selector-popup__header">
           <h5 class="collection-selector-popup__title">Добавить в подборку</h5>

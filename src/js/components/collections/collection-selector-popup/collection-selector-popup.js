@@ -7,7 +7,8 @@ import {
   createCollection,
   favoriteCollectionId,
   getCollections,
-  getCollectionsWithProperty
+  getCollectionsWithProperty,
+  removePropertyFromCollection
 } from "../api/collections-manager";
 
 import { clearAllToasts, createAndShowToast } from "../../../utils/uiHelpers";
@@ -24,6 +25,44 @@ let userInteracted = false;
 let autoRemoveTimerToast = null;
 
 /**
+ * Switch popup between create and view modes
+ * @param {boolean} isCreateMode - Whether to switch to create mode (true) or view mode (false)
+ * @param {Object} elements - Object containing DOM elements
+ * @param {HTMLElement} elements.listContainer - Container for collection list
+ * @param {HTMLElement} elements.createNewContainer - Container for create new collection form
+ * @param {HTMLElement} elements.createNewBtn - Create new collection button
+ * @param {HTMLElement} elements.saveBtn - Save button
+ * @param {HTMLElement} elements.collectionNameInput - Input field for collection name
+ */
+const switchPopupMode = (isCreateMode, elements) => {
+  const {
+    listContainer,
+    createNewContainer,
+    createNewBtn,
+    saveBtn,
+    collectionNameInput
+  } = elements;
+
+  if (isCreateMode) {
+    // Switch to create mode
+    if (listContainer) listContainer.style.display = "none";
+    if (createNewContainer) createNewContainer.style.display = "block";
+    if (createNewBtn) createNewBtn.style.display = "none";
+    if (saveBtn) saveBtn.textContent = "Сохранить и добавить";
+    if (collectionNameInput) {
+      collectionNameInput.value = ""; // Clear previous input
+      // collectionNameInput.focus();
+    }
+  } else {
+    // Switch to view mode
+    if (listContainer) listContainer.style.display = "block";
+    if (createNewContainer) createNewContainer.style.display = "none";
+    if (createNewBtn) createNewBtn.style.display = "inline-block";
+    if (saveBtn) saveBtn.textContent = "Готово";
+  }
+};
+
+/**
  * Create and show the collection selector popup
  * @param {string} propertyId - ID of the property to add to collection
  * @param {string} propertyTitle - Title of the property (for display in toast)
@@ -31,30 +70,7 @@ let autoRemoveTimerToast = null;
 export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => {
   // Clear any existing toasts
   clearAllToasts();
-
-  // Get all collections (excluding favorites for the popup display)
-  let collections = await getCollections();
-  // Get collections that already contain this property
-  let collectionsWithProperty = await getCollectionsWithProperty(propertyId)
-    
-
-    if (!collections || !collectionsWithProperty) {
-      createAndShowToast("Не удалось загрузить коллекции", "error");
-      return;
-    }
-    
-    
-  // Filter out favorite collections
-  collections = collections.filter(
-    (collection) => !collection.isFavorite
-  );
-
-  // Filter out favorite collections
-  collectionsWithProperty = collectionsWithProperty.filter(
-    (collection) => !collection.isFavorite
-  );
-
-  const collectionsWithPropertyIds = collectionsWithProperty.map((c) => c.id);
+  await removeExistingPopup();
 
   // Find existing popup elements
   const popupContainer = document.getElementById(POPUP_ID);
@@ -71,6 +87,31 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
   const listElement = popupContainer.querySelector(".collection-selector-popup__list");
   const createNewContainer = popupContainer.querySelector(".collection-selector-popup__create-new-container");
   const newCollectionNameInput = popupContainer.querySelector("#newCollectionNameInput");
+
+
+    // Get all collections (excluding favorites for the popup display)
+    let collections = await getCollections();
+    // Get collections that already contain this property
+    let collectionsWithProperty = await getCollectionsWithProperty(propertyId)
+      
+  
+      if (!collections || !collectionsWithProperty) {
+        createAndShowToast("Не удалось загрузить коллекции", "error");
+        return;
+      }
+      
+      console.log("collections", collections);
+    // Filter out favorite collections
+    collections = collections.filter(
+      (collection) => !collection.isFavorite
+    );
+  
+    // Filter out favorite collections
+    collectionsWithProperty = collectionsWithProperty.filter(
+      (collection) => !collection.isFavorite
+    );
+  
+    const collectionsWithPropertyIds = collectionsWithProperty.map((c) => c.id);
 
   // Update list content
   if (collections.length === 0) {
@@ -157,22 +198,24 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
 
   const switchToCreateMode = () => {
     isCreateMode = true;
-    if (listContainer) listContainer.style.display = "none";
-    if (createNewContainer) createNewContainer.style.display = "block";
-    if (newCreateNewBtn) newCreateNewBtn.style.display = "none";
-    if (newSaveBtn) newSaveBtn.textContent = "Сохранить и добавить";
-    if (newCollectionNameInput) {
-      newCollectionNameInput.value = ""; // Clear previous input
-      // newCollectionNameInput.focus();
-    }
+    switchPopupMode(true, {
+      listContainer,
+      createNewContainer,
+      createNewBtn: newCreateNewBtn,
+      saveBtn: newSaveBtn,
+      collectionNameInput: newCollectionNameInput
+    });
   };
 
   const switchToViewMode = () => {
     isCreateMode = false;
-    if (listContainer) listContainer.style.display = "block";
-    if (createNewContainer) createNewContainer.style.display = "none";
-    if (newCreateNewBtn) newCreateNewBtn.style.display = "inline-block";
-    if (newSaveBtn) newSaveBtn.textContent = "Готово";
+    switchPopupMode(false, {
+      listContainer,
+      createNewContainer,
+      createNewBtn: newCreateNewBtn,
+      saveBtn: newSaveBtn,
+      collectionNameInput: newCollectionNameInput
+    });
   };
 
   // Add event listeners
@@ -189,26 +232,35 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
   }
 
   if (newCancelBtn) {
-    newCancelBtn.addEventListener("click", () => {
+    newCancelBtn.addEventListener("click", async () => {
       if (isCreateMode) {
         switchToViewMode();
       } else {
-        removeExistingPopup();
+        await removeExistingPopup();
       }
     });
   }
 
   if (newSaveBtn) {
-    newSaveBtn.addEventListener("click", () => {
+    newSaveBtn.addEventListener("click", async () => {
+      const apiUrlCreateCollection = popupContainer.dataset.apiUrlCreateCollection;
+      const apiUrlAddPropertyToCollection = popupContainer.dataset.apiUrlAddPropertyToCollection;
+      const apiUrlRemovePropertyFromCollection = popupContainer.dataset.apiUrlRemovePropertyFromCollection;
+      const apiUrlGetCollectionsWithProperty = popupContainer.dataset.apiUrlGetCollectionsWithProperty;
+      if (!apiUrlCreateCollection || !apiUrlAddPropertyToCollection || !apiUrlRemovePropertyFromCollection || !apiUrlGetCollectionsWithProperty) {
+        console.error("apiUrlCreateCollection, apiUrlAddPropertyToCollection, apiUrlRemovePropertyFromCollection, apiUrlGetCollectionsWithProperty is not set");
+        createAndShowToast("Не удалось сохранить изменения", "error");
+        return;
+      }
       if (isCreateMode) {
         const newName = newCollectionNameInput
           ? newCollectionNameInput.value.trim()
           : "";
         if (newName) {
           try {
-            const newCollection = createCollection({ name: newName });
+            const newCollection = createCollection(apiUrlCreateCollection, { name: newName, properties: [propertyId] });
             if (newCollection && newCollection.id) {
-              addPropertyToCollection(newCollection.id, propertyId);
+              addPropertyToCollection(apiUrlAddPropertyToCollection, newCollection.id, propertyId);
 
               createAndShowToast(
                 `Объект "${propertyTitle}" добавлен в новую подборку "${newName}"`,
@@ -228,7 +280,7 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
             );
             createAndShowToast(`Ошибка: ${error.message}`, "error");
           }
-          removeExistingPopup();
+          await removeExistingPopup();
         } else {
           console.warn("New collection name is empty.");
           // if (newCollectionNameInput) newCollectionNameInput.focus();
@@ -277,9 +329,15 @@ const saveCollectionSelections = async (propertyId, propertyTitle) => {
   const popup = document.getElementById(POPUP_ID);
   if (!popup) return;
 
-  const checkboxes = popup.querySelectorAll('input[type="checkbox"]');
+  const checkboxNodes = popup.querySelectorAll('input[type="checkbox"]');
+
+  if (!checkboxNodes) return;
+
+  const checkboxes = Array.from(checkboxNodes);
+
   let addedToAny = false;
   let addedToFavorite = false;
+  let removeFromAny = false;
 
   // Get all collections and collections with property to compare states
   const allCollections = await getCollections();
@@ -290,17 +348,27 @@ const saveCollectionSelections = async (propertyId, propertyTitle) => {
     return;
   }
 
-  checkboxes.forEach(async (checkbox) => {
+  for (let i = 0; i < checkboxes.length; i++) {
+    const checkbox = checkboxes[i];
     const collectionId = checkbox.id.replace("collection-", "");
     const collection = allCollections.find((c) => c.id === collectionId);
     if (!collection) return;
 
-    const wasInCollection = collectionsWithProperty.find((c) => c.id === collectionId && c.properties.find((p) => p.id === propertyId));
+    const wasInCollection = collectionsWithProperty.find((c) => {
+      return c.id === collectionId && c.properties.find((pId) => pId === propertyId);
+    });
     const shouldBeInCollection = checkbox.checked;
+
+    console.log("collection", collectionsWithProperty);
 
     if (shouldBeInCollection && !wasInCollection) {
       // Add to collection
-      await addPropertyToCollection(collectionId, propertyId);
+      try {
+        await addPropertyToCollection(collectionId, propertyId);
+      } catch (error) {
+        console.error("Error adding property to collection", error);
+        createAndShowToast(`Ошибка при добавлении объекта в подборку`, "error");
+      }
       addedToAny = true;
 
       if (collection.isFavorite) {
@@ -313,47 +381,74 @@ const saveCollectionSelections = async (propertyId, propertyTitle) => {
     ) {
       // Remove from collection (but not from favorite)
       // This is handled in a separate function
-      // await removePropertyFromCollection(collectionId, propertyId);
+      try {
+        await removePropertyFromCollection(collectionId, propertyId);
+      } catch (error) {
+        console.error("Error removing property from collection", error);
+        createAndShowToast(`Ошибка при удалении объекта из подборки`, "error");
+      }
+      removeFromAny = true;
     }
-  });
+  };
 
   // Show success message
-  if (addedToAny) {
-    createAndShowToast(
-      addedToFavorite
-        ? `Объект "${propertyTitle}" добавлен в избранное`
-        : `Объект "${propertyTitle}" добавлен в подборку`,
-      "success"
-    );
+  switch (true) {
+    case addedToAny && !removeFromAny:
+      createAndShowToast(`Объект "${propertyTitle}" добавлен в подборку`, "success");
+      break;
+    case addedToAny && removeFromAny:
+      createAndShowToast(`Объект "${propertyTitle}" подборки обновлены`, "success");
+      window.location.reload();
+      break;
+    case !addedToAny && removeFromAny:
+      createAndShowToast(`Объект "${propertyTitle}" удален из подборки`, "success");
+      window.location.reload();
+      break;
+    default:
+      break;
   }
 
   // Close popup
-  removeExistingPopup();
+  await removeExistingPopup();
 };
 
 /**
  * Remove existing popup if any
  */
-const removeExistingPopup = () => {
+export const removeExistingPopup = async () => {
   const existingPopup = document.getElementById(POPUP_ID);
   const existingBackdrop = document.querySelector(`.${POPUP_BACKDROP_CLASS}`);
 
+  return new Promise((resolve) => {
   if (existingPopup) {
     existingPopup.style.opacity = "0";
     existingPopup.style.transform = "translateY(20px)";
 
     setTimeout(() => {
       existingPopup.style.display = "none";
-      // Reset popup content
+      
+      // Reset popup content and mode after closing
       const listElement = existingPopup.querySelector(".collection-selector-popup__list");
       const emptyContainer = existingPopup.querySelector(".collection-selector-popup__empty");
+      const listContainer = existingPopup.querySelector(".collection-selector-popup__list-container");
       const createNewContainer = existingPopup.querySelector(".collection-selector-popup__create-new-container");
-      const newCollectionNameInput = existingPopup.querySelector("#newCollectionNameInput");
+      const createNewBtn = existingPopup.querySelector(".collection-selector-popup__create-new-btn");
+      const saveBtn = existingPopup.querySelector(".collection-selector-popup__save-btn");
+      const collectionNameInput = existingPopup.querySelector("#newCollectionNameInput");
       
+      // Reset content
       if (listElement) listElement.innerHTML = "";
       if (emptyContainer) emptyContainer.style.display = "block";
-      if (createNewContainer) createNewContainer.style.display = "none";
-      if (newCollectionNameInput) newCollectionNameInput.value = "";
+      
+      // Reset to view mode
+      switchPopupMode(false, {
+        listContainer,
+        createNewContainer,
+        createNewBtn,
+        saveBtn,
+        collectionNameInput
+      });
+      resolve();
     }, 300);
   }
 
@@ -362,8 +457,14 @@ const removeExistingPopup = () => {
 
     setTimeout(() => {
       existingBackdrop.style.display = "none";
+      resolve();
     }, 300);
   }
+
+  if (!existingPopup) {
+    resolve();
+  }
+});
 };
 
 /**
@@ -392,7 +493,7 @@ export const removeCollectionToast = () => {
 /**
  * Function to show the interactive toast for adding to collections
  */
-const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
+const showInteractiveAddToCollectionToast = async (propertyId, propertyTitle) => {
   clearAllToasts();
   removeCollectionToast();
   // Remove any existing interactive toast first
@@ -431,7 +532,7 @@ const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
   };
 
   // Set timer for auto-removal if no interaction
-  autoRemoveTimerToast = setTimeout(() => {
+  autoRemoveTimerToast = setTimeout(async () => {
     if (userInteracted === false) {
       const existingToast = document.querySelector(".interactive-toast-bar");
       if (existingToast) {
@@ -441,7 +542,7 @@ const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
           existingToast.remove();
         }, 305);
       }
-      removeExistingPopup();
+      await removeExistingPopup();
     }
   }, 50000);
 
@@ -460,7 +561,7 @@ const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
   });
 
   // Optional: Auto-hide the toast after some time
-  setTimeout(() => {
+  setTimeout(async () => {
     if (
       document.body.contains(toastBar) &&
       toastBar.classList.contains("show")
@@ -469,6 +570,7 @@ const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
       setTimeout(() => {
         toastBar.remove();
       }, 300);
+      await removeExistingPopup();
     }
   }, 7000); // Auto-hide after 7 seconds
 };
@@ -485,6 +587,7 @@ export const addPropertyToFavorite = async (
   propertyTitle,
   showToast = true
 ) => {
+  await removeExistingPopup();
     // Property is not in 'Избранное', so add it
     const added = await addPropertyToCollection(favoriteCollectionId, propertyId);
     if (added) {
