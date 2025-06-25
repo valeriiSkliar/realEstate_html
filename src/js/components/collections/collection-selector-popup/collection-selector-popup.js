@@ -262,16 +262,15 @@ const EventHandlers = {
   createSaveHandler(propertyId, propertyTitle, elements, modeHandler) {
     return async () => {
       const popup = document.getElementById(POPUP_ID);
-      const apiUrlCreateCollection = popup?.dataset.apiUrlCreateCollection;
       
-      if (!apiUrlCreateCollection) {
+      if (!API_PATHS.createCollection) {
         console.error("apiUrlCreateCollection is not set");
         createAndShowToast("Не удалось сохранить изменения", "error");
         return;
       }
 
       if (modeHandler.getCurrentMode()) {
-        await Operations.createNewCollection(propertyId, propertyTitle, elements, apiUrlCreateCollection);
+        await Operations.createNewCollection(propertyId, propertyTitle, elements, API_PATHS.createCollection);
       } else {
         await Operations.saveCollectionSelections(propertyId, propertyTitle, elements);
       }

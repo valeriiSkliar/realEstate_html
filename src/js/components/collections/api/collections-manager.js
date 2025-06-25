@@ -3,6 +3,8 @@
  * Encapsulates logic for managing collections functionality
  */
 
+// Flag to enable/disable mock mode
+const USE_MOCK_DATA = true;
 
 // Local storage key for collections
 export const STORAGE_KEY = 'realEstateCollections';
@@ -57,43 +59,33 @@ const MOCK_COLLECTIONS = [
   }
 ];
 
-const API_PATHS = {
-  getAllCollections: '/api/collections',
-  /**
-   * Generate API path for a specific collection
-   * @param {string} id - Collection ID
-   * @returns {string} API path for the collection
-   */
-  getCollectionById: (id) => `/api/collections/${id}`,
-  /**
-   * Generate API path for addPropertyToCollection
-   * @param {string} id - Collection ID
-   * @returns {string} API path for collection properties
-   */
-  addPropertyToCollection: (collectionId, propertyId) => `/api/collections/${collectionId}/properties/${propertyId}`,
-  /**
-   * Generate API path for a specific property within a collection
-   * @param {string} collectionId - Collection ID
-   * @param {string} propertyId - Property ID
-   * @returns {string} API path for the specific property in collection
-   */
-  removePropertyFromCollection: (collectionId, propertyId) => `/api/collections/${collectionId}/properties/${propertyId}`,
-  /**
-   * Generate API path to bulk update property collections
-   * @param {string} propertyId - Property ID
-   * @returns {string} API path for bulk updating property's collections
-   */
-  updatePropertyCollections: (propertyId) => `/api/properties/${propertyId}/collections`,
-  /**
-   * Generate API path to get collection selector HTML markup
-   * @param {string} propertyId - Property ID
-   * @returns {string} API path for getting collection selector markup
-   */
-  getCollectionSelectorMarkup: (propertyId) => `/api/properties/${propertyId}/collection-selector-markup`
-};
-
-// Flag to enable/disable mock mode
-const USE_MOCK_DATA = true;
+// const API_PATHS = {
+//   /**
+//    * Generate API path for addPropertyToCollection
+//    * @param {string} id - Collection ID
+//    * @returns {string} API path for collection properties
+//    */
+//   addPropertyToCollection: (collectionId, propertyId) => `/api/collections/${collectionId}/properties/${propertyId}`,
+//   /**
+//    * Generate API path for a specific property within a collection
+//    * @param {string} collectionId - Collection ID
+//    * @param {string} propertyId - Property ID
+//    * @returns {string} API path for the specific property in collection
+//    */
+//   removePropertyFromCollection: (collectionId, propertyId) => `/api/collections/${collectionId}/properties/${propertyId}`,
+//   /**
+//    * Generate API path to bulk update property collections
+//    * @param {string} propertyId - Property ID
+//    * @returns {string} API path for bulk updating property's collections
+//    */
+//   updatePropertyCollections: (propertyId) => `/api/properties/${propertyId}/collections`,
+//   /**
+//    * Generate API path to get collection selector HTML markup
+//    * @param {string} propertyId - Property ID
+//    * @returns {string} API path for getting collection selector markup
+//    */
+//   getCollectionSelectorMarkup: (propertyId) => `/api/properties/${propertyId}/collection-selector-markup`
+// };
 
 // Helper function to get mock collections from localStorage or use default
 const getMockCollectionsFromStorage = () => {
@@ -360,23 +352,6 @@ const handleMockRequest = (url, options = {}) => {
   return null;
 };
 
-/**
- * Get all collections from localStorage
- * @returns Array of collection objects
- */
-export const getCollections = async () => {
-  return fetcher(API_PATHS.getAllCollections);
-};
-
-
-/**
- * Get collection by ID
- * @param {string} id - Collection ID
- * @returns {Object|null} Collection object or null if not found
- */
-export const getCollectionById = async (id) => {
-  return fetcher(API_PATHS.getCollectionById(id));
-};
 
 /**
  * Create new collection

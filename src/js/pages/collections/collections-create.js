@@ -18,7 +18,8 @@ const collectionsCreateSchema = {
  */
 const collectionsCreateHandler = {
   async onSubmit(data) {
-    const apiUrl = document.querySelector(".js-save-collection").getAttribute("data-api-url");
+    const apiUrl = API_PATHS.createCollection || document.querySelector(".js-save-collection").getAttribute("data-api-url");
+
     if (!apiUrl) {
       console.error("No apiUrl");
       return {
