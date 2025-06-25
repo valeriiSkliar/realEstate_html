@@ -1,16 +1,14 @@
 import { createForm, validators } from "../../forms/index.js";
 import { createAndShowToast } from "../../utils/uiHelpers.js";
-
+import {
+  fetcher
+} from "../../components/collections/api/collections-manager.js";
 /**
  * Упрощенная схема валидации
  */
 const addListingSchema = {
   propertyType: [validators.required("Выберите тип объекта")],
   tradeType: [validators.required("Выберите тип сделки")],
-  propertyName: [
-    validators.required("Введите заголовок объявления"),
-    validators.minLength(10, "Заголовок должен содержать минимум 10 символов"),
-  ],
   locality: [validators.required("Выберите населенный пункт")],
   address: [validators.required("Введите адрес объекта")],
   propertyArea: [
@@ -237,25 +235,22 @@ const addListingHandler = {
   async onSubmit(data, formData) {
     console.log("📝 Отправка формы...", data);
 
-    // Простая имитация отправки
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log("✅ Форма успешно отправлена");
-        resolve({ success: true, listingId: 123 });
-      }, 1500);
+    return fetcher('', {
+      method: "POST",
+      body: JSON.stringify(data),
     });
   },
 
   onSuccess(result) {
-    console.log("🎉 Успех!", result);
+    console.log("🎉 Успех!!!", result);
     createAndShowToast("Объявление успешно создано!", "success");
   },
 
   onError(errors) {
-    console.log("⚠️ Ошибки валидации:", errors);
+    console.log("⚠️ Ошибки валидации:", errors.errors);
 
     // Находим первое поле с ошибкой и фокусируемся на нем
-    const firstErrorField = Object.keys(errors)[0];
+    const firstErrorField = Object.keys(errors.errors)[0];
     if (firstErrorField) {
       const field = document.querySelector(`[name="${firstErrorField}"]`);
       if (field) {

@@ -10,10 +10,6 @@ import {
 const editListingSchema = {
   propertyType: [validators.required("Выберите тип объекта")],
   tradeType: [validators.required("Выберите тип сделки")],
-  propertyName: [
-    validators.required("Введите заголовок объявления"),
-    validators.minLength(10, "Заголовок должен содержать минимум 10 символов"),
-  ],
   locality: [validators.required("Выберите населенный пункт")],
   address: [validators.required("Введите адрес объекта")],
   propertyArea: [
