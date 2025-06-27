@@ -28,30 +28,7 @@ const editListingSchema = {
 };
 
 /**
- * Имитация данных из базы для предзаполнения формы
- */
-const mockListingData = {
-  id: 123,
-  propertyType: "apartment",
-  tradeType: "sale",
-  propertyName: "Уютная 2-комнатная квартира в центре города",
-  locality: "krasnodar",
-  district: "center",
-  address: "ул. Красная, 123",
-  propertyArea: "65.5",
-  floor: "5",
-  condition: "euro-renovation",
-  price: "4500000",
-  cleanDescription:
-    "Отличная 2-комнатная квартира в самом центре города. Квартира после качественного евроремонта, со всей необходимой мебелью и техникой. Большие светлые комнаты, просторная кухня-гостиная. В доме есть лифт, охрана и подземная парковка. Рядом парк, школы, детские сады, остановки общественного транспорта. Отличное место для комфортной жизни в центре города.",
-  building_elevator: true,
-  building_parking: true,
-  building_security: true,
-  status: "published",
-};
-
-/**
- * Настройка условных полей (та же логика)
+ * Настройка условных полей
  */
 function setupConditionalFields(form) {
   const propertyTypeSelect = form.querySelector("#propertyType");
@@ -84,23 +61,21 @@ function setupConditionalFields(form) {
 }
 
 /**
- * Настройка загрузки файлов с функциональностью удаления (для редактирования)
+ * Настройка загрузки файлов
  */
 function setupFileUpload(form) {
   const fileInput = form.querySelector("#imageUploadInput");
-  const fileLabel = form.querySelector('label[for="imageUploadInput"]');
   const previewContainer = form.querySelector("#imagePreviews");
 
-  console.log("setupFileUpload:", { fileInput, fileLabel, previewContainer });
+  console.log("setupFileUpload:", { fileInput, previewContainer });
 
   if (!fileInput) {
     console.warn("Поле загрузки файлов не найдено");
     return;
   }
 
-  // Массив для хранения файлов (включая предзагруженные)
+  // Массив для хранения файлов
   let selectedFiles = [];
-  let existingImages = []; // Массив для уже загруженных изображений
 
   // Функция для создания нового FileList
   function createFileList(files) {
@@ -109,31 +84,13 @@ function setupFileUpload(form) {
     return dt.files;
   }
 
-  // Функция для инициализации существующих изображений
-  function initExistingImages() {
-    // Имитация существующих изображений (в реальном проекте данные придут с сервера)
-    existingImages = [
-      {
-        id: 1,
-        name: "apartment_main.jpg",
-        size: 1228800,
-        url: "#",
-        isExisting: true,
-      },
-      { id: 2, name: "kitchen.jpg", size: 1008640, url: "#", isExisting: true },
-      { id: 3, name: "bedroom.jpg", size: 774144, url: "#", isExisting: true },
-    ];
-  }
-
   // Функция для обновления превью файлов
   function updatePreview() {
     if (!previewContainer) return;
 
     previewContainer.innerHTML = "";
 
-    const totalItems = existingImages.length + selectedFiles.length;
-
-    if (totalItems === 0) {
+    if (selectedFiles.length === 0) {
       previewContainer.innerHTML =
         '<div class="text-muted">Файлы не выбраны</div>';
       // Обновляем текст кнопки
@@ -144,58 +101,14 @@ function setupFileUpload(form) {
       return;
     }
 
-    // Отображаем существующие изображения
-    existingImages.forEach((image, index) => {
-      const fileItem = document.createElement("div");
-      fileItem.className =
-        "selected-file d-flex align-items-center mb-2 p-2 border rounded";
-      fileItem.style.position = "relative";
-
-      // Кнопка удаления для существующих изображений
-      const deleteBtn = document.createElement("button");
-      deleteBtn.type = "button";
-      deleteBtn.className = "btn btn-sm btn-outline-danger ms-auto";
-      deleteBtn.innerHTML = '<i class="bi bi-x brand-bright-pink"></i>';
-      deleteBtn.title = "Удалить изображение";
-      deleteBtn.style.minWidth = "32px";
-
-      deleteBtn.addEventListener("click", () => {
-        removeExistingImage(index);
-      });
-
-      fileItem.innerHTML = `
-        <div style="
-          width: 60px;
-          height: 60px;
-          background: #e9ecef;
-          border-radius: 4px;
-          margin-right: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        ">
-          <i class="bi bi-image text-muted"></i>
-        </div>
-        <div class="flex-grow-1">
-          <div class="fw-bold">${image.name}</div>
-          <div class="text-muted small">${(image.size / 1024).toFixed(
-            1
-          )} KB</div>
-          <div class="text-muted small"><i class="bi bi-cloud-check"></i> Загружено</div>
-        </div>
-      `;
-      fileItem.appendChild(deleteBtn);
-      previewContainer.appendChild(fileItem);
-    });
-
-    // Отображаем новые файлы
+    // Отображаем выбранные файлы
     selectedFiles.forEach((file, index) => {
       const fileItem = document.createElement("div");
       fileItem.className =
         "selected-file d-flex align-items-center mb-2 p-2 border rounded";
       fileItem.style.position = "relative";
 
-      // Кнопка удаления для новых файлов
+      // Кнопка удаления
       const deleteBtn = document.createElement("button");
       deleteBtn.type = "button";
       deleteBtn.className = "btn btn-sm btn-outline-danger ms-auto";
@@ -218,7 +131,6 @@ function setupFileUpload(form) {
               <div class="text-muted small">${(file.size / 1024).toFixed(
                 1
               )} KB</div>
-              <div class="text-info small"><i class="bi bi-plus-circle"></i> Новый файл</div>
             </div>
           `;
           fileItem.appendChild(deleteBtn);
@@ -232,7 +144,6 @@ function setupFileUpload(form) {
             <div class="text-muted small">${(file.size / 1024).toFixed(
               1
             )} KB</div>
-            <div class="text-info small"><i class="bi bi-plus-circle"></i> Новый файл</div>
           </div>
         `;
         fileItem.appendChild(deleteBtn);
@@ -244,28 +155,18 @@ function setupFileUpload(form) {
     // Обновляем текст кнопки
     const placeholderText = form.querySelector(".form-file-placeholder");
     if (placeholderText) {
-      placeholderText.textContent = `Загружено изображений: ${totalItems}`;
+      placeholderText.textContent = `Загружено изображений: ${selectedFiles.length}`;
     }
 
-    // Обновляем FileList в input (только новые файлы)
+    // Обновляем FileList в input
     fileInput.files = createFileList(selectedFiles);
   }
 
-  // Функция удаления существующего изображения
-  function removeExistingImage(index) {
-    const removedImage = existingImages.splice(index, 1)[0];
-    updatePreview();
-    console.log(`Существующее изображение удалено: ${removedImage.name}`);
-    // Здесь можно добавить логику для отправки запроса на сервер об удалении
-  }
-
-  // Функция удаления нового файла
+  // Функция удаления файла
   function removeFile(index) {
     selectedFiles.splice(index, 1);
     updatePreview();
-    console.log(
-      `Новый файл удален. Осталось новых файлов: ${selectedFiles.length}`
-    );
+    console.log(`Файл удален. Осталось файлов: ${selectedFiles.length}`);
   }
 
   // Функция добавления файлов
@@ -286,7 +187,7 @@ function setupFileUpload(form) {
     updatePreview();
   }
 
-  // Если нет label, создаем обработчик на кнопку
+  // Обработчик клика на кнопку загрузки
   const uploadButton = form.querySelector(".form-file-button");
   if (uploadButton) {
     uploadButton.addEventListener("click", (e) => {
@@ -327,41 +228,8 @@ function setupFileUpload(form) {
     });
   }
 
-  // Инициализируем существующие изображения и превью
-  initExistingImages();
+  // Инициализируем превью
   updatePreview();
-}
-
-/**
- * Предзаполнение формы данными
- */
-function populateFormWithData(form, data) {
-  console.log("🔧 Предзаполнение формы данными:", data);
-
-  Object.entries(data).forEach(([fieldName, value]) => {
-    const field = form.querySelector(`[name="${fieldName}"]`);
-
-    if (!field) return;
-
-    if (field.type === "checkbox") {
-      field.checked = Boolean(value);
-    } else if (field.type === "radio") {
-      const radioButton = form.querySelector(
-        `[name="${fieldName}"][value="${value}"]`
-      );
-      if (radioButton) radioButton.checked = true;
-    } else if (field.tagName === "SELECT") {
-      field.value = value;
-      // Триггерим событие change для select2
-      if (field.hasAttribute("data-select2")) {
-        field.dispatchEvent(new Event("change"));
-      }
-    } else {
-      field.value = value;
-    }
-  });
-
-  console.log("✅ Форма предзаполнена");
 }
 
 /**
@@ -371,13 +239,31 @@ const editListingHandler = {
   async onSubmit(data, formData) {
     console.log("📝 Сохранение изменений...", data);
 
-    // Имитация отправки на сервер
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log("✅ Изменения успешно сохранены");
-        resolve({ success: true, listingId: mockListingData.id });
-      }, 1500);
-    });
+    // Получаем URL из атрибута data-action формы
+    const form = document.getElementById("addListingForm");
+    const actionUrl = form?.getAttribute("data-action");
+
+    if (!actionUrl) {
+      throw new Error(
+        "URL для отправки данных не найден в атрибуте data-action"
+      );
+    }
+
+    try {
+      const response = await fetch(actionUrl, {
+        method: "PUT",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Ошибка при отправке данных:", error);
+      throw error;
+    }
   },
 
   onSuccess(result) {
@@ -406,30 +292,14 @@ const editListingHandler = {
  * Настройка дополнительных кнопок
  */
 function setupAdditionalButtons(form) {
-  // Кнопка "Снять с публикации"
+  // Кнопка "В архив" (бывшая "Снять с публикации")
   const unpublishBtn = form.querySelector("#unpublishBtn");
   if (unpublishBtn) {
     unpublishBtn.addEventListener("click", async () => {
-      console.log("📤 Снятие с публикации...");
+      console.log("📤 Перемещение в архив...");
 
-      // Имитация запроса
-      unpublishBtn.disabled = true;
-      unpublishBtn.innerHTML =
-        '<span class="spinner-border spinner-border-sm me-2"></span>Снимаем...';
-
-      setTimeout(() => {
-        unpublishBtn.disabled = false;
-        unpublishBtn.innerHTML =
-          '<i class="bi bi-eye-slash me-2"></i>Снять с публикации';
-        createAndShowToast("Объявление снято с публикации", "info");
-
-        // Обновляем статус в UI
-        const statusBadge = document.querySelector(".listing-status .badge");
-        if (statusBadge) {
-          statusBadge.className = "badge bg-secondary";
-          statusBadge.textContent = "Снято с публикации";
-        }
-      }, 1000);
+      // Здесь должен быть реальный запрос к серверу
+      createAndShowToast("Функция архивирования не реализована", "info");
     });
   }
 
@@ -437,7 +307,7 @@ function setupAdditionalButtons(form) {
   const saveAsDraftBtn = form.querySelector("#saveAsDraftBtn");
   if (saveAsDraftBtn) {
     saveAsDraftBtn.addEventListener("click", () => {
-      createAndShowToast("Изменения сохранены как черновик", "info");
+      createAndShowToast("Функция сохранения черновика не реализована", "info");
     });
   }
 }
@@ -461,9 +331,6 @@ export const initEditListingForm = () => {
   console.log("🚀 Инициализация формы редактирования...");
 
   try {
-    // Предзаполняем форму данными
-    populateFormWithData(form, mockListingData);
-
     // Создаем FormManager
     const formManager = createForm(form, editListingSchema, {
       onSubmit: editListingHandler.onSubmit,
@@ -512,5 +379,4 @@ export default {
   initEditListingForm,
   editListingSchema,
   editListingHandler,
-  mockListingData,
 };
