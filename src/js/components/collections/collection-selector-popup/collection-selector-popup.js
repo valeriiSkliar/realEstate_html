@@ -6,22 +6,487 @@ import {
   addPropertyToCollection,
   createCollection,
   favoriteCollectionId,
-  getCollections,
-  getCollectionsWithProperty
+  getCollectionSelectorMarkup,
+  updatePropertyCollections
 } from "../api/collections-manager";
 
+import { getPlural } from "../../../utils/pluralization";
 import { clearAllToasts, createAndShowToast } from "../../../utils/uiHelpers";
 
-// DOM element IDs and classes
+// ===========================
+// CONSTANTS AND STATE
+// ===========================
+
 const POPUP_ID = "collection-selector-popup";
-const POPUP_CONTAINER_CLASS = "collection-selector-popup-container";
 const POPUP_BACKDROP_CLASS = "collection-selector-popup-backdrop";
 
-// Variable to track if user has interacted with popup
+// Global state variables
 let userInteracted = false;
-
-// Timer for auto-removal
 let autoRemoveTimerToast = null;
+let currentAbortController = null;
+
+// ===========================
+// UTILITY FUNCTIONS
+// ===========================
+
+/**
+ * Button state management utilities
+ */
+const ButtonStateManager = {
+  /**
+   * Disable button with loading state
+   * @param {HTMLElement} button - Button element
+   * @param {string} loadingText - Text to show during loading
+   */
+  setLoading(button, loadingText) {
+    if (!button) return;
+    button.disabled = true;
+    button.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>${loadingText}`;
+  },
+
+  /**
+   * Enable button and restore text
+   * @param {HTMLElement} button - Button element
+   * @param {string} normalText - Normal button text
+   */
+  setNormal(button, normalText) {
+    if (!button) return;
+    button.disabled = false;
+    button.innerHTML = normalText;
+  },
+
+  /**
+   * Disable button without loading state
+   * @param {HTMLElement} button - Button element
+   */
+  disable(button) {
+    if (button) button.disabled = true;
+  },
+
+  /**
+   * Enable button
+   * @param {HTMLElement} button - Button element
+   */
+  enable(button) {
+    if (button) button.disabled = false;
+  }
+};
+
+/**
+ * Error handling utilities
+ */
+const ErrorHandler = {
+  /**
+   * Handle operation errors with appropriate user feedback
+   * @param {Error} error - The error object
+   * @param {string} defaultMessage - Default error message
+   */
+  handle(error, defaultMessage = "Произошла ошибка") {
+    if (error.name === 'AbortError') {
+      console.log("Operation was cancelled by user");
+      createAndShowToast("Операция отменена", "info");
+    } else {
+      console.error("Operation error:", error);
+      createAndShowToast(error.message || defaultMessage, "error");
+    }
+  }
+};
+
+/**
+ * DOM helper utilities
+ */
+const DOMHelpers = {
+  /**
+   * Clone element and replace to remove event listeners
+   * @param {HTMLElement} element - Element to clone
+   * @returns {HTMLElement} New element
+   */
+  cloneAndReplace(element) {
+    if (!element) return null;
+    const newElement = element.cloneNode(true);
+    element.parentNode.replaceChild(newElement, element);
+    return newElement;
+  },
+
+  /**
+   * Get popup elements
+   * @param {HTMLElement} popup - Popup container
+   * @returns {Object} Object containing popup elements
+   */
+  getPopupElements(popup) {
+    return {
+      listContainer: popup.querySelector(".collection-selector-popup__list-container"),
+      emptyContainer: popup.querySelector(".collection-selector-popup__empty"),
+      listElement: popup.querySelector(".collection-selector-popup__list"),
+      createNewContainer: popup.querySelector(".collection-selector-popup__create-new-container"),
+      newCollectionNameInput: popup.querySelector("#newCollectionNameInput"),
+      closeBtn: popup.querySelector(".collection-selector-popup__close"),
+      createNewBtn: popup.querySelector(".collection-selector-popup__create-new-btn"),
+      cancelBtn: popup.querySelector(".collection-selector-popup__cancel-btn"),
+      saveBtn: popup.querySelector(".collection-selector-popup__save-btn")
+    };
+  }
+};
+
+// ===========================
+// POPUP STATE MANAGEMENT
+// ===========================
+
+/**
+ * Popup state manager
+ */
+const PopupStateManager = {
+  /**
+   * Switch popup between create and view modes
+   * @param {boolean} isCreateMode - Whether to switch to create mode
+   * @param {Object} elements - Popup elements
+   */
+  switchMode(isCreateMode, elements) {
+    const {
+      listContainer,
+      createNewContainer,
+      createNewBtn,
+      saveBtn,
+      collectionNameInput
+    } = elements;
+
+    if (isCreateMode) {
+      // Switch to create mode
+      if (listContainer) listContainer.style.display = "none";
+      if (createNewContainer) createNewContainer.style.display = "block";
+      if (createNewBtn) createNewBtn.style.display = "none";
+      if (saveBtn && !saveBtn.disabled) {
+        saveBtn.textContent = "Сохранить и добавить";
+      }
+      if (collectionNameInput) {
+        collectionNameInput.value = "";
+      }
+    } else {
+      // Switch to view mode
+      if (listContainer) listContainer.style.display = "block";
+      if (createNewContainer) createNewContainer.style.display = "none";
+      if (createNewBtn) createNewBtn.style.display = "inline-block";
+      if (saveBtn && !saveBtn.disabled) {
+        saveBtn.textContent = "Готово";
+      }
+    }
+  },
+
+  /**
+   * Abort current operation if any
+   */
+  abortCurrentOperation() {
+    if (currentAbortController) {
+      currentAbortController.abort();
+      currentAbortController = null;
+    }
+  },
+
+  /**
+   * Create new abort controller
+   * @returns {AbortController} New abort controller
+   */
+  createAbortController() {
+    currentAbortController = new AbortController();
+    return currentAbortController;
+  }
+};
+
+// ===========================
+// EVENT HANDLERS
+// ===========================
+
+/**
+ * Event handler factory
+ */
+const EventHandlers = {
+  /**
+   * Create close handler
+   * @returns {Function} Close event handler
+   */
+  createCloseHandler() {
+    return () => removeExistingPopup();
+  },
+
+  /**
+   * Create mode switch handler
+   * @param {Object} elements - Popup elements
+   * @returns {Function} Mode switch event handler
+   */
+  createModeHandler(elements) {
+    let isCreateMode = false;
+    
+    return {
+      switchToCreate() {
+        isCreateMode = true;
+        PopupStateManager.switchMode(true, elements);
+      },
+      
+      switchToView() {
+        isCreateMode = false;
+        PopupStateManager.switchMode(false, elements);
+      },
+
+      getCurrentMode() {
+        return isCreateMode;
+      }
+    };
+  },
+
+  /**
+   * Create cancel handler
+   * @param {Object} modeHandler - Mode handler object
+   * @returns {Function} Cancel event handler
+   */
+  createCancelHandler(modeHandler) {
+    
+    return async () => {
+      PopupStateManager.abortCurrentOperation();
+      
+      if (modeHandler.getCurrentMode()) {
+        modeHandler.switchToView();
+      } else {
+        await removeExistingPopup();
+      }
+    };
+  },
+
+  /**
+   * Create save handler
+   * @param {string} propertyId - Property ID
+   * @param {string} propertyTitle - Property title
+   * @param {Object} elements - Popup elements
+   * @param {Object} modeHandler - Mode handler object
+   * @returns {Function} Save event handler
+   */
+  createSaveHandler(propertyId, propertyTitle, elements, modeHandler) {
+    return async () => {
+      const popup = document.getElementById(POPUP_ID);
+      
+      if (!API_PATHS.createCollection) {
+        console.error("apiUrlCreateCollection is not set");
+        createAndShowToast("Не удалось сохранить изменения", "error");
+        return;
+      }
+
+      if (modeHandler.getCurrentMode()) {
+        await Operations.createNewCollection(propertyId, propertyTitle, elements, API_PATHS.createCollection);
+      } else {
+        await Operations.saveCollectionSelections(propertyId, propertyTitle, elements);
+      }
+    };
+  }
+};
+
+// ===========================
+// CORE OPERATIONS
+// ===========================
+
+/**
+ * Core operations
+ */
+const Operations = {
+  /**
+   * Create new collection operation
+   * @param {string} propertyId - Property ID
+   * @param {string} propertyTitle - Property title
+   * @param {Object} elements - Popup elements
+   * @param {string} apiUrl - API URL for creating collection
+   */
+  async createNewCollection(propertyId, propertyTitle, elements, apiUrl) {
+    const { newCollectionNameInput, saveBtn, createNewBtn } = elements;
+    const newName = newCollectionNameInput?.value.trim() || "";
+    
+    if (!newName) {
+      createAndShowToast("Название подборки не может быть пустым", "error");
+      return;
+    }
+
+    // Set loading state
+    ButtonStateManager.setLoading(saveBtn, "Создание...");
+    ButtonStateManager.disable(createNewBtn);
+
+    const abortController = PopupStateManager.createAbortController();
+
+    try {
+      const newCollection = await createCollection(
+        apiUrl, 
+        { name: newName, properties: [propertyId] }, 
+        abortController.signal
+      );
+      
+      if (newCollection?.id) {
+        await addPropertyToCollection(newCollection.id, propertyId, abortController.signal);
+        createAndShowToast(
+          `Объект "${propertyTitle}" добавлен в новую подборку "${newName}"`,
+          "success"
+        );
+      } else {
+        throw new Error("Не удалось создать подборку");
+      }
+    } catch (error) {
+      ErrorHandler.handle(error, "Ошибка при создании подборки");
+    } finally {
+      // Restore button states
+      ButtonStateManager.setNormal(saveBtn, "Сохранить и добавить");
+      ButtonStateManager.enable(createNewBtn);
+      currentAbortController = null;
+    }
+
+    await removeExistingPopup();
+  },
+
+  /**
+   * Save collection selections operation
+   * @param {string} propertyId - Property ID
+   * @param {string} propertyTitle - Property title
+   * @param {Object} elements - Popup elements
+   */
+  async saveCollectionSelections(propertyId, propertyTitle, elements) {
+    const popup = document.getElementById(POPUP_ID);
+    if (!popup) return;
+
+    const checkboxes = Array.from(popup.querySelectorAll('input[type="checkbox"]'));
+    const { saveBtn, createNewBtn } = elements;
+
+    // Collect collection states
+    const collectionStates = checkboxes.map(checkbox => ({
+      collectionId: checkbox.id.replace("collection-", ""),
+      shouldInclude: checkbox.checked
+    }));
+
+    const hasAnyChanges = collectionStates.some(state => state.shouldInclude);
+    if (!hasAnyChanges) {
+      createAndShowToast("Выберите хотя бы одну подборку", "warning");
+      return;
+    }
+
+    // Set loading state
+    ButtonStateManager.setLoading(saveBtn, "Сохранение...");
+    ButtonStateManager.disable(createNewBtn);
+
+    const abortController = PopupStateManager.createAbortController();
+
+    try {
+      const result = await updatePropertyCollections(propertyId, collectionStates, abortController.signal);
+      
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+      
+      // Show success message
+      const addedCount = collectionStates.filter(state => state.shouldInclude).length;
+      if (addedCount > 0) {
+        const pluralForm = getPlural(addedCount, 'подборку', 'подборки', 'подборок');
+        createAndShowToast(`Объект "${propertyTitle}" добавлен в ${addedCount} ${pluralForm}`, "success");
+      }
+    } catch (error) {
+      ErrorHandler.handle(error, "Не удалось сохранить изменения");
+    } finally {
+      // Restore button states
+      ButtonStateManager.setNormal(saveBtn, "Готово");
+      ButtonStateManager.enable(createNewBtn);
+      currentAbortController = null;
+    }
+
+    await removeExistingPopup();
+  },
+
+  /**
+   * Load collection markup
+   * @param {string} propertyId - Property ID
+   * @param {Object} elements - Popup elements
+   */
+  async loadCollectionMarkup(propertyId, elements) {
+    const { listContainer } = elements;
+    
+    try {
+      const markup = await getCollectionSelectorMarkup(propertyId);
+      
+      if (!markup) {
+        throw new Error("Не удалось загрузить коллекции");
+      }
+      
+      if (listContainer) {
+        listContainer.innerHTML = markup;
+        this.setupCollectionItemListeners(listContainer);
+      }
+      
+      return true;
+    } catch (error) {
+      console.error("Error loading collections:", error);
+      
+      if (listContainer) {
+        listContainer.innerHTML = `
+          <div class="collection-selector-popup__error text-center py-4">
+            <i class="bi bi-exclamation-triangle text-warning mb-3" style="font-size: 2rem;"></i>
+            <p class="mb-2 text-muted">Не удалось загрузить подборки</p>
+          </div>
+        `;
+      }
+      
+      return false;
+    }
+  },
+
+  /**
+   * Setup collection item event listeners
+   * @param {HTMLElement} container - Container element
+   */
+  setupCollectionItemListeners(container) {
+    const collectionItems = container.querySelectorAll(".collection-selector-popup__item");
+    
+    collectionItems.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        if (e.target.tagName === "INPUT") return;
+        
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        if (checkbox) checkbox.checked = !checkbox.checked;
+      });
+    });
+  }
+};
+
+// ===========================
+// POPUP DISPLAY FUNCTIONS
+// ===========================
+
+/**
+ * Show loading state in popup
+ * @param {HTMLElement} listContainer - List container element
+ */
+const showLoadingState = (listContainer) => {
+  if (!listContainer) return;
+  
+  listContainer.innerHTML = `
+    <div class="collection-selector-popup__loading text-center py-4">
+      <div class="spinner-border text-brand-turquoise mb-3" role="status">
+        <span class="visually-hidden">Загрузка...</span>
+      </div>
+      <p class="mb-0 text-muted">Загружаем подборки...</p>
+    </div>
+  `;
+};
+
+/**
+ * Setup popup animation
+ * @param {HTMLElement} popup - Popup element
+ * @param {HTMLElement} backdrop - Backdrop element
+ */
+const setupPopupAnimation = (popup, backdrop) => {
+  popup.style.display = "block";
+  backdrop.style.display = "block";
+  
+  setTimeout(() => {
+    backdrop.style.opacity = "1";
+    popup.style.opacity = "1";
+    popup.style.transform = "translateY(0)";
+  }, 10);
+};
+
+// ===========================
+// MAIN POPUP FUNCTIONS
+// ===========================
 
 /**
  * Create and show the collection selector popup
@@ -29,340 +494,128 @@ let autoRemoveTimerToast = null;
  * @param {string} propertyTitle - Title of the property (for display in toast)
  */
 export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => {
-  // Remove any existing popup
-  removeExistingPopup();
   clearAllToasts();
+  await removeExistingPopup();
 
-  // Get all collections (excluding favorites for the popup display)
-  let collections = await getCollections();
-  // Get collections that already contain this property
-  let collectionsWithProperty = await getCollectionsWithProperty(propertyId)
-    
+  const popupContainer = document.getElementById(POPUP_ID);
+  const backdrop = document.querySelector(`.${POPUP_BACKDROP_CLASS}`);
+  
+  if (!popupContainer || !backdrop) {
+    console.error("Popup elements not found in DOM");
+    return;
+  }
 
-    if (!collections || !collectionsWithProperty) {
-      createAndShowToast("Не удалось загрузить коллекции", "error");
-      return;
-    }
-    
-    
-  // Filter out favorite collections
-  collections = collections.filter(
-    (collection) => !collection.isFavorite
-  );
+  // Get popup elements
+  const elements = DOMHelpers.getPopupElements(popupContainer);
+  
+  // Show loading state immediately
+  showLoadingState(elements.listContainer);
+  
+  // Reset create new container
+  if (elements.createNewContainer) elements.createNewContainer.style.display = "none";
+  if (elements.newCollectionNameInput) elements.newCollectionNameInput.value = "";
 
-  // Filter out favorite collections
-  collectionsWithProperty = collectionsWithProperty.filter(
-    (collection) => !collection.isFavorite
-  );
-
-  const collectionsWithPropertyIds = collectionsWithProperty.map((c) => c.id);
-
-  // Create popup container
-  const popupContainer = document.createElement("div");
-  popupContainer.className = POPUP_CONTAINER_CLASS;
-  popupContainer.id = POPUP_ID;
-
-  // Create backdrop
-  const backdrop = document.createElement("div");
-  backdrop.className = POPUP_BACKDROP_CLASS;
-  backdrop.addEventListener("click", removeExistingPopup);
-
-  // Create popup content
-  popupContainer.innerHTML = `
-    <div class="collection-selector-popup">
-      <div class="collection-selector-popup__header">
-        <h5 class="collection-selector-popup__title">Добавить в подборку</h5>
-        <button class="collection-selector-popup__close" aria-label="Закрыть">
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>
-      <div class="collection-selector-popup__body">
-        <div class="collection-selector-popup__list-container">
-          ${
-            collections.length === 0
-              ? `<div class="collection-selector-popup__empty">
-              <p>У вас пока нет подборок.</p>
-            </div>`
-              : `<div class="collection-selector-popup__list">
-              ${collections
-                .map(
-                  (collection) => `
-                <div class="collection-selector-popup__item" data-collection-id="${
-                  collection.id
-                }">
-                  <div class="collection-selector-popup__item-checkbox">
-                    <input type="checkbox" id="collection-${collection.id}" 
-                      ${
-                        collectionsWithPropertyIds.includes(collection.id)
-                          ? "checked"
-                          : ""
-                      }
-                      ${
-                        collection.isFavorite &&
-                        collectionsWithPropertyIds.includes(collection.id)
-                          ? "disabled"
-                          : ""
-                      }
-                    >
-                    <label for="collection-${collection.id}"></label>
-                  </div>
-                  <div class="collection-selector-popup__item-info">
-                    <div class="collection-selector-popup__item-name">
-                      ${
-                        collection.isFavorite
-                          ? '<i class="bi bi-star-fill"></i> '
-                          : ""
-                      }${collection.name}
-                    </div>
-                    <div class="collection-selector-popup__item-count">
-                      <i class="bi bi-building"></i> ${
-                        collection.properties ? collection.properties.length : 0
-                      } объектов
-                    </div>
-                  </div>
-                </div>
-              `
-                )
-                .join("")}
-            </div>`
-          }
-        </div>
-        <div class="collection-selector-popup__create-new-container" style="display: none;">
-          <div class="form-group mb-3">
-            <label for="newCollectionNameInput" class="form-label visually-hidden">Название новой подборки</label>
-            <input type="text" class="form-control" id="newCollectionNameInput" placeholder="Название новой подборки">
-          </div>
-        </div>
-      </div>
-      <div class="collection-selector-popup__footer">
-        <button class="btn btn-outline-secondary collection-selector-popup__create-new-btn">Создать новую</button>
-        <button class="btn btn-outline-brand-turquoise collection-selector-popup__cancel-btn">Отмена</button>
-        <button class="btn btn-brand-lime collection-selector-popup__save-btn">Готово</button> 
-      </div>
-    </div>
-  `;
-
-  // Append popup and backdrop to body
-  document.body.appendChild(backdrop);
-  document.body.appendChild(popupContainer);
-
-  // Add event listeners
-  const closeBtn = popupContainer.querySelector(
-    ".collection-selector-popup__close"
-  );
-  closeBtn.addEventListener("click", removeExistingPopup);
-
-  const createNewBtn = popupContainer.querySelector(
-    ".collection-selector-popup__create-new-btn"
-  );
-  const listContainer = popupContainer.querySelector(
-    ".collection-selector-popup__list-container"
-  );
-  const createNewContainer = popupContainer.querySelector(
-    ".collection-selector-popup__create-new-container"
-  );
-  const newCollectionNameInput = popupContainer.querySelector(
-    "#newCollectionNameInput"
-  );
-
-  const cancelBtn = popupContainer.querySelector(
-    ".collection-selector-popup__cancel-btn"
-  );
-  const saveBtn = popupContainer.querySelector(
-    ".collection-selector-popup__save-btn"
-  );
-
-  let isCreateMode = false;
-
-  const switchToCreateMode = () => {
-    isCreateMode = true;
-    if (listContainer) listContainer.style.display = "none";
-    if (createNewContainer) createNewContainer.style.display = "block";
-    if (createNewBtn) createNewBtn.style.display = "none";
-    if (saveBtn) saveBtn.textContent = "Сохранить и добавить";
-    if (newCollectionNameInput) {
-      newCollectionNameInput.value = ""; // Clear previous input
-      // newCollectionNameInput.focus();
-    }
+  // Clone elements to remove old event listeners
+  const newElements = {
+    ...elements,
+    closeBtn: DOMHelpers.cloneAndReplace(elements.closeBtn),
+    createNewBtn: DOMHelpers.cloneAndReplace(elements.createNewBtn),
+    cancelBtn: DOMHelpers.cloneAndReplace(elements.cancelBtn),
+    saveBtn: DOMHelpers.cloneAndReplace(elements.saveBtn)
   };
+  
+  const newBackdrop = DOMHelpers.cloneAndReplace(backdrop);
 
-  const switchToViewMode = () => {
-    isCreateMode = false;
-    if (listContainer) listContainer.style.display = "block";
-    if (createNewContainer) createNewContainer.style.display = "none";
-    if (createNewBtn) createNewBtn.style.display = "inline-block";
-    if (saveBtn) saveBtn.textContent = "Готово";
-  };
+  // Reset button states
+  ButtonStateManager.disable(newElements.createNewBtn);
+  ButtonStateManager.disable(newElements.saveBtn);
+  if (newElements.saveBtn) newElements.saveBtn.innerHTML = 'Готово';
 
-  if (createNewBtn) {
-    createNewBtn.addEventListener("click", switchToCreateMode);
+  // Setup event handlers
+  const modeHandler = EventHandlers.createModeHandler(newElements);
+  
+  if (newElements.closeBtn) {
+    newElements.closeBtn.addEventListener("click", EventHandlers.createCloseHandler());
   }
-
-  if (cancelBtn) {
-    cancelBtn.addEventListener("click", () => {
-      if (isCreateMode) {
-        switchToViewMode();
-      } else {
-        removeExistingPopup();
-      }
-    });
+  
+  if (newBackdrop) {
+    newBackdrop.addEventListener("click", EventHandlers.createCloseHandler());
   }
-
-  if (saveBtn) {
-    saveBtn.addEventListener("click", () => {
-      if (isCreateMode) {
-        const newName = newCollectionNameInput
-          ? newCollectionNameInput.value.trim()
-          : "";
-        if (newName) {
-          try {
-            const newCollection = createCollection({ name: newName });
-            if (newCollection && newCollection.id) {
-              addPropertyToCollection(newCollection.id, propertyId);
-
-              createAndShowToast(
-                `Объект "${propertyTitle}" добавлен в новую подборку "${newName}"`,
-                "success"
-              );
-            } else {
-              console.error(
-                "Failed to create new collection or new collection has no ID.",
-                newCollection
-              );
-              createAndShowToast(`Ошибка при создании подборки`, "error");
-            }
-          } catch (error) {
-            console.error(
-              "Error creating collection or adding property:",
-              error
-            );
-            createAndShowToast(`Ошибка: ${error.message}`, "error");
-          }
-          removeExistingPopup();
-        } else {
-          console.warn("New collection name is empty.");
-          // if (newCollectionNameInput) newCollectionNameInput.focus();
-          createAndShowToast("Название подборки не может быть пустым", "error");
-        }
-      } else {
-        saveCollectionSelections(propertyId, propertyTitle);
-      }
-    });
+  
+  if (newElements.createNewBtn) {
+    newElements.createNewBtn.addEventListener("click", modeHandler.switchToCreate);
   }
-
-  // Add event listeners for collection items
-  const collectionItems = popupContainer.querySelectorAll(
-    ".collection-selector-popup__item"
-  );
-  collectionItems.forEach((item) => {
-    item.addEventListener("click", (e) => {
-      // Don't toggle if clicking on the checkbox itself
-      if (e.target.tagName === "INPUT") return;
-
-      const checkbox = item.querySelector('input[type="checkbox"]');
-      // Don't toggle if checkbox is disabled (favorite collection)
-      if (checkbox.disabled) return;
-
-      checkbox.checked = !checkbox.checked;
-    });
-  });
-
-  // Show popup with animation
-  setTimeout(() => {
-    backdrop.style.opacity = "1";
-    popupContainer.style.opacity = "1";
-    popupContainer.style.transform = "translateY(0)";
-  }, 10);
-};
-
-/**
- * Save collection selections and close popup
- * @param {string} propertyId - ID of the property
- * @param {string} propertyTitle - Title of the property for toast message
- */
-const saveCollectionSelections = async (propertyId, propertyTitle) => {
-  const popup = document.getElementById(POPUP_ID);
-  if (!popup) return;
-
-  const checkboxes = popup.querySelectorAll('input[type="checkbox"]');
-  let addedToAny = false;
-  let addedToFavorite = false;
-
-  const collectionsWithProperty = await getCollectionsWithProperty(propertyId);
-
-  checkboxes.forEach(async (checkbox) => {
-    const collectionId = checkbox.id.replace("collection-", "");
-    const collection = collectionsWithProperty.find((c) => c.id === collectionId);
-    if (!collection) return;
-
-    const wasInCollection = collection.properties.find((p) => p.id === propertyId);
-    const shouldBeInCollection = checkbox.checked;
-
-    if (shouldBeInCollection && !wasInCollection) {
-      // Add to collection
-      await addPropertyToCollection(collectionId, propertyId);
-      addedToAny = true;
-
-      if (collection.isFavorite) {
-        addedToFavorite = true;
-      }
-    } else if (
-      !shouldBeInCollection &&
-      wasInCollection &&
-      !collection.isFavorite
-    ) {
-      // Remove from collection (but not from favorite)
-      // This is handled in a separate function
-      // await removePropertyFromCollection(collectionId, propertyId);
-    }
-  });
-
-  // Show success message
-  if (addedToAny) {
-    createAndShowToast(
-      addedToFavorite
-        ? `Объект "${propertyTitle}" добавлен в избранное`
-        : `Объект "${propertyTitle}" добавлен в подборку`,
-      "success"
+  
+  if (newElements.cancelBtn) {
+    newElements.cancelBtn.addEventListener("click", EventHandlers.createCancelHandler(modeHandler));
+  }
+  
+  if (newElements.saveBtn) {
+    newElements.saveBtn.addEventListener("click", 
+      EventHandlers.createSaveHandler(propertyId, propertyTitle, newElements, modeHandler)
     );
   }
 
-  // Close popup
-  removeExistingPopup();
+  // Show popup with animation
+  setupPopupAnimation(popupContainer, newBackdrop);
+
+  // Load data asynchronously
+  const loadSuccess = await Operations.loadCollectionMarkup(propertyId, newElements);
+  
+  if (loadSuccess) {
+    ButtonStateManager.enable(newElements.createNewBtn);
+    ButtonStateManager.enable(newElements.saveBtn);
+  }
 };
 
 /**
  * Remove existing popup if any
  */
-const removeExistingPopup = () => {
+export const removeExistingPopup = async () => {
+  PopupStateManager.abortCurrentOperation();
+
   const existingPopup = document.getElementById(POPUP_ID);
   const existingBackdrop = document.querySelector(`.${POPUP_BACKDROP_CLASS}`);
 
-  if (existingPopup) {
-    existingPopup.style.opacity = "0";
-    existingPopup.style.transform = "translateY(20px)";
+  return new Promise((resolve) => {
+    if (existingPopup) {
+      existingPopup.style.opacity = "0";
+      existingPopup.style.transform = "translateY(20px)";
 
-    setTimeout(() => {
-      if (existingPopup.parentNode) {
-        existingPopup.parentNode.removeChild(existingPopup);
-      }
-    }, 300);
-  }
+      setTimeout(() => {
+        existingPopup.style.display = "none";
+        
+        // Reset popup content and mode after closing
+        const elements = DOMHelpers.getPopupElements(existingPopup);
+        
+        if (elements.listElement) elements.listElement.innerHTML = "";
+        if (elements.emptyContainer) elements.emptyContainer.style.display = "block";
+        
+        PopupStateManager.switchMode(false, elements);
+        resolve();
+      }, 300);
+    }
 
-  if (existingBackdrop) {
-    existingBackdrop.style.opacity = "0";
+    if (existingBackdrop) {
+      existingBackdrop.style.opacity = "0";
+      setTimeout(() => {
+        existingBackdrop.style.display = "none";
+        resolve();
+      }, 300);
+    }
 
-    setTimeout(() => {
-      if (existingBackdrop.parentNode) {
-        existingBackdrop.parentNode.removeChild(existingBackdrop);
-      }
-    }, 300);
-  }
+    if (!existingPopup) {
+      resolve();
+    }
+  });
 };
+
+// ===========================
+// TOAST MANAGEMENT
+// ===========================
 
 /**
  * Clear the toast timer and remove any existing toast
- * Call this function when user clicks another like button
  */
 export const removeCollectionToast = () => {
   if (autoRemoveTimerToast) {
@@ -371,7 +624,6 @@ export const removeCollectionToast = () => {
   }
 
   const existingToast = document.querySelector(".interactive-toast-bar");
-
   if (existingToast) {
     existingToast.style.opacity = "0";
     existingToast.style.transform = "translateY(20px)";
@@ -384,16 +636,16 @@ export const removeCollectionToast = () => {
 };
 
 /**
- * Function to show the interactive toast for adding to collections
+ * Show interactive toast for adding to collections
+ * @param {string} propertyId - Property ID
+ * @param {string} propertyTitle - Property title
  */
-const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
+const showInteractiveAddToCollectionToast = async (propertyId, propertyTitle) => {
   clearAllToasts();
   removeCollectionToast();
-  // Remove any existing interactive toast first
+  
   const existingToast = document.querySelector(".interactive-toast-bar");
-  if (existingToast) {
-    existingToast.remove();
-  }
+  if (existingToast) existingToast.remove();
 
   const toastBar = document.createElement("div");
   toastBar.className = "interactive-toast-bar";
@@ -410,12 +662,10 @@ const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
 
   document.body.appendChild(toastBar);
 
-  // Trigger the slide-in animation
-  setTimeout(() => {
-    toastBar.classList.add("show");
-  }, 10); // Small delay to ensure transition triggers
+  // Trigger animation
+  setTimeout(() => toastBar.classList.add("show"), 10);
 
-  // Function to mark user interaction
+  // Setup interaction tracking
   const markInteraction = () => {
     userInteracted = true;
     if (autoRemoveTimerToast) {
@@ -424,22 +674,20 @@ const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
     }
   };
 
-  // Set timer for auto-removal if no interaction
-  autoRemoveTimerToast = setTimeout(() => {
-    if (userInteracted === false) {
+  // Auto-removal timer
+  autoRemoveTimerToast = setTimeout(async () => {
+    if (!userInteracted) {
       const existingToast = document.querySelector(".interactive-toast-bar");
       if (existingToast) {
         existingToast.style.opacity = "0";
         existingToast.style.transform = "translateY(20px)";
-        setTimeout(() => {
-          existingToast.remove();
-        }, 305);
+        setTimeout(() => existingToast.remove(), 305);
       }
-      removeExistingPopup();
+      await removeExistingPopup();
     }
   }, 50000);
 
-  // Add interaction listeners to the popup
+  // Event listeners
   toastBar.addEventListener("mouseover", markInteraction);
   toastBar.addEventListener("click", markInteraction);
   toastBar.addEventListener("touchstart", markInteraction);
@@ -447,49 +695,48 @@ const showInteractiveAddToCollectionToast = (propertyId, propertyTitle) => {
   addButton.addEventListener("click", () => {
     showCollectionSelectorPopup(propertyId, propertyTitle);
     toastBar.classList.remove("show");
-    // Remove after animation
-    setTimeout(() => {
-      toastBar.remove();
-    }, 300); // Match transition duration
+    setTimeout(() => toastBar.remove(), 300);
   });
 
-  // Optional: Auto-hide the toast after some time
-  setTimeout(() => {
-    if (
-      document.body.contains(toastBar) &&
-      toastBar.classList.contains("show")
-    ) {
+  // Auto-hide timer
+  setTimeout(async () => {
+    if (document.body.contains(toastBar) && toastBar.classList.contains("show")) {
       toastBar.classList.remove("show");
-      setTimeout(() => {
-        toastBar.remove();
-      }, 300);
+      setTimeout(() => toastBar.remove(), 300);
+      await removeExistingPopup();
     }
-  }, 7000); // Auto-hide after 7 seconds
+  }, 7000);
 };
+
+// ===========================
+// PUBLIC API
+// ===========================
 
 /**
  * Add property to favorite collection
  * @param {string} propertyId - ID of the property to add
- * @param {string} propertyTitle - Title of the property (for display in toast)
- * @param {boolean} showPopup - Whether to show the collection selector popup
+ * @param {string} propertyTitle - Title of the property
+ * @param {boolean} showToast - Whether to show the collection selector popup
  * @returns {object} - Detailed status of the operation
  */
-export const addPropertyToFavorite = async (
-  propertyId,
-  propertyTitle,
-  showToast = true
-) => {
-    // Property is not in 'Избранное', so add it
+export const addPropertyToFavorite = async (propertyId, propertyTitle, showToast = true) => {
+  try {
     const added = await addPropertyToCollection(favoriteCollectionId, propertyId);
+    await removeExistingPopup();
+    
     if (added) {
       if (showToast) {
         showInteractiveAddToCollectionToast(propertyId, propertyTitle);
+      } else {
+        createAndShowToast(`${propertyTitle} добавлено в избранное`, 'success');
       }
       return { action: "added", success: true, isFavorite: true };
     } else {
-      console.warn(
-        `Failed to add property ${propertyId} to 'Избранное' (ID: ${favoriteCollectionId})`
-      );
+      console.warn(`Failed to add property ${propertyId} to 'Избранное' (ID: ${favoriteCollectionId})`);
       return { action: "add_failed", success: false, isFavorite: false };
     }
+  } catch (error) {
+    console.error("Error adding property to favorite:", error);
+    return { action: "add_failed", success: false, isFavorite: false };
+  }
 };

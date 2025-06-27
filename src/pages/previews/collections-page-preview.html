@@ -91,10 +91,8 @@
 
             <!-- Collections list -->
             <div class="collections-list js-collections-list">
-              <!-- collection list Items is handled by the js file src/js/pages/collections/collections-page.js -->
-
               <!-- Example Collection Item 1 -->
-              <!-- <div class="collection-item" data-collection-id="coll_2">
+              <div class="collection-item" data-collection-id="coll_2">
                 <div class="collection-item__main">
                   <a href="/collection.html?id=coll_2">
                     <h3 class="collection-item__name">
@@ -112,19 +110,19 @@
                 </div>
                 <div class="collection-item__actions">
                   <a
-                    href="/collection.html?id=coll_2"
+                    href="/collections-edit.html?id=coll_2"
                     class="brand-button brand-button--outline brand-button--turquoise"
                   >
                     <i class="bi bi-pencil"></i>
                   </a>
                   <button
                     class="btn btn-outline-brand-bright-pink js-delete-collection"
-                    data-collection-id="coll_2"
+                    data-api-url="/api/collections/coll_2"
                   >
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
-              </div> -->
+              </div>
             </div>
           </div>
 
@@ -154,7 +152,7 @@
                     Вы уверены, что хотите удалить эту подборку? Это действие
                     нельзя отменить.
                   </p>
-                  <input type="hidden" id="deleteCollectionId" />
+                  <input type="hidden" id="deleteCollectionApiUrl" />
                 </div>
                 <div class="modal-footer">
                   <button
@@ -179,6 +177,38 @@
     </main>
 
     <app-footer></app-footer>
+
+    <div class="collection-selector-popup-backdrop"></div>
+    <div class="collection-selector-popup-container" id="collection-selector-popup">
+      <div class="collection-selector-popup">
+        <div class="collection-selector-popup__header">
+          <h5 class="collection-selector-popup__title">Добавить в подборку</h5>
+          <button class="collection-selector-popup__close" aria-label="Закрыть">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="collection-selector-popup__body">
+          <div class="collection-selector-popup__list-container">
+                <div class="collection-selector-popup__empty">
+                <p>У вас пока нет подборок.</p>
+              </div>
+              <div class="collection-selector-popup__list">
+              </div>
+          </div>
+          <div class="collection-selector-popup__create-new-container" style="display: none;">
+            <div class="form-group mb-3">
+              <label for="newCollectionNameInput" class="form-label visually-hidden">Название новой подборки</label>
+              <input type="text" class="form-control" id="newCollectionNameInput" placeholder="Название новой подборки">
+            </div>
+          </div>
+        </div>
+        <div class="collection-selector-popup__footer">
+          <button class="btn btn-outline-secondary collection-selector-popup__create-new-btn">Создать новую</button>
+          <button class="btn btn-outline-brand-turquoise collection-selector-popup__cancel-btn">Отмена</button>
+          <button class="btn btn-brand-lime collection-selector-popup__save-btn">Готово</button>
+        </div>
+      </div>
+    </div>
 
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
