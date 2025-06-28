@@ -133,9 +133,21 @@ const initPlanUpgrade = () => {
             paymentMethodName;
         }
 
+        // Reset consent checkboxes and disable confirm button
+        const emailReceiptCheckbox = document.getElementById(
+          "emailReceiptConsent"
+        );
+        const contractCheckbox = document.getElementById("contractConsent");
+        if (emailReceiptCheckbox) emailReceiptCheckbox.checked = false;
+        if (contractCheckbox) contractCheckbox.checked = false;
+        if (confirmUpgradeButton) confirmUpgradeButton.disabled = true;
+
         console.log("[Debug] Showing upgrade plan modal...");
         // Show modal
         showModal("upgradePlanModal");
+
+        // Initialize consent validation after modal is shown
+        initConsentValidation();
       }
     });
   });
@@ -143,6 +155,18 @@ const initPlanUpgrade = () => {
   // Handle confirmation button click
   if (confirmUpgradeButton) {
     confirmUpgradeButton.addEventListener("click", () => {
+      // Check if both consents are given
+      const emailReceiptCheckbox = document.getElementById(
+        "emailReceiptConsent"
+      );
+      const contractCheckbox = document.getElementById("contractConsent");
+
+      if (!emailReceiptCheckbox?.checked || !contractCheckbox?.checked) {
+        console.log("[Debug] Consent not given, blocking upgrade");
+        createAndShowToast("Необходимо дать согласие для продолжения", "error");
+        return;
+      }
+
       const planName = document.getElementById("upgradePlanName").textContent;
       console.log(`[Debug] Confirming upgrade to plan: ${planName}`);
       try {
@@ -278,6 +302,49 @@ const initPlanUpgrade = () => {
       }
     });
   }
+};
+
+/**
+ * Initialize consent validation for upgrade modal
+ */
+const initConsentValidation = () => {
+  console.log("[Debug] Initializing consent validation...");
+
+  const emailReceiptCheckbox = document.getElementById("emailReceiptConsent");
+  const contractCheckbox = document.getElementById("contractConsent");
+  const confirmUpgradeButton = document.querySelector(".js-confirm-upgrade");
+
+  if (!emailReceiptCheckbox || !contractCheckbox || !confirmUpgradeButton) {
+    console.log("[Debug] Consent elements not found");
+    return;
+  }
+
+  const validateConsents = () => {
+    const emailChecked = emailReceiptCheckbox.checked;
+    const contractChecked = contractCheckbox.checked;
+    const allConsentsGiven = emailChecked && contractChecked;
+
+    console.log(
+      `[Debug] Email consent: ${emailChecked}, Contract consent: ${contractChecked}`
+    );
+
+    confirmUpgradeButton.disabled = !allConsentsGiven;
+  };
+
+  // Add event listeners to checkboxes
+  emailReceiptCheckbox.addEventListener("change", validateConsents);
+  contractCheckbox.addEventListener("change", validateConsents);
+
+  // Prevent clicking on the contract link from triggering checkbox
+  const contractLink = document.querySelector(".consent-link");
+  if (contractLink) {
+    contractLink.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+  }
+
+  // Initial validation
+  validateConsents();
 };
 
 /**
