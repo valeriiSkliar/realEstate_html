@@ -14,9 +14,64 @@ const addListingSchema = {
   locality: [validators.required("Выберите населенный пункт")],
   address: [validators.required("Введите адрес объекта")],
   propertyArea: [
-    validators.required("Укажите площадь объекта"),
-    validators.min(1, "Площадь должна быть больше 0"),
-    validators.max(10000, "Площадь не может превышать 10,000 м²"),
+    // Условная валидация - обязательно для всех типов кроме земельных участков
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType === "land") return true;
+        return validators.required("Укажите площадь объекта").validate(value);
+      },
+    },
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType === "land" || !value || value.trim() === "")
+          return true;
+        return validators
+          .min(1, "Площадь должна быть больше 0")
+          .validate(value);
+      },
+    },
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType === "land" || !value || value.trim() === "")
+          return true;
+        return validators
+          .max(10000, "Площадь не может превышать 10,000 м²")
+          .validate(value);
+      },
+    },
+  ],
+  landArea: [
+    // Условная валидация - обязательно только для земельных участков
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType !== "land") return true;
+        return validators.required("Укажите площадь участка").validate(value);
+      },
+    },
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType !== "land" || !value || value.trim() === "")
+          return true;
+        return validators
+          .min(0.01, "Площадь участка должна быть больше 0")
+          .validate(value);
+      },
+    },
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType !== "land" || !value || value.trim() === "")
+          return true;
+        return validators
+          .max(1000, "Площадь участка не может превышать 1000 соток")
+          .validate(value);
+      },
+    },
   ],
   price: [
     validators.required("Укажите цену"),
@@ -30,10 +85,14 @@ const addListingSchema = {
 function setupConditionalFields(form) {
   const propertyTypeSelect = form.querySelector("#propertyType");
   const floorField = form.querySelector("#floor");
+  const propertyAreaField = form.querySelector("#propertyArea");
+  const landAreaField = form.querySelector("#landArea");
 
   if (!propertyTypeSelect) return;
 
   const floorContainer = floorField?.closest(".form-field");
+  const propertyAreaContainer = propertyAreaField?.closest(".form-field");
+  const landAreaContainer = landAreaField?.closest(".form-field");
 
   const toggleFields = () => {
     const propertyType = propertyTypeSelect.value;
@@ -48,6 +107,35 @@ function setupConditionalFields(form) {
         if (floorField) {
           floorField.required = false;
           floorField.value = "";
+        }
+      }
+    }
+
+    // Управление полями площади в зависимости от типа недвижимости
+    if (propertyAreaContainer && landAreaContainer) {
+      if (propertyType === "land") {
+        // Для земельных участков показываем только поле площади участка
+        propertyAreaContainer.style.display = "none";
+        landAreaContainer.style.display = "block";
+
+        if (propertyAreaField) {
+          propertyAreaField.required = false;
+          propertyAreaField.value = "";
+        }
+        if (landAreaField) {
+          landAreaField.required = true;
+        }
+      } else {
+        // Для остальных типов показываем площадь объекта, скрываем участок
+        propertyAreaContainer.style.display = "block";
+        landAreaContainer.style.display = "none";
+
+        if (propertyAreaField) {
+          propertyAreaField.required = true;
+        }
+        if (landAreaField) {
+          landAreaField.required = false;
+          landAreaField.value = "";
         }
       }
     }
