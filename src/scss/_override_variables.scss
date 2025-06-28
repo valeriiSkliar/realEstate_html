@@ -1,0 +1,18 @@
+// Переопределение Bootstrap переменных для форм
+// Эти переменные должны быть определены до импорта Bootstrap
+
+// Form check (checkbox/radio) variables
+$form-check-input-width: 1.25em;
+$form-check-input-height: 1.25em;
+$form-check-input-bg: #fff;
+$form-check-input-border: 2px solid #dee2e6;
+$form-check-input-border-radius: 0.25em;
+$form-check-input-focus-border: rgba(0, 201, 221, 0.75);
+$form-check-input-focus-box-shadow: 0 0 0 0.25rem rgba(0, 201, 221, 0.25);
+$form-check-input-checked-color: #fff;
+$form-check-input-checked-bg-color: #00c9dd;
+$form-check-input-checked-border-color: #00c9dd;
+$form-check-input-checked-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+$form-check-input-indeterminate-color: #fff;
+$form-check-input-indeterminate-bg-color: #00c9dd;
+$form-check-input-indeterminate-border-color: #00c9dd;

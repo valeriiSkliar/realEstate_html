@@ -133,14 +133,14 @@ const initPlanUpgrade = () => {
             paymentMethodName;
         }
 
-        // Reset consent checkboxes and disable confirm button
+        // Set consent checkboxes to checked by default and enable confirm button
         const emailReceiptCheckbox = document.getElementById(
           "emailReceiptConsent"
         );
         const contractCheckbox = document.getElementById("contractConsent");
-        if (emailReceiptCheckbox) emailReceiptCheckbox.checked = false;
-        if (contractCheckbox) contractCheckbox.checked = false;
-        if (confirmUpgradeButton) confirmUpgradeButton.disabled = true;
+        if (emailReceiptCheckbox) emailReceiptCheckbox.checked = true;
+        if (contractCheckbox) contractCheckbox.checked = true;
+        if (confirmUpgradeButton) confirmUpgradeButton.disabled = false;
 
         console.log("[Debug] Showing upgrade plan modal...");
         // Show modal
