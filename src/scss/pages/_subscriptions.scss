@@ -479,6 +479,80 @@
   .summary-item-value {
     font-weight: 500;
   }
+
+  // Consent Section Styles
+  .consent-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+
+  .consent-checkbox {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    // Переопределяем Bootstrap стили с высокой специфичностью
+    .form-check-input {
+      position: static !important;
+      opacity: 1 !important;
+      margin-top: 0.2em !important;
+      margin-right: 0 !important;
+      margin-left: 0 !important;
+      width: 18px !important;
+      height: 18px !important;
+      border: 2px solid #dee2e6 !important;
+      border-radius: 4px !important;
+      flex-shrink: 0 !important;
+      float: none !important;
+      background-color: #fff !important;
+      appearance: none !important;
+
+      &:checked {
+        background-color: $turquoise !important;
+        border-color: $turquoise !important;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: contain !important;
+      }
+
+      &:focus {
+        border-color: color.adjust($turquoise, $alpha: -0.25) !important;
+        box-shadow: 0 0 0 0.25rem color.adjust($turquoise, $alpha: -0.75) !important;
+      }
+
+      &:hover {
+        border-color: $turquoise !important;
+      }
+    }
+
+    .form-check-label {
+      font-size: 0.9rem;
+      color: color.adjust($dark-navy, $alpha: -0.2);
+      font-family: $font-family-comfortaa;
+      line-height: 1.4;
+      cursor: pointer;
+      flex: 1;
+      margin-bottom: 0;
+
+      .consent-link {
+        color: $turquoise;
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+          color: color.adjust($turquoise, $lightness: -10%);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }
 
 // Media queries for responsive design
@@ -507,5 +581,69 @@
 
   .subscription-section-title {
     font-size: 0.9rem;
+  }
+}
+
+// Дополнительное переопределение Bootstrap стилей для чекбоксов с максимальной специфичностью
+#upgradePlanModal .modal-body .consent-section .form-check .form-check-input {
+  position: static !important;
+  opacity: 1 !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin-left: 0 !important;
+  margin-top: 0.2em !important;
+  float: none !important;
+  background-color: #fff !important;
+  border: 2px solid #dee2e6 !important;
+  border-radius: 4px !important;
+  flex-shrink: 0 !important;
+  appearance: none !important;
+}
+
+#upgradePlanModal
+  .modal-body
+  .consent-section
+  .form-check
+  .form-check-input:checked {
+  background-color: $turquoise !important;
+  border-color: $turquoise !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
+}
+
+// Кастомные стили для чекбоксов с максимальной специфичностью
+.custom-checkbox {
+  position: static !important;
+  opacity: 1 !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin-left: 0 !important;
+  margin-top: 0.2em !important;
+  margin-right: 0 !important;
+  float: none !important;
+  background-color: #fff !important;
+  border: 2px solid #dee2e6 !important;
+  border-radius: 4px !important;
+  flex-shrink: 0 !important;
+  appearance: none !important;
+
+  &:checked {
+    background-color: $turquoise !important;
+    border-color: $turquoise !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+  }
+
+  &:focus {
+    border-color: color.adjust($turquoise, $alpha: -0.25) !important;
+    box-shadow: 0 0 0 0.25rem color.adjust($turquoise, $alpha: -0.75) !important;
+  }
+
+  &:hover {
+    border-color: $turquoise !important;
   }
 }
