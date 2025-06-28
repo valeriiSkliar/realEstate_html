@@ -9,6 +9,11 @@ const addListingSchema = {
   tradeType: [validators.required("Выберите тип сделки")],
   locality: [validators.required("Выберите населенный пункт")],
   address: [validators.required("Введите адрес объекта")],
+  rooms: [
+    validators.required("Выберите количество комнат"),
+    validators.min(1, "Количество комнат должно быть больше 0"),
+    validators.max(10, "Количество комнат не может превышать 10"),
+  ],
   propertyArea: [
     // Условная валидация - обязательно для всех типов кроме земельных участков
     {
@@ -83,12 +88,14 @@ function setupConditionalFields(form) {
   const floorField = form.querySelector("#floor");
   const propertyAreaField = form.querySelector("#propertyArea");
   const landAreaField = form.querySelector("#landArea");
+  const roomsField = form.querySelector("#rooms");
 
   if (!propertyTypeSelect) return;
 
   const floorContainer = floorField?.closest(".form-field");
   const propertyAreaContainer = propertyAreaField?.closest(".form-field");
   const landAreaContainer = landAreaField?.closest(".form-field");
+  const roomsContainer = roomsField?.closest(".form-field");
 
   const toggleFields = () => {
     const propertyType = propertyTypeSelect.value;
@@ -103,6 +110,20 @@ function setupConditionalFields(form) {
         if (floorField) {
           floorField.required = false;
           floorField.value = "";
+        }
+      }
+    }
+
+    // Показываем поле "Количество комнат" только для квартир и домов
+    if (roomsContainer) {
+      if (propertyType === "apartment" || propertyType === "house") {
+        roomsContainer.style.display = "block";
+        if (roomsField) roomsField.required = true;
+      } else {
+        roomsContainer.style.display = "none";
+        if (roomsField) {
+          roomsField.required = false;
+          roomsField.value = "";
         }
       }
     }
