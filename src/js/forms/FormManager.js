@@ -15,6 +15,7 @@ export class FormManager {
       onSubmit: async (data) => console.log("Form submitted:", data),
       onSuccess: null,
       onError: (errors) => console.error("Validation errors:", errors),
+      onNetworkError: null,
       onServerError: null,
       validateOnBlur: true,
       validateOnChange: false,
@@ -86,7 +87,10 @@ export class FormManager {
         } else {
           console.error("Form submission error:", error);
 
-          if (this.options.onError) {
+          // Проверяем, является ли это сетевой ошибкой
+          if (error.isNetworkError && this.options.onNetworkError) {
+            this.options.onNetworkError(error);
+          } else if (this.options.onError) {
             this.options.onError({
               submit: error.message || "Произошла ошибка при отправке формы",
             });

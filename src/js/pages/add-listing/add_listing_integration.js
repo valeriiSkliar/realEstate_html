@@ -341,12 +341,27 @@ const addListingHandler = {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Создаем специальную ошибку для HTTP статусов
+        const error = new Error(`HTTP error! status: ${response.status}`);
+        error.isNetworkError = true;
+        error.status = response.status;
+        error.statusText = response.statusText;
+        throw error;
       }
 
       return await response.json();
     } catch (error) {
       console.error("Ошибка при отправке данных:", error);
+
+      // Проверяем, является ли это сетевой ошибкой
+      if (
+        error.isNetworkError ||
+        error.name === "TypeError" ||
+        error.message.includes("fetch")
+      ) {
+        error.isNetworkError = true;
+      }
+
       throw error;
     }
   },
@@ -371,6 +386,26 @@ const addListingHandler = {
     }
 
     createAndShowToast("Заполните обязательные поля", "warning");
+  },
+
+  onNetworkError(error) {
+    console.log("🌐 Ошибка сети:", error);
+
+    let message = "Ошибка отправки формы";
+
+    if (error.status === 404) {
+      message = "Страница не найдена. Обратитесь к администратору";
+    } else if (error.status === 500) {
+      message = "Ошибка сервера. Попробуйте позже";
+    } else if (error.status === 403) {
+      message = "Доступ запрещен";
+    } else if (error.status === 422) {
+      message = "Некорректные данные формы";
+    } else if (error.name === "TypeError" || error.message.includes("fetch")) {
+      message = "Проблема с подключением к серверу";
+    }
+
+    createAndShowToast(message, "danger");
   },
 };
 
@@ -398,6 +433,7 @@ export const initAddListingForm = () => {
       onSubmit: addListingHandler.onSubmit,
       onSuccess: addListingHandler.onSuccess,
       onError: addListingHandler.onError,
+      onNetworkError: addListingHandler.onNetworkError,
       validateOnBlur: true,
       validateOnChange: true,
     });
