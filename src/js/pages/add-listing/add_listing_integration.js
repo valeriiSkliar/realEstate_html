@@ -1,6 +1,6 @@
+import { fetcher } from "../../components/collections/api/collections-manager.js";
 import { createForm, validators } from "../../forms/index.js";
 import { createAndShowToast } from "../../utils/uiHelpers.js";
-
 /**
  * Упрощенная схема валидации
  */
@@ -356,7 +356,7 @@ const addListingHandler = {
     }
 
     try {
-      const response = await fetch(actionUrl, {
+      const response = await fetcher(actionUrl, {
         method: "POST",
         body: formData,
       });

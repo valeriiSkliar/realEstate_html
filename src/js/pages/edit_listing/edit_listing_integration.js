@@ -1,3 +1,4 @@
+import { fetcher } from "../../components/collections/api/collections-manager.js";
 import { createForm, validators } from "../../forms/index.js";
 import { createAndShowToast } from "../../utils/uiHelpers.js";
 
@@ -352,7 +353,7 @@ const editListingHandler = {
     }
 
     try {
-      const response = await fetch(actionUrl, {
+      const response = await fetcher(actionUrl, {
         method: "POST",
         body: formData,
       });
