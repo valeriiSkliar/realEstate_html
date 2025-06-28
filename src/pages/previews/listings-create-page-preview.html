@@ -45,7 +45,13 @@
             </div>
 
             <!-- Форма добавления объявления -->
-            <form id="addListingForm" class="card" novalidate>
+            <form
+              id="addListingForm"
+              data-action-url="/api/listings/create"
+              data-success-url="/my-advertisements.html"
+              class="card"
+              novalidate
+            >
               <div class="card-body p-4">
                 <!-- Прогресс валидации -->
                 <div class="validation-progress">
