@@ -1,8 +1,5 @@
 import { createForm, validators } from "../../forms/index.js";
 import { createAndShowToast } from "../../utils/uiHelpers.js";
-import {
-  fetcher
-} from "../../components/collections/api/collections-manager.js";
 /**
  * Упрощенная схема валидации
  */
@@ -12,9 +9,64 @@ const addListingSchema = {
   locality: [validators.required("Выберите населенный пункт")],
   address: [validators.required("Введите адрес объекта")],
   propertyArea: [
-    validators.required("Укажите площадь объекта"),
-    validators.min(1, "Площадь должна быть больше 0"),
-    validators.max(10000, "Площадь не может превышать 10,000 м²"),
+    // Условная валидация - обязательно для всех типов кроме земельных участков
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType === "land") return true;
+        return validators.required("Укажите площадь объекта").validate(value);
+      },
+    },
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType === "land" || !value || value.trim() === "")
+          return true;
+        return validators
+          .min(1, "Площадь должна быть больше 0")
+          .validate(value);
+      },
+    },
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType === "land" || !value || value.trim() === "")
+          return true;
+        return validators
+          .max(10000, "Площадь не может превышать 10,000 м²")
+          .validate(value);
+      },
+    },
+  ],
+  landArea: [
+    // Условная валидация - обязательно только для земельных участков
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType !== "land") return true;
+        return validators.required("Укажите площадь участка").validate(value);
+      },
+    },
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType !== "land" || !value || value.trim() === "")
+          return true;
+        return validators
+          .min(0.01, "Площадь участка должна быть больше 0")
+          .validate(value);
+      },
+    },
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType !== "land" || !value || value.trim() === "")
+          return true;
+        return validators
+          .max(1000, "Площадь участка не может превышать 1000 соток")
+          .validate(value);
+      },
+    },
   ],
   price: [
     validators.required("Укажите цену"),
@@ -28,10 +80,14 @@ const addListingSchema = {
 function setupConditionalFields(form) {
   const propertyTypeSelect = form.querySelector("#propertyType");
   const floorField = form.querySelector("#floor");
+  const propertyAreaField = form.querySelector("#propertyArea");
+  const landAreaField = form.querySelector("#landArea");
 
   if (!propertyTypeSelect) return;
 
   const floorContainer = floorField?.closest(".form-field");
+  const propertyAreaContainer = propertyAreaField?.closest(".form-field");
+  const landAreaContainer = landAreaField?.closest(".form-field");
 
   const toggleFields = () => {
     const propertyType = propertyTypeSelect.value;
@@ -46,6 +102,35 @@ function setupConditionalFields(form) {
         if (floorField) {
           floorField.required = false;
           floorField.value = "";
+        }
+      }
+    }
+
+    // Управление полями площади в зависимости от типа недвижимости
+    if (propertyAreaContainer && landAreaContainer) {
+      if (propertyType === "land") {
+        // Для земельных участков показываем только поле площади участка
+        propertyAreaContainer.style.display = "none";
+        landAreaContainer.style.display = "block";
+
+        if (propertyAreaField) {
+          propertyAreaField.required = false;
+          propertyAreaField.value = "";
+        }
+        if (landAreaField) {
+          landAreaField.required = true;
+        }
+      } else {
+        // Для остальных типов показываем площадь объекта, скрываем участок
+        propertyAreaContainer.style.display = "block";
+        landAreaContainer.style.display = "none";
+
+        if (propertyAreaField) {
+          propertyAreaField.required = true;
+        }
+        if (landAreaField) {
+          landAreaField.required = false;
+          landAreaField.value = "";
         }
       }
     }
@@ -235,15 +320,55 @@ const addListingHandler = {
   async onSubmit(data, formData) {
     console.log("📝 Отправка формы...", data);
 
-    return fetcher('', {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+    // Получаем URL из атрибута data-action-url формы
+    const form = this.form || document.getElementById("addListingForm");
+    const actionUrl = form?.getAttribute("data-action-url");
+
+    console.log("Form element:", form);
+    console.log("Action URL:", actionUrl);
+
+    if (!actionUrl) {
+      throw new Error(
+        "URL для отправки данных не найден в атрибуте data-action-url"
+      );
+    }
+
+    try {
+      const response = await fetch(actionUrl, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        // Создаем специальную ошибку для HTTP статусов
+        const error = new Error(`HTTP error! status: ${response.status}`);
+        error.isNetworkError = true;
+        error.status = response.status;
+        error.statusText = response.statusText;
+        throw error;
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Ошибка при отправке данных:", error);
+
+      // Проверяем, является ли это сетевой ошибкой
+      if (
+        error.isNetworkError ||
+        error.name === "TypeError" ||
+        error.message.includes("fetch")
+      ) {
+        error.isNetworkError = true;
+      }
+
+      throw error;
+    }
   },
 
   onSuccess(result) {
-    console.log("🎉 Успех!!!", result);
-    createAndShowToast("Объявление успешно создано!", "success");
+    console.log("🎉 Успех!", result);
+    // createAndShowToast("Объявление успешно создано!", "success");
+    window.location.href = this.form.getAttribute("data-success-url");
   },
 
   onError(errors) {
@@ -260,6 +385,26 @@ const addListingHandler = {
     }
 
     createAndShowToast("Заполните обязательные поля", "warning");
+  },
+
+  onNetworkError(error) {
+    console.log("🌐 Ошибка сети:", error);
+
+    let message = "Ошибка отправки формы";
+
+    if (error.status === 404) {
+      message = "Страница не найдена. Обратитесь к администратору";
+    } else if (error.status === 500) {
+      message = "Ошибка сервера. Попробуйте позже";
+    } else if (error.status === 403) {
+      message = "Доступ запрещен";
+    } else if (error.status === 422) {
+      message = "Некорректные данные формы";
+    } else if (error.name === "TypeError" || error.message.includes("fetch")) {
+      message = "Проблема с подключением к серверу";
+    }
+
+    createAndShowToast(message, "danger");
   },
 };
 
@@ -287,6 +432,7 @@ export const initAddListingForm = () => {
       onSubmit: addListingHandler.onSubmit,
       onSuccess: addListingHandler.onSuccess,
       onError: addListingHandler.onError,
+      onNetworkError: addListingHandler.onNetworkError,
       validateOnBlur: true,
       validateOnChange: true,
     });
