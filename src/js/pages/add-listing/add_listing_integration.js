@@ -45,18 +45,22 @@ const addListingSchema = {
     },
   ],
   landArea: [
-    // Условная валидация - обязательно только для земельных участков
+    // Условная валидация - обязательно для земельных участков и домов
     {
       validate: (value, formData) => {
         const propertyType = formData.get("propertyType");
-        if (propertyType !== "land") return true;
+        if (propertyType !== "land" && propertyType !== "house") return true;
         return validators.required("Укажите площадь участка").validate(value);
       },
     },
     {
       validate: (value, formData) => {
         const propertyType = formData.get("propertyType");
-        if (propertyType !== "land" || !value || value.trim() === "")
+        if (
+          (propertyType !== "land" && propertyType !== "house") ||
+          !value ||
+          value.trim() === ""
+        )
           return true;
         return validators
           .min(0.01, "Площадь участка должна быть больше 0")
@@ -66,7 +70,11 @@ const addListingSchema = {
     {
       validate: (value, formData) => {
         const propertyType = formData.get("propertyType");
-        if (propertyType !== "land" || !value || value.trim() === "")
+        if (
+          (propertyType !== "land" && propertyType !== "house") ||
+          !value ||
+          value.trim() === ""
+        )
           return true;
         return validators
           .max(1000, "Площадь участка не может превышать 1000 соток")
@@ -138,6 +146,17 @@ function setupConditionalFields(form) {
         if (propertyAreaField) {
           propertyAreaField.required = false;
           propertyAreaField.value = "";
+        }
+        if (landAreaField) {
+          landAreaField.required = true;
+        }
+      } else if (propertyType === "house") {
+        // Для домов показываем оба поля площади
+        propertyAreaContainer.style.display = "block";
+        landAreaContainer.style.display = "block";
+
+        if (propertyAreaField) {
+          propertyAreaField.required = true;
         }
         if (landAreaField) {
           landAreaField.required = true;
