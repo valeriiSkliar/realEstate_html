@@ -7,10 +7,6 @@ import { createAndShowToast } from "../../utils/uiHelpers.js";
 const addListingSchema = {
   propertyType: [validators.required("Выберите тип объекта")],
   tradeType: [validators.required("Выберите тип сделки")],
-  propertyName: [
-    validators.required("Введите заголовок объявления"),
-    validators.minLength(10, "Заголовок должен содержать минимум 10 символов"),
-  ],
   locality: [validators.required("Выберите населенный пункт")],
   address: [validators.required("Введите адрес объекта")],
   propertyArea: [
@@ -325,18 +321,40 @@ const addListingHandler = {
   async onSubmit(data, formData) {
     console.log("📝 Отправка формы...", data);
 
-    // Простая имитация отправки
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log("✅ Форма успешно отправлена");
-        resolve({ success: true, listingId: 123 });
-      }, 1500);
-    });
+    // Получаем URL из атрибута data-action-url формы
+    const form = this.form || document.getElementById("addListingForm");
+    const actionUrl = form?.getAttribute("data-action-url");
+
+    console.log("Form element:", form);
+    console.log("Action URL:", actionUrl);
+
+    if (!actionUrl) {
+      throw new Error(
+        "URL для отправки данных не найден в атрибуте data-action-url"
+      );
+    }
+
+    try {
+      const response = await fetch(actionUrl, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Ошибка при отправке данных:", error);
+      throw error;
+    }
   },
 
   onSuccess(result) {
     console.log("🎉 Успех!", result);
-    createAndShowToast("Объявление успешно создано!", "success");
+    // createAndShowToast("Объявление успешно создано!", "success");
+    window.location.href = this.form.getAttribute("data-success-url");
   },
 
   onError(errors) {

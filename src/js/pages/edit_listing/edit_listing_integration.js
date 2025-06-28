@@ -1,8 +1,5 @@
-import {
-  createAndShowToast,
-  createForm,
-  validators,
-} from "../../forms/index.js";
+import { createForm, validators } from "../../forms/index.js";
+import { createAndShowToast } from "../../utils/uiHelpers.js";
 
 /**
  * Схема валидации для редактирования (та же что и для создания)
@@ -10,10 +7,6 @@ import {
 const editListingSchema = {
   propertyType: [validators.required("Выберите тип объекта")],
   tradeType: [validators.required("Выберите тип сделки")],
-  propertyName: [
-    validators.required("Введите заголовок объявления"),
-    validators.minLength(10, "Заголовок должен содержать минимум 10 символов"),
-  ],
   locality: [validators.required("Выберите населенный пункт")],
   address: [validators.required("Введите адрес объекта")],
   propertyArea: [
@@ -327,19 +320,19 @@ const editListingHandler = {
   async onSubmit(data, formData) {
     console.log("📝 Сохранение изменений...", data);
 
-    // Получаем URL из атрибута data-action формы
+    // Получаем URL из атрибута data-action-url формы
     const form = document.getElementById("addListingForm");
-    const actionUrl = form?.getAttribute("data-action");
+    const actionUrl = form?.getAttribute("data-action-url");
 
     if (!actionUrl) {
       throw new Error(
-        "URL для отправки данных не найден в атрибуте data-action"
+        "URL для отправки данных не найден в атрибуте data-action-url"
       );
     }
 
     try {
       const response = await fetch(actionUrl, {
-        method: "PUT",
+        method: "POST",
         body: formData,
       });
 
@@ -356,7 +349,8 @@ const editListingHandler = {
 
   onSuccess(result) {
     console.log("🎉 Успех!", result);
-    createAndShowToast("Изменения успешно сохранены!", "success");
+    // createAndShowToast("Изменения успешно сохранены!", "success");
+    window.location.href = this.form.getAttribute("data-success-url");
   },
 
   onError(errors) {
