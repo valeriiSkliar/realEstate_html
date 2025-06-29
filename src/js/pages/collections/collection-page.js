@@ -23,18 +23,6 @@ import {
  * Initialize collection page functionality
  */
 export const initCollectionPage = () => {
-  console.log("Collection page initialized");
-
-  // Get collection ID from URL query parameter
-  const urlParams = new URLSearchParams(window.location.search);
-  const collectionId = urlParams.get("id");
-
-  if (!collectionId) {
-    // No collection ID provided, redirect to collections page
-    window.location.href = "/collections.html";
-    return;
-  }
-
   // Initialize remove property functionality
   initRemovePropertyButtons();
 
@@ -152,7 +140,8 @@ export const initCollectionPage = () => {
     if (confirmRemoveButton) {
       confirmRemoveButton.addEventListener("click", async () => {
         const propertyId = document.getElementById("removePropertyId").value;
-        const collectionId = (new URLSearchParams(window.location.search)).get("id");
+        const pathParts = window.location.pathname.split('/');
+        const collectionId = pathParts[pathParts.length - 1];
 
         try {
           if (propertyId && collectionId) {

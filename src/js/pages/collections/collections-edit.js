@@ -37,12 +37,15 @@ const collectionsEditHandler = {
   onSuccess(collection) {
     createAndShowToast("Коллекция успешно обновлена!", "success");
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const collectionId = urlParams.get("id");
+    const successUrlRedirect = document.querySelector("#saveCollectionChanges").getAttribute("data-success-url-redirect");
 
-    setTimeout(() => {
-      window.location.href = "/collection.html?id=" + collectionId;
-    }, 500);
+    if (successUrlRedirect) {
+      setTimeout(() => {
+        window.location.href = successUrlRedirect;
+      }, 500);
+    } else {
+      console.error("No successUrlRedirect");
+    }
   },
 
   onError(errors) {
@@ -72,17 +75,6 @@ export const initCollectionsEditPage = () => {
 
   const form = document.querySelector("#collectionId");
   
-  // Get collection ID from URL query parameter
-  const urlParams = new URLSearchParams(window.location.search);
-  const collectionId = urlParams.get("id");
-  
-
-  if (!collectionId) {
-    // No collection ID provided, redirect to collections page
-    window.location.href = "/collections.html";
-    return;
-  }
-
   const formManager = createForm(form, collectionsEditSchema, {
     onSubmit: collectionsEditHandler.onSubmit.bind(collectionsEditHandler),
     onSuccess: collectionsEditHandler.onSuccess,
