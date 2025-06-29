@@ -1,7 +1,5 @@
 import {
   addPropertyToCollection,
-  favoriteCollectionId,
-  generateRemovePropertyFromCollectionUrl,
   removePropertyFromCollection
 } from "../../components/collections/api/collections-manager.js";
 
@@ -249,16 +247,12 @@ export const initCollectionPage = () => {
           "property-summary-card__favorite-icon--active",
         );
         
-        // Get property ID and favorite URL from data attributes
         const propertyId = propertyCard.getAttribute("data-property-id");
         const addToFavoriteUrl = button.getAttribute("data-add-to-favorite-url");
 
         if (propertyId && addToFavoriteUrl) {
           if (isFavorite) {
-            // For removing from favorites, we need to construct the URL or get it from markup
-            // Using legacy function for now - could be improved by adding data-remove-from-favorite-url
-            const removeFromFavoriteUrl = generateRemovePropertyFromCollectionUrl(favoriteCollectionId, propertyId);
-            await removePropertyFromCollection(removeFromFavoriteUrl);
+            await removePropertyFromCollection(addToFavoriteUrl);
             updateFavoriteIcon(button, false);
             createAndShowToast("Объект удален из избранного", "success");
           } else {
