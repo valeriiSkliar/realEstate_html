@@ -5,7 +5,6 @@
 import {
   addPropertyToCollection,
   createCollection,
-  favoriteCollectionId,
   getCollectionSelectorMarkup,
   updatePropertyCollections
 } from "../api/collections-manager";
@@ -257,22 +256,21 @@ const EventHandlers = {
    * @param {string} propertyTitle - Property title
    * @param {Object} elements - Popup elements
    * @param {Object} modeHandler - Mode handler object
+   * @param {Object} urls - URL configuration object
    * @returns {Function} Save event handler
    */
-  createSaveHandler(propertyId, propertyTitle, elements, modeHandler) {
+  createSaveHandler(propertyId, propertyTitle, elements, modeHandler, urls) {
     return async () => {
-      const popup = document.getElementById(POPUP_ID);
-      
-      if (!API_PATHS.createCollection) {
-        console.error("apiUrlCreateCollection is not set");
+      if (!urls.createCollectionUrl) {
+        console.error("createCollectionUrl is not set");
         createAndShowToast("Не удалось сохранить изменения", "error");
         return;
       }
 
       if (modeHandler.getCurrentMode()) {
-        await Operations.createNewCollection(propertyId, propertyTitle, elements, API_PATHS.createCollection);
+        await Operations.createNewCollection(propertyId, propertyTitle, elements, urls.createCollectionUrl);
       } else {
-        await Operations.saveCollectionSelections(propertyId, propertyTitle, elements);
+        await Operations.saveCollectionSelections(propertyId, propertyTitle, elements, urls.updateCollectionsUrl);
       }
     };
   }
@@ -291,9 +289,9 @@ const Operations = {
    * @param {string} propertyId - Property ID
    * @param {string} propertyTitle - Property title
    * @param {Object} elements - Popup elements
-   * @param {string} apiUrl - API URL for creating collection
+   * @param {string} createCollectionUrl - API URL for creating collection
    */
-  async createNewCollection(propertyId, propertyTitle, elements, apiUrl) {
+  async createNewCollection(propertyId, propertyTitle, elements, createCollectionUrl) {
     const { newCollectionNameInput, saveBtn, createNewBtn } = elements;
     const newName = newCollectionNameInput?.value.trim() || "";
     
@@ -309,21 +307,15 @@ const Operations = {
     const abortController = PopupStateManager.createAbortController();
 
     try {
-      const newCollection = await createCollection(
-        apiUrl, 
+      await createCollection(
+        createCollectionUrl, 
         { name: newName, properties: [propertyId] }, 
         abortController.signal
       );
-      
-      if (newCollection?.id) {
-        await addPropertyToCollection(newCollection.id, propertyId, abortController.signal);
         createAndShowToast(
           `Объект "${propertyTitle}" добавлен в новую подборку "${newName}"`,
           "success"
         );
-      } else {
-        throw new Error("Не удалось создать подборку");
-      }
     } catch (error) {
       ErrorHandler.handle(error, "Ошибка при создании подборки");
     } finally {
@@ -341,8 +333,9 @@ const Operations = {
    * @param {string} propertyId - Property ID
    * @param {string} propertyTitle - Property title
    * @param {Object} elements - Popup elements
+   * @param {string} updateCollectionsUrl - API URL for updating collections
    */
-  async saveCollectionSelections(propertyId, propertyTitle, elements) {
+  async saveCollectionSelections(propertyId, propertyTitle, elements, updateCollectionsUrl) {
     const popup = document.getElementById(POPUP_ID);
     if (!popup) return;
 
@@ -368,7 +361,7 @@ const Operations = {
     const abortController = PopupStateManager.createAbortController();
 
     try {
-      const result = await updatePropertyCollections(propertyId, collectionStates, abortController.signal);
+      const result = await updatePropertyCollections(updateCollectionsUrl, collectionStates, abortController.signal);
       
       if (result?.error) {
         throw new Error(result.error);
@@ -394,14 +387,14 @@ const Operations = {
 
   /**
    * Load collection markup
-   * @param {string} propertyId - Property ID
+   * @param {string} getCollectionsListUrl - API URL for getting collections list
    * @param {Object} elements - Popup elements
    */
-  async loadCollectionMarkup(propertyId, elements) {
+  async loadCollectionMarkup(getCollectionsListUrl, elements) {
     const { listContainer } = elements;
     
     try {
-      const markup = await getCollectionSelectorMarkup(propertyId);
+      const markup = await getCollectionSelectorMarkup(getCollectionsListUrl);
       
       if (!markup) {
         throw new Error("Не удалось загрузить коллекции");
@@ -492,8 +485,12 @@ const setupPopupAnimation = (popup, backdrop) => {
  * Create and show the collection selector popup
  * @param {string} propertyId - ID of the property to add to collection
  * @param {string} propertyTitle - Title of the property (for display in toast)
+ * @param {Object} urls - URL configuration object
+ * @param {string} urls.getCollectionsListUrl - URL for getting collections list
+ * @param {string} urls.updateCollectionsUrl - URL for updating collections
+ * @param {string} urls.createCollectionUrl - URL for creating new collection
  */
-export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => {
+export const showCollectionSelectorPopup = async (propertyId, propertyTitle, urls) => {
   clearAllToasts();
   await removeExistingPopup();
 
@@ -552,7 +549,7 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
   
   if (newElements.saveBtn) {
     newElements.saveBtn.addEventListener("click", 
-      EventHandlers.createSaveHandler(propertyId, propertyTitle, newElements, modeHandler)
+      EventHandlers.createSaveHandler(propertyId, propertyTitle, newElements, modeHandler, urls)
     );
   }
 
@@ -560,7 +557,7 @@ export const showCollectionSelectorPopup = async (propertyId, propertyTitle) => 
   setupPopupAnimation(popupContainer, newBackdrop);
 
   // Load data asynchronously
-  const loadSuccess = await Operations.loadCollectionMarkup(propertyId, newElements);
+  const loadSuccess = await Operations.loadCollectionMarkup(urls.getCollectionsListUrl, newElements);
   
   if (loadSuccess) {
     ButtonStateManager.enable(newElements.createNewBtn);
@@ -639,8 +636,9 @@ export const removeCollectionToast = () => {
  * Show interactive toast for adding to collections
  * @param {string} propertyId - Property ID
  * @param {string} propertyTitle - Property title
+ * @param {Object} urls - URL configuration object
  */
-const showInteractiveAddToCollectionToast = async (propertyId, propertyTitle) => {
+const showInteractiveAddToCollectionToast = async (propertyId, propertyTitle, urls) => {
   clearAllToasts();
   removeCollectionToast();
   
@@ -693,7 +691,7 @@ const showInteractiveAddToCollectionToast = async (propertyId, propertyTitle) =>
   toastBar.addEventListener("touchstart", markInteraction);
 
   addButton.addEventListener("click", () => {
-    showCollectionSelectorPopup(propertyId, propertyTitle);
+    showCollectionSelectorPopup(propertyId, propertyTitle, urls);
     toastBar.classList.remove("show");
     setTimeout(() => toastBar.remove(), 300);
   });
@@ -716,23 +714,23 @@ const showInteractiveAddToCollectionToast = async (propertyId, propertyTitle) =>
  * Add property to favorite collection
  * @param {string} propertyId - ID of the property to add
  * @param {string} propertyTitle - Title of the property
+ * @param {string} addToFavoriteUrl - URL for adding to favorites
  * @param {boolean} showToast - Whether to show the collection selector popup
+ * @param {Object} urls - URL configuration object for toast
  * @returns {object} - Detailed status of the operation
  */
-export const addPropertyToFavorite = async (propertyId, propertyTitle, showToast = true) => {
+export const addPropertyToFavorite = async (propertyId, propertyTitle, urls = {}, showToast = true) => {
   try {
-    const added = await addPropertyToCollection(favoriteCollectionId, propertyId);
+    const added = await addPropertyToCollection(urls.addToFavoriteUrl);
     await removeExistingPopup();
     
     if (added) {
-      if (showToast) {
-        showInteractiveAddToCollectionToast(propertyId, propertyTitle);
-      } else {
-        createAndShowToast(`${propertyTitle} добавлено в избранное`, 'success');
+      if (showToast && urls.getCollectionsListUrl) {
+        await showInteractiveAddToCollectionToast(propertyId, propertyTitle, urls);
       }
       return { action: "added", success: true, isFavorite: true };
     } else {
-      console.warn(`Failed to add property ${propertyId} to 'Избранное' (ID: ${favoriteCollectionId})`);
+      console.warn(`Failed to add property ${propertyId} to 'Избранное'`);
       return { action: "add_failed", success: false, isFavorite: false };
     }
   } catch (error) {

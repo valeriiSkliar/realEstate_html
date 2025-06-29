@@ -1,9 +1,9 @@
 import {
   addPropertyToCollection,
   favoriteCollectionId,
+  generateRemovePropertyFromCollectionUrl,
   removePropertyFromCollection
 } from "../../components/collections/api/collections-manager.js";
-
 
 import {
   createAndShowToast,
@@ -44,7 +44,12 @@ export const initCollectionPage = () => {
         e.preventDefault();
         e.stopPropagation();
 
-        // Get property ID
+        // Get URLs from data attributes
+        const getCollectionsListUrl = button.getAttribute("data-get-collections-list-url");
+        const updateCollectionsUrl = button.getAttribute("data-update-collections-url");
+        const createCollectionUrl = button.getAttribute("data-create-collection-url");
+        
+        // Get property info
         const propertyId = button.getAttribute("data-property-id");
         const propertyTitleElement = document.querySelector(
           ".property-summary-card__title a",
@@ -52,10 +57,19 @@ export const initCollectionPage = () => {
         const propertyTitle = propertyTitleElement
           ? propertyTitleElement.textContent
           : "Объект недвижимости";
-        if (propertyId) {
+          
+        if (propertyId && getCollectionsListUrl && updateCollectionsUrl) {
           // Set property ID in modal
           removeCollectionToast();
-          showCollectionSelectorPopup(propertyId, propertyTitle);
+          showCollectionSelectorPopup(
+            propertyId, 
+            propertyTitle, 
+            {
+              getCollectionsListUrl,
+              updateCollectionsUrl,
+              createCollectionUrl
+            }
+          );
         }
       });
     });
@@ -120,12 +134,15 @@ export const initCollectionPage = () => {
         e.preventDefault();
         e.stopPropagation();
         removeExistingPopup();
-        // Get property ID
-        const propertyId = button.getAttribute("data-property-id");
         
-        if (propertyId) {
-          // Set property ID in modal
+        // Get property ID and remove URL from data attributes
+        const propertyId = button.getAttribute("data-property-id");
+        const removeUrl = button.getAttribute("data-remove-url");
+        
+        if (propertyId && removeUrl) {
+          // Set property ID and URL in modal
           document.getElementById("removePropertyId").value = propertyId;
+          document.getElementById("removePropertyUrl").value = removeUrl;
 
           // Show confirmation modal
           showModal("removePropertyModal");
@@ -140,16 +157,12 @@ export const initCollectionPage = () => {
     if (confirmRemoveButton) {
       confirmRemoveButton.addEventListener("click", async () => {
         const propertyId = document.getElementById("removePropertyId").value;
-        const pathParts = window.location.pathname.split('/');
-        const collectionId = pathParts[pathParts.length - 1];
+        const removeUrl = document.getElementById("removePropertyUrl").value;
 
         try {
-          if (propertyId && collectionId) {
-            // Remove property from collection
-            const success = await removePropertyFromCollection(
-              collectionId,
-              propertyId,
-            );
+          if (propertyId && removeUrl) {
+            // Remove property from collection using URL from markup
+            const success = await removePropertyFromCollection(removeUrl);
   
             if (success && !success.error) {
               // Use reusable function to update UI
@@ -164,7 +177,6 @@ export const initCollectionPage = () => {
                 "error",
               );
             }
-  
           }
         } catch (error) {
           console.error("Error removing property from collection", error);
@@ -175,8 +187,8 @@ export const initCollectionPage = () => {
           );
         }
         
-          // Hide modal
-          hideModal("removePropertyModal");
+        // Hide modal
+        hideModal("removePropertyModal");
       });
     }
   }
@@ -232,20 +244,25 @@ export const initCollectionPage = () => {
 
         const propertyCard = button.closest(".property-card");
         if (!propertyCard) return;
+        
         const isFavorite = button.classList.contains(
           "property-summary-card__favorite-icon--active",
         );
-        // Get property ID
+        
+        // Get property ID and favorite URL from data attributes
         const propertyId = propertyCard.getAttribute("data-property-id");
+        const addToFavoriteUrl = button.getAttribute("data-add-to-favorite-url");
 
-        if (propertyId) {
-          // Set property ID in modal
+        if (propertyId && addToFavoriteUrl) {
           if (isFavorite) {
-            await removePropertyFromCollection(favoriteCollectionId, propertyId);
+            // For removing from favorites, we need to construct the URL or get it from markup
+            // Using legacy function for now - could be improved by adding data-remove-from-favorite-url
+            const removeFromFavoriteUrl = generateRemovePropertyFromCollectionUrl(favoriteCollectionId, propertyId);
+            await removePropertyFromCollection(removeFromFavoriteUrl);
             updateFavoriteIcon(button, false);
             createAndShowToast("Объект удален из избранного", "success");
           } else {
-            await addPropertyToCollection(favoriteCollectionId, propertyId);
+            await addPropertyToCollection(addToFavoriteUrl);
             updateFavoriteIcon(button, true);
             createAndShowToast("Объект добавлен в избранное", "success");
           }
@@ -253,5 +270,4 @@ export const initCollectionPage = () => {
       });
     });
   }
-
 };

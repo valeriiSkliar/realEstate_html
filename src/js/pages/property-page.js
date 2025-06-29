@@ -1,4 +1,4 @@
-import { favoriteCollectionId, removePropertyFromCollection } from '../components/collections/api/collections-manager.js';
+import { removePropertyFromCollection } from '../components/collections/api/collections-manager.js';
 import { addPropertyToFavorite, removeCollectionToast, showCollectionSelectorPopup } from "../components/collections/collection-selector-popup/collection-selector-popup.js";
 import { initReportModal } from "../components/property-page/report-modal.js";
 import { createAndShowToast } from '../utils/uiHelpers.js';
@@ -545,47 +545,66 @@ document.addEventListener("DOMContentLoaded", function () {
   initDescriptionToggle();
 
   // Favorite button toggle
-
   const favoriteButton = document.getElementById('favorite-button');
-  const addToCollectionsButton = document.getElementById('add-to-collections-button');
+  const addToCollectionsButton = document.querySelector('.js-add-to-collection');
 
     favoriteButton?.addEventListener('click', async function(e) {
       const propertyId = this.getAttribute('data-property-id');
+      const addRemoveToFavoriteUrl = this.getAttribute('data-add-to-favorite-url');
 
       const propertyTitleElement = document.querySelector('.property-title');
       const propertyTitle = propertyTitleElement ? propertyTitleElement.textContent : 'Объект недвижимости';
 
-
       const heartIcon = this.querySelector('i');
       const isFavoriteIconSolid = heartIcon.classList.contains('bi-heart-fill');
       
-      try{
-      if (!isFavoriteIconSolid) { 
-        await addPropertyToFavorite(propertyId, propertyTitle, false);
-        heartIcon.classList.remove('bi-heart');
-        heartIcon.classList.add('bi-heart-fill');
-      } else { 
-        await removePropertyFromCollection(favoriteCollectionId, propertyId);
-        heartIcon.classList.remove('bi-heart-fill');
-        heartIcon.classList.add('bi-heart');
-
-        removeCollectionToast();
-        createAndShowToast(`${propertyTitle} удалено из избранного`, 'success');
+      const urls = {
+        addToFavoriteUrl: addRemoveToFavoriteUrl,
       }
-    }catch(error){
+
+      try{
+        if (!isFavoriteIconSolid) { 
+          await addPropertyToFavorite(propertyId, propertyTitle, urls, false);
+          heartIcon.classList.remove('bi-heart');
+          heartIcon.classList.add('bi-heart-fill');
+        } else { 
+          // Generate remove URL
+          await removePropertyFromCollection(urls.addToFavoriteUrl);
+          heartIcon.classList.remove('bi-heart-fill');
+          heartIcon.classList.add('bi-heart');
+
+          removeCollectionToast();
+          createAndShowToast(`${propertyTitle} удалено из избранного`, 'success');
+        }
+      }catch(error){
         console.error(error);
-        createAndShowToast(`${propertyTitle} не удалось добавить в избранное`, 'error');
-    }
+        createAndShowToast(`${propertyTitle} не удалось изменить статус избранного`, 'error');
+      }
     });
 
-  
-  
   addToCollectionsButton?.addEventListener('click', function () {
-      removeCollectionToast();
-      const propertyId = this.getAttribute('data-property-id');
-      const propertyTitleElement = document.querySelector('.property-detail-header__title');
-      const propertyTitle = propertyTitleElement ? propertyTitleElement.textContent : 'Объект недвижимости';
-      showCollectionSelectorPopup(propertyId, propertyTitle);
-    });
+    removeCollectionToast();
+    
+    // Get URLs from data attributes
+    const propertyId = this.getAttribute('data-property-id');
+    const getCollectionsListUrl = this.getAttribute('data-get-collections-list-url');
+    const updateCollectionsUrl = this.getAttribute('data-update-collections-url');
+    const createCollectionUrl = this.getAttribute('data-create-collection-url');
+    
+    const propertyTitleElement = document.querySelector('.property-detail-header__title');
+    const propertyTitle = propertyTitleElement ? propertyTitleElement.textContent : 'Объект недвижимости';
+    
+    if (propertyId && getCollectionsListUrl && updateCollectionsUrl) {
+      showCollectionSelectorPopup(
+        propertyId, 
+        propertyTitle, 
+        {
+          getCollectionsListUrl,
+          updateCollectionsUrl,
+          createCollectionUrl
+        }
+      );
+    }
+  });
 
 });

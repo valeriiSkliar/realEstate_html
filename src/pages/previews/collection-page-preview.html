@@ -6,40 +6,6 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Real Estate - My Collections</title>
-    <script>
-      var API_PATHS = {
-        createCollection: "/api/collections/create",
-        /**
-         * Generate API path for addPropertyToCollection
-         * @param {string} id - Collection ID
-         * @returns {string} API path for collection properties
-         */
-        addPropertyToCollection: (collectionId, propertyId) =>
-          `/api/collections/${collectionId}/properties/${propertyId}`,
-        /**
-         * Generate API path for a specific property within a collection
-         * @param {string} collectionId - Collection ID
-         * @param {string} propertyId - Property ID
-         * @returns {string} API path for the specific property in collection
-         */
-        removePropertyFromCollection: (collectionId, propertyId) =>
-          `/api/collections/${collectionId}/properties/${propertyId}`,
-        /**
-         * Generate API path to bulk update property collections
-         * @param {string} propertyId - Property ID
-         * @returns {string} API path for bulk updating property's collections
-         */
-        updatePropertyCollections: (propertyId) =>
-          `/api/properties/${propertyId}/collections`,
-        /**
-         * Generate API path to get collection selector HTML markup
-         * @param {string} propertyId - Property ID
-         * @returns {string} API path for getting collection selector markup
-         */
-        getCollectionSelectorMarkup: (propertyId) =>
-          `/api/properties/${propertyId}/collection-selector-markup`,
-      };
-    </script>
   </head>
   <body>
     <app-header></app-header>
@@ -163,6 +129,7 @@
                         role="button"
                         aria-label="Добавить в избранное"
                         tabindex="0"
+                        data-add-to-favorite-url="/api/collections/favorite/properties/prop_1"
                       >
                         <svg
                           width="20"
@@ -236,12 +203,16 @@
                           <button
                             class="w-100 d-block brand-button brand-button--solid js-add-to-collection"
                             data-property-id="prop_1"
+                            data-get-collections-list-url="/api/properties/prop_1/collection-selector-markup"
+                            data-update-collections-url="/api/properties/prop_1/collections"
+                            data-create-collection-url="/api/collections/create"
                           >
                             Добавить в подборку
                           </button>
                           <button
                             class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection"
                             data-property-id="prop_1"
+                            data-remove-url="/api/collections/coll_1/properties/prop_1"
                           >
                             Удалить из подборки
                           </button>
@@ -258,6 +229,7 @@
                         role="button"
                         aria-label="Добавить в избранное"
                         tabindex="0"
+                        data-add-to-favorite-url="/api/collections/favorite/properties/prop_2"
                       >
                         <svg
                           width="20"
@@ -331,12 +303,16 @@
                           <button
                             class="w-100 d-block brand-button brand-button--solid js-add-to-collection"
                             data-property-id="prop_2"
+                            data-get-collections-list-url="/api/properties/prop_2/collection-selector-markup"
+                            data-update-collections-url="/api/properties/prop_2/collections"
+                            data-create-collection-url="/api/collections/create"
                           >
                             Добавить в подборку
                           </button>
                           <button
                             class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection"
                             data-property-id="prop_2"
+                            data-remove-url="/api/collections/coll_1/properties/prop_2"
                           >
                             Удалить из подборки
                           </button>
@@ -357,8 +333,7 @@
     <div class="collection-selector-popup-backdrop"></div>
     <div
       class="collection-selector-popup-container"
-      id="collection-selector-popup"
-    >
+      id="collection-selector-popup">
       <div class="collection-selector-popup">
         <div class="collection-selector-popup__header">
           <h5 class="collection-selector-popup__title">Добавить в подборку</h5>
@@ -438,6 +413,7 @@
           <div class="modal-body">
             <p>Вы уверены, что хотите удалить этот объект из подборки?</p>
             <input type="hidden" id="removePropertyId" />
+            <input type="hidden" id="removePropertyUrl" />
           </div>
           <div class="modal-footer">
             <button

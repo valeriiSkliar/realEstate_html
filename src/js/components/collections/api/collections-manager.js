@@ -147,15 +147,18 @@ async function fetcher(url, options = {}) {
 const handleMockRequest = (url, options = {}) => {
   const method = options.method || 'GET';
   const collections = getMockCollectionsFromStorage();
-  
+
   const createCollection = url.match(/^\/api\/collections\/create$/);
+  
   // Handle get all collections
-  if (url === createCollection) {
+  if (createCollection) {
     if (method === 'GET') {
       return collections;
     } else if (method === 'POST') {
       const newCollection = {
         id: generateId(),
+        name: '',
+        notes: '',
         ...JSON.parse(options.body),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -237,7 +240,7 @@ const handleMockRequest = (url, options = {}) => {
   // Handle bulk update property collections (PUT /api/properties/{propertyId}/collections)
   if (collectionsWithPropertyMatch && method === 'PUT') {
     const [, propertyId] = collectionsWithPropertyMatch;
-    const { collections: collectionStates } = JSON.parse(options.body);
+    const collectionStates = JSON.parse(options.body);
     
     let updatedCount = 0;
     
@@ -362,8 +365,6 @@ const handleMockRequest = (url, options = {}) => {
  * @returns {Object} Created collection object
  */
 export const createCollection = async (url, collectionData, signal = null) => {
-  // Create new collection object
-  
   return fetcher(url, {
     method: 'POST',
     body: JSON.stringify(collectionData),
@@ -378,7 +379,6 @@ export const createCollection = async (url, collectionData, signal = null) => {
  * @returns {Object|null} Updated collection object or null if not found
  */
 export const updateCollection = async (url, updateData) => {
-
   return fetcher(url, {
     method: 'PATCH',
     body: JSON.stringify(updateData)
@@ -397,65 +397,88 @@ export const deleteCollection = async (url) => {
 };
 
 /**
- * Add a property to a collection
- * @param {string} collectionId - ID of the collection
- * @default collectionId = 'favorite'
- * @param {string} propertyId - ID of the property to add
+ * Add a property to a collection using URL from markup
+ * @param {string} url - API URL for adding property to collection
  * @param {AbortSignal} signal - Optional AbortSignal for cancellation
  * @returns {boolean} True if the property was added successfully
  */
-export const addPropertyToCollection = async (collectionId = favoriteCollectionId, propertyId, signal = null) => {
-    return fetcher(API_PATHS.addPropertyToCollection(collectionId, propertyId), {
-      method: 'POST',
-      ...(signal && { signal })
-    });
+export const addPropertyToCollection = async (url, signal = null) => {
+  return fetcher(url, {
+    method: 'POST',
+    ...(signal && { signal })
+  });
 };
 
 /**
- * Remove a property from a collection
- * @param {string} collectionId - ID of the collection
- * @default collectionId = 'favorite'
- * @param {string} propertyId - ID of the property to remove
+ * Remove a property from a collection using URL from markup
+ * @param {string} url - API URL for removing property from collection
  * @returns {boolean} True if the property was removed successfully
  */
-export const removePropertyFromCollection = async (collectionId=favoriteCollectionId, propertyId) => {
-    return fetcher(API_PATHS.removePropertyFromCollection(collectionId, propertyId), {
-      method: 'DELETE'
-    });
+export const removePropertyFromCollection = async (url) => {
+  return fetcher(url, {
+    method: 'DELETE'
+  });
 };
 
 /**
- * Get all collections that contain a specific property
- * @param {string} propertyId - ID of the property to check
- * @returns {Array} Array of collection objects containing the property
- */
-export const getCollectionsWithProperty = async (propertyId) => {
-    return fetcher(API_PATHS.getCollectionsWithProperty(propertyId));
-};
-
-/**
- * Bulk update property collections
- * @param {string} propertyId - ID of the property
+ * Bulk update property collections using URL from markup
+ * @param {string} url - API URL for bulk updating property's collections
  * @param {Array} collectionStates - Array of {collectionId, shouldInclude} objects
  * @param {AbortSignal} signal - Optional AbortSignal for cancellation
  * @returns {Object} Result of the bulk update operation
  */
-export const updatePropertyCollections = async (propertyId, collectionStates, signal = null) => {
-    return fetcher(API_PATHS.updatePropertyCollections(propertyId), {
-        method: 'PUT',
-        body: JSON.stringify({ collections: collectionStates }),
-        ...(signal && { signal })
-    });
+export const updatePropertyCollections = async (url, collectionStates, signal = null) => {
+  return fetcher(url, {
+    method: 'PUT',
+    body: JSON.stringify(collectionStates),
+    ...(signal && { signal })
+  });
 };
+
 /**
- * Get collection selector HTML markup with current states
- * @param {string} propertyId - ID of the property
+ * Get collection selector HTML markup with current states using URL from markup
+ * @param {string} url - API URL for getting collection selector markup
  * @returns {string} HTML markup for collection selector
  */
-export const getCollectionSelectorMarkup = async (propertyId) => {
-  const response = await fetcher(API_PATHS.getCollectionSelectorMarkup(propertyId));
+export const getCollectionSelectorMarkup = async (url) => {
+  const response = await fetcher(url);
   if (response.errors) {
     throw new Error("Ошибка при запросе к серверу");
   }
-    return response.html || response; // Handle both {html: "..."} and direct string responses
+  return response.html || response; // Handle both {html: "..."} and direct string responses
 };
+
+// Legacy compatibility functions - Generate URLs for backward compatibility
+/**
+ * Generate API URL for adding property to collection
+ * @param {string} collectionId - Collection ID
+ * @param {string} propertyId - Property ID
+ * @returns {string} API URL
+ */
+export const generateAddPropertyToCollectionUrl = (collectionId, propertyId) => 
+  `/api/collections/${collectionId}/properties/${propertyId}`;
+
+/**
+ * Generate API URL for removing property from collection
+ * @param {string} collectionId - Collection ID
+ * @param {string} propertyId - Property ID
+ * @returns {string} API URL
+ */
+export const generateRemovePropertyFromCollectionUrl = (collectionId, propertyId) => 
+  `/api/collections/${collectionId}/properties/${propertyId}`;
+
+/**
+ * Generate API URL for bulk updating property collections
+ * @param {string} propertyId - Property ID
+ * @returns {string} API URL
+ */
+export const generateUpdatePropertyCollectionsUrl = (propertyId) => 
+  `/api/properties/${propertyId}/collections`;
+
+/**
+ * Generate API URL for getting collection selector markup
+ * @param {string} propertyId - Property ID
+ * @returns {string} API URL
+ */
+export const generateGetCollectionSelectorMarkupUrl = (propertyId) => 
+  `/api/properties/${propertyId}/collection-selector-markup`;
