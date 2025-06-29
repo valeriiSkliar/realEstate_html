@@ -48,8 +48,9 @@
 
             <!-- Форма редактирования объявления -->
             <form
-              id="addListingForm"
+              id="editListingForm"
               data-action-url="/api/listings/update"
+              data-secondary-action-url="/api/listings/update?status=archive"
               data-success-url="/my-advertisements.html"
               class="card"
               novalidate
@@ -478,10 +479,19 @@
 
                 <!-- Кнопки действий -->
                 <div class="form-actions d-flex justify-content-end gap-2 mt-4">
+                  <!-- Скрытое поле для определения типа действия -->
+                  <input
+                    type="hidden"
+                    id="actionType"
+                    name="actionType"
+                    value=""
+                  />
+
                   <button
-                    type="button"
+                    type="submit"
                     class="brand-button brand-button--outline brand-button--danger"
                     id="unpublishBtn"
+                    data-action="archive"
                   >
                     <i class="bi bi-eye-slash me-2"></i>
                     В архив
@@ -490,6 +500,7 @@
                     type="submit"
                     class="brand-button brand-button--solid"
                     id="saveChangesBtn"
+                    data-action="update"
                   >
                     <i class="bi bi-check-circle me-2"></i>
                     Сохранить изменения

@@ -361,9 +361,20 @@ const editListingHandler = {
   async onSubmit(data, formData) {
     console.log("📝 Сохранение изменений...", data);
 
+    // Получаем тип действия из скрытого поля
+    const actionType = formData.get("actionType");
+    console.log("Action type:", actionType);
+
     // Получаем URL из атрибута data-action-url формы
-    const form = document.getElementById("addListingForm");
-    const actionUrl = form?.getAttribute("data-action-url");
+    const form = document.getElementById("editListingForm");
+    let actionUrl;
+
+    // Выбираем URL в зависимости от типа действия
+    if (actionType === "archive") {
+      actionUrl = form?.getAttribute("data-secondary-action-url");
+    } else {
+      actionUrl = form?.getAttribute("data-action-url");
+    }
 
     if (!actionUrl) {
       throw new Error(
@@ -405,8 +416,20 @@ const editListingHandler = {
 
   onSuccess(result) {
     console.log("🎉 Успех!", result);
-    // createAndShowToast("Изменения успешно сохранены!", "success");
-    window.location.href = this.form.getAttribute("data-success-url");
+
+    // Получаем тип действия для показа соответствующего сообщения
+    const actionType = document.getElementById("actionType")?.value;
+
+    if (actionType === "archive") {
+      createAndShowToast("Объявление перемещено в архив!", "success");
+    } else {
+      createAndShowToast("Изменения успешно сохранены!", "success");
+    }
+
+    // Перенаправляем на страницу успеха
+    setTimeout(() => {
+      window.location.href = this.form.getAttribute("data-success-url");
+    }, 1500);
   },
 
   onError(errors) {
@@ -447,34 +470,53 @@ const editListingHandler = {
 };
 
 /**
+ * Настройка обработчиков кнопок для установки типа действия
+ */
+function setupActionButtons(form) {
+  const actionTypeField = form.querySelector("#actionType");
+  const unpublishBtn = form.querySelector("#unpublishBtn");
+  const saveChangesBtn = form.querySelector("#saveChangesBtn");
+
+  if (!actionTypeField) {
+    console.warn("Поле actionType не найдено");
+    return;
+  }
+
+  // Обработчик для кнопки "В архив"
+  if (unpublishBtn) {
+    unpublishBtn.addEventListener("click", (e) => {
+      const actionType = unpublishBtn.getAttribute("data-action");
+      actionTypeField.value = actionType;
+      console.log("Установлен тип действия:", actionType);
+    });
+  }
+
+  // Обработчик для кнопки "Сохранить изменения"
+  if (saveChangesBtn) {
+    saveChangesBtn.addEventListener("click", (e) => {
+      const actionType = saveChangesBtn.getAttribute("data-action");
+      actionTypeField.value = actionType;
+      console.log("Установлен тип действия:", actionType);
+    });
+  }
+}
+
+/**
  * Настройка дополнительных кнопок
  */
 function setupAdditionalButtons(form) {
-  // Кнопка "В архив" (бывшая "Снять с публикации")
-  const unpublishBtn = form.querySelector("#unpublishBtn");
-  if (unpublishBtn) {
-    unpublishBtn.addEventListener("click", async () => {
-      console.log("📤 Перемещение в архив...");
+  // Все кнопки теперь работают через onSubmit и setupActionButtons
+  // Эта функция оставлена для совместимости, но можно добавить
+  // дополнительную логику если потребуется
 
-      // Здесь должен быть реальный запрос к серверу
-      createAndShowToast("Функция архивирования не реализована", "info");
-    });
-  }
-
-  // Обработчик кнопки "Сохранить как черновик"
-  const saveAsDraftBtn = form.querySelector("#saveAsDraftBtn");
-  if (saveAsDraftBtn) {
-    saveAsDraftBtn.addEventListener("click", () => {
-      createAndShowToast("Функция сохранения черновика не реализована", "info");
-    });
-  }
+  console.log("Дополнительные кнопки настроены");
 }
 
 /**
  * Основная функция инициализации редактирования
  */
 export const initEditListingForm = () => {
-  const form = document.getElementById("addListingForm");
+  const form = document.getElementById("editListingForm");
 
   if (!form) {
     console.warn("❌ Форма не найдена");
@@ -503,6 +545,7 @@ export const initEditListingForm = () => {
     setupConditionalFields(form);
     setupFileUpload(form);
     setupAdditionalButtons(form);
+    setupActionButtons(form);
 
     form.dataset.initialized = "true";
     form.formManager = formManager;

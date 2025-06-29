@@ -48,6 +48,7 @@
             <form
               id="addListingForm"
               data-action-url="/api/listings/create"
+              data-secondary-action-url="/api/listings/create?status=draft"
               data-success-url="/my-advertisements.html"
               class="card"
               novalidate
@@ -461,10 +462,19 @@
 
                 <!-- Кнопки действий -->
                 <div class="form-actions d-flex justify-content-end gap-2 mt-4">
+                  <!-- Скрытое поле для определения типа действия -->
+                  <input
+                    type="hidden"
+                    id="actionType"
+                    name="actionType"
+                    value=""
+                  />
+
                   <button
-                    type="button"
+                    type="submit"
                     class="brand-button brand-button--solid brand-button--turquoise"
                     id="saveAsDraftBtn"
+                    data-action="draft"
                   >
                     <i class="bi bi-file-earmark me-2"></i>
                     Сохранить
@@ -473,6 +483,7 @@
                     type="submit"
                     class="brand-button brand-button--solid"
                     id="publishBtn"
+                    data-action="publish"
                   >
                     <i class="bi bi-check-circle me-2"></i>
                     Опубликовать

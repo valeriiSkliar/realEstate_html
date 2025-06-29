@@ -355,15 +355,58 @@ function setupFileUpload(form) {
 }
 
 /**
+ * Настройка обработчиков кнопок для установки типа действия
+ */
+function setupActionButtons(form) {
+  const actionTypeField = form.querySelector("#actionType");
+  const saveAsDraftBtn = form.querySelector("#saveAsDraftBtn");
+  const publishBtn = form.querySelector("#publishBtn");
+
+  if (!actionTypeField) {
+    console.warn("Поле actionType не найдено");
+    return;
+  }
+
+  // Обработчик для кнопки "Сохранить как черновик"
+  if (saveAsDraftBtn) {
+    saveAsDraftBtn.addEventListener("click", (e) => {
+      const actionType = saveAsDraftBtn.getAttribute("data-action");
+      actionTypeField.value = actionType;
+      console.log("Установлен тип действия:", actionType);
+    });
+  }
+
+  // Обработчик для кнопки "Опубликовать"
+  if (publishBtn) {
+    publishBtn.addEventListener("click", (e) => {
+      const actionType = publishBtn.getAttribute("data-action");
+      actionTypeField.value = actionType;
+      console.log("Установлен тип действия:", actionType);
+    });
+  }
+}
+
+/**
  * Обработчики формы без показа ошибок под полями
  */
 const addListingHandler = {
   async onSubmit(data, formData) {
     console.log("📝 Отправка формы...", data);
 
+    // Получаем тип действия из скрытого поля
+    const actionType = formData.get("actionType");
+    console.log("Action type:", actionType);
+
     // Получаем URL из атрибута data-action-url формы
     const form = this.form || document.getElementById("addListingForm");
-    const actionUrl = form?.getAttribute("data-action-url");
+    let actionUrl;
+
+    // Выбираем URL в зависимости от типа действия
+    if (actionType === "draft") {
+      actionUrl = form?.getAttribute("data-secondary-action-url");
+    } else {
+      actionUrl = form?.getAttribute("data-action-url");
+    }
 
     console.log("Form element:", form);
     console.log("Action URL:", actionUrl);
@@ -408,8 +451,20 @@ const addListingHandler = {
 
   onSuccess(result) {
     console.log("🎉 Успех!", result);
-    // createAndShowToast("Объявление успешно создано!", "success");
-    window.location.href = this.form.getAttribute("data-success-url");
+
+    // Получаем тип действия для показа соответствующего сообщения
+    const actionType = document.getElementById("actionType")?.value;
+
+    if (actionType === "draft") {
+      createAndShowToast("Объявление сохранено как черновик!", "success");
+    } else {
+      createAndShowToast("Объявление успешно опубликовано!", "success");
+    }
+
+    // Перенаправляем на страницу успеха
+    setTimeout(() => {
+      window.location.href = this.form.getAttribute("data-success-url");
+    }, 1500);
   },
 
   onError(errors) {
@@ -481,14 +536,7 @@ export const initAddListingForm = () => {
     // Настраиваем дополнительную логику
     setupConditionalFields(form);
     setupFileUpload(form);
-
-    // Обработчик кнопки "Сохранить как черновик"
-    const saveAsDraftBtn = form.querySelector("#saveAsDraftBtn");
-    if (saveAsDraftBtn) {
-      saveAsDraftBtn.addEventListener("click", () => {
-        createAndShowToast("Черновик сохранен", "info");
-      });
-    }
+    setupActionButtons(form);
 
     form.dataset.initialized = "true";
     form.formManager = formManager;
