@@ -28,7 +28,10 @@ const collectionsCreateHandler = {
     }
     // Create collection
     try {
-      const collection = await createCollection(apiUrl, data);
+      const collection = await createCollection(apiUrl, {
+        advertisement_list: [],
+        ...data,
+      });
       return collection;
     } catch (error) {
       console.log("error", error);

@@ -309,7 +309,7 @@ const Operations = {
     try {
       await createCollection(
         createCollectionUrl, 
-        { name: newName, properties: [propertyId] }, 
+        { name: newName, advertisement_list: [propertyId] }, 
         abortController.signal
       );
 
