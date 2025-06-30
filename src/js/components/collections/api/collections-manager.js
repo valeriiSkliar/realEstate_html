@@ -139,9 +139,5 @@ export const updatePropertyCollections = async (url, collectionStates, signal = 
  * @returns {string} HTML markup for collection selector
  */
 export const getCollectionSelectorMarkup = async (url) => {
-  const response = await collectionFetcher(url);
-  if (response.errors) {
-    throw new Error("Ошибка при запросе к серверу");
-  }
-  return response.html || response; // Handle both {html: "..."} and direct string responses
+  return collectionFetcher(url);
 };

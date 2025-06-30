@@ -250,16 +250,23 @@ export const initCollectionPage = () => {
         const propertyId = propertyCard.getAttribute("data-property-id");
         const addToFavoriteUrl = button.getAttribute("data-add-to-favorite-url");
 
-        if (propertyId && addToFavoriteUrl) {
-          if (isFavorite) {
-            await removePropertyFromCollection(addToFavoriteUrl);
-            updateFavoriteIcon(button, false);
-            createAndShowToast("Объект удален из избранного", "success");
-          } else {
-            await addPropertyToCollection(addToFavoriteUrl);
-            updateFavoriteIcon(button, true);
-            createAndShowToast("Объект добавлен в избранное", "success");
+        try {
+          if (propertyId && addToFavoriteUrl) {
+            const result = await addPropertyToCollection(addToFavoriteUrl);
+            if (result.status) {
+              updateFavoriteIcon(button, !isFavorite);
+              if (isFavorite) {
+                createAndShowToast("Объект удален из избранного", "success");
+              } else {
+                createAndShowToast("Объект добавлен в избранное", "success");
+              }
+            } else {
+              throw new Error(result.errors);
+            }
           }
+        } catch (error) {
+          console.error("Error adding property to favorite", error);
+          createAndShowToast("Не удалось изменить статус объекта в избранном", "error");
         }
       });
     });

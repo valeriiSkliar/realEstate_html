@@ -312,10 +312,16 @@ const Operations = {
         { name: newName, properties: [propertyId] }, 
         abortController.signal
       );
+
+      if (result.status) {
+
         createAndShowToast(
           `Объект "${propertyTitle}" добавлен в новую подборку "${newName}"`,
           "success"
         );
+      } else {
+        throw new Error(result.errors);
+      }
     } catch (error) {
       ErrorHandler.handle(error, "Ошибка при создании подборки");
     } finally {
@@ -363,8 +369,8 @@ const Operations = {
     try {
       const result = await updatePropertyCollections(updateCollectionsUrl, collectionStates, abortController.signal);
       
-      if (result?.error) {
-        throw new Error(result.error);
+      if (!result.status) {
+        throw new Error(result.errors);
       }
       
       // Show success message
@@ -396,12 +402,12 @@ const Operations = {
     try {
       const markup = await getCollectionSelectorMarkup(getCollectionsListUrl);
       
-      if (!markup) {
-        throw new Error("Не удалось загрузить коллекции");
+      if (!markup.status || !markup.html) {
+        throw markup;
       }
       
       if (listContainer) {
-        listContainer.innerHTML = markup;
+        listContainer.innerHTML = markup.html;
         this.setupCollectionItemListeners(listContainer);
       }
       
@@ -724,7 +730,7 @@ export const addPropertyToFavorite = async (propertyId, propertyTitle, urls = {}
     const added = await addPropertyToCollection(urls.addToFavoriteUrl);
     await removeExistingPopup();
     
-    if (added) {
+    if (added.status) {
       if (showToast && urls.getCollectionsListUrl) {
         await showInteractiveAddToCollectionToast(propertyId, propertyTitle, urls);
       }

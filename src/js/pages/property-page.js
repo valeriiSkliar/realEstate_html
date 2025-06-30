@@ -1,4 +1,3 @@
-import { removePropertyFromCollection } from '../components/collections/api/collections-manager.js';
 import { addPropertyToFavorite, removeCollectionToast, showCollectionSelectorPopup } from "../components/collections/collection-selector-popup/collection-selector-popup.js";
 import { initReportModal } from "../components/property-page/report-modal.js";
 import { createAndShowToast } from '../utils/uiHelpers.js';
@@ -562,19 +561,20 @@ document.addEventListener("DOMContentLoaded", function () {
         addToFavoriteUrl: addRemoveToFavoriteUrl,
       }
 
-      try{
-        if (!isFavoriteIconSolid) { 
-          await addPropertyToFavorite(propertyId, propertyTitle, urls, false);
-          heartIcon.classList.remove('bi-heart');
-          heartIcon.classList.add('bi-heart-fill');
-        } else { 
-          // Generate remove URL
-          await removePropertyFromCollection(urls.addToFavoriteUrl);
-          heartIcon.classList.remove('bi-heart-fill');
-          heartIcon.classList.add('bi-heart');
 
+
+
+      try{
+        const result = await addPropertyToFavorite(propertyId, propertyTitle, urls, false);
+        if (result.success) {
+          heartIcon.classList.toggle('bi-heart');
+          heartIcon.classList.toggle('bi-heart-fill');
           removeCollectionToast();
-          createAndShowToast(`${propertyTitle} удалено из избранного`, 'success');
+          if (isFavoriteIconSolid) {
+            createAndShowToast(`${propertyTitle} удалено из избранного`, 'success');
+          }
+        } else {
+          throw new Error(result.errors);
         }
       }catch(error){
         console.error(error);

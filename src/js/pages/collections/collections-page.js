@@ -67,7 +67,7 @@ const initDeleteCollection = async () => {
         // Delete collection
         try {
           const success = await deleteCollection(apiUrl);
-          if (!success.errors) {
+          if (success.status) {
             // Show success message
             window.location.reload();
           } else {

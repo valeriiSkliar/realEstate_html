@@ -29,8 +29,6 @@ const collectionsCreateHandler = {
     // Create collection
     try {
       const collection = await createCollection(apiUrl, data);
-      console.log("collection", collection);
-      
       return collection;
     } catch (error) {
       console.log("error", error);
@@ -40,8 +38,13 @@ const collectionsCreateHandler = {
 
   onSuccess(result) {
     console.log("🎉 Успех!", result);
-            // Show success modal
-            showModal("collectionSuccessModal");
+    const seeCollectionButton = document.querySelector(".js-view-collection");
+  
+    if (seeCollectionButton && result.url) {
+      seeCollectionButton.href = result.url;
+    }
+    // Show success modal
+    showModal("collectionSuccessModal");
     createAndShowToast("Объявление успешно создано!", "success");
   },
 
