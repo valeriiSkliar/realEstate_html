@@ -13,6 +13,10 @@ class PropertySummaryCardManager {
    * Инициализация модуля
    */
   init() {
+    if (!document.querySelector(".search-page")) {
+      console.warn("No property summary cards found on the page.");
+      return;
+    }
     this.bindEvents();
     this.loadFavoritesFromStorage();
   }
