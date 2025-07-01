@@ -99,7 +99,18 @@
                   </a>
                 </div>
               </div>
-
+              <!-- Send PDF Form -->
+              <form id="sendPdfForm" action="/api/collections/send-pdf" method="POST">
+                <div class="row">
+                  <div class="col-12 pb-1">
+                    <button class="brand-button brand-button--solid brand-button--lime-green w-100 mb-4" type="submit">
+                      <i class="bi bi-send"></i> Отправить
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <!-- End Send PDF Form -->
+               
               <!-- Empty Collection State (hidden by default) -->
               <div
                 class="collections-empty-state js-empty-collection"
