@@ -307,7 +307,7 @@ const Operations = {
     const abortController = PopupStateManager.createAbortController();
 
     try {
-      await createCollection(
+      const result = await createCollection(
         createCollectionUrl, 
         { name: newName, advertisement_list: [propertyId] }, 
         abortController.signal
