@@ -39,3 +39,16 @@ export function getPlural(count, singular, few, many) {
 export function getObjectPlural(count) {
   return getPlural(count, 'объект', 'объекта', 'объектов');
 }
+
+/**
+ * Gets formatted plural form for Russian words based on count
+ * @param {number} count - The number to determine plural form for
+ * @param {string} singular - Singular form (1, 21, 31, 41, 51, etc.)
+ * @param {string} few - Few form (2-4, 22-24, 32-34, 42-44, etc.)
+ * @param {string} many - Many form (0, 5-20, 25-30, 35-40, etc.)
+ * @returns {string} - The formatted plural form
+ */
+export function getFormattedPlural(count, singular, few, many) {
+  const plural = getPlural(count, singular, few, many);
+  return `${count} ${plural}`;
+}

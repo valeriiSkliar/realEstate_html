@@ -104,9 +104,11 @@ const initSidebarFilters = () => {
   const propertyRooms = document.getElementById("property-rooms");
   
   function toggleRoomsVisibility() {
-    propertyRooms.classList.toggle("d-none", !["apartment"].includes(propertyType.value));
+    const datasetForPropertyRooms = propertyRooms.dataset.showForPropertyType;
+    const propertyRoomsForTypes = datasetForPropertyRooms ? datasetForPropertyRooms.split(",") : [];
+    propertyRooms.classList.toggle("d-none", !propertyRoomsForTypes.includes(propertyType.value));
   }
-
+  
   if (propertyType && propertyRooms) {
     // Initial visibility check
     toggleRoomsVisibility();
@@ -119,8 +121,11 @@ const initSidebarFilters = () => {
   // Toggle square units according to property type
   const areaFilter = document.getElementById("area-filter");
   const landAreaFilter = document.getElementById("land-area-filter");
-  const landTypes = ["other", "land"];
+  
+  
   function toggleAreaUnits() {
+    const datasetForLandAreaFilter = landAreaFilter.dataset.showForPropertyType;
+    const landTypes = datasetForLandAreaFilter ? datasetForLandAreaFilter.split(",") : [];
     if (landTypes.includes(propertyType.value)) {
       // hide area filter
       areaFilter.classList.add("d-none");

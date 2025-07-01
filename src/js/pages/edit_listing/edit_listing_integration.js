@@ -436,7 +436,7 @@ const editListingHandler = {
     console.log("⚠️ Ошибки валидации:", errors);
 
     // Находим первое поле с ошибкой и фокусируемся на нем
-    const firstErrorField = Object.keys(errors)[0];
+    const firstErrorField = Object.keys(errors.errors)[0];
     if (firstErrorField) {
       const field = document.querySelector(`[name="${firstErrorField}"]`);
       if (field) {

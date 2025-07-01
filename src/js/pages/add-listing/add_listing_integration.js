@@ -468,10 +468,10 @@ const addListingHandler = {
   },
 
   onError(errors) {
-    console.log("⚠️ Ошибки валидации:", errors);
+    console.log("⚠️ Ошибки валидации:", errors.errors);
 
     // Находим первое поле с ошибкой и фокусируемся на нем
-    const firstErrorField = Object.keys(errors)[0];
+    const firstErrorField = Object.keys(errors.errors)[0];
     if (firstErrorField) {
       const field = document.querySelector(`[name="${firstErrorField}"]`);
       if (field) {

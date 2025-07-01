@@ -1,5 +1,4 @@
 import {
-  favoriteCollectionId,
   removePropertyFromCollection
 } from "../components/collections/api/collections-manager";
 import {
@@ -14,19 +13,26 @@ document.addEventListener("DOMContentLoaded", function () {
   const propertyCards = document.querySelectorAll("property-summary-card");
 
   propertyCards.forEach((card) => {
+    const urls = {
+      getCollectionsListUrl: card.dataset.getCollectionsListUrl,
+      updateCollectionsUrl: card.dataset.updateCollectionsUrl,
+      createCollectionUrl: card.dataset.createCollectionUrl,
+      addToFavoriteUrl: card.dataset.addToFavoriteUrl,
+    };
+
     card.addEventListener("favorite-changed", async (e) => {
       if (e.detail.isFavorite) {
         // Добавляем свойство в избранное и показываем попап выбора подборок
         await addPropertyToFavorite(
           e.detail.propertyId,
           e.detail.propertyTitle,
-          true,
+          urls,
         );
       } else {
         // Удаляем тост если он есть
         removeCollectionToast();
         // Удаляем свойство из избранного
-        await removePropertyFromCollection(favoriteCollectionId, e.detail.propertyId);
+        await removePropertyFromCollection(urls.addToFavoriteUrl);
         // Показываем тост
         createAndShowToast(
           `${e.detail.propertyTitle} удалено из избранного`,

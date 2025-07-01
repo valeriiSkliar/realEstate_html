@@ -5,40 +5,6 @@
     <meta name="csrf-token" content="csrf-token" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Недвижимость</title>
-    <script>
-      var API_PATHS = {
-        createCollection: "/api/collections/create",
-        /**
-         * Generate API path for addPropertyToCollection
-         * @param {string} id - Collection ID
-         * @returns {string} API path for collection properties
-         */
-        addPropertyToCollection: (collectionId, propertyId) =>
-          `/api/collections/${collectionId}/properties/${propertyId}`,
-        /**
-         * Generate API path for a specific property within a collection
-         * @param {string} collectionId - Collection ID
-         * @param {string} propertyId - Property ID
-         * @returns {string} API path for the specific property in collection
-         */
-        removePropertyFromCollection: (collectionId, propertyId) =>
-          `/api/collections/${collectionId}/properties/${propertyId}`,
-        /**
-         * Generate API path to bulk update property collections
-         * @param {string} propertyId - Property ID
-         * @returns {string} API path for bulk updating property's collections
-         */
-        updatePropertyCollections: (propertyId) =>
-          `/api/properties/${propertyId}/collections`,
-        /**
-         * Generate API path to get collection selector HTML markup
-         * @param {string} propertyId - Property ID
-         * @returns {string} API path for getting collection selector markup
-         */
-        getCollectionSelectorMarkup: (propertyId) =>
-          `/api/properties/${propertyId}/collection-selector-markup`,
-      };
-    </script>
   </head>
   <body>
     <app-header></app-header>
@@ -156,7 +122,8 @@
               </h1>
               <button
                 id="favorite-button"
-                data-property-id="1"
+                data-property-id="prop_1"
+                data-add-to-favorite-url="/api/collections/favorite/properties/prop_1"
                 class="property-detail-header__favorite-btn"
                 type="button"
                 aria-label="Добавить в избранное"
@@ -325,9 +292,12 @@
             class="property-detail-page__buttons container-fluid px-0 mt-3 d-flex flex-column justify-content-center align-items-center gap-3"
           >
             <button
-              class="brand-button brand-button--solid"
               id="add-to-collections-button"
-              data-property-id="1"
+              class="brand-button brand-button--solid js-add-to-collection"
+              data-property-id="prop_1"
+              data-get-collections-list-url="/api/properties/prop_1/collection-selector-markup"
+              data-update-collections-url="/api/properties/prop_1/collections"
+              data-create-collection-url="/api/collections/create"
             >
               Добавить в подборку
             </button>

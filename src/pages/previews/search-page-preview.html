@@ -5,40 +5,6 @@
     <meta name="csrf-token" content="csrf-token" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Недвижимость</title>
-    <script>
-      var API_PATHS = {
-        createCollection: "/api/collections/create",
-        /**
-         * Generate API path for addPropertyToCollection
-         * @param {string} id - Collection ID
-         * @returns {string} API path for collection properties
-         */
-        addPropertyToCollection: (collectionId, propertyId) =>
-          `/api/collections/${collectionId}/properties/${propertyId}`,
-        /**
-         * Generate API path for a specific property within a collection
-         * @param {string} collectionId - Collection ID
-         * @param {string} propertyId - Property ID
-         * @returns {string} API path for the specific property in collection
-         */
-        removePropertyFromCollection: (collectionId, propertyId) =>
-          `/api/collections/${collectionId}/properties/${propertyId}`,
-        /**
-         * Generate API path to bulk update property collections
-         * @param {string} propertyId - Property ID
-         * @returns {string} API path for bulk updating property's collections
-         */
-        updatePropertyCollections: (propertyId) =>
-          `/api/properties/${propertyId}/collections`,
-        /**
-         * Generate API path to get collection selector HTML markup
-         * @param {string} propertyId - Property ID
-         * @returns {string} API path for getting collection selector markup
-         */
-        getCollectionSelectorMarkup: (propertyId) =>
-          `/api/properties/${propertyId}/collection-selector-markup`,
-      };
-    </script>
   </head>
   <style>
     /* Select2 custom styles */
@@ -267,6 +233,10 @@
               <div class="my-listings-list">
                 <div class="property-card-list">
                   <property-summary-card
+                    data-add-to-favorite-url="/api/collections/favorite/properties/prop_1"
+                    data-get-collections-list-url="/api/properties/prop_1/collection-selector-markup"
+                    data-update-collections-url="/api/properties/prop_1/collections"
+                    data-create-collection-url="/api/collections/create"
                     title-text="1-к. квартира, 65 м2 | Зиповская"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 14 000 000"
@@ -281,6 +251,10 @@
                   ></property-summary-card>
 
                   <property-summary-card
+                    data-add-to-favorite-url="/api/collections/favorite/properties/prop_2"
+                    data-get-collections-list-url="/api/properties/prop_2/collection-selector-markup"
+                    data-update-collections-url="/api/properties/prop_2/collections"
+                    data-create-collection-url="/api/collections/create"
                     title-text="2-к. студия, 80 м2 | Центр"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 18 500 000"
@@ -295,6 +269,10 @@
                   ></property-summary-card>
 
                   <property-summary-card
+                    data-add-to-favorite-url="/api/collections/favorite/properties/prop_3"
+                    data-get-collections-list-url="/api/properties/prop_3/collection-selector-markup"
+                    data-update-collections-url="/api/properties/prop_3/collections"
+                    data-create-collection-url="/api/collections/create"
                     title-text="3-к. квартира, 95 м2 | ФМР"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 21 500 000"
@@ -309,6 +287,10 @@
                   ></property-summary-card>
 
                   <property-summary-card
+                    data-add-to-favorite-url="/api/collections/favorite/properties/prop_4"
+                    data-get-collections-list-url="/api/properties/prop_4/collection-selector-markup"
+                    data-update-collections-url="/api/properties/prop_4/collections"
+                    data-create-collection-url="/api/collections/create"
                     title-text="Студия, 28 м2 | ГМР"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 4 900 000"
@@ -323,6 +305,10 @@
                   ></property-summary-card>
 
                   <property-summary-card
+                    data-add-to-favorite-url="/api/collections/favorite/properties/prop_5"
+                    data-get-collections-list-url="/api/properties/prop_5/collection-selector-markup"
+                    data-update-collections-url="/api/properties/prop_5/collections"
+                    data-create-collection-url="/api/collections/create"
                     title-text="Дом, 180 м2 | Немецкая деревня"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 35 000 000"
@@ -337,6 +323,10 @@
                   ></property-summary-card>
 
                   <property-summary-card
+                    data-add-to-favorite-url="/api/collections/favorite/properties/prop_6"
+                    data-get-collections-list-url="/api/properties/prop_6/collection-selector-markup"
+                    data-update-collections-url="/api/properties/prop_6/collections"
+                    data-create-collection-url="/api/collections/create"
                     title-text="2-к. квартира, 75 м2 | ЮМР"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 16 800 000"
@@ -350,6 +340,10 @@
                   ></property-summary-card>
 
                   <property-summary-card
+                  data-add-to-favorite-url="/api/collections/favorite/properties/prop_7"
+                  data-get-collections-list-url="/api/properties/prop_7/collection-selector-markup"
+                  data-update-collections-url="/api/properties/prop_7/collections"
+                  data-create-collection-url="/api/collections/create"
                     title-text="Коммерция, 120 м2 | Центр"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 45 000 000"
@@ -363,6 +357,10 @@
                   ></property-summary-card>
 
                   <property-summary-card
+                  data-add-to-favorite-url="/api/collections/favorite/properties/prop_8"
+                  data-get-collections-list-url="/api/properties/prop_8/collection-selector-markup"
+                  data-update-collections-url="/api/properties/prop_8/collections"
+                  data-create-collection-url="/api/collections/create"
                     title-text="4-к. квартира, 150 м2 | ЗИП"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 29 900 000"
@@ -376,6 +374,10 @@
                   ></property-summary-card>
 
                   <property-summary-card
+                  data-add-to-favorite-url="/api/collections/favorite/properties/prop_9"
+                  data-get-collections-list-url="/api/properties/prop_9/collection-selector-markup"
+                  data-update-collections-url="/api/properties/prop_9/collections"
+                  data-create-collection-url="/api/collections/create"
                     title-text="Участок, 6 соток | Знаменский"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 3 500 000"
@@ -389,6 +391,10 @@
                   ></property-summary-card>
 
                   <property-summary-card
+                  data-add-to-favorite-url="/api/collections/favorite/properties/prop_10"
+                  data-get-collections-list-url="/api/properties/prop_10/collection-selector-markup"
+                  data-update-collections-url="/api/properties/prop_10/collections"
+                  data-create-collection-url="/api/collections/create"
                     title-text="1-к. квартира, 41 м2 | КМР"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 8 900 000"
@@ -504,6 +510,7 @@
           <div
             class="form-group p-2 border-1 rounded-2 border-dark-subtle border"
             id="property-rooms"
+            data-show-for-property-type='apartment'
           >
             <div class="form-group d-flex flex-wrap gap-2">
               <div class="w-100">
@@ -583,7 +590,7 @@
             </div>
           </div>
 
-          <div class="filter-section d-none" id="land-area-filter">
+          <div class="filter-section d-none" id="land-area-filter" data-show-for-property-type='land'>
             <div class="filter-title">Размер участка</div>
             <div class="area-range">
               <div class="area-input land-area-input">

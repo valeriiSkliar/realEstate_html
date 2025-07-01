@@ -6,6 +6,40 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Real Estate - My Collections</title>
+    <script>
+      var API_PATHS = {
+        createCollection: "/api/collections/create",
+        /**
+         * Generate API path for addPropertyToCollection
+         * @param {string} id - Collection ID
+         * @returns {string} API path for collection properties
+         */
+        addPropertyToCollection: (collectionId, propertyId) =>
+          `/api/collections/${collectionId}/properties/${propertyId}`,
+        /**
+         * Generate API path for a specific property within a collection
+         * @param {string} collectionId - Collection ID
+         * @param {string} propertyId - Property ID
+         * @returns {string} API path for the specific property in collection
+         */
+        removePropertyFromCollection: (collectionId, propertyId) =>
+          `/api/collections/${collectionId}/properties/${propertyId}`,
+        /**
+         * Generate API path to bulk update property collections
+         * @param {string} propertyId - Property ID
+         * @returns {string} API path for bulk updating property's collections
+         */
+        updatePropertyCollections: (propertyId) =>
+          `/api/properties/${propertyId}/collections`,
+        /**
+         * Generate API path to get collection selector HTML markup
+         * @param {string} propertyId - Property ID
+         * @returns {string} API path for getting collection selector markup
+         */
+        getCollectionSelectorMarkup: (propertyId) =>
+          `/api/properties/${propertyId}/collection-selector-markup`,
+      };
+    </script>
   </head>
   <body>
     <app-header></app-header>
@@ -59,16 +93,12 @@
                   <i class="bi bi-pencil"></i>
                 </a>
               </div>
+              <!-- <strong>Название Подборки</strong> -->
             </div>
 
             <!-- Collection Information Form -->
             <div class="step-content active">
               <form id="collectionId">
-                <div class="row mb-0">
-                  <div class="collection-name col-12 mt-2 mb-0">
-                    Название Подборки
-                  </div>
-                </div>
                 <section class="form-section">
                   <div class="form-field mb-1">
                     <p
@@ -99,18 +129,7 @@
                   </a>
                 </div>
               </div>
-              <!-- Send PDF Form -->
-              <form id="sendPdfForm" action="/api/collections/send-pdf" method="POST">
-                <div class="row">
-                  <div class="col-12 pb-1">
-                    <button class="brand-button brand-button--solid brand-button--lime-green w-100 mb-4" type="submit">
-                      <i class="bi bi-send"></i> Отправить
-                    </button>
-                  </div>
-                </div>
-              </form>
-              <!-- End Send PDF Form -->
-               
+
               <!-- Empty Collection State (hidden by default) -->
               <div
                 class="collections-empty-state js-empty-collection"
@@ -140,7 +159,6 @@
                         role="button"
                         aria-label="Добавить в избранное"
                         tabindex="0"
-                        data-add-to-favorite-url="/api/collections/favorite/properties/prop_1"
                       >
                         <svg
                           width="20"
@@ -214,16 +232,12 @@
                           <button
                             class="w-100 d-block brand-button brand-button--solid js-add-to-collection"
                             data-property-id="prop_1"
-                            data-get-collections-list-url="/api/properties/prop_1/collection-selector-markup"
-                            data-update-collections-url="/api/properties/prop_1/collections"
-                            data-create-collection-url="/api/collections/create"
                           >
                             Добавить в подборку
                           </button>
                           <button
                             class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection"
                             data-property-id="prop_1"
-                            data-remove-url="/api/collections/coll_1/properties/prop_1"
                           >
                             Удалить из подборки
                           </button>
@@ -240,7 +254,6 @@
                         role="button"
                         aria-label="Добавить в избранное"
                         tabindex="0"
-                        data-add-to-favorite-url="/api/collections/favorite/properties/prop_2"
                       >
                         <svg
                           width="20"
@@ -314,16 +327,12 @@
                           <button
                             class="w-100 d-block brand-button brand-button--solid js-add-to-collection"
                             data-property-id="prop_2"
-                            data-get-collections-list-url="/api/properties/prop_2/collection-selector-markup"
-                            data-update-collections-url="/api/properties/prop_2/collections"
-                            data-create-collection-url="/api/collections/create"
                           >
                             Добавить в подборку
                           </button>
                           <button
                             class="w-100 d-block brand-button brand-button--outline brand-button--pink js-remove-from-collection"
                             data-property-id="prop_2"
-                            data-remove-url="/api/collections/coll_1/properties/prop_2"
                           >
                             Удалить из подборки
                           </button>
@@ -341,10 +350,12 @@
 
     <app-footer></app-footer>
 
+    <!-- Collection Selector Popup -->
     <div class="collection-selector-popup-backdrop"></div>
     <div
       class="collection-selector-popup-container"
-      id="collection-selector-popup">
+      id="collection-selector-popup"
+    >
       <div class="collection-selector-popup">
         <div class="collection-selector-popup__header">
           <h5 class="collection-selector-popup__title">Добавить в подборку</h5>
@@ -397,7 +408,7 @@
         </div>
       </div>
     </div>
-
+    <!-- End Collection Selector Popup -->
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
     <!-- Remove Property Confirmation Modal -->
@@ -424,7 +435,6 @@
           <div class="modal-body">
             <p>Вы уверены, что хотите удалить этот объект из подборки?</p>
             <input type="hidden" id="removePropertyId" />
-            <input type="hidden" id="removePropertyUrl" />
           </div>
           <div class="modal-footer">
             <button
