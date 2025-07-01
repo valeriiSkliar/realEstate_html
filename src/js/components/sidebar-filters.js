@@ -102,9 +102,10 @@ const initSidebarFilters = () => {
       // Toggle rooms visibility based on property type
   const propertyType = document.getElementById("property_type_select");
   const propertyRooms = document.getElementById("property-rooms");
-  
+  const propertyRoomsForTypes = propertyRooms.dataset.showForPropertyType.split(",");
+
   function toggleRoomsVisibility() {
-    propertyRooms.classList.toggle("d-none", !["apartment"].includes(propertyType.value));
+    propertyRooms.classList.toggle("d-none", !propertyRoomsForTypes.includes(propertyType.value));
   }
 
   if (propertyType && propertyRooms) {
@@ -119,7 +120,8 @@ const initSidebarFilters = () => {
   // Toggle square units according to property type
   const areaFilter = document.getElementById("area-filter");
   const landAreaFilter = document.getElementById("land-area-filter");
-  const landTypes = ["other", "land"];
+  const landTypes = landAreaFilter.dataset.showForPropertyType.split(",");
+
   function toggleAreaUnits() {
     if (landTypes.includes(propertyType.value)) {
       // hide area filter
