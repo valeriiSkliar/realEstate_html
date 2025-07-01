@@ -114,6 +114,7 @@ import { initHeader } from "./components/index";
 import { initializeReportForm } from "./components/property-page/report-form";
 import "./pages/add-listing";
 import "./pages/collections"; // logic for collections pages
+import "./pages/edit-listing";
 import "./pages/my-advertisements";
 import "./pages/profile";
 import "./pages/property-page";

@@ -1,5 +1,5 @@
-import { fetcher } from "../../components/collections/api/collections-manager.js";
 import { createForm, validators } from "../../forms/index.js";
+import { fetcher } from "../../utils/fetcher.js";
 import { createAndShowToast } from "../../utils/uiHelpers.js";
 /**
  * Упрощенная схема валидации
@@ -418,21 +418,10 @@ const addListingHandler = {
     }
 
     try {
-      const response = await fetcher(actionUrl, {
+      return await fetcher(actionUrl, {
         method: "POST",
         body: formData,
       });
-
-      if (!response.ok) {
-        // Создаем специальную ошибку для HTTP статусов
-        const error = new Error(`HTTP error! status: ${response.status}`);
-        error.isNetworkError = true;
-        error.status = response.status;
-        error.statusText = response.statusText;
-        throw error;
-      }
-
-      return await response.json();
     } catch (error) {
       console.error("Ошибка при отправке данных:", error);
 

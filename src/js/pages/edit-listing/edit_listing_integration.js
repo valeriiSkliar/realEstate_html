@@ -1,5 +1,5 @@
-import { fetcher } from "../../components/collections/api/collections-manager.js";
 import { createForm, validators } from "../../forms/index.js";
+import { fetcher } from "../../utils/fetcher.js";
 import { createAndShowToast } from "../../utils/uiHelpers.js";
 
 /**
@@ -383,21 +383,10 @@ const editListingHandler = {
     }
 
     try {
-      const response = await fetcher(actionUrl, {
+      return await fetcher(actionUrl, {
         method: "POST",
         body: formData,
       });
-
-      if (!response.ok) {
-        // Создаем специальную ошибку для HTTP статусов
-        const error = new Error(`HTTP error! status: ${response.status}`);
-        error.isNetworkError = true;
-        error.status = response.status;
-        error.statusText = response.statusText;
-        throw error;
-      }
-
-      return await response.json();
     } catch (error) {
       console.error("Ошибка при отправке данных:", error);
 
@@ -563,11 +552,7 @@ export const initEditListingForm = () => {
  */
 document.addEventListener("DOMContentLoaded", () => {
   // Проверяем URL или наличие специального класса для страницы редактирования
-  const isEditPage =
-    window.location.pathname.includes("listings-edit") ||
-    document.querySelector(".edit-listing-page") ||
-    (document.querySelector(".add-listing-page") &&
-      window.location.search.includes("edit"));
+  const isEditPage = document.querySelector(".edit-listing-page");
 
   if (isEditPage) {
     console.log("✏️ Найдена страница редактирования объявления");
