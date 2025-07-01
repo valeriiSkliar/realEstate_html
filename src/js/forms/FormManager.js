@@ -70,7 +70,7 @@ export class FormManager {
           formData
         );
 
-        if (result && result.errors) {
+        if (result && result.errors && !result.status) {
           this.handleServerErrors(result.errors);
         } else {
           if (this.options.onSuccess) {
