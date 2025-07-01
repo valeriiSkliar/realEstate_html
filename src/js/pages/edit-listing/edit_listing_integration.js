@@ -367,13 +367,17 @@ const editListingHandler = {
 
     // Получаем URL из атрибута data-action-url формы
     const form = document.getElementById("editListingForm");
+    if (!form) {
+      throw new Error("Форма не найдена");
+    }
+
     let actionUrl;
 
     // Выбираем URL в зависимости от типа действия
     if (actionType === "archive") {
-      actionUrl = form?.getAttribute("data-secondary-action-url");
+      actionUrl = form.getAttribute("data-secondary-action-url");
     } else {
-      actionUrl = form?.getAttribute("data-action-url");
+      actionUrl = form.getAttribute("data-action-url");
     }
 
     if (!actionUrl) {
@@ -406,26 +410,44 @@ const editListingHandler = {
   onSuccess(result) {
     console.log("🎉 Успех!", result);
 
-    // Получаем тип действия для показа соответствующего сообщения
-    const actionType = document.getElementById("actionType")?.value;
-
-    if (actionType === "archive") {
-      createAndShowToast("Объявление перемещено в архив!", "success");
-    } else {
-      createAndShowToast("Изменения успешно сохранены!", "success");
+    // Получаем форму
+    const form = document.getElementById("editListingForm");
+    if (!form) {
+      console.error("Форма не найдена");
+      return;
     }
 
-    // Перенаправляем на страницу успеха
-    setTimeout(() => {
-      window.location.href = this.form.getAttribute("data-success-url");
-    }, 1500);
+    if (result.status) {
+      const successUrl = form.getAttribute("data-success-url");
+      if (successUrl) {
+        // Получаем тип действия для показа соответствующего сообщения
+        const actionType = document.getElementById("actionType")?.value;
+        if (successUrl) {
+          window.location.href = successUrl;
+        } else {
+          console.error("URL успеха не найден");
+        }
+      }
+    } else {
+      createAndShowToast(result.errors, "danger");
+    }
   },
 
   onError(errors) {
     console.log("⚠️ Ошибки валидации:", errors);
 
+    // Проверяем, что errors существует и является объектом
+    if (!errors || typeof errors !== "object") {
+      console.error("Некорректный формат ошибок:", errors);
+      createAndShowToast("Произошла ошибка валидации", "warning");
+      return;
+    }
+
+    // Обрабатываем случай, когда ошибки приходят в разных форматах
+    const errorFields = errors.errors || errors;
+
     // Находим первое поле с ошибкой и фокусируемся на нем
-    const firstErrorField = Object.keys(errors.errors)[0];
+    const firstErrorField = Object.keys(errorFields)[0];
     if (firstErrorField) {
       const field = document.querySelector(`[name="${firstErrorField}"]`);
       if (field) {
@@ -472,22 +494,22 @@ function setupActionButtons(form) {
   }
 
   // Обработчик для кнопки "В архив"
-  if (unpublishBtn) {
-    unpublishBtn.addEventListener("click", (e) => {
-      const actionType = unpublishBtn.getAttribute("data-action");
-      actionTypeField.value = actionType;
-      console.log("Установлен тип действия:", actionType);
-    });
-  }
+  // if (unpublishBtn) {
+  //   unpublishBtn.addEventListener("click", (e) => {
+  //     const actionType = unpublishBtn.getAttribute("data-action");
+  //     actionTypeField.value = actionType;
+  //     console.log("Установлен тип действия:", actionType);
+  //   });
+  // }
 
-  // Обработчик для кнопки "Сохранить изменения"
-  if (saveChangesBtn) {
-    saveChangesBtn.addEventListener("click", (e) => {
-      const actionType = saveChangesBtn.getAttribute("data-action");
-      actionTypeField.value = actionType;
-      console.log("Установлен тип действия:", actionType);
-    });
-  }
+  // // Обработчик для кнопки "Сохранить изменения"
+  // if (saveChangesBtn) {
+  //   saveChangesBtn.addEventListener("click", (e) => {
+  //     const actionType = saveChangesBtn.getAttribute("data-action");
+  //     actionTypeField.value = actionType;
+  //     console.log("Установлен тип действия:", actionType);
+  //   });
+  // }
 }
 
 /**
@@ -522,10 +544,11 @@ export const initEditListingForm = () => {
   try {
     // Создаем FormManager
     const formManager = createForm(form, editListingSchema, {
-      onSubmit: editListingHandler.onSubmit,
-      onSuccess: editListingHandler.onSuccess,
-      onError: editListingHandler.onError,
-      onNetworkError: editListingHandler.onNetworkError,
+      onSubmit: editListingHandler.onSubmit.bind(editListingHandler),
+      onSuccess: editListingHandler.onSuccess.bind(editListingHandler),
+      onError: editListingHandler.onError.bind(editListingHandler),
+      onNetworkError:
+        editListingHandler.onNetworkError.bind(editListingHandler),
       validateOnBlur: true,
       validateOnChange: true,
     });

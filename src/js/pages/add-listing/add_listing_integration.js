@@ -398,14 +398,18 @@ const addListingHandler = {
     console.log("Action type:", actionType);
 
     // Получаем URL из атрибута data-action-url формы
-    const form = this.form || document.getElementById("addListingForm");
+    const form = document.getElementById("addListingForm");
+    if (!form) {
+      throw new Error("Форма не найдена");
+    }
+
     let actionUrl;
 
     // Выбираем URL в зависимости от типа действия
     if (actionType === "draft") {
-      actionUrl = form?.getAttribute("data-secondary-action-url");
+      actionUrl = form.getAttribute("data-secondary-action-url");
     } else {
-      actionUrl = form?.getAttribute("data-action-url");
+      actionUrl = form.getAttribute("data-action-url");
     }
 
     console.log("Form element:", form);
@@ -441,26 +445,40 @@ const addListingHandler = {
   onSuccess(result) {
     console.log("🎉 Успех!", result);
 
-    // Получаем тип действия для показа соответствующего сообщения
-    const actionType = document.getElementById("actionType")?.value;
-
-    if (actionType === "draft") {
-      createAndShowToast("Объявление сохранено как черновик!", "success");
-    } else {
-      createAndShowToast("Объявление успешно опубликовано!", "success");
+    // Получаем форму
+    const form = document.getElementById("addListingForm");
+    if (!form) {
+      console.error("Форма не найдена");
+      return;
     }
 
-    // Перенаправляем на страницу успеха
-    setTimeout(() => {
-      window.location.href = this.form.getAttribute("data-success-url");
-    }, 1500);
+    if (result.status) {
+      const successUrl = form.getAttribute("data-success-url");
+      if (successUrl) {
+        window.location.href = successUrl;
+      } else {
+        console.error("URL успеха не найден");
+      }
+    } else {
+      createAndShowToast(result.errors, "danger");
+    }
   },
 
   onError(errors) {
-    console.log("⚠️ Ошибки валидации:", errors.errors);
+    console.log("⚠️ Ошибки валидации:", errors);
+
+    // Проверяем, что errors существует и является объектом
+    if (!errors || typeof errors !== "object") {
+      console.error("Некорректный формат ошибок:", errors);
+      createAndShowToast("Произошла ошибка валидации", "warning");
+      return;
+    }
+
+    // Обрабатываем случай, когда ошибки приходят в разных форматах
+    const errorFields = errors.errors || errors;
 
     // Находим первое поле с ошибкой и фокусируемся на нем
-    const firstErrorField = Object.keys(errors.errors)[0];
+    const firstErrorField = Object.keys(errorFields)[0];
     if (firstErrorField) {
       const field = document.querySelector(`[name="${firstErrorField}"]`);
       if (field) {
@@ -514,10 +532,10 @@ export const initAddListingForm = () => {
   try {
     // Создаем FormManager с отключенным показом ошибок
     const formManager = createForm(form, addListingSchema, {
-      onSubmit: addListingHandler.onSubmit,
-      onSuccess: addListingHandler.onSuccess,
-      onError: addListingHandler.onError,
-      onNetworkError: addListingHandler.onNetworkError,
+      onSubmit: addListingHandler.onSubmit.bind(addListingHandler),
+      onSuccess: addListingHandler.onSuccess.bind(addListingHandler),
+      onError: addListingHandler.onError.bind(addListingHandler),
+      onNetworkError: addListingHandler.onNetworkError.bind(addListingHandler),
       validateOnBlur: true,
       validateOnChange: true,
     });
