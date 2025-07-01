@@ -11,6 +11,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Инициализируем модальное окно жалобы
   initReportModal();
 
+  // Инициализируем кнопки
+  initFavoriteButton();
+  initAddToCollectionsButton();
+
   // Функция сбора изображений из DOM
   function collectImagesFromDOM() {
     const images = [];
@@ -543,9 +547,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // Инициализируем функциональность описания
   initDescriptionToggle();
 
+  function initFavoriteButton() {
   // Favorite button toggle
   const favoriteButton = document.getElementById('favorite-button');
-  const addToCollectionsButton = document.querySelector('.js-add-to-collection');
+
+    if (!favoriteButton) {
+      console.error('favoriteButton not found or it not have id favorite-button');
+      return;
+    }
 
     favoriteButton?.addEventListener('click', async function(e) {
       const propertyId = this.getAttribute('data-property-id');
@@ -560,9 +569,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const urls = {
         addToFavoriteUrl: addRemoveToFavoriteUrl,
       }
-
-
-
 
       try{
         const result = await addPropertyToFavorite(propertyId, propertyTitle, urls, false);
@@ -581,7 +587,17 @@ document.addEventListener("DOMContentLoaded", function () {
         createAndShowToast(`${propertyTitle} не удалось изменить статус избранного`, 'error');
       }
     });
+  }
 
+
+  function initAddToCollectionsButton() {
+    const addToCollectionsButton = document.querySelector('.js-add-to-collection');
+
+    if (!addToCollectionsButton) {
+      console.error('addToCollectionsButton not found or it not have js-add-to-collection class');
+      return;
+    }
+  
   addToCollectionsButton?.addEventListener('click', function () {
     removeCollectionToast();
     
@@ -606,5 +622,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     }
   });
+}
 
 });
