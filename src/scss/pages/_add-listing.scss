@@ -1,6 +1,7 @@
 @use "../brand_color" as *;
 
-.add-listing-page {
+.add-listing-page, 
+.edit-listing-page {
   padding: 1.5rem 0 3rem 0; // Отступы
   min-height: calc(100vh - 83px - 100px); // Примерная минимальная высота
 

@@ -55,7 +55,12 @@
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   padding: 24px;
+
+  & button {
+    outline: none;
+  }
 
   &:hover,
   &:focus {
