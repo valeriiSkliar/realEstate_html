@@ -95,9 +95,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (response.ok) {
               createAndShowToast("Ваша жалоба успешно отправлена!", "success");
             } else {
-              const errorData = await response.json();
               createAndShowToast(
-                `Ошибка при отправке жалобы: ${errorData.message || "Неизвестная ошибка"}`,
+                `Ошибка при отправке жалобы!`,
                 "danger"
               );
             }
@@ -427,6 +426,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const descriptionContainer = document.getElementById(
       "property-description"
     );
+    if (!descriptionContainer) {
+      console.error("Description container or full text container not found");
+      return;
+    }
     const fullTextContainer = descriptionContainer.querySelector(
       ".description-full-text"
     );
