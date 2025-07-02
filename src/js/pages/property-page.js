@@ -1,5 +1,6 @@
 import { addPropertyToFavorite, removeCollectionToast, showCollectionSelectorPopup } from "../components/collections/collection-selector-popup/collection-selector-popup.js";
 import { initReportModal } from "../components/property-page/report-modal.js";
+import { fetcher } from "../utils/fetcher.js";
 import { createAndShowToast } from '../utils/uiHelpers.js';
 
 
@@ -9,11 +10,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Инициализируем модальное окно жалобы
-  initReportModal();
+  // initReportModal();
 
   // Инициализируем кнопки
   initFavoriteButton();
   initAddToCollectionsButton();
+  initTemporaryReportFunctionality();
 
   // Функция сбора изображений из DOM
   function collectImagesFromDOM() {
@@ -72,6 +74,43 @@ document.addEventListener("DOMContentLoaded", function () {
   const prevBtn = document.getElementById("gallery-prev");
   const nextBtn = document.getElementById("gallery-next");
 
+  function initTemporaryReportFunctionality() {
+    const reportAdButton = document.querySelector("[data-action=report]");
+    if (reportAdButton) {
+      const actionUrl = reportAdButton.getAttribute("data-action-url");
+      if (actionUrl) {
+        reportAdButton.addEventListener("click", async (event) => {
+          event.preventDefault();
+          console.log("Report ad button clicked");
+
+          // Отправляем запрос на сервер
+          try {
+            const response = await fetcher(actionUrl, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+
+            if (response.ok) {
+              createAndShowToast("Ваша жалоба успешно отправлена!", "success");
+            } else {
+              const errorData = await response.json();
+              createAndShowToast(
+                `Ошибка при отправке жалобы: ${errorData.message || "Неизвестная ошибка"}`,
+                "danger"
+              );
+            }
+          } catch (error) {
+            console.error("Error sending report:", error);
+            createAndShowToast("Не удалось отправить жалобу. Попробуйте позже.", "danger");
+          }
+        });
+      }
+    } else {
+      console.warn("Report ad button not found or it does not have data-action=reportAd");
+    }
+  }
   // Инициализируем thumbnails из собранных данных, если их нет
   function initializeThumbnails() {
     const thumbnailContainer = document.querySelector(".thumbnail-gallery");
