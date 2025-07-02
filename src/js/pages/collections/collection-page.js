@@ -17,6 +17,8 @@ import {
   showCollectionSelectorPopup
 } from "../../components/collections/collection-selector-popup/collection-selector-popup.js";
 
+import { fetcher } from "../../utils/fetcher.js";
+
 /**
  * Initialize collection page functionality
  */
@@ -28,6 +30,9 @@ export const initCollectionPage = () => {
   initAddToFavorite();
 
   initAddToCollectionPropertyButtons();
+
+  // Initialize send PDF functionality
+  initSendPdfForm();
 
   /**
    * Initialize add to collection property buttons
@@ -269,6 +274,60 @@ export const initCollectionPage = () => {
           createAndShowToast("Не удалось изменить статус объекта в избранном", "error");
         }
       });
+    });
+  }
+
+  /**
+   * Initialize send PDF form functionality
+   */
+  function initSendPdfForm() {
+    const sendPdfForm = document.getElementById("sendPdfForm");
+    
+    if (!sendPdfForm) return;
+
+    sendPdfForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const submitButton = sendPdfForm.querySelector('button[type="submit"]');
+      if (!submitButton) return;
+
+      // Save original button content
+      const originalButtonContent = submitButton.innerHTML;
+      
+      try {
+        // Set loading state
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></i>Отправляем...';
+        
+        // Get form data
+        const formData = new FormData(sendPdfForm);
+
+        // Make API request using form action and method
+        const response = await fetcher(sendPdfForm.action, {
+          method: sendPdfForm.method,
+          body: formData
+        });
+
+        if (response.status) {
+
+          // Show success notification
+          createAndShowToast("PDF успешно отправлен", "success");
+        } else {
+          throw new Error(response.errors || "Не удалось отправить PDF");
+        }
+      } catch (error) {
+        console.error("Error sending PDF:", error);
+        
+        // Show error notification
+        createAndShowToast(
+          error.errors || "Не удалось отправить PDF",
+          "error"
+        );
+      } finally {
+        // Reset button state
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalButtonContent;
+      }
     });
   }
 };
