@@ -92,14 +92,14 @@ document.addEventListener("DOMContentLoaded", function () {
               },
             });
 
-            if (response.ok) {
-              createAndShowToast("Ваша жалоба успешно отправлена!", "success");
-            } else {
-              createAndShowToast(
-                `Ошибка при отправке жалобы!`,
-                "danger"
-              );
-            }
+              if (response.success) {
+                createAndShowToast(
+                  "Ваша жалоба успешно отправлена!",
+                  "success"
+                );
+              } else {
+                createAndShowToast(`Ошибка при отправке жалобы!`, "danger");
+              }
           } catch (error) {
             console.error("Error sending report:", error);
             createAndShowToast("Не удалось отправить жалобу. Попробуйте позже.", "danger");
