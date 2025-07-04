@@ -355,6 +355,48 @@ function setupFileUpload(form) {
 }
 
 /**
+ * Инициализация Select2 для поля "Жилой комплекс"
+ */
+function setupComplexSelect2(form) {
+  const complexSelect = form.querySelector("#complex");
+
+  if (!complexSelect) {
+    console.warn("Поле 'complex' не найдено");
+    return;
+  }
+
+  // Проверяем, что jQuery и Select2 доступны
+  if (typeof $ === "undefined" || !$.fn.select2) {
+    console.warn("jQuery или Select2 не загружены");
+    // Пытаемся инициализировать через некоторое время
+    setTimeout(() => setupComplexSelect2(form), 500);
+    return;
+  }
+
+  try {
+    // Инициализируем Select2 напрямую для поля "Жилой комплекс"
+    $(complexSelect).select2({
+      language: {
+        inputTooShort: () => "Пожалуйста, введите ещё хотя бы 1 символ",
+        noResults: () => "Совпадений не найдено",
+        searching: () => "Поиск...",
+      },
+      theme: "bootstrap-5",
+      allowClear: true,
+      multiple: false, // Одиночный выбор
+      placeholder: "Выберите жилой комплекс",
+      minimumResultsForSearch: 0, // Показывать поиск сразу
+      width: "100%",
+    });
+
+    console.log("✅ Select2 инициализирован для поля 'Жилой комплекс'");
+  } catch (error) {
+    console.error("❌ Ошибка инициализации Select2 для поля 'complex':", error);
+    console.log("Используем обычный select без Select2");
+  }
+}
+
+/**
  * Настройка обработчиков кнопок для установки типа действия
  */
 function setupActionButtons(form) {
@@ -543,6 +585,7 @@ export const initAddListingForm = () => {
     // Настраиваем дополнительную логику
     setupConditionalFields(form);
     setupFileUpload(form);
+    setupComplexSelect2(form);
     setupActionButtons(form);
 
     form.dataset.initialized = "true";
