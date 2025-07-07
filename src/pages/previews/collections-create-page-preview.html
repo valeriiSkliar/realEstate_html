@@ -95,49 +95,54 @@
             </div>
           </div>
 
-          <!-- Success Modal -->
+
+
           <div
-            class="modal fade"
-            id="collectionSuccessModal"
-            tabindex="-1"
-            aria-labelledby="collectionSuccessModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="collectionSuccessModalLabel">
-                    Подборка Создана
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
+          class="modal fade"
+          id="collectionSuccessModal"
+          tabindex="-1"
+          aria-labelledby="collectionSuccessModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="collectionSuccessModalLabel">
+                  Подборка Создана
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body p-0">
+                <div class="text-center mb-1">
+                  <i
+                    class="bi bi-check-circle-fill text-success"
+                    style="font-size: 3rem"
+                  ></i>
                 </div>
-                <div class="modal-body">
-                  <div class="text-center mb-3">
-                    <i
-                      class="bi bi-check-circle-fill text-success"
-                      style="font-size: 4rem"
-                    ></i>
-                  </div>
-                  <p class="text-center">Ваша подборка была успешно создана!</p>
-                </div>
-                <div class="modal-footer">
-                  <a href="/collections.html" class="btn btn-secondary"
-                    >Перейти к Подборкам
-                  </a>
-                  <a
-                    href="/collections.html?id=coll_2"
-                    class="btn btn-brand-turquoise text-brand-light-gray js-view-collection"
-                    >Просмотр Подборки
-                  </a>
-                </div>
+                <p class="text-center">Ваша подборка была успешно создана!</p>
+              </div>
+              <div class="modal-footer d-flex justify-content-center">
+                <a 
+                href="/collections.html" 
+                class="brand-button brand-button--solid brand-button--turquoise"
+                style="font-weight: 500;"
+                >Перейти к Подборкам
+              </a>
+              <a
+                href="/collections.html?id=coll_2"
+                class="brand-button brand-button--solid js-view-collection"
+                style="font-weight: 500;"
+                >Просмотр Подборки
+              </a>
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </main>
