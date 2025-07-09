@@ -283,7 +283,7 @@
                       ]'
                     is-favorite="false"
                     phone-number="+7 (918) 254-25-36"
-                    agent-name="Алексей"
+                    agent-name="Alexsandr Plahotniy"
                   ></property-summary-card>
 
                   <property-summary-card
@@ -301,7 +301,7 @@
                       ]'
                     is-favorite="true"
                     phone-number="+7 (918) 254-25-36"
-                    agent-name="Алексей"
+                    agent-name="Alexsandr Plahotniy"
                   ></property-summary-card>
 
                   <property-summary-card
@@ -319,7 +319,7 @@
                       ]'
                     is-favorite="false"
                     phone-number="+7 (861) 123-45-67"
-                    agent-name="Роман"
+                    agent-name="Alexsandr Plahotniy"
                   ></property-summary-card>
 
                   <property-summary-card
@@ -337,13 +337,14 @@
                       ]'
                     is-favorite="true"
                     phone-number="+7 (861) 123-45-67"
+                    agent-name="Alexsandr Plahotniy"
                   ></property-summary-card>
 
                   <property-summary-card
-                  data-add-to-favorite-url="/api/collections/favorite/properties/prop_7"
-                  data-get-collections-list-url="/api/properties/prop_7/collection-selector-markup"
-                  data-update-collections-url="/api/properties/prop_7/collections"
-                  data-create-collection-url="/api/collections/create"
+                    data-add-to-favorite-url="/api/collections/favorite/properties/prop_7"
+                    data-get-collections-list-url="/api/properties/prop_7/collection-selector-markup"
+                    data-update-collections-url="/api/properties/prop_7/collections"
+                    data-create-collection-url="/api/collections/create"
                     title-text="Коммерция, 120 м2 | Центр"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 45 000 000"
@@ -354,13 +355,14 @@
                       ]'
                     is-favorite="false"
                     phone-number="+7 (861) 987-65-43"
+                    agent-name="Alexsandr Plahotniy"
                   ></property-summary-card>
 
                   <property-summary-card
-                  data-add-to-favorite-url="/api/collections/favorite/properties/prop_8"
-                  data-get-collections-list-url="/api/properties/prop_8/collection-selector-markup"
-                  data-update-collections-url="/api/properties/prop_8/collections"
-                  data-create-collection-url="/api/collections/create"
+                    data-add-to-favorite-url="/api/collections/favorite/properties/prop_8"
+                    data-get-collections-list-url="/api/properties/prop_8/collection-selector-markup"
+                    data-update-collections-url="/api/properties/prop_8/collections"
+                    data-create-collection-url="/api/collections/create"
                     title-text="4-к. квартира, 150 м2 | ЗИП"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 29 900 000"
@@ -371,13 +373,14 @@
                       ]'
                     is-favorite="true"
                     phone-number="+7 (861) 987-65-43"
+                    agent-name="Alexsandr Plahotniy"
                   ></property-summary-card>
 
                   <property-summary-card
-                  data-add-to-favorite-url="/api/collections/favorite/properties/prop_9"
-                  data-get-collections-list-url="/api/properties/prop_9/collection-selector-markup"
-                  data-update-collections-url="/api/properties/prop_9/collections"
-                  data-create-collection-url="/api/collections/create"
+                    data-add-to-favorite-url="/api/collections/favorite/properties/prop_9"
+                    data-get-collections-list-url="/api/properties/prop_9/collection-selector-markup"
+                    data-update-collections-url="/api/properties/prop_9/collections"
+                    data-create-collection-url="/api/collections/create"
                     title-text="Участок, 6 соток | Знаменский"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 3 500 000"
@@ -388,13 +391,14 @@
                       ]'
                     is-favorite="false"
                     phone-number="+7 (988) 555-12-34"
+                    agent-name="Alexsandr Plahotniy"
                   ></property-summary-card>
 
                   <property-summary-card
-                  data-add-to-favorite-url="/api/collections/favorite/properties/prop_10"
-                  data-get-collections-list-url="/api/properties/prop_10/collection-selector-markup"
-                  data-update-collections-url="/api/properties/prop_10/collections"
-                  data-create-collection-url="/api/collections/create"
+                    data-add-to-favorite-url="/api/collections/favorite/properties/prop_10"
+                    data-get-collections-list-url="/api/properties/prop_10/collection-selector-markup"
+                    data-update-collections-url="/api/properties/prop_10/collections"
+                    data-create-collection-url="/api/collections/create"
                     title-text="1-к. квартира, 41 м2 | КМР"
                     title-href="/property-view-standalone.html"
                     price-text="₽ 8 900 000"
@@ -405,6 +409,7 @@
                       ]'
                     is-favorite="false"
                     phone-number="+7 (988) 555-12-34"
+                    agent-name="Alexsandr Plahotniy"
                   ></property-summary-card>
                 </div>
                 <simple-pagination
@@ -510,7 +515,7 @@
           <div
             class="form-group p-2 border-1 rounded-2 border-dark-subtle border"
             id="property-rooms"
-            data-show-for-property-type='apartment'
+            data-show-for-property-type="apartment"
           >
             <div class="form-group d-flex flex-wrap gap-2">
               <div class="w-100">
@@ -564,7 +569,11 @@
             </div>
           </div>
 
-          <div class="filter-section" id="area-filter" data-show-for-property-type='apartment,house,commercial,other'>
+          <div
+            class="filter-section"
+            id="area-filter"
+            data-show-for-property-type="apartment,house,commercial,other"
+          >
             <div class="filter-title">Общая площадь</div>
             <div class="area-range">
               <div class="area-input">
@@ -590,7 +599,11 @@
             </div>
           </div>
 
-          <div class="filter-section d-none" id="land-area-filter" data-show-for-property-type='land,house'>
+          <div
+            class="filter-section d-none"
+            id="land-area-filter"
+            data-show-for-property-type="land,house"
+          >
             <div class="filter-title">Размер участка</div>
             <div class="area-range">
               <div class="area-input land-area-input">
@@ -667,7 +680,9 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
     <div class="collection-selector-popup-backdrop"></div>
-    <div class="collection-selector-popup-container" id="collection-selector-popup"
+    <div
+      class="collection-selector-popup-container"
+      id="collection-selector-popup"
     >
       <div class="collection-selector-popup">
         <div class="collection-selector-popup__header">
@@ -678,23 +693,46 @@
         </div>
         <div class="collection-selector-popup__body">
           <div class="collection-selector-popup__list-container">
-                <div class="collection-selector-popup__empty">
-                <p>У вас пока нет подборок.</p>
-              </div>
-              <div class="collection-selector-popup__list">
-              </div>
+            <div class="collection-selector-popup__empty">
+              <p>У вас пока нет подборок.</p>
+            </div>
+            <div class="collection-selector-popup__list"></div>
           </div>
-          <div class="collection-selector-popup__create-new-container" style="display: none;">
+          <div
+            class="collection-selector-popup__create-new-container"
+            style="display: none"
+          >
             <div class="form-group mb-3">
-              <label for="newCollectionNameInput" class="form-label visually-hidden">Название новой подборки</label>
-              <input type="text" class="form-control" id="newCollectionNameInput" placeholder="Название новой подборки">
+              <label
+                for="newCollectionNameInput"
+                class="form-label visually-hidden"
+                >Название новой подборки</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="newCollectionNameInput"
+                placeholder="Название новой подборки"
+              />
             </div>
           </div>
         </div>
         <div class="collection-selector-popup__footer">
-          <button class="btn btn-outline-secondary collection-selector-popup__create-new-btn">Создать новую</button>
-          <button class="btn btn-outline-brand-turquoise collection-selector-popup__cancel-btn">Отмена</button>
-          <button class="btn btn-brand-lime collection-selector-popup__save-btn">Готово</button>
+          <button
+            class="btn btn-outline-secondary collection-selector-popup__create-new-btn"
+          >
+            Создать новую
+          </button>
+          <button
+            class="btn btn-outline-brand-turquoise collection-selector-popup__cancel-btn"
+          >
+            Отмена
+          </button>
+          <button
+            class="btn btn-brand-lime collection-selector-popup__save-btn"
+          >
+            Готово
+          </button>
         </div>
       </div>
     </div>
