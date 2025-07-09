@@ -99,55 +99,49 @@ const initSidebarFilters = () => {
     });
   }
 
-      // Toggle rooms visibility based on property type
+  // Generic filter visibility toggle based on property type
   const propertyType = document.getElementById("property_type_select");
-  const propertyRooms = document.getElementById("property-rooms");
   
-  function toggleRoomsVisibility() {
-    const datasetForPropertyRooms = propertyRooms.dataset.showForPropertyType;
-    const propertyRoomsForTypes = datasetForPropertyRooms ? datasetForPropertyRooms.split(",") : [];
-    propertyRooms.classList.toggle("d-none", !propertyRoomsForTypes.includes(propertyType.value));
+  function toggleFilterVisibility() {
+    if (!propertyType) return;
+    
+    const currentPropertyType = propertyType.value;
+    
+    // Find all elements with data-show-for-property-type attribute
+    const conditionalFilters = document.querySelectorAll("[data-show-for-property-type]");
+    
+    conditionalFilters.forEach(filter => {
+      const showForTypes = filter.dataset.showForPropertyType;
+      const allowedTypes = showForTypes ? showForTypes.split(",").map(type => type.trim()) : [];
+      
+      const shouldShow = allowedTypes.includes(currentPropertyType);
+      
+      if (shouldShow) {
+        filter.classList.remove("d-none");
+      } else {
+        filter.classList.add("d-none");
+        
+        // Reset form fields when hiding filter
+        const inputs = filter.querySelectorAll("input, select, textarea");
+        inputs.forEach(input => {
+          if (input.type === "checkbox" || input.type === "radio") {
+            input.checked = false;
+          } else if (input.tagName === "SELECT") {
+            $(input).val(null).trigger('change');
+          } else {
+            input.value = "";
+          }
+        });
+      }
+    });
   }
   
-  if (propertyType && propertyRooms) {
+  if (propertyType) {
     // Initial visibility check
-    toggleRoomsVisibility();
+    toggleFilterVisibility();
     
     // Listen for changes
-    propertyType.addEventListener("change", toggleRoomsVisibility);
-    
-  }
-
-  // Toggle square units according to property type
-  const areaFilter = document.getElementById("area-filter");
-  const landAreaFilter = document.getElementById("land-area-filter");
-  
-  
-  function toggleAreaUnits() {
-    const datasetForLandAreaFilter = landAreaFilter.dataset.showForPropertyType;
-    const landTypes = datasetForLandAreaFilter ? datasetForLandAreaFilter.split(",") : [];
-    if (landTypes.includes(propertyType.value)) {
-      // hide area filter
-      areaFilter.classList.add("d-none");
-      // Reset area filter
-      areaFilter.querySelector("input[name='area_min']").value = "";
-      areaFilter.querySelector("input[name='area_max']").value = "";
-      // show land area filter
-      landAreaFilter.classList.remove("d-none");
-    } else {
-      // Reset land area filter and hide it
-      landAreaFilter.classList.add("d-none");
-      landAreaFilter.querySelector("input[name='land_area_min']").value = "";
-      landAreaFilter.querySelector("input[name='land_area_max']").value = "";
-
-      // show area filter
-      areaFilter.classList.remove("d-none");
-    }
-  }
-
-  if (propertyType && areaFilter && landAreaFilter) {
-    toggleAreaUnits();
-    propertyType.addEventListener("change", toggleAreaUnits);
+    propertyType.addEventListener("change", toggleFilterVisibility);
   }
 };
 
