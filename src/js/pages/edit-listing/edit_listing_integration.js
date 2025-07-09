@@ -364,6 +364,8 @@ function setupComplexSelect2(form) {
     return;
   }
 
+  const placeholder = complexSelect.dataset.placeholder;
+
   // Проверяем, что jQuery и Select2 доступны
   if (typeof $ === "undefined" || !$.fn.select2) {
     console.warn("jQuery или Select2 не загружены");
@@ -383,7 +385,7 @@ function setupComplexSelect2(form) {
       theme: "bootstrap-5",
       allowClear: true,
       multiple: false, // Одиночный выбор
-      placeholder: "Выберите жилой комплекс",
+      placeholder: placeholder || "Выберите жилой комплекс",
       minimumResultsForSearch: 0, // Показывать поиск сразу
       width: "100%",
     });
@@ -391,6 +393,48 @@ function setupComplexSelect2(form) {
     console.log("✅ Select2 инициализирован для поля 'Жилой комплекс'");
   } catch (error) {
     console.error("❌ Ошибка инициализации Select2 для поля 'complex':", error);
+    console.log("Используем обычный select без Select2");
+  }
+}
+
+/**
+ * Инициализация Select2 для поля "Район"
+ */
+function setupDistrictSelect2(form) {
+  const districtSelect = form.querySelector("#district");
+
+  if (!districtSelect) {
+    console.warn("Поле 'district' не найдено");
+    return;
+  }
+
+  // Проверяем, что jQuery и Select2 доступны
+  if (typeof $ === "undefined" || !$.fn.select2) {
+    console.warn("jQuery или Select2 не загружены");
+    // Пытаемся инициализировать через некоторое время
+    setTimeout(() => setupComplexSelect2(form), 500);
+    return;
+  }
+  const placeholder = districtSelect.dataset.placeholder;
+  try {
+    // Инициализируем Select2 напрямую для поля "Жилой комплекс"
+    $(districtSelect).select2({
+      language: {
+        inputTooShort: () => "Пожалуйста, введите ещё хотя бы 1 символ",
+        noResults: () => "Совпадений не найдено",
+        searching: () => "Поиск...",
+      },
+      theme: "bootstrap-5",
+      allowClear: true,
+      multiple: false, // Одиночный выбор
+      placeholder: placeholder || "Выберите район",
+      minimumResultsForSearch: 0, // Показывать поиск сразу
+      width: "100%",
+    });
+
+    console.log("✅ Select2 инициализирован для поля 'Район'");
+  } catch (error) {
+    console.error("❌ Ошибка инициализации Select2 для поля 'Район':", error);
     console.log("Используем обычный select без Select2");
   }
 }
@@ -598,6 +642,7 @@ export const initEditListingForm = () => {
     setupConditionalFields(form);
     setupFileUpload(form);
     setupComplexSelect2(form);
+    setupDistrictSelect2(form);
     setupAdditionalButtons(form);
     setupActionButtons(form);
 
