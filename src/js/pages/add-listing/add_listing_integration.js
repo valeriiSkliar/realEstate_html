@@ -14,6 +14,21 @@ const addListingSchema = {
     validators.min(1, "Количество комнат должно быть больше 0"),
     validators.max(10, "Количество комнат не может превышать 10"),
   ],
+  condition: [
+    // Условная валидация - НЕ обязательно для земельных участков, коммерции и гаражей
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (
+          propertyType === "land" ||
+          propertyType === "commercial" ||
+          propertyType === "garage"
+        )
+          return true;
+        return validators.required("Выберите состояние").validate(value);
+      },
+    },
+  ],
   propertyArea: [
     // Условная валидация - обязательно для всех типов кроме земельных участков
     {
@@ -97,6 +112,7 @@ function setupConditionalFields(form) {
   const propertyAreaField = form.querySelector("#propertyArea");
   const landAreaField = form.querySelector("#landArea");
   const roomsField = form.querySelector("#rooms");
+  const conditionField = form.querySelector("#condition");
 
   if (!propertyTypeSelect) return;
 
@@ -104,6 +120,7 @@ function setupConditionalFields(form) {
   const propertyAreaContainer = propertyAreaField?.closest(".form-field");
   const landAreaContainer = landAreaField?.closest(".form-field");
   const roomsContainer = roomsField?.closest(".form-field");
+  const conditionContainer = conditionField?.closest(".form-field");
 
   const toggleFields = () => {
     const propertyType = propertyTypeSelect.value;
@@ -132,6 +149,20 @@ function setupConditionalFields(form) {
         if (roomsField) {
           roomsField.required = false;
           roomsField.value = "";
+        }
+      }
+    }
+
+    // Показываем поле "Состояние" только для квартир и домов (НЕ для участков, коммерции и гаражей)
+    if (conditionContainer) {
+      if (propertyType === "apartment" || propertyType === "house") {
+        conditionContainer.style.display = "block";
+        if (conditionField) conditionField.required = true;
+      } else {
+        conditionContainer.style.display = "none";
+        if (conditionField) {
+          conditionField.required = false;
+          conditionField.value = "";
         }
       }
     }
