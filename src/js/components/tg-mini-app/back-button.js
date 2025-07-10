@@ -21,6 +21,12 @@ class BackButtonManager {
    * Инициализация менеджера кнопки "Назад"
    */
   init() {
+    // Каждая инициализация увеличивает номер страницы на 1
+    const currentPage = this.getBackButtonState();
+    if (currentPage) {
+      this.setBackButtonState(currentPage + 1);
+    }
+
     if (this.isInitialized || !this.webApp) {
       return;
     }
