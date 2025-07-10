@@ -3,6 +3,8 @@
  */
 
 class BackButtonManager {
+  sessionStorageKey = "_tg_mini_app_back_button_state";
+
   constructor() {
     this.isInitialized = false;
     this.backHandler = null;
@@ -25,9 +27,32 @@ class BackButtonManager {
 
     this.isInitialized = true;
     this.updateBackButtonState();
-    
-    // Слушаем изменения в истории браузера
-    this.listenToHistoryChanges();
+  }
+
+  /**
+   * Получает состояние кнопки "Назад" из sessionStorage
+   * @returns {number}
+   */
+  getBackButtonState() {
+    const state = sessionStorage.getItem(this.sessionStorageKey);
+    if (!state) {
+      this.setBackButtonState(1);
+      this.hide();
+      return 1;
+    }
+    return JSON.parse(state);
+  }
+
+  /**
+   * Устанавливает состояние кнопки "Назад" в sessionStorage
+   * @param {number} state
+   */
+  setBackButtonState(state) {
+    if (state < 1) {
+      sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(1));
+    } else {
+      sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(state));
+    }
   }
 
   /**
@@ -70,9 +95,13 @@ class BackButtonManager {
    */
   getCanGoBack() {
     if (typeof window === 'undefined') return false;
-    console.log("History", window.history);
-    console.log("History state", window.history.state);
-    return window.history.length > 1;
+    const currentPage = this.getBackButtonState();
+    if (!currentPage || currentPage <= 1) {
+      this.setBackButtonState(1);
+      return false;
+    } else {
+      return currentPage > 1;
+    }
   }
 
   /**
@@ -89,41 +118,11 @@ class BackButtonManager {
   }
 
   /**
-   * Слушает изменения в истории браузера
-   */
-  listenToHistoryChanges() {
-    if (typeof window === 'undefined') return;
-
-    // Слушаем события popstate
-    window.addEventListener('popstate', () => {
-      this.updateBackButtonState();
-    });
-
-    // Переопределяем методы history для отслеживания изменений
-    const originalPushState = window.history.pushState;
-    const originalReplaceState = window.history.replaceState;
-
-    window.history.pushState = function(...args) {
-      originalPushState.apply(window.history, args);
-      // Небольшая задержка для обновления состояния
-      setTimeout(() => {
-        backButtonManager.updateBackButtonState();
-      }, 0);
-    };
-
-    window.history.replaceState = function(...args) {
-      originalReplaceState.apply(window.history, args);
-      setTimeout(() => {
-        backButtonManager.updateBackButtonState();
-      }, 0);
-    };
-  }
-
-  /**
    * Выполняет переход назад
    */
   goBack() {
     if (typeof window !== 'undefined' && this.canGoBack) {
+      this.setBackButtonState(this.getBackButtonState() - 1);
       window.history.back();
     }
   }
@@ -138,20 +137,6 @@ class BackButtonManager {
     this.hide();
     this.backHandler = null;
     this.isInitialized = false;
-  }
-
-  /**
-   * Устанавливает кастомный обработчик для конкретного маршрута
-   * @param {string} path - путь маршрута
-   * @param {Function} handler - обработчик для этого маршрута
-   */
-  setRouteHandler(path, handler) {
-    if (typeof window === 'undefined') return;
-    
-    const currentPath = window.location.pathname;
-    if (currentPath === path) {
-      this.setBackHandler(handler);
-    }
   }
 
   /**
@@ -173,7 +158,6 @@ export const hideBackButton = () => backButtonManager.hide();
 export const updateBackButtonState = () => backButtonManager.updateBackButtonState();
 export const goBack = () => backButtonManager.goBack();
 export const cleanupBackButton = () => backButtonManager.cleanup();
-export const setRouteHandler = (path, handler) => backButtonManager.setRouteHandler(path, handler);
 export const setDefaultBackHandler = () => backButtonManager.setDefaultHandler();
 
 // Экспортируем сам менеджер для продвинутого использования
