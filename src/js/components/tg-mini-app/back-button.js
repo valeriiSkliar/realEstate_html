@@ -70,8 +70,9 @@ class BackButtonManager {
    */
   getCanGoBack() {
     if (typeof window === 'undefined') return false;
-    
-    return window.history.state && window.history.state.idx > 0;
+    console.log("History", window.history);
+    console.log("History state", window.history.state);
+    return window.history.length > 1;
   }
 
   /**
