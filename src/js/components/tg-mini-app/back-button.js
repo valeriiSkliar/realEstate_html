@@ -41,8 +41,7 @@ class BackButtonManager {
    */
   getBackButtonState() {
     const state = sessionStorage.getItem(this.sessionStorageKey);
-    if (!state) {
-      this.setBackButtonState(1);
+    if (!state || state <= 1) {
       this.hide();
       return 1;
     }
@@ -54,8 +53,9 @@ class BackButtonManager {
    * @param {number} state
    */
   setBackButtonState(state) {
-    if (state < 1) {
+    if (state <= 1) {
       sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(1));
+      this.hide();
     } else {
       sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(state));
     }
