@@ -27,8 +27,9 @@ class BackButtonManager {
     // Если страница была открыта не с помощью кнопки "Назад", то увеличиваем номер страницы на 1
     if (currentPage && !event) {
       this.setBackButtonState(currentPage + 1);
-    } else if (!currentPage && event) {
-      this.setBackButtonState(1);
+    }
+    
+    if (event) {
       this.setBackButtonEvent(false);
     }
 
