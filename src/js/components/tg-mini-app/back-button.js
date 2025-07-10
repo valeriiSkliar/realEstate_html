@@ -24,13 +24,11 @@ class BackButtonManager {
   init() {
     const currentPage = this.getBackButtonState();
     const event = this.getBackButtonEvent();
-    // Если страница была открыта не с помощью кнопки "Назад", то увеличиваем номер страницы на 1
-    if (currentPage && !event) {
-      this.setBackButtonState(currentPage > 1 ? currentPage + 1 : currentPage);
-    }
-    
+    // Если страница была открыта с помощью кнопки "Назад", то сбрасываем флаг события
     if (event) {
       this.setBackButtonEvent(false);
+    } else {
+      this.setBackButtonState(currentPage + 1);
     }
 
     if (this.isInitialized || !this.webApp) {
@@ -49,7 +47,7 @@ class BackButtonManager {
     const state = sessionStorage.getItem(this.sessionStorageKey);
     if (!state || state <= 1) {
       this.hide();
-      return 1;
+      return 0;
     }
     return JSON.parse(state);
   }
