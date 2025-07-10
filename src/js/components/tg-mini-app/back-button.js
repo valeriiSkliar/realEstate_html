@@ -4,6 +4,7 @@
 
 class BackButtonManager {
   sessionStorageKey = "_tg_mini_app_back_button_state";
+  sessionStorageEventKey = "_tg_mini_app_back_button_event";
 
   constructor() {
     this.isInitialized = false;
@@ -21,10 +22,14 @@ class BackButtonManager {
    * Инициализация менеджера кнопки "Назад"
    */
   init() {
-    // Каждая инициализация увеличивает номер страницы на 1
     const currentPage = this.getBackButtonState();
-    if (currentPage) {
+    const event = this.getBackButtonEvent();
+    // Если страница была открыта не с помощью кнопки "Назад", то увеличиваем номер страницы на 1
+    if (currentPage && !event) {
       this.setBackButtonState(currentPage + 1);
+    } else if (!currentPage && event) {
+      this.setBackButtonState(1);
+      this.setBackButtonEvent(false);
     }
 
     if (this.isInitialized || !this.webApp) {
@@ -59,6 +64,18 @@ class BackButtonManager {
     } else {
       sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(state));
     }
+  }
+
+  getBackButtonEvent() {
+    const event = sessionStorage.getItem(this.sessionStorageEventKey);
+    if (!event) {
+      return false;
+    }
+    return JSON.parse(event);
+  }
+
+  setBackButtonEvent(booleanState) {
+    sessionStorage.setItem(this.sessionStorageEventKey, JSON.stringify(booleanState));
   }
 
   /**
@@ -128,8 +145,14 @@ class BackButtonManager {
    */
   goBack() {
     if (typeof window !== 'undefined' && this.canGoBack) {
-      this.setBackButtonState(this.getBackButtonState() - 1);
-      window.history.back();
+      const currentPage = this.getBackButtonState();
+      if (currentPage > 1) {
+        this.setBackButtonState(currentPage - 1);
+        this.setBackButtonEvent(true);
+        window.history.back();
+      } else {
+        this.hide();
+      }
     }
   }
 
