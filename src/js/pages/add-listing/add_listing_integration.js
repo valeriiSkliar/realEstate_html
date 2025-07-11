@@ -1,5 +1,9 @@
 import { createForm, validators } from "../../forms/index.js";
 import { fetcher } from "../../utils/fetcher.js";
+import {
+  processPriceBeforeSubmit,
+  setupPriceFormatting,
+} from "../../utils/priceFormatter.js";
 import { createAndShowToast } from "../../utils/uiHelpers.js";
 /**
  * Упрощенная схема валидации
@@ -99,7 +103,14 @@ const addListingSchema = {
   ],
   price: [
     validators.required("Укажите цену"),
-    validators.min(1, "Цена должна быть больше 0"),
+    {
+      validate: (value) => {
+        if (!value || value.trim() === "") return true;
+        const numericValue = value.replace(/\D/g, "");
+        return numericValue && Number(numericValue) >= 1;
+      },
+      message: "Цена должна быть больше 0",
+    },
   ],
 };
 
@@ -213,7 +224,7 @@ function setupConditionalFields(form) {
 }
 
 /**
- * Исправленная настройка загрузки файлов с функциональностью удаления
+ * Настройка загрузки файлов (усовершенствованная для Telegram Mini App)
  */
 function setupFileUpload(form) {
   const fileInput = form.querySelector("#imageUploadInput");
@@ -324,6 +335,7 @@ function setupFileUpload(form) {
 
   // Функция добавления файлов
   function addFiles(newFiles) {
+    console.log("🔄 addFiles вызвана с файлами:", newFiles);
     Array.from(newFiles).forEach((file) => {
       // Проверяем, не добавлен ли уже такой файл
       const isDuplicate = selectedFiles.some(
@@ -335,6 +347,9 @@ function setupFileUpload(form) {
 
       if (!isDuplicate) {
         selectedFiles.push(file);
+        console.log(`✅ Файл добавлен: ${file.name}`);
+      } else {
+        console.log(`⚠️ Дублированный файл: ${file.name}`);
       }
     });
     updatePreview();
@@ -345,18 +360,94 @@ function setupFileUpload(form) {
   if (uploadButton) {
     uploadButton.addEventListener("click", (e) => {
       e.preventDefault();
+      console.log("🖱️ Клик по кнопке загрузки, открываем диалог файлов");
       fileInput.click();
     });
   }
 
-  // Обработчик изменения файлов
+  // Обработчик клика на label (дополнительный для Telegram)
+  if (fileLabel) {
+    fileLabel.addEventListener("click", (e) => {
+      console.log("🏷️ Клик по label, открываем диалог файлов");
+      // Не предотвращаем событие по умолчанию, позволяем label работать
+    });
+  }
+
+  // Основной обработчик изменения файлов
   fileInput.addEventListener("change", (e) => {
-    console.log("Files selected:", e.target.files);
+    console.log("📁 Событие change сработало:", e.target.files);
+    console.log("📁 Количество файлов:", e.target.files.length);
 
     if (e.target.files.length > 0) {
       addFiles(e.target.files);
+    } else {
+      console.warn("⚠️ Файлы не выбраны или недоступны");
     }
   });
+
+  // Дополнительный обработчик input для Telegram Mini App
+  fileInput.addEventListener("input", (e) => {
+    console.log("⌨️ Событие input сработало:", e.target.files);
+
+    if (e.target.files && e.target.files.length > 0) {
+      addFiles(e.target.files);
+    }
+  });
+
+  // Обработчик focus для отладки
+  fileInput.addEventListener("focus", () => {
+    console.log("🎯 File input получил фокус");
+  });
+
+  // Обработчик blur для отладки
+  fileInput.addEventListener("blur", () => {
+    console.log("💨 File input потерял фокус");
+  });
+
+  // Добавляем обработчик для MutationObserver чтобы отслеживать изменения files
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "files"
+      ) {
+        console.log("🔍 MutationObserver: изменения в файлах обнаружены");
+        if (fileInput.files && fileInput.files.length > 0) {
+          addFiles(fileInput.files);
+        }
+      }
+    });
+  });
+
+  // Наблюдаем за изменениями атрибутов
+  observer.observe(fileInput, { attributes: true });
+
+  // Периодическая проверка для Telegram Mini App (fallback)
+  let lastFileCount = 0;
+  const checkFilesInterval = setInterval(() => {
+    if (fileInput.files && fileInput.files.length !== lastFileCount) {
+      console.log(
+        "⏰ Периодическая проверка: изменение количества файлов обнаружено"
+      );
+      console.log(
+        `📊 Было: ${lastFileCount}, стало: ${fileInput.files.length}`
+      );
+
+      lastFileCount = fileInput.files.length;
+
+      if (fileInput.files.length > 0) {
+        addFiles(fileInput.files);
+        // Очищаем интервал после успешной загрузки
+        clearInterval(checkFilesInterval);
+      }
+    }
+  }, 500);
+
+  // Очищаем интервал через 30 секунд чтобы не засорять память
+  setTimeout(() => {
+    clearInterval(checkFilesInterval);
+    console.log("⏰ Периодическая проверка файлов отключена");
+  }, 30000);
 
   // Drag & Drop
   const fileArea = form.querySelector(".form-file");
@@ -364,15 +455,18 @@ function setupFileUpload(form) {
     fileArea.addEventListener("dragover", (e) => {
       e.preventDefault();
       fileArea.classList.add("drag-over");
+      console.log("🔄 Dragover event");
     });
 
     fileArea.addEventListener("dragleave", () => {
       fileArea.classList.remove("drag-over");
+      console.log("🔄 Dragleave event");
     });
 
     fileArea.addEventListener("drop", (e) => {
       e.preventDefault();
       fileArea.classList.remove("drag-over");
+      console.log("🎯 Drop event:", e.dataTransfer.files);
 
       const files = e.dataTransfer.files;
       if (files.length > 0) {
@@ -381,8 +475,58 @@ function setupFileUpload(form) {
     });
   }
 
+  // Детектор Telegram Mini App
+  const isTelegramMiniApp = window.Telegram && window.Telegram.WebApp;
+  if (isTelegramMiniApp) {
+    console.log("📱 Обнаружен Telegram Mini App");
+
+    // Дополнительные обработчики для Telegram
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && fileInput.files && fileInput.files.length > 0) {
+        console.log("👁️ Страница стала видимой, проверяем файлы");
+        addFiles(fileInput.files);
+      }
+    });
+
+    // Обработчик для Telegram WebApp событий
+    if (window.Telegram.WebApp.onEvent) {
+      window.Telegram.WebApp.onEvent("viewportChanged", () => {
+        console.log("📱 Telegram viewport изменился, проверяем файлы");
+        if (fileInput.files && fileInput.files.length > 0) {
+          addFiles(fileInput.files);
+        }
+      });
+    }
+  }
+
+  // Обработчик для общих WebView проблем
+  window.addEventListener("focus", () => {
+    setTimeout(() => {
+      if (
+        fileInput.files &&
+        fileInput.files.length > 0 &&
+        selectedFiles.length === 0
+      ) {
+        console.log(
+          "🔄 Window focus: обнаружены новые файлы после возврата в приложение"
+        );
+        addFiles(fileInput.files);
+      }
+    }, 100);
+  });
+
   // Инициализируем пустой превью
   updatePreview();
+
+  console.log("✅ File upload setup завершен");
+
+  // Возвращаем функции для внешнего использования
+  return {
+    addFiles,
+    updatePreview,
+    removeFile,
+    getSelectedFiles: () => selectedFiles,
+  };
 }
 
 /**
@@ -509,6 +653,9 @@ function setupActionButtons(form) {
 const addListingHandler = {
   async onSubmit(data, formData) {
     console.log("📝 Отправка формы...", data);
+
+    // Обрабатываем цену - убираем пробелы перед отправкой
+    processPriceBeforeSubmit(formData);
 
     // Получаем тип действия из скрытого поля
     const actionType = formData.get("actionType");
@@ -663,6 +810,7 @@ export const initAddListingForm = () => {
     setupComplexSelect2(form);
     setupDistrictSelect2(form);
     setupActionButtons(form);
+    setupPriceFormatting(form); // Добавляем вызов для форматирования цены
 
     form.dataset.initialized = "true";
     form.formManager = formManager;

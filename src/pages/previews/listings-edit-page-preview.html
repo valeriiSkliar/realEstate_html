@@ -440,11 +440,12 @@
                     <div class="col-md-6">
                       <div class="form-field floating-label">
                         <input
-                          type="number"
+                          type="text"
                           class="form-input form-input-sm"
                           id="price"
                           name="price"
-                          min="0"
+                          inputmode="numeric"
+                          pattern="[0-9 ]*"
                           placeholder=" "
                           value="4500000"
                           required
