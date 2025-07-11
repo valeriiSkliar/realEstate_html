@@ -12,11 +12,51 @@ const addListingSchema = {
   propertyType: [validators.required("Выберите тип объекта")],
   tradeType: [validators.required("Выберите тип сделки")],
   locality: [validators.required("Выберите населенный пункт")],
-  address: [validators.required("Введите адрес объекта")],
+  // address теперь не обязательно для всех типов
+  // complex не обязательно для всех типов
+  // floor не обязательно (управляется через setupConditionalFields)
   rooms: [
-    validators.required("Выберите количество комнат"),
-    validators.min(1, "Количество комнат должно быть больше 0"),
-    validators.max(10, "Количество комнат не может превышать 10"),
+    // Условная валидация - обязательно для квартир, НЕ обязательно для домов
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (propertyType === "apartment") {
+          return validators
+            .required("Выберите количество комнат")
+            .validate(value);
+        }
+        if (propertyType === "house") return true; // Для домов не обязательно
+        return true; // Для остальных типов не показываем поле
+      },
+    },
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (
+          (propertyType !== "apartment" && propertyType !== "house") ||
+          !value ||
+          value.trim() === ""
+        )
+          return true;
+        return validators
+          .min(1, "Количество комнат должно быть больше 0")
+          .validate(value);
+      },
+    },
+    {
+      validate: (value, formData) => {
+        const propertyType = formData.get("propertyType");
+        if (
+          (propertyType !== "apartment" && propertyType !== "house") ||
+          !value ||
+          value.trim() === ""
+        )
+          return true;
+        return validators
+          .max(10, "Количество комнат не может превышать 10")
+          .validate(value);
+      },
+    },
   ],
   condition: [
     // Условная валидация - НЕ обязательно для земельных участков, коммерции и гаражей
@@ -136,11 +176,11 @@ function setupConditionalFields(form) {
   const toggleFields = () => {
     const propertyType = propertyTypeSelect.value;
 
-    // Показываем поле "Этаж" только для квартир
+    // Показываем поле "Этаж" только для квартир (НЕ обязательно)
     if (floorContainer) {
       if (propertyType === "apartment") {
         floorContainer.style.display = "block";
-        if (floorField) floorField.required = true;
+        if (floorField) floorField.required = false; // Не обязательно для квартир
       } else {
         floorContainer.style.display = "none";
         if (floorField) {
@@ -154,7 +194,10 @@ function setupConditionalFields(form) {
     if (roomsContainer) {
       if (propertyType === "apartment" || propertyType === "house") {
         roomsContainer.style.display = "block";
-        if (roomsField) roomsField.required = true;
+        if (roomsField) {
+          // Для квартир обязательно, для домов - нет
+          roomsField.required = propertyType === "apartment";
+        }
       } else {
         roomsContainer.style.display = "none";
         if (roomsField) {
