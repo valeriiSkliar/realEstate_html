@@ -10,11 +10,14 @@ class BackButtonManager {
     this.isInitialized = false;
     this.backHandler = null;
     this.canGoBack = false;
+    this.isProcessing = false; // Prevent multiple simultaneous operations
     
     // Проверяем доступность Telegram WebApp
     if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
       this.webApp = window.Telegram.WebApp;
       this.backButton = this.webApp.BackButton;
+    } else {
+      console.warn('Telegram WebApp is not available, back button will not be initialized');
     }
   }
 
@@ -22,21 +25,32 @@ class BackButtonManager {
    * Инициализация менеджера кнопки "Назад"
    */
   init() {
-    const currentPage = this.getBackButtonState();
-    const event = this.getBackButtonEvent();
-    // Если страница была открыта с помощью кнопки "Назад", то сбрасываем флаг события
-    if (event) {
-      this.setBackButtonEvent(false);
-    } else {
-      this.setBackButtonState(currentPage + 1);
-    }
+    try {
+      const isFirstInit = window.history.length === 1 && Boolean(window.location.hash);
+      const currentPage = this.getBackButtonState();
+      const event = this.getBackButtonEvent();
+      
+      if (event) {
+        // Если страница была открыта с помощью кнопки "Назад", то сбрасываем флаг события
+        this.setBackButtonEvent(false);
+      } else {
+        if(isFirstInit) {
+         // Если это первая инициализация, то сбрасываем состояние кнопки "Назад"
+          this.reset();
+        } else {
+          this.setBackButtonState(currentPage + 1);
+        }
+      }
 
-    if (this.isInitialized || !this.webApp) {
-      return;
-    }
+      if (this.isInitialized || !this.webApp || !this.backButton) {
+        return;
+      }
 
-    this.isInitialized = true;
-    this.updateBackButtonState();
+      this.isInitialized = true;
+      this.updateBackButtonState();
+    } catch (error) {
+      console.warn('BackButtonManager init error:', error);
+    }
   }
 
   /**
@@ -44,12 +58,18 @@ class BackButtonManager {
    * @returns {number}
    */
   getBackButtonState() {
-    const state = sessionStorage.getItem(this.sessionStorageKey);
-    if (!state || state <= 1) {
-      this.hide();
-      return 0;
+    try {
+      const state = sessionStorage.getItem(this.sessionStorageKey);
+      if (!state) {
+        this.setBackButtonState(1);
+        return 1;
+      }
+      const parsedState = JSON.parse(state);
+      return typeof parsedState === 'number' && parsedState >= 1 ? parsedState : 1;
+    } catch (error) {
+      console.warn('Error getting back button state:', error);
+      return 1;
     }
-    return JSON.parse(state);
   }
 
   /**
@@ -57,24 +77,41 @@ class BackButtonManager {
    * @param {number} state
    */
   setBackButtonState(state) {
-    if (state <= 1) {
-      sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(1));
-      this.hide();
-    } else {
-      sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(state));
+    try {
+      const normalizedState = Math.max(1, Math.floor(state));
+      sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(normalizedState));
+    } catch (error) {
+      console.warn('Error setting back button state:', error);
     }
   }
 
+  /**
+   * Получает событие кнопки "Назад" из sessionStorage
+   * @returns {boolean}
+   */
   getBackButtonEvent() {
-    const event = sessionStorage.getItem(this.sessionStorageEventKey);
-    if (!event) {
+    try {
+      const event = sessionStorage.getItem(this.sessionStorageEventKey);
+      if (!event) {
+        return false;
+      }
+      return JSON.parse(event) === true;
+    } catch (error) {
+      console.warn('Error getting back button event:', error);
       return false;
     }
-    return JSON.parse(event);
   }
 
+  /**
+   * Устанавливает событие кнопки "Назад" в sessionStorage
+   * @param {boolean} booleanState
+   */
   setBackButtonEvent(booleanState) {
-    sessionStorage.setItem(this.sessionStorageEventKey, JSON.stringify(booleanState));
+    try {
+      sessionStorage.setItem(this.sessionStorageEventKey, JSON.stringify(Boolean(booleanState)));
+    } catch (error) {
+      console.warn('Error setting back button event:', error);
+    }
   }
 
   /**
@@ -82,23 +119,31 @@ class BackButtonManager {
    * @param {Function} handler - функция-обработчик
    */
   setBackHandler(handler) {
-    if (!this.backButton) return;
+    if (!this.backButton || typeof handler !== 'function') return;
 
-    // Удаляем предыдущий обработчик
-    if (this.backHandler) {
-      this.backButton.offClick(this.backHandler);
+    try {
+      // Удаляем предыдущий обработчик
+      if (this.backHandler) {
+        this.backButton.offClick(this.backHandler);
+      }
+
+      this.backHandler = handler;
+      this.backButton.onClick(this.backHandler);
+    } catch (error) {
+      console.warn('Error setting back handler:', error);
     }
-
-    this.backHandler = handler;
-    this.backButton.onClick(this.backHandler);
   }
 
   /**
    * Показывает кнопку "Назад"
    */
   show() {
-    if (this.backButton) {
+    if (!this.backButton) return;
+    
+    try {
       this.backButton.show();
+    } catch (error) {
+      console.warn('Error showing back button:', error);
     }
   }
 
@@ -106,8 +151,12 @@ class BackButtonManager {
    * Скрывает кнопку "Назад"
    */
   hide() {
-    if (this.backButton) {
+    if (!this.backButton) return;
+    
+    try {
       this.backButton.hide();
+    } catch (error) {
+      console.warn('Error hiding back button:', error);
     }
   }
 
@@ -117,12 +166,13 @@ class BackButtonManager {
    */
   getCanGoBack() {
     if (typeof window === 'undefined') return false;
-    const currentPage = this.getBackButtonState();
-    if (!currentPage || currentPage <= 1) {
-      this.setBackButtonState(1);
-      return false;
-    } else {
+    
+    try {
+      const currentPage = this.getBackButtonState();
       return currentPage > 1;
+    } catch (error) {
+      console.warn('Error checking can go back:', error);
+      return false;
     }
   }
 
@@ -130,12 +180,16 @@ class BackButtonManager {
    * Обновляет состояние кнопки "Назад" в зависимости от истории
    */
   updateBackButtonState() {
-    this.canGoBack = this.getCanGoBack();
-    
-    if (this.canGoBack) {
-      this.show();
-    } else {
-      this.hide();
+    try {
+      this.canGoBack = this.getCanGoBack();
+      
+      if (this.canGoBack) {
+        this.show();
+      } else {
+        this.hide();
+      }
+    } catch (error) {
+      console.warn('Error updating back button state:', error);
     }
   }
 
@@ -143,15 +197,28 @@ class BackButtonManager {
    * Выполняет переход назад
    */
   goBack() {
-    if (typeof window !== 'undefined' && this.canGoBack) {
+    if (typeof window === 'undefined' || this.isProcessing) return;
+    
+    try {
+      this.isProcessing = true;
       const currentPage = this.getBackButtonState();
+      
       if (currentPage > 1) {
         this.setBackButtonState(currentPage - 1);
         this.setBackButtonEvent(true);
-        window.history.back();
+        
+        // Небольшая задержка для предотвращения race conditions
+        setTimeout(() => {
+          window.history.back();
+          this.isProcessing = false;
+        }, 10);
       } else {
         this.hide();
+        this.isProcessing = false;
       }
+    } catch (error) {
+      console.warn('Error going back:', error);
+      this.isProcessing = false;
     }
   }
 
@@ -159,12 +226,17 @@ class BackButtonManager {
    * Очищает все обработчики и скрывает кнопку
    */
   cleanup() {
-    if (this.backHandler && this.backButton) {
-      this.backButton.offClick(this.backHandler);
+    try {
+      if (this.backHandler && this.backButton) {
+        this.backButton.offClick(this.backHandler);
+      }
+      this.hide();
+      this.backHandler = null;
+      this.isInitialized = false;
+      this.isProcessing = false;
+    } catch (error) {
+      console.warn('Error during cleanup:', error);
     }
-    this.hide();
-    this.backHandler = null;
-    this.isInitialized = false;
   }
 
   /**
@@ -172,6 +244,19 @@ class BackButtonManager {
    */
   setDefaultHandler() {
     this.setBackHandler(() => this.goBack());
+  }
+
+  /**
+   * Сбрасывает состояние кнопки "Назад"
+   */
+  reset() {
+    try {
+      this.setBackButtonState(1);
+      this.setBackButtonEvent(false);
+      this.updateBackButtonState();
+    } catch (error) {
+      console.warn('Error resetting back button:', error);
+    }
   }
 }
 
@@ -187,6 +272,7 @@ export const updateBackButtonState = () => backButtonManager.updateBackButtonSta
 export const goBack = () => backButtonManager.goBack();
 export const cleanupBackButton = () => backButtonManager.cleanup();
 export const setDefaultBackHandler = () => backButtonManager.setDefaultHandler();
+export const resetBackButton = () => backButtonManager.reset();
 
 // Экспортируем сам менеджер для продвинутого использования
 export default backButtonManager; 
