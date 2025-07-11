@@ -667,7 +667,13 @@ const editListingHandler = {
 
     // Получаем тип действия из скрытого поля
     const actionType = formData.get("actionType");
-    console.log("Action type:", actionType);
+    console.log("🎯 Тип действия:", actionType);
+
+    if (!actionType) {
+      console.warn(
+        "⚠️ Тип действия не установлен, используется обновление по умолчанию"
+      );
+    }
 
     // Получаем URL из атрибута data-action-url формы
     const form = document.getElementById("editListingForm");
@@ -680,14 +686,18 @@ const editListingHandler = {
     // Выбираем URL в зависимости от типа действия
     if (actionType === "archive") {
       actionUrl = form.getAttribute("data-secondary-action-url");
+      console.log("🗂️ Используется URL для архивирования:", actionUrl);
     } else {
       actionUrl = form.getAttribute("data-action-url");
+      console.log("💾 Используется URL для обновления:", actionUrl);
     }
 
     if (!actionUrl) {
-      throw new Error(
-        "URL для отправки данных не найден в атрибуте data-action-url"
-      );
+      const errorMsg =
+        actionType === "archive"
+          ? "URL для архивирования не найден в атрибуте data-secondary-action-url"
+          : "URL для отправки данных не найден в атрибуте data-action-url";
+      throw new Error(errorMsg);
     }
 
     try {
@@ -798,22 +808,30 @@ function setupActionButtons(form) {
   }
 
   // Обработчик для кнопки "В архив"
-  // if (unpublishBtn) {
-  //   unpublishBtn.addEventListener("click", (e) => {
-  //     const actionType = unpublishBtn.getAttribute("data-action");
-  //     actionTypeField.value = actionType;
-  //     console.log("Установлен тип действия:", actionType);
-  //   });
-  // }
+  if (unpublishBtn) {
+    unpublishBtn.addEventListener("click", (e) => {
+      const actionType = unpublishBtn.getAttribute("data-action");
+      actionTypeField.value = actionType;
+      console.log("🗂️ Установлен тип действия для архивирования:", actionType);
+    });
+  }
 
-  // // Обработчик для кнопки "Сохранить изменения"
-  // if (saveChangesBtn) {
-  //   saveChangesBtn.addEventListener("click", (e) => {
-  //     const actionType = saveChangesBtn.getAttribute("data-action");
-  //     actionTypeField.value = actionType;
-  //     console.log("Установлен тип действия:", actionType);
-  //   });
-  // }
+  // Обработчик для кнопки "Сохранить изменения"
+  if (saveChangesBtn) {
+    saveChangesBtn.addEventListener("click", (e) => {
+      const actionType = saveChangesBtn.getAttribute("data-action");
+      actionTypeField.value = actionType;
+      console.log("💾 Установлен тип действия для обновления:", actionType);
+    });
+  }
+
+  // Обработчик отправки формы для установки типа действия по умолчанию
+  form.addEventListener("submit", (e) => {
+    if (!actionTypeField.value) {
+      actionTypeField.value = "update";
+      console.log("🔧 Установлен тип действия по умолчанию: update");
+    }
+  });
 }
 
 /**
