@@ -36,7 +36,7 @@ export class PropertySummaryCard extends HTMLElement {
   connectedCallback() {
     this.render();
     this.setupEventListeners();
-    
+
     // Styles for collection selector popup are now globally managed via SCSS.
   }
 
@@ -49,13 +49,13 @@ export class PropertySummaryCard extends HTMLElement {
       favoriteIcon.removeEventListener("keydown", this.boundKeydownHandler);
 
       this.boundToggleFavorite = (event) => {
-        if (event) event.stopPropagation(); 
+        if (event) event.stopPropagation();
         this.toggleFavorite(event);
       };
       this.boundKeydownHandler = (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          event.stopPropagation(); 
+          event.stopPropagation();
           this.toggleFavorite(event);
         }
       };
@@ -64,31 +64,31 @@ export class PropertySummaryCard extends HTMLElement {
       favoriteIcon.addEventListener("keydown", this.boundKeydownHandler);
     }
 
-    const card = this.querySelector('.property-summary-card');
+    const card = this.querySelector(".property-summary-card");
     if (card) {
-      card.style.cursor = 'pointer';
-      card.removeEventListener('click', this.boundCardClick);
+      card.style.cursor = "pointer";
+      card.removeEventListener("click", this.boundCardClick);
       this.boundCardClick = (event) => {
         if (
-          event.target.closest('.property-summary-card__favorite-icon') ||
-          event.target.closest('.property-summary-card__phone-link')
+          event.target.closest(".property-summary-card__favorite-icon") ||
+          event.target.closest(".property-summary-card__phone-link")
         ) {
           return;
         }
-        if (event.target.closest('a')) {
+        if (event.target.closest("a")) {
           return;
         }
-        const href = this.getAttribute('title-href');
+        const href = this.getAttribute("title-href");
         if (href) {
           window.location.href = href;
         }
       };
-      card.addEventListener('click', this.boundCardClick);
+      card.addEventListener("click", this.boundCardClick);
     }
 
-    const phoneLink = this.querySelector('.property-summary-card__phone-link');
+    const phoneLink = this.querySelector(".property-summary-card__phone-link");
     if (phoneLink) {
-      phoneLink.addEventListener('click', (e) => {
+      phoneLink.addEventListener("click", (e) => {
         e.stopPropagation();
       });
     }
@@ -141,8 +141,10 @@ export class PropertySummaryCard extends HTMLElement {
         detail: {
           isFavorite: newState,
           element: this,
-          propertyId: this.getAttribute('property-id') || `property_${Date.now()}`,
-          propertyTitle: this.getAttribute('title-text') || 'Объект недвижимости'
+          propertyId:
+            this.getAttribute("property-id") || `property_${Date.now()}`,
+          propertyTitle:
+            this.getAttribute("title-text") || "Объект недвижимости",
         },
         bubbles: true,
       })
@@ -199,6 +201,9 @@ export class PropertySummaryCard extends HTMLElement {
     const isFavorite = this.getAttribute("is-favorite") === "true";
     const phoneNumber = this.getAttribute("phone-number") || "";
     const agentName = this.getAttribute("agent-name") || "";
+    // Ограничиваем длину имени агента до 25 символов
+    const truncatedAgentName =
+      agentName.length > 25 ? agentName.substring(0, 22) + "..." : agentName;
     let details = [];
     try {
       details = JSON.parse(detailsJson);
@@ -291,8 +296,8 @@ export class PropertySummaryCard extends HTMLElement {
                     <div class="property-summary-card__phone">
                     <span class="property-summary-card__phone-label">Агент:</span>
                         ${
-                          agentName
-                            ? `<span class="property-summary-card__phone-agent-name">${agentName}</span>`
+                          truncatedAgentName
+                            ? `<span class="property-summary-card__phone-agent-name">${truncatedAgentName}</span>`
                             : ""
                         }
                         <a href="tel:${phoneNumber}" class="property-summary-card__phone-link">
