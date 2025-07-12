@@ -5,7 +5,6 @@ import {
   initBackButton,
   setDefaultBackHandler,
 } from "./components/tg-mini-app/back-button";
-import "./components/tg-mini-app/tel-links-handler";
 
 function initTgMiniAppBackButton() {
   initBackButton();
