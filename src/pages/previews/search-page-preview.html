@@ -548,9 +548,11 @@
             <div class="price-range">
               <div class="price-input">
                 <input
-                  type="number"
+                  type="text"
                   name="price_min"
                   min="0"
+                  inputmode="numeric"
+                  pattern="[0-9 ]*"
                   class="form-control"
                   placeholder="от 35 000"
                 />
@@ -558,9 +560,11 @@
               </div>
               <div class="price-input">
                 <input
-                  type="number"
+                  type="text"
                   name="price_max"
                   min="0"
+                  inputmode="numeric"
+                  pattern="[0-9 ]*"
                   class="form-control"
                   placeholder="до 300 000"
                 />

@@ -2,29 +2,41 @@ import { Offcanvas } from "bootstrap";
 import $ from "jquery";
 import "select2";
 
+import { processPriceBeforeSubmit, setupPriceFormatting } from "../utils/priceFormatter";
 import { updateUrlParams } from "./search-sort-button";
 
 const initSidebarFilters = () => {
   const sidebarFilterForm = document.getElementById("sidebarFilterForm");
   const resetFormButton = document.getElementById("resetForm");
   const offcanvasEl = document.getElementById("mobileFilterSidebar");
+  const priceMinSelector = '[name="price_min"]';
+  const priceMaxSelector = '[name="price_max"]';
 
+  // Форматирование цены 1000000 -> 1 000 000
+  setupPriceFormatting(sidebarFilterForm, priceMinSelector);
+  setupPriceFormatting(sidebarFilterForm, priceMaxSelector);
+  
   if (sidebarFilterForm) {
     sidebarFilterForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
+      
       const formData = new FormData(e.target);
       const params = {};
       formData.forEach((value, key) => {
-          if (params[key]) {
-            params[key] = Array.isArray(params[key])
-                ? [...params[key], value]
-                : [params[key], value];
-          } else {
-            params[key] = value;
-          }
+        if (params[key]) {
+          params[key] = Array.isArray(params[key])
+          ? [...params[key], value]
+          : [params[key], value];
+        } else {
+          params[key] = value;
+        }
       });
 
+      // Обработка цены 1 000 000 -> 1000000
+      processPriceBeforeSubmit(formData, 'price_min');
+      processPriceBeforeSubmit(formData, 'price_max');
+      
       // Текущая сортировка из URL, если есть
       const urlParams = new URL(window.location).searchParams;
       const sk = urlParams.get("sort_key");
@@ -143,6 +155,7 @@ const initSidebarFilters = () => {
     // Listen for changes
     propertyType.addEventListener("change", toggleFilterVisibility);
   }
+  
 };
 
 export { initSidebarFilters };
