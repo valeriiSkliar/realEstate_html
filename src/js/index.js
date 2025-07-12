@@ -3,8 +3,9 @@ import "../scss/main.scss";
 import "./bootstrap";
 import {
   initBackButton,
-  setDefaultBackHandler
+  setDefaultBackHandler,
 } from "./components/tg-mini-app/back-button";
+import "./components/tg-mini-app/tel-links-handler";
 
 function initTgMiniAppBackButton() {
   initBackButton();

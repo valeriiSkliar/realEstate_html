@@ -1,3 +1,5 @@
+import { setupTelLinks } from "../utils/telegramMiniAppHelpers.js";
+
 export class PropertySummaryCard extends HTMLElement {
   constructor() {
     super();
@@ -314,5 +316,8 @@ export class PropertySummaryCard extends HTMLElement {
 
     // Переустанавливаем обработчики событий после рендеринга
     this.setupEventListeners();
+
+    // Настраиваем обработку телефонных ссылок для Telegram Mini App
+    setupTelLinks(this);
   }
 }

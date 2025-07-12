@@ -402,3 +402,237 @@ export const setupUniversalFileUpload = (config) => {
     fileInputSetup,
   };
 };
+
+/**
+ * Настройка обработки телефонных ссылок в Telegram Mini App
+ * Исправляет проблемы с tel: ссылками на iOS в Telegram
+ */
+
+/**
+ * Обработчик клика по телефонной ссылке
+ * @param {Event} event - событие клика
+ */
+const handleTelClick = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const telUrl = event.currentTarget.href;
+
+  // Используем Telegram WebApp API для открытия ссылки
+  try {
+    // Telegram WebApp автоматически откроет системный диалер
+    window.Telegram.WebApp.openLink(telUrl);
+    console.log("📞 Открыта tel: ссылка через Telegram WebApp:", telUrl);
+  } catch (error) {
+    console.error("❌ Ошибка при открытии tel: ссылки через Telegram:", error);
+
+    // Fallback: пытаемся открыть через window.open
+    try {
+      window.open(telUrl, "_system");
+      console.log("📞 Открыта tel: ссылка через window.open:", telUrl);
+    } catch (fallbackError) {
+      console.error("❌ Fallback также не сработал:", fallbackError);
+
+      // Последний вариант: показываем номер пользователю
+      const phoneNumber = telUrl
+        .replace("tel:", "")
+        .replace(/[^\d+\-\s()]/g, "");
+      alert("Позвонить по номеру: " + phoneNumber);
+    }
+  }
+};
+
+/**
+ * Применяет обработчики к телефонным ссылкам
+ * @param {HTMLElement} container - контейнер для поиска ссылок (по умолчанию document)
+ */
+export const setupTelLinks = (container = document) => {
+  if (!isTelegramMiniApp()) {
+    console.log("ℹ️ Не Telegram Mini App, пропускаем настройку tel: ссылок");
+    return null;
+  }
+
+  const telLinks = container.querySelectorAll('a[href^="tel:"]');
+
+  telLinks.forEach((link) => {
+    // Удаляем старые обработчики если есть
+    link.removeEventListener("click", handleTelClick);
+
+    // Добавляем новый обработчик с capture=true для приоритета
+    link.addEventListener("click", handleTelClick, true);
+  });
+
+  console.log(`📞 Настроено ${telLinks.length} tel: ссылок в контейнере`);
+
+  return {
+    linksCount: telLinks.length,
+    cleanup: () => {
+      telLinks.forEach((link) => {
+        link.removeEventListener("click", handleTelClick, true);
+      });
+    },
+  };
+};
+
+/**
+ * Инициализирует автоматическую обработку телефонных ссылок с отслеживанием изменений DOM
+ * @param {Object} options - опции настройки
+ */
+export const initTelegramTelLinksHandler = (options = {}) => {
+  const {
+    autoSetup = true,
+    watchDOMChanges = true,
+    container = document.body,
+    enableLogging = true,
+  } = options;
+
+  if (!isTelegramMiniApp()) {
+    if (enableLogging) {
+      console.log(
+        "ℹ️ Не Telegram Mini App, обработчик tel: ссылок не инициализирован"
+      );
+    }
+    return null;
+  }
+
+  const log = enableLogging ? console.log : () => {};
+  log("🚀 Инициализация Telegram Tel Links Handler");
+
+  let observer = null;
+  let setupResult = null;
+
+  // Функция для переинициализации обработчиков
+  const reinitializeHandlers = () => {
+    if (setupResult && setupResult.cleanup) {
+      setupResult.cleanup();
+    }
+    setupResult = setupTelLinks(container);
+  };
+
+  // Начальная настройка
+  if (autoSetup) {
+    setupResult = setupTelLinks(container);
+  }
+
+  // Настройка отслеживания изменений DOM
+  if (watchDOMChanges) {
+    observer = new MutationObserver((mutations) => {
+      let shouldReinitialize = false;
+
+      mutations.forEach((mutation) => {
+        if (mutation.type === "childList") {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === 1) {
+              // Element node
+              if (
+                node.tagName === "A" &&
+                node.href &&
+                node.href.startsWith("tel:")
+              ) {
+                shouldReinitialize = true;
+              } else if (
+                node.querySelector &&
+                node.querySelector('a[href^="tel:"]')
+              ) {
+                shouldReinitialize = true;
+              }
+            }
+          });
+        }
+      });
+
+      if (shouldReinitialize) {
+        log("🔄 Обнаружены новые tel: ссылки, переинициализация...");
+        reinitializeHandlers();
+      }
+    });
+
+    observer.observe(container, {
+      childList: true,
+      subtree: true,
+    });
+
+    log("👁️ MutationObserver для tel: ссылок активирован");
+  }
+
+  // Возвращаем объект управления
+  return {
+    reinitialize: reinitializeHandlers,
+    setupTelLinks: (customContainer) => setupTelLinks(customContainer),
+    cleanup: () => {
+      if (observer) {
+        observer.disconnect();
+        log("🧹 MutationObserver для tel: ссылок отключен");
+      }
+      if (setupResult && setupResult.cleanup) {
+        setupResult.cleanup();
+        log("🧹 Обработчики tel: ссылок очищены");
+      }
+    },
+    getLinksCount: () => (setupResult ? setupResult.linksCount : 0),
+  };
+};
+
+/**
+ * Простая функция для быстрой настройки tel: ссылок в конкретных элементах
+ * Удобно для использования в компонентах
+ * @param {string} selector - CSS селектор для поиска ссылок
+ * @param {HTMLElement} container - контейнер для поиска (по умолчанию document)
+ */
+export const setupTelLinksForSelector = (selector, container = document) => {
+  if (!isTelegramMiniApp()) return null;
+
+  const elements = container.querySelectorAll(selector);
+  let totalLinks = 0;
+
+  elements.forEach((element) => {
+    const result = setupTelLinks(element);
+    if (result) {
+      totalLinks += result.linksCount;
+    }
+  });
+
+  console.log(
+    `📞 Настроено ${totalLinks} tel: ссылок для селектора "${selector}"`
+  );
+
+  return { totalLinks };
+};
+
+/**
+ * Автоматическая инициализация при загрузке страницы
+ * Вызывается автоматически если модуль импортирован
+ */
+const autoInitTelLinks = () => {
+  // Проверяем готовность DOM
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      initTelegramTelLinksHandler();
+    });
+  } else {
+    // DOM уже загружен
+    if (isTelegramMiniApp()) {
+      initTelegramTelLinksHandler();
+    } else {
+      // Ждем загрузки Telegram WebApp
+      let attempts = 0;
+      const maxAttempts = 50; // 5 секунд максимум
+
+      const checkTelegram = setInterval(() => {
+        attempts++;
+        if (isTelegramMiniApp()) {
+          clearInterval(checkTelegram);
+          initTelegramTelLinksHandler();
+        } else if (attempts >= maxAttempts) {
+          clearInterval(checkTelegram);
+          console.warn("⚠️ Telegram WebApp не загрузился за отведенное время");
+        }
+      }, 100);
+    }
+  }
+};
+
+// Автоматическая инициализация (можно отключить, экспортировав переменную)
+if (typeof window !== "undefined" && !window.DISABLE_AUTO_TEL_LINKS_INIT) {
+  autoInitTelLinks();
+}
