@@ -2,7 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Специфическая логика для страницы моих объявлений
   if (
     document.querySelector(".my-advertisements-page") ||
-    document.querySelector(".my-listings-page")
+    document.querySelector(".my-listings-page") ||
+    document.querySelector(".archived-listings-page")
   ) {
     console.log("My advertisements page loaded");
 
@@ -106,12 +107,13 @@ function handleArchiveListing(id, archiveHref) {
  * Восстановление объявления из архива
  */
 function handleRestoreListing(id, restoreHref) {
-  if (
-    confirm("Вы уверены, что хотите восстановить это объявление из архива?")
-  ) {
-    // Здесь можно добавить логику восстановления или перенаправление
-    window.location.href = restoreHref;
-    console.log(`Restore listing ${id}`);
+  if (restoreHref) {
+    if (
+      confirm("Вы уверены, что хотите восстановить это объявление из архива?")
+    ) {
+      console.log(`Restore listing ${id} via ${restoreHref}`);
+      window.location.href = restoreHref;
+    }
   } else {
     console.warn("Restore href not provided for listing:", id);
   }

@@ -54,6 +54,7 @@
               <property-list-component>
                 <!-- Здесь только архивные объявления -->
                 <my-property-card
+                  listing-id="458"
                   title-text="3-к. квартира, 120 м2 | Элитный район"
                   title-href="/property-details/458"
                   price-text="₽ 25 000 000 (Продано)"
@@ -67,10 +68,13 @@
                   ]'
                   status="В архиве"
                   show-actions="true"
+                  delete-href="/api/listings/458/delete"
+                  restore-href="/api/listings/458/restore"
                 >
                 </my-property-card>
 
                 <my-property-card
+                  listing-id="462"
                   title-text="Таунхаус, 180 м2 | Загородный"
                   title-href="/property-details/462"
                   price-text="₽ 28 500 000 (Продано)"
@@ -84,6 +88,8 @@
                   ]'
                   status="В архиве"
                   show-actions="true"
+                  delete-href="/api/listings/462/delete"
+                  restore-href="/api/listings/462/restore"
                 >
                 </my-property-card>
               </property-list-component>
@@ -121,5 +127,34 @@
     >
       <input type="hidden" id="deleteListingId" />
     </app-confirm-modal>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom Elements Scripts -->
+    <script type="module">
+      import { AppHeader } from "/src/js/custom_elements_for_preview/app-header.js";
+      import { AppFooter } from "/src/js/custom_elements_for_preview/app-footer.js";
+      import { MyPropertyCard } from "/src/js/custom_elements_for_preview/my-property-card.js";
+      import { PropertyListComponent } from "/src/js/custom_elements_for_preview/property-list-component.js";
+      import { SimplePagination } from "/src/js/custom_elements_for_preview/pagination.js";
+      import { AppConfirmModal } from "/src/js/custom_elements_for_preview/app-confirm-modal.js";
+
+      customElements.define("app-header", AppHeader);
+      customElements.define("app-footer", AppFooter);
+      customElements.define("my-property-card", MyPropertyCard);
+      customElements.define("property-list-component", PropertyListComponent);
+      customElements.define("simple-pagination", SimplePagination);
+      customElements.define("app-confirm-modal", AppConfirmModal);
+    </script>
+
+    <!-- Page Logic -->
+    <script type="module" src="/src/js/pages/archive/index.js"></script>
   </body>
 </html>

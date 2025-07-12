@@ -18,6 +18,7 @@ export class MyPropertyCard extends HTMLElement {
       "archive-href", // Добавляем ссылку для архивирования
       "delete-href", // Добавляем ссылку для удаления
       "restore-href", // Добавляем ссылку для восстановления
+      "edit-href", // Добавляем ссылку для редактирования
     ];
   }
 
@@ -338,6 +339,15 @@ export class MyPropertyCard extends HTMLElement {
     const restoreHref = this.getAttribute("restore-href") || "";
     const editHref = this.getAttribute("edit-href") || "";
     // Генерируем событие с дополнительными данными
+    console.log(`🔧 handleAction called with action: ${action}`);
+    console.log(`📋 Event details:`, {
+      action,
+      id,
+      archiveHref,
+      deleteHref,
+      restoreHref,
+      editHref,
+    });
     this.dispatchEvent(
       new CustomEvent("listingAction", {
         detail: {
