@@ -272,20 +272,25 @@
                     </div>
 
                     <div class="col-md-4">
-                      <div class="form-field floating-label">
-                        <input
-                          type="number"
-                          class="form-input form-input-sm"
+                      <div class="form-field" style="display: block">
+                        <label for="rooms" class="form-label"
+                          >Количество комнат</label
+                        >
+                        <select
+                          class="form-select form-select-sm"
                           id="rooms"
                           name="rooms"
-                          min="1"
-                          max="10"
-                          placeholder=" "
+                          placeholder="Выберите количество комнат"
                           value="2"
-                        />
-                        <label for="rooms" class="form-label required">
-                          Количество комнат
-                        </label>
+                        >
+                          <option value="">Выберите количество комнат</option>
+                          <option value="0">Студия</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
                       </div>
                     </div>
 
