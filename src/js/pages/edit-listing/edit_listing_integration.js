@@ -1,5 +1,6 @@
 import { createForm, validators } from "../../forms/index.js";
 import { fetcher } from "../../utils/fetcher.js";
+import { FileUploadLogger } from "../../utils/fileUploadLogger.js";
 import {
   processPriceBeforeSubmit,
   setupPriceFormatting,
@@ -285,20 +286,33 @@ function setupConditionalFields(form) {
 /**
  * Настройка загрузки файлов для Telegram Mini App
  * Упрощенная реализация с учетом ограничений WebView
+ * С расширенным логированием для диагностики проблем Android
  */
 function setupFileUpload(form) {
+  // Инициализируем логгер
+  const logger = new FileUploadLogger("EditListing");
+
   const fileInput = form.querySelector("#imageUploadInput");
   const fileLabel = form.querySelector('label[for="imageUploadInput"]');
   const previewContainer = form.querySelector("#imagePreviews");
   const uploadButton = form.querySelector(".form-file-button");
   const placeholderText = form.querySelector(".form-file-placeholder");
 
-  console.log("🚀 Инициализация загрузки файлов для Telegram Mini App");
+  logger.log("🔍 Поиск элементов формы", {
+    fileInput: !!fileInput,
+    fileLabel: !!fileLabel,
+    previewContainer: !!previewContainer,
+    uploadButton: !!uploadButton,
+    placeholderText: !!placeholderText,
+  });
 
   if (!fileInput) {
-    console.warn("❌ Поле загрузки файлов не найдено");
+    logger.log("❌ Поле загрузки файлов не найдено");
     return;
   }
+
+  // Логируем начальное состояние элементов
+  logger.logElementState(fileInput, "fileInput-initial");
 
   // Определяем платформу
   const userAgent = navigator.userAgent;
@@ -306,7 +320,12 @@ function setupFileUpload(form) {
   const isIOS = /iPhone|iPad/.test(userAgent);
   const isTelegramMiniApp = window.Telegram && window.Telegram.WebApp;
 
-  console.log("🔍 Платформа:", { isAndroid, isIOS, isTelegramMiniApp });
+  logger.log("🔍 Определение платформы", {
+    isAndroid,
+    isIOS,
+    isTelegramMiniApp,
+    userAgent: userAgent.substring(0, 100) + "...", // Обрезаем для читаемости
+  });
 
   // Массив выбранных файлов
   let selectedFiles = [];
@@ -315,7 +334,16 @@ function setupFileUpload(form) {
    * Обновление превью файлов
    */
   function updatePreview() {
-    if (!previewContainer) return;
+    const startTime = Date.now();
+    logger.log("🖼️ Начало обновления превью", {
+      selectedFilesCount: selectedFiles.length,
+      previewContainerExists: !!previewContainer,
+    });
+
+    if (!previewContainer) {
+      logger.log("❌ Контейнер превью не найден");
+      return;
+    }
 
     previewContainer.innerHTML = "";
 
@@ -325,10 +353,17 @@ function setupFileUpload(form) {
       if (placeholderText) {
         placeholderText.textContent = "Выберите несколько изображений";
       }
+      logger.log("📝 Показан пустой статус");
       return;
     }
 
     selectedFiles.forEach((file, index) => {
+      logger.log(`🖼️ Создание превью для файла ${index}`, {
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+      });
+
       const fileItem = document.createElement("div");
       fileItem.className =
         "selected-file d-flex align-items-center mb-2 p-2 border rounded";
@@ -338,11 +373,15 @@ function setupFileUpload(form) {
       deleteBtn.className = "btn btn-sm btn-outline-danger ms-auto";
       deleteBtn.innerHTML = '<i class="bi bi-x"></i>';
       deleteBtn.title = "Удалить файл";
-      deleteBtn.addEventListener("click", () => removeFile(index));
+      deleteBtn.addEventListener("click", () => {
+        logger.log(`🗑️ Клик по кнопке удаления файла ${index}`);
+        removeFile(index);
+      });
 
       if (file.type.startsWith("image/")) {
         const reader = new FileReader();
         reader.onload = (e) => {
+          logger.log(`✅ FileReader загрузил изображение ${index}`);
           fileItem.innerHTML = `
             <img src="${e.target.result}" 
                  style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
@@ -354,6 +393,12 @@ function setupFileUpload(form) {
             </div>
           `;
           fileItem.appendChild(deleteBtn);
+        };
+        reader.onerror = (e) => {
+          logger.logError(
+            new Error(`FileReader error for file ${index}`),
+            "FileReader"
+          );
         };
         reader.readAsDataURL(file);
       } else {
@@ -373,44 +418,106 @@ function setupFileUpload(form) {
     });
 
     if (placeholderText) {
-      placeholderText.textContent = `Выбрано файлов: ${selectedFiles.length}`;
+      const newText = `Выбрано файлов: ${selectedFiles.length}`;
+      placeholderText.textContent = newText;
+      logger.log("📝 Обновлен текст placeholder", { newText });
     }
 
     // Обновляем FileList в input
     updateFileInputFiles();
+
+    logger.logTiming("updatePreview", startTime);
   }
 
   /**
    * Обновление FileList в input элементе
    */
   function updateFileInputFiles() {
+    const startTime = Date.now();
+    logger.log("🔄 Начало обновления FileList", {
+      selectedFilesCount: selectedFiles.length,
+      hasDataTransfer: "DataTransfer" in window,
+    });
+
     try {
       const dt = new DataTransfer();
-      selectedFiles.forEach((file) => dt.items.add(file));
+      selectedFiles.forEach((file, index) => {
+        logger.log(`➕ Добавление файла ${index} в DataTransfer`, {
+          fileName: file.name,
+          fileSize: file.size,
+        });
+        dt.items.add(file);
+      });
+
+      const oldFilesCount = fileInput.files ? fileInput.files.length : 0;
       fileInput.files = dt.files;
+      const newFilesCount = fileInput.files ? fileInput.files.length : 0;
+
+      logger.logDataTransferOperation(
+        "updateFileInputFiles",
+        selectedFiles,
+        true
+      );
+      logger.log("✅ FileList успешно обновлен", {
+        oldCount: oldFilesCount,
+        newCount: newFilesCount,
+        expectedCount: selectedFiles.length,
+      });
+
+      // Дополнительная проверка состояния после обновления
+      logger.logElementState(fileInput, "fileInput-after-update");
     } catch (error) {
-      console.warn("⚠️ Не удалось обновить FileList:", error);
+      logger.logDataTransferOperation(
+        "updateFileInputFiles",
+        selectedFiles,
+        false,
+        error
+      );
+      logger.logError(error, "updateFileInputFiles");
     }
+
+    logger.logTiming("updateFileInputFiles", startTime);
   }
 
   /**
    * Удаление файла
    */
   function removeFile(index) {
+    logger.log(`🗑️ Удаление файла ${index}`, {
+      fileName: selectedFiles[index]?.name,
+      totalFilesBefore: selectedFiles.length,
+    });
+
+    const oldFiles = [...selectedFiles];
     selectedFiles.splice(index, 1);
+
+    logger.logFileListUpdate(oldFiles, selectedFiles, "removeFile");
     updatePreview();
-    console.log(`🗑️ Файл удален. Осталось файлов: ${selectedFiles.length}`);
   }
 
   /**
    * Добавление файлов
    */
   function addFiles(newFiles) {
-    if (!newFiles || newFiles.length === 0) return;
+    if (!newFiles || newFiles.length === 0) {
+      logger.log("⚠️ Попытка добавить пустой список файлов");
+      return;
+    }
 
-    console.log("📁 Добавление файлов:", newFiles.length);
+    logger.logFileSelection(newFiles, "addFiles");
 
-    Array.from(newFiles).forEach((file) => {
+    const oldFiles = [...selectedFiles];
+    let addedCount = 0;
+    let duplicateCount = 0;
+
+    Array.from(newFiles).forEach((file, index) => {
+      logger.log(`🔍 Проверка файла ${index}`, {
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+        lastModified: file.lastModified,
+      });
+
       // Проверка на дубликаты
       const isDuplicate = selectedFiles.some(
         (existingFile) =>
@@ -421,12 +528,22 @@ function setupFileUpload(form) {
 
       if (!isDuplicate) {
         selectedFiles.push(file);
-        console.log(`✅ Файл добавлен: ${file.name}`);
+        addedCount++;
+        logger.log(`✅ Файл добавлен: ${file.name}`);
       } else {
-        console.log(`⚠️ Дублированный файл: ${file.name}`);
+        duplicateCount++;
+        logger.log(`⚠️ Дублированный файл: ${file.name}`);
       }
     });
 
+    logger.log("📊 Итоги добавления файлов", {
+      totalNewFiles: newFiles.length,
+      addedCount,
+      duplicateCount,
+      totalFilesAfter: selectedFiles.length,
+    });
+
+    logger.logFileListUpdate(oldFiles, selectedFiles, "addFiles");
     updatePreview();
   }
 
@@ -434,66 +551,120 @@ function setupFileUpload(form) {
    * Основной обработчик выбора файлов
    */
   function handleFileSelection(event) {
+    const startTime = Date.now();
+    logger.logEvent("handleFileSelection", event.target, {
+      eventType: event.type,
+      isTrusted: event.isTrusted,
+    });
+
     const files = event.target.files;
+    logger.log("📂 Обработка выбора файлов", {
+      filesExists: !!files,
+      filesLength: files ? files.length : 0,
+      eventType: event.type,
+      targetId: event.target.id,
+    });
+
+    // Логируем состояние input после события
+    logger.logElementState(event.target, "fileInput-after-selection");
+
     if (files && files.length > 0) {
-      console.log("📂 Файлы выбраны:", files.length);
+      logger.logFileSelection(files, "handleFileSelection");
       addFiles(files);
+    } else {
+      logger.log("⚠️ Файлы не найдены в событии");
     }
+
+    logger.logTiming("handleFileSelection", startTime);
   }
 
   /**
    * Обработчик клика по кнопке загрузки
    */
   function handleUploadClick(event) {
+    const startTime = Date.now();
     event.preventDefault();
-    console.log("🖱️ Клик по кнопке загрузки");
+
+    logger.logEvent("handleUploadClick", event.target, {
+      eventType: event.type,
+      isTrusted: event.isTrusted,
+    });
+
+    // Логируем состояние перед очисткой
+    logger.logElementState(fileInput, "fileInput-before-clear");
 
     // Очищаем input перед открытием диалога
     fileInput.value = "";
 
+    // Логируем состояние после очистки
+    logger.logElementState(fileInput, "fileInput-after-clear");
+
     // Программно открываем диалог выбора файлов
+    logger.log("🖱️ Программный клик по file input");
     fileInput.click();
+
+    logger.logTiming("handleUploadClick", startTime);
   }
 
   // Инициализация Telegram Web App
   if (isTelegramMiniApp) {
-    console.log("📱 Инициализация Telegram Web App");
+    logger.log("📱 Инициализация Telegram Web App");
     try {
       window.Telegram.WebApp.ready();
       window.Telegram.WebApp.expand();
+      logger.log("✅ Telegram Web App инициализирован");
     } catch (error) {
-      console.warn("⚠️ Ошибка инициализации Telegram Web App:", error);
+      logger.logError(error, "Telegram Web App initialization");
     }
   }
 
   // Основные обработчики событий
-  fileInput.addEventListener("change", handleFileSelection);
+  logger.log("🔗 Установка основных обработчиков событий");
+
+  fileInput.addEventListener("change", (event) => {
+    logger.logEvent("change", fileInput);
+    handleFileSelection(event);
+  });
 
   // Дополнительный обработчик для некоторых WebView
-  fileInput.addEventListener("input", handleFileSelection);
+  fileInput.addEventListener("input", (event) => {
+    logger.logEvent("input", fileInput);
+    handleFileSelection(event);
+  });
 
   // Обработчик кнопки загрузки
   if (uploadButton) {
     uploadButton.addEventListener("click", handleUploadClick);
+    logger.log("✅ Обработчик кнопки загрузки установлен");
+  } else {
+    logger.log("⚠️ Кнопка загрузки не найдена");
   }
 
   // Обработчик label (для случаев когда кнопка не работает)
   if (fileLabel) {
-    fileLabel.addEventListener("click", () => {
-      console.log("🏷️ Клик по label");
+    fileLabel.addEventListener("click", (event) => {
+      logger.logEvent("label-click", fileLabel);
     });
+    logger.log("✅ Обработчик label установлен");
+  } else {
+    logger.log("⚠️ Label не найден");
   }
 
   // Специальные обработчики для iOS
   if (isIOS && isTelegramMiniApp) {
-    console.log("🍎 Добавляем обработчики для iOS");
+    logger.logIOSSpecific("Установка обработчиков для iOS");
 
     // Обработчик touch событий
     fileInput.addEventListener("touchend", (event) => {
-      console.log("👆 Touch end на file input");
+      logger.logEvent("touchend", fileInput);
       setTimeout(() => {
         if (fileInput.files && fileInput.files.length > 0) {
-          handleFileSelection({ target: fileInput });
+          logger.log(
+            "👆 Touch end: обнаружены файлы, запуск handleFileSelection"
+          );
+          handleFileSelection({ target: fileInput, type: "touchend" });
+        } else {
+          logger.log("👆 Touch end: файлы не обнаружены");
         }
       }, 100);
     });
@@ -501,10 +672,18 @@ function setupFileUpload(form) {
     // Обработчик изменения видимости страницы
     document.addEventListener("visibilitychange", () => {
       if (!document.hidden) {
-        console.log("👁️ Страница стала видимой (iOS)");
+        logger.logIOSSpecific("Страница стала видимой", {
+          hasFiles: !!(fileInput.files && fileInput.files.length > 0),
+        });
         setTimeout(() => {
           if (fileInput.files && fileInput.files.length > 0) {
-            handleFileSelection({ target: fileInput });
+            logger.log(
+              "👁️ Visibility change: обнаружены файлы, запуск handleFileSelection"
+            );
+            handleFileSelection({
+              target: fileInput,
+              type: "visibilitychange",
+            });
           }
         }, 200);
       }
@@ -513,32 +692,97 @@ function setupFileUpload(form) {
 
   // Специальные обработчики для Android
   if (isAndroid && isTelegramMiniApp) {
-    console.log("🤖 Добавляем обработчики для Android");
+    logger.logAndroidSpecific("Установка обработчиков для Android");
 
     // Обработчик focus событий
-    fileInput.addEventListener("focus", () => {
-      console.log("🎯 File input получил фокус (Android)");
+    fileInput.addEventListener("focus", (event) => {
+      logger.logEvent("focus", fileInput);
+      logger.logAndroidSpecific("File input получил фокус");
     });
 
-    // Обработчик window focus
-    window.addEventListener("focus", () => {
+    // Обработчик blur событий
+    fileInput.addEventListener("blur", (event) => {
+      logger.logEvent("blur", fileInput);
+      logger.logAndroidSpecific("File input потерял фокус", {
+        hasFiles: !!(fileInput.files && fileInput.files.length > 0),
+      });
+
+      // Проверяем файлы после потери фокуса
       setTimeout(() => {
         if (
           fileInput.files &&
           fileInput.files.length > 0 &&
           selectedFiles.length === 0
         ) {
-          console.log("🔄 Window focus: обнаружены новые файлы (Android)");
-          handleFileSelection({ target: fileInput });
+          logger.logAndroidSpecific("Blur: обнаружены новые файлы");
+          handleFileSelection({ target: fileInput, type: "blur-delayed" });
+        }
+      }, 100);
+    });
+
+    // Обработчик window focus
+    window.addEventListener("focus", () => {
+      logger.logAndroidSpecific("Window получил фокус");
+      setTimeout(() => {
+        if (
+          fileInput.files &&
+          fileInput.files.length > 0 &&
+          selectedFiles.length === 0
+        ) {
+          logger.logAndroidSpecific("Window focus: обнаружены новые файлы");
+          handleFileSelection({ target: fileInput, type: "window-focus" });
         }
       }, 150);
     });
+
+    // Дополнительные Android-специфичные обработчики
+
+    // Обработчик touchstart для активации input
+    fileInput.addEventListener("touchstart", (event) => {
+      logger.logEvent("touchstart", fileInput);
+      logger.logAndroidSpecific("TouchStart на file input");
+    });
+
+    // Обработчик click для дополнительной диагностики
+    fileInput.addEventListener("click", (event) => {
+      logger.logEvent("click", fileInput);
+      logger.logAndroidSpecific("Click на file input", {
+        isTrusted: event.isTrusted,
+        eventType: event.type,
+      });
+    });
+
+    // Периодическая проверка состояния для Android
+    let androidCheckInterval = setInterval(() => {
+      if (
+        fileInput.files &&
+        fileInput.files.length > 0 &&
+        selectedFiles.length === 0
+      ) {
+        logger.logAndroidSpecific(
+          "Периодическая проверка: найдены неучтенные файлы"
+        );
+        handleFileSelection({ target: fileInput, type: "periodic-check" });
+        clearInterval(androidCheckInterval);
+      }
+    }, 500);
+
+    // Очищаем интервал через 30 секунд
+    setTimeout(() => {
+      clearInterval(androidCheckInterval);
+      logger.logAndroidSpecific("Периодическая проверка завершена");
+    }, 30000);
   }
 
   // Инициализация превью
   updatePreview();
 
-  console.log("✅ Загрузка файлов настроена для Telegram Mini App");
+  logger.log("✅ Загрузка файлов настроена для Telegram Mini App");
+
+  // Добавляем глобальную функцию для экспорта логов (для отладки)
+  window.exportFileUploadLogs = () => {
+    return logger.exportLogs();
+  };
 
   // Возвращаем API для внешнего использования
   return {
@@ -547,9 +791,12 @@ function setupFileUpload(form) {
     removeFile,
     getSelectedFiles: () => selectedFiles,
     clearFiles: () => {
+      const oldFiles = [...selectedFiles];
       selectedFiles = [];
+      logger.logFileListUpdate(oldFiles, selectedFiles, "clearFiles");
       updatePreview();
     },
+    logger, // Возвращаем логгер для дополнительной диагностики
   };
 }
 /**
