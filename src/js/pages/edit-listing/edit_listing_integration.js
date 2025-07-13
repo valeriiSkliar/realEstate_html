@@ -285,8 +285,8 @@ function setupConditionalFields(form) {
 
 /**
  * Настройка загрузки файлов для Telegram Mini App
- * Упрощенная реализация с учетом ограничений WebView
- * С расширенным логированием для диагностики проблем Android
+ * Улучшенная реализация с поддержкой видимого overlay для Android WebView
+ * С детекцией типа интерфейса, haptic feedback и расширенным логированием
  */
 function setupFileUpload(form) {
   // Инициализируем логгер
@@ -311,24 +311,260 @@ function setupFileUpload(form) {
     return;
   }
 
-  // Логируем начальное состояние элементов
-  logger.logElementState(fileInput, "fileInput-initial");
-
-  // Определяем платформу
+  // Определяем платформу и окружение
   const userAgent = navigator.userAgent;
   const isAndroid = /Android/.test(userAgent);
   const isIOS = /iPhone|iPad/.test(userAgent);
   const isTelegramMiniApp = window.Telegram && window.Telegram.WebApp;
+  const isTelegramWebView =
+    userAgent.includes("TelegramBot") || userAgent.includes("Telegram");
 
-  logger.log("🔍 Определение платформы", {
+  logger.log("🔍 Определение платформы и окружения", {
     isAndroid,
     isIOS,
     isTelegramMiniApp,
-    userAgent: userAgent.substring(0, 100) + "...", // Обрезаем для читаемости
+    isTelegramWebView,
+    userAgent: userAgent.substring(0, 100) + "...",
   });
 
   // Массив выбранных файлов
   let selectedFiles = [];
+  let interfaceType = "unknown"; // 'telegram', 'system', 'unknown'
+  let lastInteractionTime = 0;
+
+  // Инициализация Telegram WebApp
+  if (isTelegramMiniApp) {
+    logger.log("📱 Инициализация Telegram Web App");
+    try {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
+      // Включаем haptic feedback если доступен
+      if (window.Telegram.WebApp.HapticFeedback) {
+        logger.log("✅ Haptic Feedback доступен");
+      }
+      logger.log("✅ Telegram Web App инициализирован");
+    } catch (error) {
+      logger.logError(error, "Telegram Web App initialization");
+    }
+  }
+
+  /**
+   * Haptic feedback для улучшения UX
+   */
+  function triggerHapticFeedback(type = "light") {
+    if (isTelegramMiniApp && window.Telegram.WebApp.HapticFeedback) {
+      try {
+        switch (type) {
+          case "light":
+            window.Telegram.WebApp.HapticFeedback.impactOccurred("light");
+            break;
+          case "medium":
+            window.Telegram.WebApp.HapticFeedback.impactOccurred("medium");
+            break;
+          case "heavy":
+            window.Telegram.WebApp.HapticFeedback.impactOccurred("heavy");
+            break;
+          case "success":
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred(
+              "success"
+            );
+            break;
+          case "error":
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred("error");
+            break;
+          case "warning":
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred(
+              "warning"
+            );
+            break;
+          case "selection":
+            window.Telegram.WebApp.HapticFeedback.selectionChanged();
+            break;
+        }
+        logger.log(`📳 Haptic feedback: ${type}`);
+      } catch (error) {
+        logger.logError(error, "Haptic feedback");
+      }
+    }
+  }
+
+  /**
+   * Создание видимого file input overlay для Android WebView
+   */
+  function createVisibleFileInputOverlay() {
+    logger.log("🎯 Создание видимого file input overlay для Android");
+
+    // Создаем контейнер для overlay
+    const overlayContainer = document.createElement("div");
+    overlayContainer.className = "telegram-file-overlay";
+
+    // Создаем видимый file input
+    const visibleFileInput = document.createElement("input");
+    visibleFileInput.type = "file";
+    visibleFileInput.accept = fileInput.accept || "image/*";
+    visibleFileInput.multiple = fileInput.multiple || false;
+    visibleFileInput.className = "telegram-file-overlay__input";
+
+    // Создаем контейнер для контента
+    const contentContainer = document.createElement("div");
+    contentContainer.className = "telegram-file-overlay__content";
+
+    // Создаем иконку загрузки
+    const uploadIcon = document.createElement("span");
+    uploadIcon.className = "telegram-file-overlay__icon";
+    uploadIcon.innerHTML = "📤";
+
+    // Создаем текст кнопки
+    const buttonText = document.createElement("span");
+    buttonText.className = "telegram-file-overlay__text";
+    buttonText.textContent = "Загрузить фото";
+
+    // Собираем компоненты
+    contentContainer.appendChild(uploadIcon);
+    contentContainer.appendChild(buttonText);
+    overlayContainer.appendChild(visibleFileInput);
+    overlayContainer.appendChild(contentContainer);
+
+    // Hover эффекты
+    overlayContainer.addEventListener("mouseenter", () => {
+      overlayContainer.style.transform = "scale(1.02)";
+      overlayContainer.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
+    });
+
+    overlayContainer.addEventListener("mouseleave", () => {
+      overlayContainer.style.transform = "scale(1)";
+      overlayContainer.style.boxShadow = "none";
+    });
+
+    // Touch эффекты для мобильных устройств
+    overlayContainer.addEventListener("touchstart", () => {
+      overlayContainer.style.transform = "scale(0.98)";
+      triggerHapticFeedback("light");
+    });
+
+    overlayContainer.addEventListener("touchend", () => {
+      setTimeout(() => {
+        overlayContainer.style.transform = "scale(1)";
+      }, 150);
+    });
+
+    // Обработчик изменения файлов
+    visibleFileInput.addEventListener("change", (event) => {
+      logger.log("📁 Overlay file input change event", {
+        filesCount: event.target.files ? event.target.files.length : 0,
+        timestamp: Date.now(),
+      });
+
+      interfaceType = "telegram"; // Определяем как Telegram интерфейс
+
+      // Показываем состояние загрузки
+      overlayContainer.classList.add("loading");
+
+      if (event.target.files && event.target.files.length > 0) {
+        triggerHapticFeedback("success");
+
+        handleFileSelection({
+          target: event.target,
+          type: "overlay-change",
+        });
+
+        // Обновляем текст кнопки
+        const fileCount = event.target.files.length;
+        buttonText.textContent = `Выбрано: ${fileCount} ${
+          fileCount === 1 ? "файл" : "файлов"
+        }`;
+        uploadIcon.innerHTML = "✅";
+
+        // Показываем состояние успеха
+        setTimeout(() => {
+          overlayContainer.classList.remove("loading");
+          overlayContainer.classList.add("success");
+
+          // Возвращаем обычное состояние через 2 секунды
+          setTimeout(() => {
+            overlayContainer.classList.remove("success");
+          }, 2000);
+        }, 500);
+      } else {
+        triggerHapticFeedback("error");
+
+        // Показываем состояние ошибки
+        setTimeout(() => {
+          overlayContainer.classList.remove("loading");
+          overlayContainer.classList.add("error");
+
+          setTimeout(() => {
+            overlayContainer.classList.remove("error");
+          }, 2000);
+        }, 500);
+      }
+    });
+
+    // Заменяем оригинальную кнопку на overlay
+    if (uploadButton && uploadButton.parentNode) {
+      uploadButton.parentNode.insertBefore(overlayContainer, uploadButton);
+      uploadButton.style.display = "none";
+      logger.log("✅ Видимый overlay создан и установлен");
+    }
+
+    return { overlayContainer, visibleFileInput };
+  }
+
+  /**
+   * Детекция типа интерфейса загрузки файлов
+   */
+  function detectFileInterface() {
+    logger.log("🔍 Детекция типа интерфейса загрузки файлов");
+
+    const startTime = Date.now();
+    lastInteractionTime = startTime;
+
+    // Создаем тестовый клик для определения типа интерфейса
+    const testInput = document.createElement("input");
+    testInput.type = "file";
+    testInput.style.position = "absolute";
+    testInput.style.left = "-9999px";
+    testInput.style.opacity = "0";
+
+    document.body.appendChild(testInput);
+
+    // Слушаем события для определения типа интерфейса
+    const cleanup = () => {
+      document.body.removeChild(testInput);
+    };
+
+    testInput.addEventListener("change", () => {
+      const responseTime = Date.now() - startTime;
+
+      if (responseTime < 100) {
+        interfaceType = "system";
+        logger.log("🏛️ Определен системный интерфейс", { responseTime });
+      } else {
+        interfaceType = "telegram";
+        logger.log("📱 Определен Telegram интерфейс", { responseTime });
+      }
+
+      cleanup();
+    });
+
+    // Если за 5 секунд ничего не произошло - считаем что интерфейс не работает
+    setTimeout(() => {
+      if (interfaceType === "unknown") {
+        interfaceType = "blocked";
+        logger.log("🚫 Интерфейс заблокирован или не работает");
+        cleanup();
+      }
+    }, 5000);
+
+    // Программный клик для тестирования
+    try {
+      testInput.click();
+    } catch (error) {
+      logger.logError(error, "Test click failed");
+      interfaceType = "blocked";
+      cleanup();
+    }
+  }
 
   /**
    * Обновление превью файлов
@@ -338,6 +574,7 @@ function setupFileUpload(form) {
     logger.log("🖼️ Начало обновления превью", {
       selectedFilesCount: selectedFiles.length,
       previewContainerExists: !!previewContainer,
+      interfaceType,
     });
 
     if (!previewContainer) {
@@ -375,6 +612,7 @@ function setupFileUpload(form) {
       deleteBtn.title = "Удалить файл";
       deleteBtn.addEventListener("click", () => {
         logger.log(`🗑️ Клик по кнопке удаления файла ${index}`);
+        triggerHapticFeedback("light");
         removeFile(index);
       });
 
@@ -390,6 +628,7 @@ function setupFileUpload(form) {
               <div class="text-muted small">${(file.size / 1024).toFixed(
                 1
               )} KB</div>
+              <div class="text-muted small">Интерфейс: ${interfaceType}</div>
             </div>
           `;
           fileItem.appendChild(deleteBtn);
@@ -409,6 +648,7 @@ function setupFileUpload(form) {
             <div class="text-muted small">${(file.size / 1024).toFixed(
               1
             )} KB</div>
+            <div class="text-muted small">Интерфейс: ${interfaceType}</div>
           </div>
         `;
         fileItem.appendChild(deleteBtn);
@@ -418,7 +658,7 @@ function setupFileUpload(form) {
     });
 
     if (placeholderText) {
-      const newText = `Выбрано файлов: ${selectedFiles.length}`;
+      const newText = `Выбрано файлов: ${selectedFiles.length} (${interfaceType})`;
       placeholderText.textContent = newText;
       logger.log("📝 Обновлен текст placeholder", { newText });
     }
@@ -437,6 +677,7 @@ function setupFileUpload(form) {
     logger.log("🔄 Начало обновления FileList", {
       selectedFilesCount: selectedFiles.length,
       hasDataTransfer: "DataTransfer" in window,
+      interfaceType,
     });
 
     try {
@@ -462,6 +703,7 @@ function setupFileUpload(form) {
         oldCount: oldFilesCount,
         newCount: newFilesCount,
         expectedCount: selectedFiles.length,
+        interfaceType,
       });
 
       // Дополнительная проверка состояния после обновления
@@ -486,6 +728,7 @@ function setupFileUpload(form) {
     logger.log(`🗑️ Удаление файла ${index}`, {
       fileName: selectedFiles[index]?.name,
       totalFilesBefore: selectedFiles.length,
+      interfaceType,
     });
 
     const oldFiles = [...selectedFiles];
@@ -516,6 +759,7 @@ function setupFileUpload(form) {
         fileSize: file.size,
         fileType: file.type,
         lastModified: file.lastModified,
+        interfaceType,
       });
 
       // Проверка на дубликаты
@@ -541,7 +785,15 @@ function setupFileUpload(form) {
       addedCount,
       duplicateCount,
       totalFilesAfter: selectedFiles.length,
+      interfaceType,
     });
+
+    // Haptic feedback при успешном добавлении файлов
+    if (addedCount > 0) {
+      triggerHapticFeedback("success");
+    } else if (duplicateCount > 0) {
+      triggerHapticFeedback("warning");
+    }
 
     logger.logFileListUpdate(oldFiles, selectedFiles, "addFiles");
     updatePreview();
@@ -555,6 +807,7 @@ function setupFileUpload(form) {
     logger.logEvent("handleFileSelection", event.target, {
       eventType: event.type,
       isTrusted: event.isTrusted,
+      interfaceType,
     });
 
     const files = event.target.files;
@@ -563,6 +816,7 @@ function setupFileUpload(form) {
       filesLength: files ? files.length : 0,
       eventType: event.type,
       targetId: event.target.id,
+      interfaceType,
     });
 
     // Логируем состояние input после события
@@ -573,13 +827,14 @@ function setupFileUpload(form) {
       addFiles(files);
     } else {
       logger.log("⚠️ Файлы не найдены в событии");
+      triggerHapticFeedback("error");
     }
 
     logger.logTiming("handleFileSelection", startTime);
   }
 
   /**
-   * Обработчик клика по кнопке загрузки
+   * Обработчик клика по кнопке загрузки (fallback)
    */
   function handleUploadClick(event) {
     const startTime = Date.now();
@@ -588,7 +843,10 @@ function setupFileUpload(form) {
     logger.logEvent("handleUploadClick", event.target, {
       eventType: event.type,
       isTrusted: event.isTrusted,
+      interfaceType,
     });
+
+    triggerHapticFeedback("light");
 
     // Логируем состояние перед очисткой
     logger.logElementState(fileInput, "fileInput-before-clear");
@@ -601,26 +859,27 @@ function setupFileUpload(form) {
 
     // Программно открываем диалог выбора файлов
     logger.log("🖱️ Программный клик по file input");
-    fileInput.click();
+    try {
+      fileInput.click();
+    } catch (error) {
+      logger.logError(error, "Programmatic click failed");
+      triggerHapticFeedback("error");
+    }
 
     logger.logTiming("handleUploadClick", startTime);
   }
 
-  // Инициализация Telegram Web App
-  if (isTelegramMiniApp) {
-    logger.log("📱 Инициализация Telegram Web App");
-    try {
-      window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.expand();
-      logger.log("✅ Telegram Web App инициализирован");
-    } catch (error) {
-      logger.logError(error, "Telegram Web App initialization");
-    }
-  }
-
-  // Основные обработчики событий
+  // Основная инициализация
   logger.log("🔗 Установка основных обработчиков событий");
 
+  // Создаем видимый overlay для Android в Telegram
+  let overlayComponents = null;
+  if (isAndroid && isTelegramMiniApp) {
+    overlayComponents = createVisibleFileInputOverlay();
+    logger.log("✅ Видимый overlay создан для Android");
+  }
+
+  // Основные обработчики событий для оригинального input
   fileInput.addEventListener("change", (event) => {
     logger.logEvent("change", fileInput);
     handleFileSelection(event);
@@ -632,21 +891,22 @@ function setupFileUpload(form) {
     handleFileSelection(event);
   });
 
-  // Обработчик кнопки загрузки
-  if (uploadButton) {
+  // Обработчик кнопки загрузки (fallback)
+  if (uploadButton && !overlayComponents) {
     uploadButton.addEventListener("click", handleUploadClick);
     logger.log("✅ Обработчик кнопки загрузки установлен");
-  } else {
+  } else if (!overlayComponents) {
     logger.log("⚠️ Кнопка загрузки не найдена");
   }
 
   // Обработчик label (для случаев когда кнопка не работает)
-  if (fileLabel) {
+  if (fileLabel && !overlayComponents) {
     fileLabel.addEventListener("click", (event) => {
       logger.logEvent("label-click", fileLabel);
+      triggerHapticFeedback("light");
     });
     logger.log("✅ Обработчик label установлен");
-  } else {
+  } else if (!overlayComponents) {
     logger.log("⚠️ Label не найден");
   }
 
@@ -690,9 +950,11 @@ function setupFileUpload(form) {
     });
   }
 
-  // Специальные обработчики для Android
-  if (isAndroid && isTelegramMiniApp) {
-    logger.logAndroidSpecific("Установка обработчиков для Android");
+  // Специальные обработчики для Android (дополнительные)
+  if (isAndroid && isTelegramMiniApp && !overlayComponents) {
+    logger.logAndroidSpecific(
+      "Установка дополнительных обработчиков для Android"
+    );
 
     // Обработчик focus событий
     fileInput.addEventListener("focus", (event) => {
@@ -735,23 +997,6 @@ function setupFileUpload(form) {
       }, 150);
     });
 
-    // Дополнительные Android-специфичные обработчики
-
-    // Обработчик touchstart для активации input
-    fileInput.addEventListener("touchstart", (event) => {
-      logger.logEvent("touchstart", fileInput);
-      logger.logAndroidSpecific("TouchStart на file input");
-    });
-
-    // Обработчик click для дополнительной диагностики
-    fileInput.addEventListener("click", (event) => {
-      logger.logEvent("click", fileInput);
-      logger.logAndroidSpecific("Click на file input", {
-        isTrusted: event.isTrusted,
-        eventType: event.type,
-      });
-    });
-
     // Периодическая проверка состояния для Android
     let androidCheckInterval = setInterval(() => {
       if (
@@ -777,7 +1022,19 @@ function setupFileUpload(form) {
   // Инициализация превью
   updatePreview();
 
-  logger.log("✅ Загрузка файлов настроена для Telegram Mini App");
+  // Запускаем детекцию интерфейса через некоторое время
+  if (!overlayComponents) {
+    setTimeout(() => {
+      detectFileInterface();
+    }, 1000);
+  }
+
+  logger.log("✅ Загрузка файлов настроена для Telegram Mini App", {
+    hasOverlay: !!overlayComponents,
+    platform: isAndroid ? "Android" : isIOS ? "iOS" : "Unknown",
+    isTelegramMiniApp,
+    interfaceType,
+  });
 
   // Добавляем глобальную функцию для экспорта логов (для отладки)
   window.exportFileUploadLogs = () => {
@@ -796,6 +1053,8 @@ function setupFileUpload(form) {
       logger.logFileListUpdate(oldFiles, selectedFiles, "clearFiles");
       updatePreview();
     },
+    getInterfaceType: () => interfaceType,
+    triggerHapticFeedback,
     logger, // Возвращаем логгер для дополнительной диагностики
   };
 }

@@ -1,0 +1,299 @@
+// Telegram File Upload Overlay Component
+// Стили для видимого file input overlay в Telegram Mini App
+
+.telegram-file-overlay {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 12px;
+  background: var(--tg-theme-button-color, #007aff);
+  color: var(--tg-theme-button-text-color, white);
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  min-width: 220px;
+  min-height: 48px;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  // Telegram theme integration
+  background: var(
+    --tg-theme-button-color,
+    linear-gradient(135deg, #007aff 0%, #0056cc 100%)
+  );
+
+  // Responsive design
+  @media (max-width: 768px) {
+    width: 100%;
+    min-width: unset;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+
+  // Hover effects (desktop)
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+      background: var(
+        --tg-theme-button-color,
+        linear-gradient(135deg, #1a7fff 0%, #0056cc 100%)
+      );
+    }
+  }
+
+  // Active state
+  &:active {
+    transform: translateY(0) scale(0.98);
+    transition: all 0.1s ease;
+  }
+
+  // Focus state for accessibility
+  &:focus-within {
+    outline: 2px solid var(--tg-theme-link-color, #007aff);
+    outline-offset: 2px;
+  }
+
+  // Loading state
+  &.loading {
+    pointer-events: none;
+    opacity: 0.7;
+
+    .telegram-file-overlay__text::after {
+      content: "";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-left: 8px;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: telegram-overlay-spin 1s linear infinite;
+    }
+  }
+
+  // Success state
+  &.success {
+    background: var(--tg-theme-button-color, #34c759);
+
+    .telegram-file-overlay__icon {
+      animation: telegram-overlay-success 0.6s ease;
+    }
+  }
+
+  // Error state
+  &.error {
+    background: var(--tg-theme-destructive-text-color, #ff3b30);
+    animation: telegram-overlay-shake 0.5s ease;
+  }
+
+  // Disabled state
+  &:disabled,
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Hidden file input
+.telegram-file-overlay__input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+
+  // Ensure input covers the entire overlay
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// Overlay content
+.telegram-file-overlay__content {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+}
+
+// Text content
+.telegram-file-overlay__text {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  font-weight: 500;
+  white-space: nowrap;
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
+}
+
+// Icon
+.telegram-file-overlay__icon {
+  display: inline-block;
+  font-size: 18px;
+  margin-right: 8px;
+  transition: transform 0.3s ease;
+
+  @media (max-width: 480px) {
+    font-size: 16px;
+    margin-right: 6px;
+  }
+}
+
+// File count badge
+.telegram-file-overlay__badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--tg-theme-destructive-text-color, #ff3b30);
+  color: white;
+  border-radius: 12px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  animation: telegram-overlay-badge-appear 0.3s ease;
+}
+
+// Progress bar for upload
+.telegram-file-overlay__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: inherit;
+    transition: width 0.3s ease;
+    width: var(--progress, 0%);
+  }
+}
+
+// Animations
+@keyframes telegram-overlay-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes telegram-overlay-success {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes telegram-overlay-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes telegram-overlay-badge-appear {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Dark theme support
+@media (prefers-color-scheme: dark) {
+  .telegram-file-overlay {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    @media (hover: hover) {
+      &:hover {
+        box-shadow: 0 4px 16px rgba(0, 122, 255, 0.4);
+      }
+    }
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .telegram-file-overlay {
+    border: 2px solid currentColor;
+
+    &:focus-within {
+      outline-width: 3px;
+    }
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .telegram-file-overlay,
+  .telegram-file-overlay__icon,
+  .telegram-file-overlay__progress::before {
+    transition: none;
+    animation: none;
+  }
+
+  .telegram-file-overlay__badge {
+    animation: none;
+  }
+}
+
+// Print styles
+@media print {
+  .telegram-file-overlay {
+    display: none;
+  }
+}
