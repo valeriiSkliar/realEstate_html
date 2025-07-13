@@ -173,6 +173,9 @@ function setupConditionalFields(form) {
   const roomsContainer = roomsField?.closest(".form-field");
   const conditionContainer = conditionField?.closest(".form-field");
 
+  // Находим опцию "Студия" в списке комнат
+  const studioOption = roomsField?.querySelector('option[value="0"]');
+
   const toggleFields = () => {
     const propertyType = propertyTypeSelect.value;
 
@@ -202,6 +205,21 @@ function setupConditionalFields(form) {
         roomsContainer.style.display = "none";
         if (roomsField) {
           roomsField.required = false;
+          roomsField.value = "";
+        }
+      }
+    }
+
+    // Управление видимостью опции "Студия" в зависимости от типа недвижимости
+    if (studioOption) {
+      if (propertyType === "apartment") {
+        // Показываем опцию "Студия" только для квартир
+        studioOption.style.display = "block";
+      } else {
+        // Скрываем опцию "Студия" для всех остальных типов
+        studioOption.style.display = "none";
+        // Если была выбрана студия, сбрасываем выбор
+        if (roomsField && roomsField.value === "0") {
           roomsField.value = "";
         }
       }
