@@ -2,7 +2,10 @@ import { Offcanvas } from "bootstrap";
 import $ from "jquery";
 import "select2";
 
-import { processPriceBeforeSubmit, setupPriceFormatting } from "../utils/priceFormatter";
+import {
+  processPriceBeforeSubmit,
+  setupPriceFormatting,
+} from "../utils/priceFormatter";
 import { updateUrlParams } from "./search-sort-button";
 
 const initSidebarFilters = () => {
@@ -12,31 +15,35 @@ const initSidebarFilters = () => {
   const priceMinSelector = '[name="price_min"]';
   const priceMaxSelector = '[name="price_max"]';
 
-  // Форматирование цены 1000000 -> 1 000 000
-  setupPriceFormatting(sidebarFilterForm, priceMinSelector);
-  setupPriceFormatting(sidebarFilterForm, priceMaxSelector);
-  
+  // Проверяем существование формы перед настройкой форматирования цены
+  if (sidebarFilterForm) {
+    // Форматирование цены 1000000 -> 1 000 000
+    setupPriceFormatting(sidebarFilterForm, priceMinSelector);
+    setupPriceFormatting(sidebarFilterForm, priceMaxSelector);
+  } else {
+    console.warn("Форма sidebarFilterForm не найдена на странице");
+  }
+
   if (sidebarFilterForm) {
     sidebarFilterForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      
       const formData = new FormData(e.target);
       const params = {};
       formData.forEach((value, key) => {
         if (params[key]) {
           params[key] = Array.isArray(params[key])
-          ? [...params[key], value]
-          : [params[key], value];
+            ? [...params[key], value]
+            : [params[key], value];
         } else {
           params[key] = value;
         }
       });
 
       // Обработка цены 1 000 000 -> 1000000
-      processPriceBeforeSubmit(formData, 'price_min');
-      processPriceBeforeSubmit(formData, 'price_max');
-      
+      processPriceBeforeSubmit(formData, "price_min");
+      processPriceBeforeSubmit(formData, "price_max");
+
       // Текущая сортировка из URL, если есть
       const urlParams = new URL(window.location).searchParams;
       const sk = urlParams.get("sort_key");
@@ -60,23 +67,29 @@ const initSidebarFilters = () => {
       sidebarFilterForm.reset();
 
       sidebarFilterForm
-          .querySelectorAll('input:not([type=checkbox]):not([type=radio]), textarea')
-          .forEach(el => el.value = '');
+        .querySelectorAll(
+          "input:not([type=checkbox]):not([type=radio]), textarea"
+        )
+        .forEach((el) => (el.value = ""));
 
       sidebarFilterForm
-          .querySelectorAll('input[type=checkbox], input[type=radio]')
-          .forEach(el => el.checked = false);
+        .querySelectorAll("input[type=checkbox], input[type=radio]")
+        .forEach((el) => (el.checked = false));
 
       sidebarFilterForm
-          .querySelectorAll('select')
-          .forEach(el => $(el).val(null).trigger('change'));
+        .querySelectorAll("select")
+        .forEach((el) => $(el).val(null).trigger("change"));
 
-      const sellRadio = sidebarFilterForm.querySelector('input[name="deal_type"][value="sale"]');
+      const sellRadio = sidebarFilterForm.querySelector(
+        'input[name="deal_type"][value="sale"]'
+      );
       if (sellRadio) sellRadio.checked = true;
 
-      const propSelect = sidebarFilterForm.querySelector('select[name="property_type"]');
+      const propSelect = sidebarFilterForm.querySelector(
+        'select[name="property_type"]'
+      );
       if (propSelect) {
-        $(propSelect).val('apartment').trigger('change');
+        $(propSelect).val("apartment").trigger("change");
       }
 
       console.log("Filters cleared");
@@ -113,33 +126,37 @@ const initSidebarFilters = () => {
 
   // Generic filter visibility toggle based on property type
   const propertyType = document.getElementById("property_type_select");
-  
+
   function toggleFilterVisibility() {
     if (!propertyType) return;
-    
+
     const currentPropertyType = propertyType.value;
-    
+
     // Find all elements with data-show-for-property-type attribute
-    const conditionalFilters = document.querySelectorAll("[data-show-for-property-type]");
-    
-    conditionalFilters.forEach(filter => {
+    const conditionalFilters = document.querySelectorAll(
+      "[data-show-for-property-type]"
+    );
+
+    conditionalFilters.forEach((filter) => {
       const showForTypes = filter.dataset.showForPropertyType;
-      const allowedTypes = showForTypes ? showForTypes.split(",").map(type => type.trim()) : [];
-      
+      const allowedTypes = showForTypes
+        ? showForTypes.split(",").map((type) => type.trim())
+        : [];
+
       const shouldShow = allowedTypes.includes(currentPropertyType);
-      
+
       if (shouldShow) {
         filter.classList.remove("d-none");
       } else {
         filter.classList.add("d-none");
-        
+
         // Reset form fields when hiding filter
         const inputs = filter.querySelectorAll("input, select, textarea");
-        inputs.forEach(input => {
+        inputs.forEach((input) => {
           if (input.type === "checkbox" || input.type === "radio") {
             input.checked = false;
           } else if (input.tagName === "SELECT") {
-            $(input).val(null).trigger('change');
+            $(input).val(null).trigger("change");
           } else {
             input.value = "";
           }
@@ -147,15 +164,14 @@ const initSidebarFilters = () => {
       }
     });
   }
-  
+
   if (propertyType) {
     // Initial visibility check
     toggleFilterVisibility();
-    
+
     // Listen for changes
     propertyType.addEventListener("change", toggleFilterVisibility);
   }
-  
 };
 
 export { initSidebarFilters };

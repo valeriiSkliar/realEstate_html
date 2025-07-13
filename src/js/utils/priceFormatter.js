@@ -41,10 +41,16 @@ export function getNumericPrice(value) {
  * @param {string} fieldSelector - Селектор поля цены (по умолчанию '#price')
  */
 export function setupPriceFormatting(form, fieldSelector = "#price") {
+  // Проверяем, что form существует и является DOM-элементом
+  if (!form || typeof form.querySelector !== "function") {
+    console.warn(`Форма не найдена или не является DOM-элементом:`, form);
+    return;
+  }
+
   const priceField = form.querySelector(fieldSelector);
 
   if (!priceField) {
-    console.warn(`Поле цены не найдено: ${fieldSelector}`);
+    console.warn(`Поле цены не найдено: ${fieldSelector} в форме:`, form);
     return;
   }
 
@@ -86,6 +92,15 @@ export function setupPriceFormatting(form, fieldSelector = "#price") {
  * @param {string} fieldName - Имя поля цены (по умолчанию 'price')
  */
 export function processPriceBeforeSubmit(formData, fieldName = "price") {
+  // Проверяем, что formData существует и является FormData
+  if (!formData || typeof formData.get !== "function") {
+    console.warn(
+      `FormData не найдена или не является FormData объектом:`,
+      formData
+    );
+    return;
+  }
+
   const priceValue = formData.get(fieldName);
   if (priceValue) {
     const numericPrice = getNumericPrice(priceValue);
@@ -99,9 +114,46 @@ export function processPriceBeforeSubmit(formData, fieldName = "price") {
   }
 }
 
+/**
+ * Безопасно инициализирует форматирование цены для формы
+ * Проверяет существование формы и полей перед настройкой
+ * @param {string} formSelector - Селектор формы
+ * @param {string[]} fieldSelectors - Массив селекторов полей цены
+ */
+export function safeSetupPriceFormatting(
+  formSelector,
+  fieldSelectors = ["#price"]
+) {
+  const form = document.querySelector(formSelector);
+
+  if (!form) {
+    console.warn(`Форма не найдена: ${formSelector}`);
+    return false;
+  }
+
+  let setupCount = 0;
+  fieldSelectors.forEach((fieldSelector) => {
+    const field = form.querySelector(fieldSelector);
+    if (field) {
+      setupPriceFormatting(form, fieldSelector);
+      setupCount++;
+    } else {
+      console.warn(
+        `Поле цены не найдено: ${fieldSelector} в форме ${formSelector}`
+      );
+    }
+  });
+
+  console.log(
+    `✅ Настроено форматирование для ${setupCount} полей цены в форме ${formSelector}`
+  );
+  return setupCount > 0;
+}
+
 export default {
   formatPrice,
   getNumericPrice,
   setupPriceFormatting,
   processPriceBeforeSubmit,
+  safeSetupPriceFormatting,
 };
