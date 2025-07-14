@@ -483,22 +483,37 @@
                 <section class="forms-section">
                   <h5 class="section-title">Фотографии объекта</h5>
                   <div class="form-field">
-                    <label for="imageUploadInput" class="form-label"
-                      >Загрузить изображения</label
-                    >
+                    <label for="imageUploadInput" class="form-label">
+                      Загрузить изображения
+                    </label>
+                    <div class="form-file multiple form-file-sm">
                     <input
                       type="file"
                       accept="image/png,image/jpeg,image/webp"
-                      class="form-control form-control-sm"
+                      class="form-file-input"
                       id="imageUploadInput"
                       name="imageUploadInput"
                       multiple
                     />
-                    <small class="form-text text-muted">
-                      Поддерживаются форматы: JPG, PNG, WEBP. Максимум 10
-                      файлов, до 5 МБ каждый.
+                    <label for="imageUploadInput" class="form-file-label">
+                      <i class="bi bi-images form-file-icon"></i>
+                      <span class="form-file-text">
+                        <span class="form-file-placeholder"
+                          >Выберите несколько изображений</span
+                        >
+                      </span>
+                    </label>
+                  </div>
+                  <div id="fileCounter" class="file-counter mt-2" style="display: none;">
+                    <small class="text-success">
+                      <i class="bi bi-check-circle me-1"></i>
+                      <span id="fileCounterText">Выбрано файлов: 0</span>
                     </small>
                   </div>
+                  <small class="form-text text-muted">
+                    Поддерживаются форматы: JPG, PNG, WEBP. Максимум 10 файлов,
+                    до 5 МБ каждый.
+                  </small>
                 </section>
 
                 <!-- Кнопки действий -->

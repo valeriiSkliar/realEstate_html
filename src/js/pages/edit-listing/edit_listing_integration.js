@@ -289,16 +289,33 @@ function setupFileUpload(form) {
   console.log("🚀 Инициализация нативной загрузки файлов");
 
   const fileInput = form.querySelector("#imageUploadInput");
+  const fileCounter = form.querySelector("#fileCounter");
+  const fileCounterText = form.querySelector("#fileCounterText");
 
   if (!fileInput) {
     console.warn("❌ Поле загрузки файлов не найдено");
     return;
   }
 
+  /**
+   * Обновляет счетчик выбранных файлов
+   */
+  const updateFileCounter = (filesCount) => {
+    if (!fileCounter || !fileCounterText) return;
+
+    if (filesCount > 0) {
+      fileCounterText.textContent = `Выбрано файлов: ${filesCount}`;
+      fileCounter.style.display = "block";
+    } else {
+      fileCounter.style.display = "none";
+    }
+  };
+
   // Обработчик изменения файлов
   fileInput.addEventListener("change", (e) => {
     const files = e.target.files;
     console.log(`📁 Выбрано файлов: ${files.length}`);
+    updateFileCounter(files.length);
   });
 
   console.log("✅ Нативная загрузка файлов настроена");
@@ -307,7 +324,9 @@ function setupFileUpload(form) {
     getFiles: () => fileInput.files,
     clearFiles: () => {
       fileInput.value = "";
+      updateFileCounter(0);
     },
+    updateCounter: updateFileCounter,
   };
 }
 /**
