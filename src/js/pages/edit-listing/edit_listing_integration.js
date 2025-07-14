@@ -1,6 +1,6 @@
+import { Dropzone } from "dropzone"; // Добавляем импорт Dropzone
 import { createForm, validators } from "../../forms/index.js";
 import { fetcher } from "../../utils/fetcher.js";
-import { FileUploadLogger } from "../../utils/fileUploadLogger.js";
 import {
   processPriceBeforeSubmit,
   setupPriceFormatting,
@@ -284,72 +284,43 @@ function setupConditionalFields(form) {
 }
 
 /**
- * Настройка загрузки файлов для Telegram Mini App
- * Улучшенная реализация с поддержкой видимого overlay для Android WebView
- * С детекцией типа интерфейса, haptic feedback и расширенным логированием
+ * Настройка загрузки файлов с использованием Dropzone.js
+ * Упрощенная реализация с поддержкой Telegram Mini App
  */
 function setupFileUpload(form) {
-  // Инициализируем логгер
-  const logger = new FileUploadLogger("EditListing");
+  console.log("🚀 Инициализация Dropzone для загрузки файлов");
 
   const fileInput = form.querySelector("#imageUploadInput");
-  const fileLabel = form.querySelector('label[for="imageUploadInput"]');
   const previewContainer = form.querySelector("#imagePreviews");
   const uploadButton = form.querySelector(".form-file-button");
   const placeholderText = form.querySelector(".form-file-placeholder");
 
-  logger.log("🔍 Поиск элементов формы", {
-    fileInput: !!fileInput,
-    fileLabel: !!fileLabel,
-    previewContainer: !!previewContainer,
-    uploadButton: !!uploadButton,
-    placeholderText: !!placeholderText,
-  });
-
   if (!fileInput) {
-    logger.log("❌ Поле загрузки файлов не найдено");
+    console.warn("❌ Поле загрузки файлов не найдено");
     return;
   }
 
-  // Определяем платформу и окружение
+  // Определяем платформу для Telegram Mini App интеграции
   const userAgent = navigator.userAgent;
   const isAndroid = /Android/.test(userAgent);
   const isIOS = /iPhone|iPad/.test(userAgent);
   const isTelegramMiniApp = window.Telegram && window.Telegram.WebApp;
-  const isTelegramWebView =
-    userAgent.includes("TelegramBot") || userAgent.includes("Telegram");
 
-  logger.log("🔍 Определение платформы и окружения", {
-    isAndroid,
-    isIOS,
-    isTelegramMiniApp,
-    isTelegramWebView,
-    userAgent: userAgent.substring(0, 100) + "...",
-  });
+  console.log("🔍 Платформа:", { isAndroid, isIOS, isTelegramMiniApp });
 
-  // Массив выбранных файлов
-  let selectedFiles = [];
-  let interfaceType = "unknown"; // 'telegram', 'system', 'unknown'
-  let lastInteractionTime = 0;
-
-  // Инициализация Telegram WebApp
+  // Инициализация Telegram Web App
   if (isTelegramMiniApp) {
-    logger.log("📱 Инициализация Telegram Web App");
+    console.log("📱 Инициализация Telegram Web App");
     try {
       window.Telegram.WebApp.ready();
       window.Telegram.WebApp.expand();
-      // Включаем haptic feedback если доступен
-      if (window.Telegram.WebApp.HapticFeedback) {
-        logger.log("✅ Haptic Feedback доступен");
-      }
-      logger.log("✅ Telegram Web App инициализирован");
     } catch (error) {
-      logger.logError(error, "Telegram Web App initialization");
+      console.warn("⚠️ Ошибка инициализации Telegram Web App:", error);
     }
   }
 
   /**
-   * Haptic feedback для улучшения UX
+   * Haptic feedback для улучшения UX в Telegram
    */
   function triggerHapticFeedback(type = "light") {
     if (isTelegramMiniApp && window.Telegram.WebApp.HapticFeedback) {
@@ -357,12 +328,6 @@ function setupFileUpload(form) {
         switch (type) {
           case "light":
             window.Telegram.WebApp.HapticFeedback.impactOccurred("light");
-            break;
-          case "medium":
-            window.Telegram.WebApp.HapticFeedback.impactOccurred("medium");
-            break;
-          case "heavy":
-            window.Telegram.WebApp.HapticFeedback.impactOccurred("heavy");
             break;
           case "success":
             window.Telegram.WebApp.HapticFeedback.notificationOccurred(
@@ -377,685 +342,206 @@ function setupFileUpload(form) {
               "warning"
             );
             break;
-          case "selection":
-            window.Telegram.WebApp.HapticFeedback.selectionChanged();
-            break;
         }
-        logger.log(`📳 Haptic feedback: ${type}`);
+        console.log(`📳 Haptic feedback: ${type}`);
       } catch (error) {
-        logger.logError(error, "Haptic feedback");
+        console.warn("⚠️ Ошибка haptic feedback:", error);
       }
     }
   }
 
-  /**
-   * Создание видимого file input overlay для Android WebView
-   */
-  function createVisibleFileInputOverlay() {
-    logger.log("🎯 Создание видимого file input overlay для Android");
+  // Создаем контейнер для Dropzone
+  const dropzoneContainer = document.createElement("div");
+  dropzoneContainer.className = "dropzone-container";
+  dropzoneContainer.innerHTML = `
+    <div class="dropzone dz-clickable" id="file-dropzone">
+      <div class="dz-message needsclick">
+        <i class="bi bi-cloud-upload display-4 text-muted mb-3"></i>
+        <h5>Перетащите файлы сюда или нажмите для выбора</h5>
+        <span class="note needsclick">Поддерживаются форматы: JPG, PNG, WEBP. Максимум 10 файлов, до 5 МБ каждый.</span>
+      </div>
+    </div>
+  `;
 
-    // Создаем контейнер для overlay
-    const overlayContainer = document.createElement("div");
-    overlayContainer.className = "telegram-file-overlay";
-
-    // Создаем видимый file input
-    const visibleFileInput = document.createElement("input");
-    visibleFileInput.type = "file";
-    visibleFileInput.accept = fileInput.accept || "image/*";
-    visibleFileInput.multiple = fileInput.multiple || false;
-    visibleFileInput.className = "telegram-file-overlay__input";
-
-    // Создаем контейнер для контента
-    const contentContainer = document.createElement("div");
-    contentContainer.className = "telegram-file-overlay__content";
-
-    // Создаем иконку загрузки
-    const uploadIcon = document.createElement("span");
-    uploadIcon.className = "telegram-file-overlay__icon";
-    uploadIcon.innerHTML = "📤";
-
-    // Создаем текст кнопки
-    const buttonText = document.createElement("span");
-    buttonText.className = "telegram-file-overlay__text";
-    buttonText.textContent = "Загрузить фото";
-
-    // Собираем компоненты
-    contentContainer.appendChild(uploadIcon);
-    contentContainer.appendChild(buttonText);
-    overlayContainer.appendChild(visibleFileInput);
-    overlayContainer.appendChild(contentContainer);
-
-    // Hover эффекты
-    overlayContainer.addEventListener("mouseenter", () => {
-      overlayContainer.style.transform = "scale(1.02)";
-      overlayContainer.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
-    });
-
-    overlayContainer.addEventListener("mouseleave", () => {
-      overlayContainer.style.transform = "scale(1)";
-      overlayContainer.style.boxShadow = "none";
-    });
-
-    // Touch эффекты для мобильных устройств
-    overlayContainer.addEventListener("touchstart", () => {
-      overlayContainer.style.transform = "scale(0.98)";
-      triggerHapticFeedback("light");
-    });
-
-    overlayContainer.addEventListener("touchend", () => {
-      setTimeout(() => {
-        overlayContainer.style.transform = "scale(1)";
-      }, 150);
-    });
-
-    // Обработчик изменения файлов
-    visibleFileInput.addEventListener("change", (event) => {
-      logger.log("📁 Overlay file input change event", {
-        filesCount: event.target.files ? event.target.files.length : 0,
-        timestamp: Date.now(),
-      });
-
-      interfaceType = "telegram"; // Определяем как Telegram интерфейс
-
-      // Показываем состояние загрузки
-      overlayContainer.classList.add("loading");
-
-      if (event.target.files && event.target.files.length > 0) {
-        triggerHapticFeedback("success");
-
-        handleFileSelection({
-          target: event.target,
-          type: "overlay-change",
-        });
-
-        // Обновляем текст кнопки
-        const fileCount = event.target.files.length;
-        buttonText.textContent = `Выбрано: ${fileCount} ${
-          fileCount === 1 ? "файл" : "файлов"
-        }`;
-        uploadIcon.innerHTML = "✅";
-
-        // Показываем состояние успеха
-        setTimeout(() => {
-          overlayContainer.classList.remove("loading");
-          overlayContainer.classList.add("success");
-
-          // Возвращаем обычное состояние через 2 секунды
-          setTimeout(() => {
-            overlayContainer.classList.remove("success");
-          }, 2000);
-        }, 500);
-      } else {
-        triggerHapticFeedback("error");
-
-        // Показываем состояние ошибки
-        setTimeout(() => {
-          overlayContainer.classList.remove("loading");
-          overlayContainer.classList.add("error");
-
-          setTimeout(() => {
-            overlayContainer.classList.remove("error");
-          }, 2000);
-        }, 500);
-      }
-    });
-
-    // Заменяем оригинальную кнопку на overlay
-    if (uploadButton && uploadButton.parentNode) {
-      uploadButton.parentNode.insertBefore(overlayContainer, uploadButton);
-      uploadButton.style.display = "none";
-      logger.log("✅ Видимый overlay создан и установлен");
-    }
-
-    return { overlayContainer, visibleFileInput };
+  // Заменяем существующий интерфейс загрузки
+  const fileWrapper = fileInput.closest(".form-file");
+  if (fileWrapper) {
+    fileWrapper.parentNode.insertBefore(dropzoneContainer, fileWrapper);
+    fileWrapper.style.display = "none";
   }
 
-  /**
-   * Детекция типа интерфейса загрузки файлов
-   */
-  function detectFileInterface() {
-    logger.log("🔍 Детекция типа интерфейса загрузки файлов");
+  // Отключаем автоматическое обнаружение Dropzone
+  Dropzone.autoDiscover = false;
 
-    const startTime = Date.now();
-    lastInteractionTime = startTime;
+  // Инициализируем Dropzone
+  const myDropzone = new Dropzone("#file-dropzone", {
+    url: "#", // Не используем автозагрузку
+    autoProcessQueue: false, // Отключаем автоматическую загрузку
+    uploadMultiple: false,
+    parallelUploads: 1,
+    maxFiles: 10,
+    maxFilesize: 5, // MB
+    acceptedFiles: "image/png,image/jpeg,image/webp",
+    addRemoveLinks: true,
+    dictDefaultMessage: `
+      <i class="bi bi-cloud-upload display-4 text-muted mb-3"></i>
+      <h5>Нажмите для выбора</h5>
+      <span class="note needsclick">Поддерживаются форматы: JPG, PNG, WEBP. Максимум 10 файлов, до 5 МБ каждый.</span>
+    `,
+    dictRemoveFile: "Удалить",
+    dictFileTooBig:
+      "Файл слишком большой ({{filesize}}МБ). Максимальный размер: {{maxFilesize}}МБ.",
+    dictInvalidFileType: "Недопустимый тип файла.",
+    dictMaxFilesExceeded:
+      "Превышено максимальное количество файлов ({{maxFiles}}).",
 
-    // Создаем тестовый клик для определения типа интерфейса
-    const testInput = document.createElement("input");
-    testInput.type = "file";
-    testInput.style.position = "absolute";
-    testInput.style.left = "-9999px";
-    testInput.style.opacity = "0";
+    init: function () {
+      const dropzoneInstance = this;
 
-    document.body.appendChild(testInput);
+      console.log("✅ Dropzone инициализирован");
 
-    // Слушаем события для определения типа интерфейса
-    const cleanup = () => {
-      document.body.removeChild(testInput);
-    };
-
-    testInput.addEventListener("change", () => {
-      const responseTime = Date.now() - startTime;
-
-      if (responseTime < 100) {
-        interfaceType = "system";
-        logger.log("🏛️ Определен системный интерфейс", { responseTime });
-      } else {
-        interfaceType = "telegram";
-        logger.log("📱 Определен Telegram интерфейс", { responseTime });
-      }
-
-      cleanup();
-    });
-
-    // Если за 5 секунд ничего не произошло - считаем что интерфейс не работает
-    setTimeout(() => {
-      if (interfaceType === "unknown") {
-        interfaceType = "blocked";
-        logger.log("🚫 Интерфейс заблокирован или не работает");
-        cleanup();
-      }
-    }, 5000);
-
-    // Программный клик для тестирования
-    try {
-      testInput.click();
-    } catch (error) {
-      logger.logError(error, "Test click failed");
-      interfaceType = "blocked";
-      cleanup();
-    }
-  }
-
-  /**
-   * Обновление превью файлов
-   */
-  function updatePreview() {
-    const startTime = Date.now();
-    logger.log("🖼️ Начало обновления превью", {
-      selectedFilesCount: selectedFiles.length,
-      previewContainerExists: !!previewContainer,
-      interfaceType,
-    });
-
-    if (!previewContainer) {
-      logger.log("❌ Контейнер превью не найден");
-      return;
-    }
-
-    previewContainer.innerHTML = "";
-
-    if (selectedFiles.length === 0) {
-      previewContainer.innerHTML =
-        '<div class="text-muted">Файлы не выбраны</div>';
-      if (placeholderText) {
-        placeholderText.textContent = "Выберите несколько изображений";
-      }
-      logger.log("📝 Показан пустой статус");
-      return;
-    }
-
-    selectedFiles.forEach((file, index) => {
-      logger.log(`🖼️ Создание превью для файла ${index}`, {
-        fileName: file.name,
-        fileSize: file.size,
-        fileType: file.type,
-      });
-
-      const fileItem = document.createElement("div");
-      fileItem.className =
-        "selected-file d-flex align-items-center mb-2 p-2 border rounded";
-
-      const deleteBtn = document.createElement("button");
-      deleteBtn.type = "button";
-      deleteBtn.className = "btn btn-sm btn-outline-danger ms-auto";
-      deleteBtn.innerHTML = '<i class="bi bi-x"></i>';
-      deleteBtn.title = "Удалить файл";
-      deleteBtn.addEventListener("click", () => {
-        logger.log(`🗑️ Клик по кнопке удаления файла ${index}`);
+      // Обработчик добавления файла
+      this.on("addedfile", function (file) {
+        console.log("📁 Файл добавлен:", file.name);
         triggerHapticFeedback("light");
-        removeFile(index);
+        updateFileInput();
+        updatePlaceholder();
       });
 
-      if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          logger.log(`✅ FileReader загрузил изображение ${index}`);
-          fileItem.innerHTML = `
-            <img src="${e.target.result}" 
-                 style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
-            <div class="flex-grow-1">
-              <div class="fw-bold">${file.name}</div>
-              <div class="text-muted small">${(file.size / 1024).toFixed(
-                1
-              )} KB</div>
-              <div class="text-muted small">Интерфейс: ${interfaceType}</div>
-            </div>
-          `;
-          fileItem.appendChild(deleteBtn);
-        };
-        reader.onerror = (e) => {
-          logger.logError(
-            new Error(`FileReader error for file ${index}`),
-            "FileReader"
-          );
-        };
-        reader.readAsDataURL(file);
-      } else {
-        fileItem.innerHTML = `
-          <div class="file-icon me-2">📄</div>
-          <div class="flex-grow-1">
-            <div class="fw-bold">${file.name}</div>
-            <div class="text-muted small">${(file.size / 1024).toFixed(
-              1
-            )} KB</div>
-            <div class="text-muted small">Интерфейс: ${interfaceType}</div>
-          </div>
-        `;
-        fileItem.appendChild(deleteBtn);
-      }
-
-      previewContainer.appendChild(fileItem);
-    });
-
-    if (placeholderText) {
-      const newText = `Выбрано файлов: ${selectedFiles.length} (${interfaceType})`;
-      placeholderText.textContent = newText;
-      logger.log("📝 Обновлен текст placeholder", { newText });
-    }
-
-    // Обновляем FileList в input
-    updateFileInputFiles();
-
-    logger.logTiming("updatePreview", startTime);
-  }
-
-  /**
-   * Обновление FileList в input элементе
-   */
-  function updateFileInputFiles() {
-    const startTime = Date.now();
-    logger.log("🔄 Начало обновления FileList", {
-      selectedFilesCount: selectedFiles.length,
-      hasDataTransfer: "DataTransfer" in window,
-      interfaceType,
-    });
-
-    try {
-      const dt = new DataTransfer();
-      selectedFiles.forEach((file, index) => {
-        logger.log(`➕ Добавление файла ${index} в DataTransfer`, {
-          fileName: file.name,
-          fileSize: file.size,
-        });
-        dt.items.add(file);
+      // Обработчик удаления файла
+      this.on("removedfile", function (file) {
+        console.log("🗑️ Файл удален:", file.name);
+        triggerHapticFeedback("light");
+        updateFileInput();
+        updatePlaceholder();
       });
 
-      const oldFilesCount = fileInput.files ? fileInput.files.length : 0;
-      fileInput.files = dt.files;
-      const newFilesCount = fileInput.files ? fileInput.files.length : 0;
-
-      logger.logDataTransferOperation(
-        "updateFileInputFiles",
-        selectedFiles,
-        true
-      );
-      logger.log("✅ FileList успешно обновлен", {
-        oldCount: oldFilesCount,
-        newCount: newFilesCount,
-        expectedCount: selectedFiles.length,
-        interfaceType,
+      // Обработчик ошибок
+      this.on("error", function (file, errorMessage) {
+        console.error("❌ Ошибка загрузки:", errorMessage);
+        triggerHapticFeedback("error");
+        createAndShowToast(errorMessage, "danger");
       });
 
-      // Дополнительная проверка состояния после обновления
-      logger.logElementState(fileInput, "fileInput-after-update");
-    } catch (error) {
-      logger.logDataTransferOperation(
-        "updateFileInputFiles",
-        selectedFiles,
-        false,
-        error
-      );
-      logger.logError(error, "updateFileInputFiles");
-    }
-
-    logger.logTiming("updateFileInputFiles", startTime);
-  }
-
-  /**
-   * Удаление файла
-   */
-  function removeFile(index) {
-    logger.log(`🗑️ Удаление файла ${index}`, {
-      fileName: selectedFiles[index]?.name,
-      totalFilesBefore: selectedFiles.length,
-      interfaceType,
-    });
-
-    const oldFiles = [...selectedFiles];
-    selectedFiles.splice(index, 1);
-
-    logger.logFileListUpdate(oldFiles, selectedFiles, "removeFile");
-    updatePreview();
-  }
-
-  /**
-   * Добавление файлов
-   */
-  function addFiles(newFiles) {
-    if (!newFiles || newFiles.length === 0) {
-      logger.log("⚠️ Попытка добавить пустой список файлов");
-      return;
-    }
-
-    logger.logFileSelection(newFiles, "addFiles");
-
-    const oldFiles = [...selectedFiles];
-    let addedCount = 0;
-    let duplicateCount = 0;
-
-    Array.from(newFiles).forEach((file, index) => {
-      logger.log(`🔍 Проверка файла ${index}`, {
-        fileName: file.name,
-        fileSize: file.size,
-        fileType: file.type,
-        lastModified: file.lastModified,
-        interfaceType,
+      // Обработчик превышения максимального количества файлов
+      this.on("maxfilesexceeded", function (file) {
+        console.warn("⚠️ Превышено максимальное количество файлов");
+        triggerHapticFeedback("warning");
+        this.removeFile(file);
+        createAndShowToast("Максимальное количество файлов: 10", "warning");
       });
 
-      // Проверка на дубликаты
-      const isDuplicate = selectedFiles.some(
-        (existingFile) =>
-          existingFile.name === file.name &&
-          existingFile.size === file.size &&
-          existingFile.lastModified === file.lastModified
-      );
+      // Обработчик успешной загрузки (не используется, но оставляем для будущего)
+      this.on("success", function (file, response) {
+        console.log("✅ Файл успешно загружен:", file.name);
+        triggerHapticFeedback("success");
+      });
 
-      if (!isDuplicate) {
-        selectedFiles.push(file);
-        addedCount++;
-        logger.log(`✅ Файл добавлен: ${file.name}`);
-      } else {
-        duplicateCount++;
-        logger.log(`⚠️ Дублированный файл: ${file.name}`);
-      }
-    });
-
-    logger.log("📊 Итоги добавления файлов", {
-      totalNewFiles: newFiles.length,
-      addedCount,
-      duplicateCount,
-      totalFilesAfter: selectedFiles.length,
-      interfaceType,
-    });
-
-    // Haptic feedback при успешном добавлении файлов
-    if (addedCount > 0) {
-      triggerHapticFeedback("success");
-    } else if (duplicateCount > 0) {
-      triggerHapticFeedback("warning");
-    }
-
-    logger.logFileListUpdate(oldFiles, selectedFiles, "addFiles");
-    updatePreview();
-  }
-
-  /**
-   * Основной обработчик выбора файлов
-   */
-  function handleFileSelection(event) {
-    const startTime = Date.now();
-    logger.logEvent("handleFileSelection", event.target, {
-      eventType: event.type,
-      isTrusted: event.isTrusted,
-      interfaceType,
-    });
-
-    const files = event.target.files;
-    logger.log("📂 Обработка выбора файлов", {
-      filesExists: !!files,
-      filesLength: files ? files.length : 0,
-      eventType: event.type,
-      targetId: event.target.id,
-      interfaceType,
-    });
-
-    // Логируем состояние input после события
-    logger.logElementState(event.target, "fileInput-after-selection");
-
-    if (files && files.length > 0) {
-      logger.logFileSelection(files, "handleFileSelection");
-      addFiles(files);
-    } else {
-      logger.log("⚠️ Файлы не найдены в событии");
-      triggerHapticFeedback("error");
-    }
-
-    logger.logTiming("handleFileSelection", startTime);
-  }
-
-  /**
-   * Обработчик клика по кнопке загрузки (fallback)
-   */
-  function handleUploadClick(event) {
-    const startTime = Date.now();
-    event.preventDefault();
-
-    logger.logEvent("handleUploadClick", event.target, {
-      eventType: event.type,
-      isTrusted: event.isTrusted,
-      interfaceType,
-    });
-
-    triggerHapticFeedback("light");
-
-    // Логируем состояние перед очисткой
-    logger.logElementState(fileInput, "fileInput-before-clear");
-
-    // Очищаем input перед открытием диалога
-    fileInput.value = "";
-
-    // Логируем состояние после очистки
-    logger.logElementState(fileInput, "fileInput-after-clear");
-
-    // Программно открываем диалог выбора файлов
-    logger.log("🖱️ Программный клик по file input");
-    try {
-      fileInput.click();
-    } catch (error) {
-      logger.logError(error, "Programmatic click failed");
-      triggerHapticFeedback("error");
-    }
-
-    logger.logTiming("handleUploadClick", startTime);
-  }
-
-  // Основная инициализация
-  logger.log("🔗 Установка основных обработчиков событий");
-
-  // Создаем видимый overlay для Android в Telegram
-  let overlayComponents = null;
-  if (isAndroid && isTelegramMiniApp) {
-    overlayComponents = createVisibleFileInputOverlay();
-    logger.log("✅ Видимый overlay создан для Android");
-  }
-
-  // Основные обработчики событий для оригинального input
-  fileInput.addEventListener("change", (event) => {
-    logger.logEvent("change", fileInput);
-    handleFileSelection(event);
-  });
-
-  // Дополнительный обработчик для некоторых WebView
-  fileInput.addEventListener("input", (event) => {
-    logger.logEvent("input", fileInput);
-    handleFileSelection(event);
-  });
-
-  // Обработчик кнопки загрузки (fallback)
-  if (uploadButton && !overlayComponents) {
-    uploadButton.addEventListener("click", handleUploadClick);
-    logger.log("✅ Обработчик кнопки загрузки установлен");
-  } else if (!overlayComponents) {
-    logger.log("⚠️ Кнопка загрузки не найдена");
-  }
-
-  // Обработчик label (для случаев когда кнопка не работает)
-  if (fileLabel && !overlayComponents) {
-    fileLabel.addEventListener("click", (event) => {
-      logger.logEvent("label-click", fileLabel);
-      triggerHapticFeedback("light");
-    });
-    logger.log("✅ Обработчик label установлен");
-  } else if (!overlayComponents) {
-    logger.log("⚠️ Label не найден");
-  }
-
-  // Специальные обработчики для iOS
-  if (isIOS && isTelegramMiniApp) {
-    logger.logIOSSpecific("Установка обработчиков для iOS");
-
-    // Обработчик touch событий
-    fileInput.addEventListener("touchend", (event) => {
-      logger.logEvent("touchend", fileInput);
-      setTimeout(() => {
-        if (fileInput.files && fileInput.files.length > 0) {
-          logger.log(
-            "👆 Touch end: обнаружены файлы, запуск handleFileSelection"
-          );
-          handleFileSelection({ target: fileInput, type: "touchend" });
-        } else {
-          logger.log("👆 Touch end: файлы не обнаружены");
+      /**
+       * Обновление скрытого file input для совместимости с формой
+       */
+      function updateFileInput() {
+        try {
+          const dt = new DataTransfer();
+          dropzoneInstance.files.forEach((file) => {
+            // Добавляем только обычные файлы (не мок-файлы)
+            if (file instanceof File) {
+              dt.items.add(file);
+            }
+          });
+          fileInput.files = dt.files;
+          console.log(`🔄 File input обновлен: ${dt.files.length} файлов`);
+        } catch (error) {
+          console.warn("⚠️ Не удалось обновить file input:", error);
         }
-      }, 100);
-    });
+      }
 
-    // Обработчик изменения видимости страницы
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) {
-        logger.logIOSSpecific("Страница стала видимой", {
-          hasFiles: !!(fileInput.files && fileInput.files.length > 0),
+      /**
+       * Обновление текста placeholder
+       */
+      function updatePlaceholder() {
+        if (placeholderText) {
+          const fileCount = dropzoneInstance.files.length;
+          placeholderText.textContent =
+            fileCount > 0
+              ? `Выбрано файлов: ${fileCount}`
+              : "Выберите несколько изображений";
+        }
+      }
+
+      // Специальная обработка для Android в Telegram
+      if (isAndroid && isTelegramMiniApp) {
+        console.log("🤖 Настройка для Android Telegram");
+
+        // Обработчик focus для восстановления файлов после возврата из диалога выбора
+        window.addEventListener("focus", () => {
+          setTimeout(() => {
+            // Проверяем, если в скрытом input появились файлы, добавляем их в Dropzone
+            if (
+              fileInput.files &&
+              fileInput.files.length > 0 &&
+              dropzoneInstance.files.length === 0
+            ) {
+              console.log("🔄 Восстановление файлов после focus (Android)");
+              Array.from(fileInput.files).forEach((file) => {
+                dropzoneInstance.addFile(file);
+              });
+            }
+          }, 200);
         });
-        setTimeout(() => {
-          if (fileInput.files && fileInput.files.length > 0) {
-            logger.log(
-              "👁️ Visibility change: обнаружены файлы, запуск handleFileSelection"
-            );
-            handleFileSelection({
-              target: fileInput,
-              type: "visibilitychange",
-            });
+      }
+
+      // Специальная обработка для iOS в Telegram
+      if (isIOS && isTelegramMiniApp) {
+        console.log("🍎 Настройка для iOS Telegram");
+
+        // Обработчик изменения видимости страницы
+        document.addEventListener("visibilitychange", () => {
+          if (!document.hidden) {
+            setTimeout(() => {
+              // Проверяем, если в скрытом input появились файлы, добавляем их в Dropzone
+              if (
+                fileInput.files &&
+                fileInput.files.length > 0 &&
+                dropzoneInstance.files.length === 0
+              ) {
+                console.log(
+                  "🔄 Восстановление файлов после visibility change (iOS)"
+                );
+                Array.from(fileInput.files).forEach((file) => {
+                  dropzoneInstance.addFile(file);
+                });
+              }
+            }, 300);
           }
-        }, 200);
+        });
       }
-    });
-  }
-
-  // Специальные обработчики для Android (дополнительные)
-  if (isAndroid && isTelegramMiniApp && !overlayComponents) {
-    logger.logAndroidSpecific(
-      "Установка дополнительных обработчиков для Android"
-    );
-
-    // Обработчик focus событий
-    fileInput.addEventListener("focus", (event) => {
-      logger.logEvent("focus", fileInput);
-      logger.logAndroidSpecific("File input получил фокус");
-    });
-
-    // Обработчик blur событий
-    fileInput.addEventListener("blur", (event) => {
-      logger.logEvent("blur", fileInput);
-      logger.logAndroidSpecific("File input потерял фокус", {
-        hasFiles: !!(fileInput.files && fileInput.files.length > 0),
-      });
-
-      // Проверяем файлы после потери фокуса
-      setTimeout(() => {
-        if (
-          fileInput.files &&
-          fileInput.files.length > 0 &&
-          selectedFiles.length === 0
-        ) {
-          logger.logAndroidSpecific("Blur: обнаружены новые файлы");
-          handleFileSelection({ target: fileInput, type: "blur-delayed" });
-        }
-      }, 100);
-    });
-
-    // Обработчик window focus
-    window.addEventListener("focus", () => {
-      logger.logAndroidSpecific("Window получил фокус");
-      setTimeout(() => {
-        if (
-          fileInput.files &&
-          fileInput.files.length > 0 &&
-          selectedFiles.length === 0
-        ) {
-          logger.logAndroidSpecific("Window focus: обнаружены новые файлы");
-          handleFileSelection({ target: fileInput, type: "window-focus" });
-        }
-      }, 150);
-    });
-
-    // Периодическая проверка состояния для Android
-    let androidCheckInterval = setInterval(() => {
-      if (
-        fileInput.files &&
-        fileInput.files.length > 0 &&
-        selectedFiles.length === 0
-      ) {
-        logger.logAndroidSpecific(
-          "Периодическая проверка: найдены неучтенные файлы"
-        );
-        handleFileSelection({ target: fileInput, type: "periodic-check" });
-        clearInterval(androidCheckInterval);
-      }
-    }, 500);
-
-    // Очищаем интервал через 30 секунд
-    setTimeout(() => {
-      clearInterval(androidCheckInterval);
-      logger.logAndroidSpecific("Периодическая проверка завершена");
-    }, 30000);
-  }
-
-  // Инициализация превью
-  updatePreview();
-
-  // Запускаем детекцию интерфейса через некоторое время
-  if (!overlayComponents) {
-    setTimeout(() => {
-      detectFileInterface();
-    }, 1000);
-  }
-
-  logger.log("✅ Загрузка файлов настроена для Telegram Mini App", {
-    hasOverlay: !!overlayComponents,
-    platform: isAndroid ? "Android" : isIOS ? "iOS" : "Unknown",
-    isTelegramMiniApp,
-    interfaceType,
+    },
   });
 
-  // Добавляем глобальную функцию для экспорта логов (для отладки)
-  window.exportFileUploadLogs = () => {
-    return logger.exportLogs();
-  };
+  // Обработчик клика по кнопке загрузки (fallback)
+  if (uploadButton) {
+    uploadButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log("🖱️ Клик по кнопке загрузки - открываем Dropzone");
+      triggerHapticFeedback("light");
+      document.querySelector("#file-dropzone").click();
+    });
+  }
+
+  console.log("✅ Dropzone настроен для Telegram Mini App");
 
   // Возвращаем API для внешнего использования
   return {
-    addFiles,
-    updatePreview,
-    removeFile,
-    getSelectedFiles: () => selectedFiles,
-    clearFiles: () => {
-      const oldFiles = [...selectedFiles];
-      selectedFiles = [];
-      logger.logFileListUpdate(oldFiles, selectedFiles, "clearFiles");
-      updatePreview();
+    dropzone: myDropzone,
+    addFiles: (files) => {
+      Array.from(files).forEach((file) => myDropzone.addFile(file));
     },
-    getInterfaceType: () => interfaceType,
+    clearFiles: () => {
+      myDropzone.removeAllFiles();
+    },
+    getFiles: () => myDropzone.files,
     triggerHapticFeedback,
-    logger, // Возвращаем логгер для дополнительной диагностики
   };
 }
 /**

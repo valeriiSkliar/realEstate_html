@@ -1,3 +1,4 @@
+import { Dropzone } from "dropzone"; // Добавляем импорт Dropzone
 import { createForm, validators } from "../../forms/index.js";
 import { fetcher } from "../../utils/fetcher.js";
 import {
@@ -285,177 +286,29 @@ function setupConditionalFields(form) {
 }
 
 /**
- * Настройка загрузки файлов для Telegram Mini App
- * Упрощенная реализация с учетом ограничений WebView
+ * Настройка загрузки файлов с использованием Dropzone.js
+ * Упрощенная реализация с поддержкой Telegram Mini App
  */
 function setupFileUpload(form) {
+  console.log("🚀 Инициализация Dropzone для загрузки файлов");
+
   const fileInput = form.querySelector("#imageUploadInput");
-  const fileLabel = form.querySelector('label[for="imageUploadInput"]');
   const previewContainer = form.querySelector("#imagePreviews");
   const uploadButton = form.querySelector(".form-file-button");
   const placeholderText = form.querySelector(".form-file-placeholder");
-
-  console.log("🚀 Инициализация загрузки файлов для Telegram Mini App");
 
   if (!fileInput) {
     console.warn("❌ Поле загрузки файлов не найдено");
     return;
   }
 
-  // Определяем платформу
+  // Определяем платформу для Telegram Mini App интеграции
   const userAgent = navigator.userAgent;
   const isAndroid = /Android/.test(userAgent);
   const isIOS = /iPhone|iPad/.test(userAgent);
   const isTelegramMiniApp = window.Telegram && window.Telegram.WebApp;
 
   console.log("🔍 Платформа:", { isAndroid, isIOS, isTelegramMiniApp });
-
-  // Массив выбранных файлов
-  let selectedFiles = [];
-
-  /**
-   * Обновление превью файлов
-   */
-  function updatePreview() {
-    if (!previewContainer) return;
-
-    previewContainer.innerHTML = "";
-
-    if (selectedFiles.length === 0) {
-      previewContainer.innerHTML =
-        '<div class="text-muted">Файлы не выбраны</div>';
-      if (placeholderText) {
-        placeholderText.textContent = "Выберите несколько изображений";
-      }
-      return;
-    }
-
-    selectedFiles.forEach((file, index) => {
-      const fileItem = document.createElement("div");
-      fileItem.className =
-        "selected-file d-flex align-items-center mb-2 p-2 border rounded";
-
-      const deleteBtn = document.createElement("button");
-      deleteBtn.type = "button";
-      deleteBtn.className = "btn btn-sm btn-outline-danger ms-auto";
-      deleteBtn.innerHTML = '<i class="bi bi-x"></i>';
-      deleteBtn.title = "Удалить файл";
-      deleteBtn.addEventListener("click", () => removeFile(index));
-
-      if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          fileItem.innerHTML = `
-            <img src="${e.target.result}" 
-                 style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
-            <div class="flex-grow-1">
-              <div class="fw-bold">${file.name}</div>
-              <div class="text-muted small">${(file.size / 1024).toFixed(
-                1
-              )} KB</div>
-            </div>
-          `;
-          fileItem.appendChild(deleteBtn);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        fileItem.innerHTML = `
-          <div class="file-icon me-2">📄</div>
-          <div class="flex-grow-1">
-            <div class="fw-bold">${file.name}</div>
-            <div class="text-muted small">${(file.size / 1024).toFixed(
-              1
-            )} KB</div>
-          </div>
-        `;
-        fileItem.appendChild(deleteBtn);
-      }
-
-      previewContainer.appendChild(fileItem);
-    });
-
-    if (placeholderText) {
-      placeholderText.textContent = `Выбрано файлов: ${selectedFiles.length}`;
-    }
-
-    // Обновляем FileList в input
-    updateFileInputFiles();
-  }
-
-  /**
-   * Обновление FileList в input элементе
-   */
-  function updateFileInputFiles() {
-    try {
-      const dt = new DataTransfer();
-      selectedFiles.forEach((file) => dt.items.add(file));
-      fileInput.files = dt.files;
-    } catch (error) {
-      console.warn("⚠️ Не удалось обновить FileList:", error);
-    }
-  }
-
-  /**
-   * Удаление файла
-   */
-  function removeFile(index) {
-    selectedFiles.splice(index, 1);
-    updatePreview();
-    console.log(`🗑️ Файл удален. Осталось файлов: ${selectedFiles.length}`);
-  }
-
-  /**
-   * Добавление файлов
-   */
-  function addFiles(newFiles) {
-    if (!newFiles || newFiles.length === 0) return;
-
-    console.log("📁 Добавление файлов:", newFiles.length);
-
-    Array.from(newFiles).forEach((file) => {
-      // Проверка на дубликаты
-      const isDuplicate = selectedFiles.some(
-        (existingFile) =>
-          existingFile.name === file.name &&
-          existingFile.size === file.size &&
-          existingFile.lastModified === file.lastModified
-      );
-
-      if (!isDuplicate) {
-        selectedFiles.push(file);
-        console.log(`✅ Файл добавлен: ${file.name}`);
-      } else {
-        console.log(`⚠️ Дублированный файл: ${file.name}`);
-      }
-    });
-
-    updatePreview();
-  }
-
-  /**
-   * Основной обработчик выбора файлов
-   */
-  function handleFileSelection(event) {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      console.log("📂 Файлы выбраны:", files.length);
-      addFiles(files);
-    }
-  }
-
-  /**
-   * Обработчик клика по кнопке загрузки
-   */
-  function handleUploadClick(event) {
-    event.preventDefault();
-    console.log("🖱️ Клик по кнопке загрузки");
-
-    // Очищаем input перед открытием диалога
-    fileInput.value = "";
-
-    // Программно открываем диалог выбора файлов
-    fileInput.click();
-  }
 
   // Инициализация Telegram Web App
   if (isTelegramMiniApp) {
@@ -468,90 +321,229 @@ function setupFileUpload(form) {
     }
   }
 
-  // Основные обработчики событий
-  fileInput.addEventListener("change", handleFileSelection);
-
-  // Дополнительный обработчик для некоторых WebView
-  fileInput.addEventListener("input", handleFileSelection);
-
-  // Обработчик кнопки загрузки
-  if (uploadButton) {
-    uploadButton.addEventListener("click", handleUploadClick);
-  }
-
-  // Обработчик label (для случаев когда кнопка не работает)
-  if (fileLabel) {
-    fileLabel.addEventListener("click", () => {
-      console.log("🏷️ Клик по label");
-    });
-  }
-
-  // Специальные обработчики для iOS
-  if (isIOS && isTelegramMiniApp) {
-    console.log("🍎 Добавляем обработчики для iOS");
-
-    // Обработчик touch событий
-    fileInput.addEventListener("touchend", (event) => {
-      console.log("👆 Touch end на file input");
-      setTimeout(() => {
-        if (fileInput.files && fileInput.files.length > 0) {
-          handleFileSelection({ target: fileInput });
+  /**
+   * Haptic feedback для улучшения UX в Telegram
+   */
+  function triggerHapticFeedback(type = "light") {
+    if (isTelegramMiniApp && window.Telegram.WebApp.HapticFeedback) {
+      try {
+        switch (type) {
+          case "light":
+            window.Telegram.WebApp.HapticFeedback.impactOccurred("light");
+            break;
+          case "success":
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred(
+              "success"
+            );
+            break;
+          case "error":
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred("error");
+            break;
+          case "warning":
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred(
+              "warning"
+            );
+            break;
         }
-      }, 100);
-    });
-
-    // Обработчик изменения видимости страницы
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) {
-        console.log("👁️ Страница стала видимой (iOS)");
-        setTimeout(() => {
-          if (fileInput.files && fileInput.files.length > 0) {
-            handleFileSelection({ target: fileInput });
-          }
-        }, 200);
+        console.log(`📳 Haptic feedback: ${type}`);
+      } catch (error) {
+        console.warn("⚠️ Ошибка haptic feedback:", error);
       }
-    });
+    }
   }
 
-  // Специальные обработчики для Android
-  if (isAndroid && isTelegramMiniApp) {
-    console.log("🤖 Добавляем обработчики для Android");
+  // Создаем контейнер для Dropzone
+  const dropzoneContainer = document.createElement("div");
+  dropzoneContainer.className = "dropzone-container";
+  dropzoneContainer.innerHTML = `
+    <div class="dropzone dz-clickable" id="file-dropzone">
+      <div class="dz-message needsclick">
+        <i class="bi bi-cloud-upload display-4 text-muted mb-3"></i>
+        <h5>Перетащите файлы сюда или нажмите для выбора</h5>
+        <span class="note needsclick">Поддерживаются форматы: JPG, PNG, WEBP. Максимум 10 файлов, до 5 МБ каждый.</span>
+      </div>
+    </div>
+  `;
 
-    // Обработчик focus событий
-    fileInput.addEventListener("focus", () => {
-      console.log("🎯 File input получил фокус (Android)");
-    });
+  // Заменяем существующий интерфейс загрузки
+  const fileWrapper = fileInput.closest(".form-file");
+  if (fileWrapper) {
+    fileWrapper.parentNode.insertBefore(dropzoneContainer, fileWrapper);
+    fileWrapper.style.display = "none";
+  }
 
-    // Обработчик window focus
-    window.addEventListener("focus", () => {
-      setTimeout(() => {
-        if (
-          fileInput.files &&
-          fileInput.files.length > 0 &&
-          selectedFiles.length === 0
-        ) {
-          console.log("🔄 Window focus: обнаружены новые файлы (Android)");
-          handleFileSelection({ target: fileInput });
+  // Отключаем автоматическое обнаружение Dropzone
+  Dropzone.autoDiscover = false;
+
+  // Инициализируем Dropzone
+  const myDropzone = new Dropzone("#file-dropzone", {
+    url: "#", // Не используем автозагрузку
+    autoProcessQueue: false, // Отключаем автоматическую загрузку
+    uploadMultiple: false,
+    parallelUploads: 1,
+    maxFiles: 10,
+    maxFilesize: 5, // MB
+    acceptedFiles: "image/png,image/jpeg,image/webp",
+    addRemoveLinks: true,
+    dictDefaultMessage: `
+      <i class="bi bi-cloud-upload display-4 text-muted mb-3"></i>
+      <h5>Перетащите файлы сюда или нажмите для выбора</h5>
+      <span class="note needsclick">Поддерживаются форматы: JPG, PNG, WEBP. Максимум 10 файлов, до 5 МБ каждый.</span>
+    `,
+    dictRemoveFile: "Удалить",
+    dictFileTooBig:
+      "Файл слишком большой ({{filesize}}МБ). Максимальный размер: {{maxFilesize}}МБ.",
+    dictInvalidFileType: "Недопустимый тип файла.",
+    dictMaxFilesExceeded:
+      "Превышено максимальное количество файлов ({{maxFiles}}).",
+
+    init: function () {
+      const dropzoneInstance = this;
+
+      console.log("✅ Dropzone инициализирован");
+
+      // Обработчик добавления файла
+      this.on("addedfile", function (file) {
+        console.log("📁 Файл добавлен:", file.name);
+        triggerHapticFeedback("light");
+        updateFileInput();
+        updatePlaceholder();
+      });
+
+      // Обработчик удаления файла
+      this.on("removedfile", function (file) {
+        console.log("🗑️ Файл удален:", file.name);
+        triggerHapticFeedback("light");
+        updateFileInput();
+        updatePlaceholder();
+      });
+
+      // Обработчик ошибок
+      this.on("error", function (file, errorMessage) {
+        console.error("❌ Ошибка загрузки:", errorMessage);
+        triggerHapticFeedback("error");
+        createAndShowToast(errorMessage, "danger");
+      });
+
+      // Обработчик превышения максимального количества файлов
+      this.on("maxfilesexceeded", function (file) {
+        console.warn("⚠️ Превышено максимальное количество файлов");
+        triggerHapticFeedback("warning");
+        this.removeFile(file);
+        createAndShowToast("Максимальное количество файлов: 10", "warning");
+      });
+
+      // Обработчик успешной загрузки (не используется, но оставляем для будущего)
+      this.on("success", function (file, response) {
+        console.log("✅ Файл успешно загружен:", file.name);
+        triggerHapticFeedback("success");
+      });
+
+      /**
+       * Обновление скрытого file input для совместимости с формой
+       */
+      function updateFileInput() {
+        try {
+          const dt = new DataTransfer();
+          dropzoneInstance.files.forEach((file) => {
+            // Добавляем только обычные файлы (не мок-файлы)
+            if (file instanceof File) {
+              dt.items.add(file);
+            }
+          });
+          fileInput.files = dt.files;
+          console.log(`🔄 File input обновлен: ${dt.files.length} файлов`);
+        } catch (error) {
+          console.warn("⚠️ Не удалось обновить file input:", error);
         }
-      }, 150);
+      }
+
+      /**
+       * Обновление текста placeholder
+       */
+      function updatePlaceholder() {
+        if (placeholderText) {
+          const fileCount = dropzoneInstance.files.length;
+          placeholderText.textContent =
+            fileCount > 0
+              ? `Выбрано файлов: ${fileCount}`
+              : "Выберите несколько изображений";
+        }
+      }
+
+      // Специальная обработка для Android в Telegram
+      if (isAndroid && isTelegramMiniApp) {
+        console.log("🤖 Настройка для Android Telegram");
+
+        // Обработчик focus для восстановления файлов после возврата из диалога выбора
+        window.addEventListener("focus", () => {
+          setTimeout(() => {
+            // Проверяем, если в скрытом input появились файлы, добавляем их в Dropzone
+            if (
+              fileInput.files &&
+              fileInput.files.length > 0 &&
+              dropzoneInstance.files.length === 0
+            ) {
+              console.log("🔄 Восстановление файлов после focus (Android)");
+              Array.from(fileInput.files).forEach((file) => {
+                dropzoneInstance.addFile(file);
+              });
+            }
+          }, 200);
+        });
+      }
+
+      // Специальная обработка для iOS в Telegram
+      if (isIOS && isTelegramMiniApp) {
+        console.log("🍎 Настройка для iOS Telegram");
+
+        // Обработчик изменения видимости страницы
+        document.addEventListener("visibilitychange", () => {
+          if (!document.hidden) {
+            setTimeout(() => {
+              // Проверяем, если в скрытом input появились файлы, добавляем их в Dropzone
+              if (
+                fileInput.files &&
+                fileInput.files.length > 0 &&
+                dropzoneInstance.files.length === 0
+              ) {
+                console.log(
+                  "🔄 Восстановление файлов после visibility change (iOS)"
+                );
+                Array.from(fileInput.files).forEach((file) => {
+                  dropzoneInstance.addFile(file);
+                });
+              }
+            }, 300);
+          }
+        });
+      }
+    },
+  });
+
+  // Обработчик клика по кнопке загрузки (fallback)
+  if (uploadButton) {
+    uploadButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log("🖱️ Клик по кнопке загрузки - открываем Dropzone");
+      triggerHapticFeedback("light");
+      document.querySelector("#file-dropzone").click();
     });
   }
 
-  // Инициализация превью
-  updatePreview();
-
-  console.log("✅ Загрузка файлов настроена для Telegram Mini App");
+  console.log("✅ Dropzone настроен для Telegram Mini App");
 
   // Возвращаем API для внешнего использования
   return {
-    addFiles,
-    updatePreview,
-    removeFile,
-    getSelectedFiles: () => selectedFiles,
-    clearFiles: () => {
-      selectedFiles = [];
-      updatePreview();
+    dropzone: myDropzone,
+    addFiles: (files) => {
+      Array.from(files).forEach((file) => myDropzone.addFile(file));
     },
+    clearFiles: () => {
+      myDropzone.removeAllFiles();
+    },
+    getFiles: () => myDropzone.files,
+    triggerHapticFeedback,
   };
 }
 

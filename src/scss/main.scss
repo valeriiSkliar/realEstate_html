@@ -24,6 +24,9 @@
 @import "select2/dist/css/select2.min.css";
 @import "../css-libs/select2-bootstrap-5-theme.min.css";
 
+// Dropzone
+@import "dropzone/dist/dropzone.css";
+
 // Components
 @import "components/header";
 @import "components/collection-selector-popup/collection-selector-popup";
@@ -42,6 +45,7 @@
 @import "components/pagination";
 @import "components/modal";
 @import "components/telegram-file-overlay";
+@import "components/dropzone-custom";
 // @import "components/spiner";
 
 // Pages
