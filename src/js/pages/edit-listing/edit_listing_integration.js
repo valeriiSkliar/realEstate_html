@@ -1,4 +1,3 @@
-import { Dropzone } from "dropzone"; // Добавляем импорт Dropzone
 import { createForm, validators } from "../../forms/index.js";
 import { fetcher } from "../../utils/fetcher.js";
 import {
@@ -284,264 +283,31 @@ function setupConditionalFields(form) {
 }
 
 /**
- * Настройка загрузки файлов с использованием Dropzone.js
- * Упрощенная реализация с поддержкой Telegram Mini App
+ * Настройка нативной загрузки файлов
  */
 function setupFileUpload(form) {
-  console.log("🚀 Инициализация Dropzone для загрузки файлов");
+  console.log("🚀 Инициализация нативной загрузки файлов");
 
   const fileInput = form.querySelector("#imageUploadInput");
-  const previewContainer = form.querySelector("#imagePreviews");
-  const uploadButton = form.querySelector(".form-file-button");
-  const placeholderText = form.querySelector(".form-file-placeholder");
 
   if (!fileInput) {
     console.warn("❌ Поле загрузки файлов не найдено");
     return;
   }
 
-  // Определяем платформу для Telegram Mini App интеграции
-  const userAgent = navigator.userAgent;
-  const isAndroid = /Android/.test(userAgent);
-  const isIOS = /iPhone|iPad/.test(userAgent);
-  const isTelegramMiniApp = window.Telegram && window.Telegram.WebApp;
-
-  console.log("🔍 Платформа:", { isAndroid, isIOS, isTelegramMiniApp });
-
-  // Инициализация Telegram Web App
-  if (isTelegramMiniApp) {
-    console.log("📱 Инициализация Telegram Web App");
-    try {
-      window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.expand();
-    } catch (error) {
-      console.warn("⚠️ Ошибка инициализации Telegram Web App:", error);
-    }
-  }
-
-  /**
-   * Haptic feedback для улучшения UX в Telegram
-   */
-  function triggerHapticFeedback(type = "light") {
-    if (isTelegramMiniApp && window.Telegram.WebApp.HapticFeedback) {
-      try {
-        switch (type) {
-          case "light":
-            window.Telegram.WebApp.HapticFeedback.impactOccurred("light");
-            break;
-          case "success":
-            window.Telegram.WebApp.HapticFeedback.notificationOccurred(
-              "success"
-            );
-            break;
-          case "error":
-            window.Telegram.WebApp.HapticFeedback.notificationOccurred("error");
-            break;
-          case "warning":
-            window.Telegram.WebApp.HapticFeedback.notificationOccurred(
-              "warning"
-            );
-            break;
-        }
-        console.log(`📳 Haptic feedback: ${type}`);
-      } catch (error) {
-        console.warn("⚠️ Ошибка haptic feedback:", error);
-      }
-    }
-  }
-
-  // Создаем контейнер для Dropzone
-  const dropzoneContainer = document.createElement("div");
-  dropzoneContainer.className = "dropzone-container";
-  dropzoneContainer.innerHTML = `
-    <div class="dropzone dz-clickable" id="file-dropzone">
-      <div class="dz-message needsclick">
-        <i class="bi bi-cloud-upload display-4 text-muted mb-3"></i>
-        <h5>Перетащите файлы сюда или нажмите для выбора</h5>
-        <span class="note needsclick">Поддерживаются форматы: JPG, PNG, WEBP. Максимум 10 файлов, до 5 МБ каждый.</span>
-      </div>
-    </div>
-  `;
-
-  // Заменяем существующий интерфейс загрузки
-  const fileWrapper = fileInput.closest(".form-file");
-  if (fileWrapper) {
-    fileWrapper.parentNode.insertBefore(dropzoneContainer, fileWrapper);
-    fileWrapper.style.display = "none";
-  }
-
-  // Отключаем автоматическое обнаружение Dropzone
-  Dropzone.autoDiscover = false;
-
-  // Инициализируем Dropzone
-  const myDropzone = new Dropzone("#file-dropzone", {
-    url: "#", // Не используем автозагрузку
-    autoProcessQueue: false, // Отключаем автоматическую загрузку
-    uploadMultiple: false,
-    parallelUploads: 1,
-    maxFiles: 10,
-    maxFilesize: 5, // MB
-    acceptedFiles: "image/png,image/jpeg,image/webp",
-    addRemoveLinks: true,
-    dictDefaultMessage: `
-      <i class="bi bi-cloud-upload display-4 text-muted mb-3"></i>
-      <h5>Нажмите для выбора</h5>
-      <span class="note needsclick">Поддерживаются форматы: JPG, PNG, WEBP. Максимум 10 файлов, до 5 МБ каждый.</span>
-    `,
-    dictRemoveFile: "Удалить",
-    dictFileTooBig:
-      "Файл слишком большой ({{filesize}}МБ). Максимальный размер: {{maxFilesize}}МБ.",
-    dictInvalidFileType: "Недопустимый тип файла.",
-    dictMaxFilesExceeded:
-      "Превышено максимальное количество файлов ({{maxFiles}}).",
-
-    init: function () {
-      const dropzoneInstance = this;
-
-      console.log("✅ Dropzone инициализирован");
-
-      // Обработчик добавления файла
-      this.on("addedfile", function (file) {
-        console.log("📁 Файл добавлен:", file.name);
-        triggerHapticFeedback("light");
-        updateFileInput();
-        updatePlaceholder();
-      });
-
-      // Обработчик удаления файла
-      this.on("removedfile", function (file) {
-        console.log("🗑️ Файл удален:", file.name);
-        triggerHapticFeedback("light");
-        updateFileInput();
-        updatePlaceholder();
-      });
-
-      // Обработчик ошибок
-      this.on("error", function (file, errorMessage) {
-        console.error("❌ Ошибка загрузки:", errorMessage);
-        triggerHapticFeedback("error");
-        createAndShowToast(errorMessage, "danger");
-      });
-
-      // Обработчик превышения максимального количества файлов
-      this.on("maxfilesexceeded", function (file) {
-        console.warn("⚠️ Превышено максимальное количество файлов");
-        triggerHapticFeedback("warning");
-        this.removeFile(file);
-        createAndShowToast("Максимальное количество файлов: 10", "warning");
-      });
-
-      // Обработчик успешной загрузки (не используется, но оставляем для будущего)
-      this.on("success", function (file, response) {
-        console.log("✅ Файл успешно загружен:", file.name);
-        triggerHapticFeedback("success");
-      });
-
-      /**
-       * Обновление скрытого file input для совместимости с формой
-       */
-      function updateFileInput() {
-        try {
-          const dt = new DataTransfer();
-          dropzoneInstance.files.forEach((file) => {
-            // Добавляем только обычные файлы (не мок-файлы)
-            if (file instanceof File) {
-              dt.items.add(file);
-            }
-          });
-          fileInput.files = dt.files;
-          console.log(`🔄 File input обновлен: ${dt.files.length} файлов`);
-        } catch (error) {
-          console.warn("⚠️ Не удалось обновить file input:", error);
-        }
-      }
-
-      /**
-       * Обновление текста placeholder
-       */
-      function updatePlaceholder() {
-        if (placeholderText) {
-          const fileCount = dropzoneInstance.files.length;
-          placeholderText.textContent =
-            fileCount > 0
-              ? `Выбрано файлов: ${fileCount}`
-              : "Выберите несколько изображений";
-        }
-      }
-
-      // Специальная обработка для Android в Telegram
-      if (isAndroid && isTelegramMiniApp) {
-        console.log("🤖 Настройка для Android Telegram");
-
-        // Обработчик focus для восстановления файлов после возврата из диалога выбора
-        window.addEventListener("focus", () => {
-          setTimeout(() => {
-            // Проверяем, если в скрытом input появились файлы, добавляем их в Dropzone
-            if (
-              fileInput.files &&
-              fileInput.files.length > 0 &&
-              dropzoneInstance.files.length === 0
-            ) {
-              console.log("🔄 Восстановление файлов после focus (Android)");
-              Array.from(fileInput.files).forEach((file) => {
-                dropzoneInstance.addFile(file);
-              });
-            }
-          }, 200);
-        });
-      }
-
-      // Специальная обработка для iOS в Telegram
-      if (isIOS && isTelegramMiniApp) {
-        console.log("🍎 Настройка для iOS Telegram");
-
-        // Обработчик изменения видимости страницы
-        document.addEventListener("visibilitychange", () => {
-          if (!document.hidden) {
-            setTimeout(() => {
-              // Проверяем, если в скрытом input появились файлы, добавляем их в Dropzone
-              if (
-                fileInput.files &&
-                fileInput.files.length > 0 &&
-                dropzoneInstance.files.length === 0
-              ) {
-                console.log(
-                  "🔄 Восстановление файлов после visibility change (iOS)"
-                );
-                Array.from(fileInput.files).forEach((file) => {
-                  dropzoneInstance.addFile(file);
-                });
-              }
-            }, 300);
-          }
-        });
-      }
-    },
+  // Обработчик изменения файлов
+  fileInput.addEventListener("change", (e) => {
+    const files = e.target.files;
+    console.log(`📁 Выбрано файлов: ${files.length}`);
   });
 
-  // Обработчик клика по кнопке загрузки (fallback)
-  if (uploadButton) {
-    uploadButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      console.log("🖱️ Клик по кнопке загрузки - открываем Dropzone");
-      triggerHapticFeedback("light");
-      document.querySelector("#file-dropzone").click();
-    });
-  }
+  console.log("✅ Нативная загрузка файлов настроена");
 
-  console.log("✅ Dropzone настроен для Telegram Mini App");
-
-  // Возвращаем API для внешнего использования
   return {
-    dropzone: myDropzone,
-    addFiles: (files) => {
-      Array.from(files).forEach((file) => myDropzone.addFile(file));
-    },
+    getFiles: () => fileInput.files,
     clearFiles: () => {
-      myDropzone.removeAllFiles();
+      fileInput.value = "";
     },
-    getFiles: () => myDropzone.files,
-    triggerHapticFeedback,
   };
 }
 /**

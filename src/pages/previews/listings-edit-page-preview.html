@@ -483,34 +483,18 @@
                 <section class="forms-section">
                   <h5 class="section-title">Фотографии объекта</h5>
                   <div class="form-field">
-                    <label class="form-label">Загрузить изображения</label>
-                    <div class="form-file multiple form-file-sm">
-                      <input
-                        type="file"
-                        class="form-file-input"
-                        id="imageUploadInput"
-                        name="imageUploadInput"
-                        multiple
-                        accept="image/png,image/jpeg,image/webp"
-                        style="display: none"
-                      />
-                      <!-- Исправлен for в label -->
-                      <label
-                        for="imageUploadInput"
-                        class="form-file-label"
-                        style="cursor: pointer"
-                      >
-                        <i class="bi bi-images form-file-icon"></i>
-                        <span class="form-file-text">
-                          <span class="form-file-placeholder">
-                            Загружено изображений: 5
-                          </span>
-                        </span>
-                        <span class="form-file-button">Добавить файлы</span>
-                      </label>
-                      <div class="form-file-selected" id="imagePreviews"></div>
-                    </div>
-                    <small class="form-text text-muted fs-10">
+                    <label for="imageUploadInput" class="form-label"
+                      >Загрузить изображения</label
+                    >
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp"
+                      class="form-control form-control-sm"
+                      id="imageUploadInput"
+                      name="imageUploadInput"
+                      multiple
+                    />
+                    <small class="form-text text-muted">
                       Поддерживаются форматы: JPG, PNG, WEBP. Максимум 10
                       файлов, до 5 МБ каждый.
                     </small>
