@@ -335,9 +335,18 @@ function setupFileUpload(form) {
    * Создает кнопку для добавления дополнительных файлов в Telegram
    */
   const createAddMoreButton = () => {
-    if (!isTelegramMiniApp || accumulatedFiles.length === 0) return;
+    if (!isTelegramMiniApp) return;
 
     let addMoreBtn = form.querySelector("#addMoreFilesBtn");
+
+    if (accumulatedFiles.length === 0) {
+      // Скрываем кнопку, если файлов нет
+      if (addMoreBtn) {
+        addMoreBtn.style.display = "none";
+      }
+      return;
+    }
+
     if (!addMoreBtn) {
       addMoreBtn = document.createElement("button");
       addMoreBtn.type = "button";
@@ -394,9 +403,18 @@ function setupFileUpload(form) {
    * Создает список файлов с возможностью удаления
    */
   const createFilesList = () => {
-    if (!isTelegramMiniApp || accumulatedFiles.length === 0) return;
+    if (!isTelegramMiniApp) return;
 
     let filesList = form.querySelector("#selectedFilesList");
+
+    if (accumulatedFiles.length === 0) {
+      // Удаляем список файлов, если файлов нет
+      if (filesList) {
+        filesList.remove();
+      }
+      return;
+    }
+
     if (!filesList) {
       filesList = document.createElement("div");
       filesList.id = "selectedFilesList";
@@ -530,10 +548,7 @@ function setupFileUpload(form) {
       fileInput.value = "";
       if (isTelegramMiniApp) {
         accumulatedFiles = [];
-        const filesList = form.querySelector("#selectedFilesList");
-        const addMoreBtn = form.querySelector("#addMoreFilesBtn");
-        if (filesList) filesList.remove();
-        if (addMoreBtn) addMoreBtn.remove();
+        updateAccumulatedFiles(); // Используем updateAccumulatedFiles для корректной очистки
       }
       updateFileCounter(0);
     },
