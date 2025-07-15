@@ -17,9 +17,7 @@ const editListingSchema = {
   floor: [
     {
       validate: (value, formData) => {
-        const propertyType = formData.get("propertyType");
-        if (propertyType !== "apartment") return true;
-        return validators.required("Выберите этаж").validate(value);
+        return true;
       },
     },
   ],
@@ -191,6 +189,9 @@ function setupConditionalFields(form) {
   // Находим опцию "Студия" в списке комнат
   const studioOption = roomsField?.querySelector('option[value="0"]');
 
+  // Находим лейбл для поля "Количество комнат"
+  const roomsLabel = roomsContainer?.querySelector('label[for="rooms"]');
+
   const toggleFields = () => {
     const propertyType = propertyTypeSelect.value;
 
@@ -216,11 +217,26 @@ function setupConditionalFields(form) {
           // Для квартир обязательно, для домов - нет
           roomsField.required = propertyType === "apartment";
         }
+
+        // Управляем отображением звездочки обязательного поля
+        if (roomsLabel) {
+          if (propertyType === "apartment") {
+            // Для квартир добавляем класс required (показываем звездочку)
+            roomsLabel.classList.add("required");
+          } else {
+            // Для домов убираем класс required (скрываем звездочку)
+            roomsLabel.classList.remove("required");
+          }
+        }
       } else {
         roomsContainer.style.display = "none";
         if (roomsField) {
           roomsField.required = false;
           roomsField.value = "";
+        }
+        // Скрываем звездочку, когда поле скрыто
+        if (roomsLabel) {
+          roomsLabel.classList.remove("required");
         }
       }
     }
