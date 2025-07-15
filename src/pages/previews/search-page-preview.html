@@ -512,20 +512,18 @@
             </select>
           </div>
 
-          <div
-            class="form-group p-2 border-1 rounded-2 border-dark-subtle border"
+            <div 
+            class="form-group d-flex flex-wrap gap-2"
             id="property-rooms"
             data-show-for-property-type="apartment"
-          >
-            <div class="form-group d-flex flex-wrap gap-2">
+            >
               <div class="w-100">
                 <div
                   class="rooms-number-option"
-                  data-option-type="rooms-number"
                 >
                   <label class="form-label">Количество комнат</label>
                   <select
-                    class="form-select select2-rooms-number"
+                    class="form-select select2-sidebar-filter"
                     id="rooms-number-select"
                     name="rooms-number[]"
                     data-placeholder="Количество комнат"
@@ -539,6 +537,35 @@
                     <option value="5">5</option>
                   </select>
                 </div>
+              </div>
+          </div>
+
+          <div class="form-group d-flex flex-wrap gap-2"
+          id="property-condition"
+          data-show-for-property-type="house"
+          >
+            <div class="w-100">
+              <div
+                class="condition-option"
+              >
+                <label class="form-label">Состояние</label>
+                <select
+                  class="form-select select2-sidebar-filter"
+                  id="condition-select"
+                  name="condition[]"
+                  data-placeholder="Выберите состояние"
+                  multiple="multiple"
+                >
+                  <option value="ready">Готовое жилье</option>
+                  <option value="under-construction">Под ключ</option>
+                  <option value="under-construction">С ремонтом</option>
+                  <option value="under-construction">Предчистовая</option>
+                  <option value="under-construction">Дизайнерский ремонт</option>
+                  <option value="under-construction">Евроремонт</option>
+                  <option value="under-construction">С отделкой</option>
+                  <option value="under-construction">Без ремонта</option>
+                  <option value="under-construction">С отделкой</option>
+                </select>
               </div>
             </div>
           </div>
@@ -638,7 +665,7 @@
             <div class="location-option form-field" data-option-type="district">
               <i class="bi bi-geo-alt-fill location-icon"></i>
               <select
-                class="form-select form-select-sm select2-districts"
+                class="form-select form-select-sm select2-sidebar-filter"
                 id="district-select"
                 name="districts[]"
                 data-placeholder="Район"
@@ -654,7 +681,7 @@
             <div class="location-option" data-option-type="complex">
               <i class="bi bi-buildings-fill location-icon"></i>
               <select
-                class="form-select form-select-sm select2-complexes"
+                class="form-select form-select-sm select2-sidebar-filter"
                 id="complex-select"
                 name="complexes[]"
                 data-placeholder="Жилой комплекс"

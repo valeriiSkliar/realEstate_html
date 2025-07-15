@@ -114,9 +114,12 @@ const initSidebarFilters = () => {
     });
   }
 
-  initializeSelect2("#district-select", "Выберите район(ы)");
-  initializeSelect2("#complex-select", "Выберите ЖК");
-  initializeSelect2("#rooms-number-select", "Выберите количество комнат");
+  // Initialize all Select2 for sidebar filters with class select2-sidebar-filter
+  const select2Class = ".select2-sidebar-filter";
+  const sidebarFilters = document.querySelectorAll(select2Class);
+  sidebarFilters.forEach(() => {
+    initializeSelect2(select2Class);
+  });
 
   if (offcanvasEl) {
     offcanvasEl.addEventListener("shown.bs.offcanvas", () => {
