@@ -13,6 +13,7 @@ const editListingSchema = {
   propertyType: [validators.required("Выберите тип объекта")],
   tradeType: [validators.required("Выберите тип сделки")],
   locality: [validators.required("Выберите населенный пункт")],
+  district: [validators.required("Выберите район")],
   floor: [
     {
       validate: (value, formData) => {
@@ -25,12 +26,16 @@ const editListingSchema = {
   // address теперь не обязательно для всех типов
   // complex не обязательно для всех типов
   rooms: [
-    // Условная валидация - НЕ обязательно для квартир, НЕ обязательно для домов
+    // Условная валидация - ОБЯЗАТЕЛЬНО для квартир, НЕ обязательно для домов
     {
       validate: (value, formData) => {
         const propertyType = formData.get("propertyType");
-        // Убираем обязательность для квартир согласно требованию
-        if (propertyType === "apartment") return true; // Для квартир не обязательно
+        // Делаем обязательным для квартир
+        if (propertyType === "apartment") {
+          return validators
+            .required("Выберите количество комнат")
+            .validate(value);
+        }
         if (propertyType === "house") return true; // Для домов не обязательно
         return true; // Для остальных типов не показываем поле
       },
@@ -203,11 +208,14 @@ function setupConditionalFields(form) {
       }
     }
 
-    // Показываем поле "Количество комнат" только для квартир и домов (НЕ обязательно)
+    // Показываем поле "Количество комнат" только для квартир и домов
     if (roomsContainer) {
       if (propertyType === "apartment" || propertyType === "house") {
         roomsContainer.style.display = "block";
-        if (roomsField) roomsField.required = false; // Не обязательно
+        if (roomsField) {
+          // Для квартир обязательно, для домов - нет
+          roomsField.required = propertyType === "apartment";
+        }
       } else {
         roomsContainer.style.display = "none";
         if (roomsField) {

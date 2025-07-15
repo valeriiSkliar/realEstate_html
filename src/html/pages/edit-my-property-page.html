@@ -159,7 +159,9 @@
 
                     <div class="col-md-6">
                       <div class="form-field">
-                        <label for="district" class="form-label">Район</label>
+                        <label for="district" class="form-label required"
+                          >Район</label
+                        >
                         <select
                           class="form-select form-select-sm"
                           id="district"
@@ -185,11 +187,8 @@
                           name="address"
                           placeholder=" "
                           value="ул. Красная, 123"
-                          required
                         />
-                        <label for="address" class="form-label required"
-                          >Адрес</label
-                        >
+                        <label for="address" class="form-label">Адрес</label>
                       </div>
                     </div>
                   </div>
@@ -251,9 +250,35 @@
                       </div>
                     </div>
 
+                    <div class="col-md-4">
+                      <div class="form-field" style="display: block">
+                        <label for="rooms" class="form-label"
+                          >Количество комнат</label
+                        >
+                        <select
+                          class="form-select form-select-sm"
+                          id="rooms"
+                          name="rooms"
+                        >
+                          <option value="">Выберите количество комнат</option>
+                          <option value="0">Студия</option>
+                          <option value="1">1</option>
+                          <option value="2" selected>2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                        </select>
+                      </div>
+                    </div>
+
                     <div class="col-md-6">
                       <div class="form-field">
-                        <label for="condition" class="form-label"
+                        <label for="condition" class="form-label required"
                           >Состояние</label
                         >
                         <select
@@ -404,7 +429,10 @@
 
                     <div class="col-12">
                       <div class="form-field">
-                        <label for="cleanDescription" class="form-label">
+                        <label
+                          for="cleanDescription"
+                          class="form-label required"
+                        >
                           Описание объекта
                         </label>
                         <textarea
