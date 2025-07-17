@@ -20,6 +20,39 @@ export const initSearchPage = () => {
     propertyType.addEventListener("change", toggleRoomsVisibility);
   }
 
+  // Инициализация функциональности кнопки очистки поиска
+  const searchInput = document.querySelector(".search-input");
+  const clearBtn = document.querySelector(".search-clear-btn");
+
+  if (searchInput && clearBtn) {
+    // Функция для отображения/скрытия кнопки очистки
+    function toggleClearButton() {
+      if (searchInput.value.trim().length > 0) {
+        clearBtn.classList.add("show");
+      } else {
+        clearBtn.classList.remove("show");
+      }
+    }
+
+    // Проверка при загрузке страницы
+    toggleClearButton();
+
+    // Обработчики событий для поля поиска
+    searchInput.addEventListener("input", toggleClearButton);
+    searchInput.addEventListener("keyup", toggleClearButton);
+    searchInput.addEventListener("paste", () => {
+      // Небольшая задержка для обработки paste
+      setTimeout(toggleClearButton, 10);
+    });
+
+    // Обработчик клика по кнопке очистки
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      toggleClearButton();
+      searchInput.focus();
+    });
+  }
+
   if (document.querySelector("#search-sort-dropdown")) {
     initSearchSortButton();
   }
