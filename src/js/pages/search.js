@@ -37,6 +37,11 @@ export const initSearchPage = () => {
     // Проверка при загрузке страницы
     toggleClearButton();
 
+    // Если поле уже содержит значение при загрузке, фокусируемся на нем
+    if (searchInput.value.trim().length > 0) {
+      searchInput.focus();
+    }
+
     // Обработчики событий для поля поиска
     searchInput.addEventListener("input", toggleClearButton);
     searchInput.addEventListener("keyup", toggleClearButton);
@@ -49,7 +54,10 @@ export const initSearchPage = () => {
     clearBtn.addEventListener("click", () => {
       searchInput.value = "";
       toggleClearButton();
-      searchInput.focus();
+
+      // Перезагрузка страницы без query параметров
+      const baseUrl = window.location.origin + window.location.pathname;
+      window.location.href = baseUrl;
     });
   }
 
