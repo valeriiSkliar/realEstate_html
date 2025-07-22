@@ -45,9 +45,7 @@ const addListingSchema = {
           value.trim() === ""
         )
           return true;
-        return validators
-          .min(1, "Количество комнат должно быть больше 0")
-          .validate(value);
+        return validators.validate(value);
       },
     },
     {
