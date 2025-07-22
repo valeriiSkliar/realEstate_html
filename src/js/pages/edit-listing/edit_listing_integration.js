@@ -47,18 +47,6 @@ const editListingSchema = {
           value.trim() === ""
         )
           return true;
-        return validators.validate(value);
-      },
-    },
-    {
-      validate: (value, formData) => {
-        const propertyType = formData.get("propertyType");
-        if (
-          (propertyType !== "apartment" && propertyType !== "house") ||
-          !value ||
-          value.trim() === ""
-        )
-          return true;
         return validators
           .max(10, "Количество комнат не может превышать 10")
           .validate(value);
