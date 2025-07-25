@@ -684,6 +684,21 @@ const addListingHandler = {
     // Обрабатываем цену - убираем пробелы перед отправкой
     processPriceBeforeSubmit(formData);
 
+    // Обрабатываем файлы для корректной отправки множественных файлов
+    const fileInput = document.getElementById("imageUploadInput");
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      console.log(`🗂️ Обработка ${fileInput.files.length} файлов для отправки`);
+
+      // Удаляем все существующие записи файлов
+      formData.delete("imageUploadInput");
+
+      // Добавляем каждый файл с индексом
+      Array.from(fileInput.files).forEach((file, index) => {
+        formData.append("imageUploadInput[]", file);
+        console.log(`📎 Добавлен файл ${index + 1}: ${file.name}`);
+      });
+    }
+
     // Получаем тип действия из скрытого поля
     const actionType = formData.get("actionType");
     console.log("Action type:", actionType);
