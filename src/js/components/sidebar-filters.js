@@ -89,8 +89,10 @@ const initSidebarFilters = () => {
         'select[name="property_type"]'
       );
       if (propSelect) {
-        $(propSelect).val("apartment").trigger("change");
+        $(propSelect).val(null).trigger("change");
       }
+
+      toggleFilterVisibility();
 
       console.log("Filters cleared");
     });

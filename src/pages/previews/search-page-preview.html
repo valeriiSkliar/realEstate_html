@@ -505,6 +505,7 @@
               id="property_type_select"
               class="form-select"
             >
+              <option value="" selected="">Тип недвижимости</option>
               <option value="apartment">Квартиру</option>
               <option value="house">Дом</option>
               <option value="commercial">Коммерция</option>
@@ -551,21 +552,20 @@
               >
                 <label class="form-label">Состояние</label>
                 <select
-                  class="form-select select2-sidebar-filter"
+                  class="form-select"
                   id="condition-select"
                   name="condition[]"
                   data-placeholder="Выберите состояние"
-                  multiple="multiple"
                 >
-                  <option value="ready">Готовое жилье</option>
-                  <option value="under-construction">Под ключ</option>
-                  <option value="under-construction">С ремонтом</option>
-                  <option value="under-construction">Предчистовая</option>
-                  <option value="under-construction">Дизайнерский ремонт</option>
-                  <option value="under-construction">Евроремонт</option>
-                  <option value="under-construction">С отделкой</option>
-                  <option value="under-construction">Без ремонта</option>
-                  <option value="under-construction">С отделкой</option>
+                <option value="" selected="">Выберите состояние</option>
+                <option value="euro-renovation">Евроремонт</option>
+                <option value="good">Хорошее</option>
+                <option value="cosmetic">Косметический ремонт</option>
+                <option value="needs-repair">Требует ремонта</option>
+                <option value="rough">Черновая отделка</option>
+                <option value="pre-finish">
+                  Предчистовая отделка
+                </option>
                 </select>
               </div>
             </div>
