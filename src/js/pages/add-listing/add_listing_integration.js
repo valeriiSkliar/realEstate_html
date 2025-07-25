@@ -11,7 +11,7 @@ import { createAndShowToast } from "../../utils/uiHelpers.js";
 const addListingSchema = {
   propertyType: [validators.required("Выберите тип объекта")],
   tradeType: [validators.required("Выберите тип сделки")],
-  locality: [validators.required("Выберите населенный пункт")],
+  // locality: [validators.required("Выберите населенный пункт")],
   district: [validators.required("Выберите район")],
   // address теперь не обязательно для всех типов
   // complex не обязательно для всех типов

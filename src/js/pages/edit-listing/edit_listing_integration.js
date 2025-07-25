@@ -12,7 +12,7 @@ import { createAndShowToast } from "../../utils/uiHelpers.js";
 const editListingSchema = {
   propertyType: [validators.required("Выберите тип объекта")],
   tradeType: [validators.required("Выберите тип сделки")],
-  locality: [validators.required("Выберите населенный пункт")],
+  // locality: [validators.required("Выберите населенный пункт")],
   district: [validators.required("Выберите район")],
   floor: [
     {
