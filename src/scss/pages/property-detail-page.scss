@@ -331,12 +331,12 @@
 
       @media (max-width: 768px) {
         font-size: 14px;
-        line-height: 20px;
+        line-height: 1.2;
       }
 
       p {
         margin: 0 0 10px 0;
-        line-height: 0.8;
+        line-height: 1.2;
 
         &:last-child {
           margin-bottom: 0;
@@ -374,7 +374,7 @@
       align-items: center;
       gap: 5px;
       font-size: 14px;
-      line-height: 18px;
+      line-height: 1.2;
       font-weight: 400;
       font-family: vars.$font-family-sans-serif;
       color: brand.$brand-secondary;
@@ -387,7 +387,7 @@
 
       @media (max-width: 768px) {
         font-size: 13px;
-        line-height: 16px;
+        line-height: 1.2;
       }
 
       &:hover {
