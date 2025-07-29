@@ -85,8 +85,8 @@
         font-size: 1rem;
         cursor: pointer;
         padding: 0;
-        width: 18px;
-        height: 18px;
+        // width: 18px;
+        // height: 18px;
         display: none;
         z-index: 10;
         transition: color 0.2s ease-in-out;
@@ -97,13 +97,20 @@
 
         &.show {
           display: block;
+          font-size: 1rem;
+          position: absolute;
+          top: 50%;
+          right: 1rem;
+          transform: translateY(-50%);
+          padding: 5px 10px;
+          width: fit-content;
         }
 
         @media (max-width: 576px) {
           right: 2rem;
           font-size: 0.9rem;
-          width: 16px;
-          height: 16px;
+          // width: 16px;
+          // height: 16px;
         }
       }
 
@@ -195,8 +202,8 @@
         .search-clear-btn {
           right: 2rem;
           font-size: 0.9rem;
-          width: 16px;
-          height: 16px;
+          // width: 16px;
+          // height: 16px;
         }
       }
       .search-bar-brand input[type="text"] {
